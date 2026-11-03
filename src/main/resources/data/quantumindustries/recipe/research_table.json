@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PBP",
+    "CRC",
+    "III"
+  ],
+  "key": {
+    "P": "minecraft:paper",
+    "B": "minecraft:book",
+    "C": "minecraft:copper_ingot",
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "quantumindustries:research_table",
+    "count": 1
+  }
+}
