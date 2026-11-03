@@ -40,8 +40,7 @@ displayName="${mod_name}" #mandatory
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Quantum Industries — Um mod de Minecraft focado em ciência, engenharia e indústria avançada.
-Progressão guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
+Example mod description.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
@@ -86,3 +85,4 @@ Progressão guiada por investigação: observar, analisar, experimentar, documen
 # stop your mod loading on the server for example.
 #[features.${mod_id}]
 #openGLVersion="[3.2,)"
+
