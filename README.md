@@ -81,7 +81,29 @@ A versão do Java, do NeoForge MDK e do Gradle Wrapper deve ser definida a parti
 
 ## Estado atual
 
-Esta branch contém documentação de fundação. Ainda não há implementação Java, configuração Gradle/NeoForge ou conteúdo jogável. A próxima etapa técnica é validar o MDK correto e criar um projeto mínimo que compile e inicie no ambiente de desenvolvimento.
+✅ **Projeto Gradle/NeoForge configurado e compilando** (Minecraft 26.1.2, NeoForge 26.1.2.125, Java 21).
+Estrutura base implementada: mod principal (`br.com.quantumindustries.QuantumIndustries`), `neoforge.mods.toml` processado, JAR gerado.
+
+Próximos passos: implementar o sistema de pesquisa (Analysis → Discovery → Research → Unlock) e o primeiro ciclo jogável (amostra de cobre → Analisador → condutividade → cabo de cobre).
+
+## Como rodar o projeto
+
+```bash
+# Clonar e entrar
+git clone https://github.com/Vizinho-hn/Quantum-Industries.git
+cd Quantum-Industries
+
+# Compilar (baixa dependências na primeira vez)
+./gradlew build
+
+# Rodar cliente de desenvolvimento
+./gradlew runClient
+
+# Rodar servidor de desenvolvimento
+./gradlew runServer
+```
+
+**Requisitos:** Java 21+ (JDK), internet para baixar dependências Gradle/NeoForge na primeira execução.
 
 ## Licença
 

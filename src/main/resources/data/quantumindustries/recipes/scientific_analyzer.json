@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DBD",
+    "L L",
+    "PPP"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:deepslate"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "P": {
+      "item": "minecraft:oak_planks"
+    }
+  },
+  "result": {
+    "item": "quantumindustries:scientific_analyzer",
+    "count": 1
+  }
+}
