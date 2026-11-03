@@ -10,8 +10,8 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(QuantumIndustries.MODID);
 
     // Analisador Científico - item principal do primeiro ciclo
-    public static final DeferredItem<Item> SCIENTIFIC_ANALYZER = ITEMS.register("scientific_analyzer",
-            () -> new Item(new Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SCIENTIFIC_ANALYZER = ITEMS.registerSimpleItem("scientific_analyzer",
+            p -> p.stacksTo(1));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
