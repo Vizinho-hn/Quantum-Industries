@@ -3,13 +3,13 @@
 ## Windows
 1. Instale **Git for Windows** e **Java 25**.
 2. Clone a branch de testes:
-   `git clone --branch feature/v0.1.1-conductivity-research https://github.com/Vizinho-hn/Quantum-Industries.git`
+   `git clone --branch main https://github.com/Vizinho-hn/Quantum-Industries.git`
 3. Dentro da pasta clonada, abra `JOGAR-WINDOWS.bat` com dois cliques.
 4. O script executa `git pull --ff-only` (sem sobrescrever conflitos locais) e depois `gradlew.bat runClient`.
 
 ## Linux
 1. Instale Git e Java 25.
-2. Clone a mesma branch.
+2. Clone a branch main.
 3. No terminal da pasta clonada execute: `bash JOGAR-LINUX.sh`.
 4. Para executar diretamente por duplo clique (se seu gerenciador de arquivos permitir): `chmod +x JOGAR-LINUX.sh`.
 
@@ -23,4 +23,4 @@ Cada nova alteração na branch dispara uma compilação. **Somente builds bem-s
 - Esta branch é experimental e não foi validada no jogo.
 - Se o build falhar, verifique o log de Actions e não use o artefato antigo como evidência de que a nova versão passou.
 - `git pull --ff-only` falha com conflitos locais em vez de sobrescrever seu trabalho.
-- Após merge em `main`, atualizaremos os scripts para a branch estável.
+- Os iniciadores funcionam nas branches `main` e `feature/v0.1.1-conductivity-research`.
