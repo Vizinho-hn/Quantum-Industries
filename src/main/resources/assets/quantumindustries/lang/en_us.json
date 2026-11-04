@@ -1,4 +1,6 @@
 {
   "item.quantumindustries.scientific_analyzer": "Scientific Analyzer",
-  "block.quantumindustries.scientific_analyzer": "Scientific Analyzer"
+  "block.quantumindustries.scientific_analyzer": "Scientific Analyzer",
+  "item.quantumindustries.test_probes": "Test Probes",
+  "block.quantumindustries.test_probes": "Test Probes"
 }
