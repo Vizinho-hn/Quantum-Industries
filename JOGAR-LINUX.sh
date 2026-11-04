@@ -7,8 +7,8 @@ if ! command -v git >/dev/null; then
   exit 1
 fi
 current="$(git branch --show-current)"
-if [[ "$current" != "feature/v0.1.1-conductivity-research" ]]; then
-  echo "Branch atual: $current. Execute: git switch feature/v0.1.1-conductivity-research" >&2
+if [[ "$current" != "main" && "$current" != "feature/v0.1.1-conductivity-research" ]]; then
+  echo "Branch atual: $current. Execute: git switch main" >&2
   exit 1
 fi
 git pull --ff-only
