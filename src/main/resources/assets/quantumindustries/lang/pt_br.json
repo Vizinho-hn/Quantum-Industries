@@ -16,5 +16,6 @@
   "gui.quantumindustries.research_table.conductivity": "CONDUTIVIDADE",
   "gui.quantumindustries.research_table.active": "ATIVA %1$d%%",
   "gui.quantumindustries.research_table.standby": "EM ESPERA",
-  "gui.quantumindustries.research_table.inventory": "INVENTÁRIO DO OPERADOR"
+  "gui.quantumindustries.research_table.inventory": "INVENTÁRIO DO OPERADOR",
+  "item.quantumindustries.copper_wire": "Fio de cobre"
 }

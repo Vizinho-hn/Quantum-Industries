@@ -19,7 +19,7 @@ public class ResearchTableMenu extends AbstractContainerMenu implements IContain
     private final ContainerLevelAccess levelAccess;
 
     public ResearchTableMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, inv, resolveBlockEntity(inv, extraData), new SimpleContainerData(3));
+        this(containerId, inv, resolveBlockEntity(inv, extraData), new SimpleContainerData(4));
     }
 
     public ResearchTableMenu(int containerId, Inventory inv, ResearchTableBlockEntity entity, ContainerData data) {
@@ -32,7 +32,9 @@ public class ResearchTableMenu extends AbstractContainerMenu implements IContain
 
         addSlot(new Slot(inventory, 0, 21, 72));
         addSlot(new Slot(inventory, 1, 21, 108));
-        addSlot(new Slot(inventory, 2, 66, 90));
+        addSlot(new Slot(inventory, 2, 66, 90) {
+            @Override public boolean mayPlace(ItemStack stack) { return false; }
+        });
 
         addDataSlots(data);
         layoutPlayerInventory(inv);
@@ -79,6 +81,8 @@ public class ResearchTableMenu extends AbstractContainerMenu implements IContain
         return this.data.get(1);
     }
 
+    public boolean hasConductivity() { return this.data.get(3) == 1; }
+
     public boolean hasToolAndSample() {
         return this.data.get(2) == 1;
     }
@@ -92,7 +96,7 @@ public class ResearchTableMenu extends AbstractContainerMenu implements IContain
             itemstack = current.copy();
             if (index < 3) {
                 if (!this.moveItemStackTo(current, 3, 39, true)) return ItemStack.EMPTY;
-            } else if (!this.moveItemStackTo(current, 0, 3, false)) {
+            } else if (!this.moveItemStackTo(current, 0, 2, false)) {
                 return ItemStack.EMPTY;
             }
             if (current.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
