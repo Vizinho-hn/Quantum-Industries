@@ -32,15 +32,27 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     private final ContainerLevelAccess levelAccess;
 
     public ResearchTableMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, resolveBlockEntity(inventory, extraData), new SimpleContainerData(2));
+        this(containerId, inventory, resolveBlockEntity(inventory, extraData), new SimpleContainerData(5));
     }
 
     public ResearchTableMenu(int containerId, Inventory inventory, ResearchTableBlockEntity entity, ContainerData data) {
         super(ModMenuTypes.RESEARCH_TABLE_MENU.get(), containerId);
-        this.data = data;
+        this.data = new ContainerData() {
+            @Override public int get(int index) {
+                if (index < 2 || !(inventory.player.level() instanceof ServerLevel)) return data.get(index);
+                return switch (index) {
+                    case 2 -> count(inventory, Items.COPPER_INGOT);
+                    case 3 -> count(inventory, Items.REDSTONE);
+                    case 4 -> count(inventory, Items.PAPER);
+                    default -> 0;
+                };
+            }
+            @Override public void set(int index, int value) { data.set(index, value); }
+            @Override public int getCount() { return 5; }
+        };
         this.levelAccess = entity == null ? ContainerLevelAccess.NULL
                 : ContainerLevelAccess.create(inventory.player.level(), entity.getBlockPos());
-        addDataSlots(data);
+        addDataSlots(this.data);
     }
 
     private static ResearchTableBlockEntity resolveBlockEntity(Inventory inventory, FriendlyByteBuf extraData) {
@@ -84,6 +96,19 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return true;
     }
 
+    public int copper() { return data.get(2); }
+    public int redstone() { return data.get(3); }
+    public int paper() { return data.get(4); }
+
+    private static int count(Inventory inventory, Item item) {
+        int total = 0;
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (stack.is(item)) total += stack.getCount();
+        }
+        return total;
+    }
+
     private record Cost(Item item, int amount) {}
 
     /** Two-phase withdrawal: verify all item counts first, then consume atomically. */
@@ -122,3 +147,4 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return stillValid(levelAccess, player, ModBlocks.RESEARCH_TABLE.get());
     }
 }
+

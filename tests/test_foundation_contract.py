@@ -46,7 +46,7 @@ class FoundationContractTest(unittest.TestCase):
         menu = read("src/main/java/br/com/quantumindustries/menu/ResearchTableMenu.java")
         entity = read("src/main/java/br/com/quantumindustries/block/entity/ResearchTableBlockEntity.java")
         self.assertNotIn("addSlot(", menu)
-        self.assertIn("new SimpleContainerData(2)", menu)
+        self.assertIn("new SimpleContainerData(5)", menu)
         self.assertIn("clickMenuButton", menu)
         self.assertIn("spend(player.getInventory()", menu)
         self.assertIn('output.putInt("progress", legacyProgress)', entity)
@@ -66,10 +66,21 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn("menu.hasConductivity()", screen)
         self.assertNotIn("unlockConductivity(", screen)
         self.assertNotIn("TITLES =", screen)
-        self.assertIn("DARK", screen)
+        self.assertIn("ResearchTheme", screen)
         self.assertNotIn("AMOSTRA", screen)
         self.assertNotIn("SONDA", screen)
         self.assertNotIn("SAIDA", screen)
 
+    def test_wire_item_definition_points_to_textured_3d_model(self):
+        import json
+        assets = ROOT / "src/main/resources/assets/quantumindustries"
+        item = json.loads((assets / "items/copper_wire.json").read_text(encoding="utf-8"))
+        self.assertEqual(item["model"]["model"], "quantumindustries:item/copper_wire")
+        model = json.loads((assets / "models/item/copper_wire.json").read_text(encoding="utf-8"))
+        self.assertTrue(model["elements"])
+        self.assertTrue((assets / "textures/item/copper_wire.png").is_file())
+
 if __name__ == "__main__":
     unittest.main()
+
+
