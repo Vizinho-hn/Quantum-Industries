@@ -15,7 +15,8 @@ public final class WorldResearchData extends SavedData {
             WorldResearchData::new,
             RecordCodecBuilder.create(instance -> instance.group(
                     Codec.BOOL.fieldOf("conductivity").forGetter(WorldResearchData::hasConductivity)
-            ).apply(instance, WorldResearchData::new))
+            ).apply(instance, WorldResearchData::new)),
+            null
     );
     private boolean conductivity;
     public WorldResearchData() { this(false); }
