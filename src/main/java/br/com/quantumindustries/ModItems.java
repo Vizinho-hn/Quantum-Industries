@@ -21,7 +21,7 @@ public class ModItems {
     public static final DeferredItem<Item> TEST_PROBES = ITEMS.registerItem("test_probes", Item::new, properties -> properties.durability(100));
 
     // Dados de pesquisa (output da bancada)
-    public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerSimpleItem("research_data");
+    public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerItem("research_data", br.com.quantumindustries.research.ResearchReportItem::new);
     public static final DeferredItem<Item> COPPER_WIRE = ITEMS.registerSimpleItem("copper_wire");
 
     public static void register(IEventBus eventBus) {

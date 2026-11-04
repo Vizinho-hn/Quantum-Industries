@@ -33,21 +33,14 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
         }
     };
 
-    public final ContainerData dataAccess = new ContainerData() {
-        @Override
-        public int get(int index) {
-            if (!(level instanceof ServerLevel serverLevel)) return 0;
-            WorldResearchData research = WorldResearchData.get(serverLevel);
-            return switch (index) {
-                case 0 -> research.hasConductivity() ? 1 : 0;
-                case 1 -> research.hasCopperWire() ? 1 : 0;
-                default -> 0;
-            };
+    private final SimpleContainer reportSupplies = new SimpleContainer(3) {
+        @Override public void setChanged() {
+            super.setChanged();
+            ResearchTableBlockEntity.this.setChanged();
         }
-
-        @Override public void set(int index, int value) { /* server-authoritative */ }
-        @Override public int getCount() { return 2; }
     };
+
+    public SimpleContainer reportSupplies() { return reportSupplies; }
 
     public ResearchTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.RESEARCH_TABLE_ENTITY.get(), pos, state);
@@ -60,7 +53,7 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new br.com.quantumindustries.menu.ResearchTableMenu(id, inventory, this, dataAccess);
+        return new br.com.quantumindustries.menu.ResearchTableMenu(id, inventory, this, new net.minecraft.world.inventory.SimpleContainerData(8));
     }
 
     @Override
@@ -68,6 +61,10 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
         super.saveAdditional(output);
         // Legacy fields deliberately preserved so old contents aren't lost.
         output.putInt("progress", legacyProgress);
+        for (int i = 0; i < reportSupplies.getContainerSize(); i++) {
+            ItemStack stack = reportSupplies.getItem(i);
+            if (!stack.isEmpty()) output.store("report_supply_" + i, ItemStack.CODEC, stack);
+        }
         for (int i = 0; i < legacyInventory.getContainerSize(); i++) {
             ItemStack stack = legacyInventory.getItem(i);
             if (!stack.isEmpty()) output.store("slot_" + i, ItemStack.CODEC, stack);
@@ -78,6 +75,9 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         legacyProgress = input.getIntOr("progress", 0);
+        for (int i = 0; i < reportSupplies.getContainerSize(); i++) {
+            reportSupplies.setItem(i, input.read("report_supply_" + i, ItemStack.CODEC).orElse(ItemStack.EMPTY));
+        }
         for (int i = 0; i < legacyInventory.getContainerSize(); i++) {
             legacyInventory.setItem(i, input.read("slot_" + i, ItemStack.CODEC).orElse(ItemStack.EMPTY));
         }
@@ -87,9 +87,14 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos, state);
         if (level == null || level.isClientSide()) return;
+        for (int i = 0; i < reportSupplies.getContainerSize(); i++) {
+            ItemStack stack = reportSupplies.removeItemNoUpdate(i);
+            if (!stack.isEmpty()) Block.popResource(level, pos, stack);
+        }
         for (int i = 0; i < legacyInventory.getContainerSize(); i++) {
             ItemStack stack = legacyInventory.removeItemNoUpdate(i);
             if (!stack.isEmpty()) Block.popResource(level, pos, stack);
         }
     }
 }
+

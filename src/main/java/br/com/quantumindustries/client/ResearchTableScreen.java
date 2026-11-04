@@ -1,5 +1,6 @@
 package br.com.quantumindustries.client;
 
+import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.menu.ResearchTableMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -7,177 +8,295 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import static br.com.quantumindustries.client.ResearchTheme.*;
+import static br.com.quantumindustries.client.ResearchTreeView.State;
 
-/**
- * Research-only interface. Two real research nodes, zero inventory slots.
- * No unlocks are calculated or granted on the client.
- *
- * Layout uses Minecraft's GUI coordinates (not full resolution pixels).
- */
 public final class ResearchTableScreen extends AbstractContainerScreen<ResearchTableMenu> {
-    private static final int BG = 0xFF0D141F;
-    private static final int PANEL = 0xFF182431;
-    private static final int DARK = 0xFF101923;
-    private static final int BORDER = 0xFF455B70;
-    private static final int CYAN = 0xFF17CFE8;
-    private static final int GREEN = 0xFF65D998;
-    private static final int MUTED = 0xFF92A9BC;
-    private static final int WHITE = 0xFFF0F6FC;
-    private static final int GOLD = 0xFFF2BD52;
-
-    private int tab = 0;
-    private int selected = ResearchTableMenu.RESEARCH_CONDUCTIVITY;
+    private static final int W = 576, H = 432;
+    private static final int ACTION_X = 16, ACTION_Y = 295, ACTION_W = 118, ACTION_H = 24;
+    private static final String[] TABS = {"Árvore de Pesquisa", "Base de Conhecimento", "Receitas Desbloqueadas", "Relatório de pesquisa"};
+    private static final ResearchDetailsPanel.Entry[] ENTRIES = {
+            new ResearchDetailsPanel.Entry("Condutividade", "Estudo dos princípios básicos de condução elétrica.",
+                    "Conhecimento de condutividade e pesquisa Fio de Cobre.",
+                    new String[]{"3 lingotes de cobre", "1 redstone", "1 papel"}),
+            new ResearchDetailsPanel.Entry("Fio de Cobre", "Desbloqueia a fabricação de fios de cobre.",
+                    "Receita: 3 lingotes em linha → 6 fios.",
+                    new String[]{"Condutividade concluída", "2 lingotes de cobre", "1 papel"})
+    };
+    private final Inventory inventory;
+    private int tab;
+    private int selected;
+    private int selectedReport = -1;
 
     public ResearchTableScreen(ResearchTableMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 410, 252);
-        titleLabelX = 8;
-        titleLabelY = -100;
-        inventoryLabelX = 8;
-        inventoryLabelY = -100;
+        super(menu, inventory, title, W, H);
+        this.inventory = inventory;
     }
 
-    private void frame(GuiGraphicsExtractor g, int x, int y, int w, int h, int border) {
-        g.fill(leftPos + x, topPos + y, leftPos + x + w, topPos + y + h, border);
-        g.fill(leftPos + x + 1, topPos + y + 1, leftPos + x + w - 1, topPos + y + h - 1, PANEL);
+    private float scale() { return Math.min((width - 8f) / W, (height - 8f) / H); }
+    private float originX() { return (width - W * scale()) / 2; }
+    private float originY() { return (height - H * scale()) / 2; }
+
+    private boolean complete(int id) { return id == 0 ? menu.hasConductivity() : menu.hasCopperWire(); }
+
+    private boolean[] requirements(int id) {
+        return id == 0 ? new boolean[]{menu.copper() >= 3, menu.redstone() >= 1, menu.paper() >= 1}
+                : new boolean[]{menu.hasConductivity(), menu.copper() >= 2, menu.paper() >= 1};
     }
 
-    private boolean within(double mouseX, double mouseY, int x, int y, int w, int h) {
-        return mouseX >= leftPos + x && mouseX < leftPos + x + w
-                && mouseY >= topPos + y && mouseY < topPos + y + h;
+    private State state(int id) {
+        if (!menu.isRevealed(id)) return State.HIDDEN;
+        if (complete(id)) return State.DONE;
+        for (boolean ready : requirements(id)) if (!ready) return State.WAITING;
+        return State.READY;
     }
 
-    private boolean researched(int id) {
-        return id == ResearchTableMenu.RESEARCH_CONDUCTIVITY
-                ? menu.hasConductivity() : menu.hasCopperWire();
-    }
-
-    private boolean revealed(int id) {
-        return menu.isRevealed(id);
-    }
-
-    private int hoverNode(int mx, int my) {
-        if (within(mx, my, 148, 112, 106, 27)) return 0;
-        if (revealed(1) && within(mx, my, 285, 112, 106, 27)) return 1;
-        return -1;
-    }
-
-    private void node(GuiGraphicsExtractor g, int id, int x, int y, int mx, int my) {
-        boolean hidden = !revealed(id);
-        boolean complete = researched(id);
-        boolean hovered = hoverNode(mx, my) == id;
-        int accent = hidden ? BORDER : complete ? GREEN : CYAN;
-        if (hovered || (!hidden && selected == id)) {
-            g.fill(leftPos + x - 2, topPos + y - 2, leftPos + x + 108, topPos + y + 29, accent);
-        }
-        frame(g, x, y, 106, 27, accent);
-        g.fill(leftPos + x + 2, topPos + y + 2, leftPos + x + 104, topPos + y + 25,
-                hidden ? 0xFF060A11 : complete ? 0xFF18382C : DARK);
-        if (!hidden) {
-            // Accent chip hints at a future icon renderer without requiring textures.
-            g.fill(leftPos + x + 5, topPos + y + 7, leftPos + x + 13, topPos + y + 18,
-                    complete ? GREEN : GOLD);
-        }
+    private void text(GuiGraphicsExtractor g, String value, int x, int y, int color) {
+        g.text(font, value, x, y, color, false);
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
-        g.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, BG);
-        // Technical corners and title bar.
-        g.fill(leftPos + 5, topPos + 5, leftPos + 23, topPos + 7, CYAN);
-        g.fill(leftPos + 5, topPos + 5, leftPos + 7, topPos + 19, CYAN);
-        g.fill(leftPos + 387, topPos + 5, leftPos + 405, topPos + 7, CYAN);
-        g.fill(leftPos + 403, topPos + 5, leftPos + 405, topPos + 19, CYAN);
-        g.fill(leftPos + 8, topPos + 34, leftPos + 402, topPos + 35, BORDER);
-        frame(g, 9, 41, 127, 23, tab == 0 ? CYAN : BORDER);
-        frame(g, 141, 41, 126, 23, tab == 1 ? CYAN : BORDER);
-        frame(g, 272, 41, 129, 23, tab == 2 ? CYAN : BORDER);
-
-        frame(g, 9, 70, 121, 144, BORDER);
-        frame(g, 135, 70, 266, 144, BORDER);
-        frame(g, 9, 219, 392, 25, BORDER);
-
-        if (tab == 0) {
-            g.fill(leftPos + 145, topPos + 91, leftPos + 390, topPos + 92, BORDER);
-            // One real dependency edge: conductivity -> wire.
-            g.fill(leftPos + 254, topPos + 124, leftPos + 285, topPos + 126,
-                    menu.hasConductivity() ? GREEN : BORDER);
-            node(g, 0, 148, 112, mouseX, mouseY);
-            node(g, 1, 285, 112, mouseX, mouseY);
-            g.fill(leftPos + 144, topPos + 151, leftPos + 391, topPos + 152, BORDER);
-            // Research action button is custom-drawn; server validates every click.
-            boolean canResearch = revealed(selected) && !researched(selected);
-            frame(g, 19, 185, 101, 21, canResearch ? CYAN : BORDER);
-            g.fill(leftPos + 21, topPos + 187, leftPos + 118, topPos + 204,
-                    canResearch ? 0xFF103949 : DARK);
+        int x = (int) Math.floor((mouseX - originX()) / scale());
+        int y = (int) Math.floor((mouseY - originY()) / scale());
+        int hover = tab == 0 ? ResearchTreeView.hit(x, y) : -1;
+        State[] states = {state(0), state(1)};
+        ItemStack[] icons = {new ItemStack(Items.REDSTONE), new ItemStack(ModItems.COPPER_WIRE.get())};
+        g.pose().pushMatrix();
+        try {
+            g.pose().translate(originX(), originY()).scale(scale());
+            g.fill(0, 0, W, H, 0xFF07111C);
+            header(g);
+            frame(g, 4, 62, 568, 330, LINE, PANEL, DARK);
+            frame(g, 9, 67, 132, 260, LINE, PANEL, DARK);
+            frame(g, 146, 67, 421, 260, LINE, DARK, DARK);
+            sidebar(g, states);
+            if (tab == 0) {
+                text(g, "ÁRVORE DE PESQUISA  —  Era I: Fundamentos", 155, 77, TEXT);
+                eras(g);
+                ResearchTreeView.draw(g, font, states, selected, hover,
+                        new String[]{ENTRIES[0].name(), ENTRIES[1].name()}, icons);
+                ResearchDetailsPanel.draw(g, font, ENTRIES[selected], 241, 211, 316,
+                        complete(selected) ? new boolean[]{true, true, true} : requirements(selected));
+            } else if (tab == 3) {
+                report(g);
+            } else {
+                journal(g);
+            }
+            footer(g, states[selected], icons[selected]);
+            if (hover >= 0 && states[hover] != State.HIDDEN) {
+                ResearchDetailsPanel.tooltip(g, font, ENTRIES[hover], Math.min(x + 10, W - 284),
+                        Math.min(y + 12, H - 79));
+            }
+        } finally {
+            g.pose().popMatrix();
         }
+    }
+
+    private void header(GuiGraphicsExtractor g) {
+        frame(g, 4, 4, 568, 31, LINE, PANEL, DARK);
+        g.fill(4, 4, 16, 5, CYAN);
+        g.fill(4, 4, 5, 15, CYAN);
+        g.fill(14, 16, 21, 23, CYAN);
+        g.fill(24, 23, 31, 30, CYAN);
+        g.fill(24, 12, 31, 19, GOLD);
+        text(g, "QUANTUM INDUSTRIES", 39, 9, MUTED);
+        text(g, "Research Bench", 39, 21, TEXT);
+        g.text(font, ModItems.SCIENTIFIC_ANALYZER.get().getName(new ItemStack(ModItems.SCIENTIFIC_ANALYZER.get())), 228, 16, TEXT, false);
+        for (int i = 0; i < TABS.length; i++) {
+            int x = 9 + i * 140;
+            frame(g, x, 39, 136, 23, i == tab ? CYAN : LINE, i == tab ? 0xFF145368 : PANEL, DARK);
+            text(g, TABS[i], x + 10, 46, i == tab ? TEXT : MUTED);
+        }
+    }
+
+    private void sidebar(GuiGraphicsExtractor g, State[] states) {
+        text(g, "STATUS DA PESQUISA", 17, 77, MUTED);
+        g.fill(17, 89, 133, 90, LINE);
+        State[] order = {State.DONE, State.READY, State.WAITING, State.HIDDEN};
+        String[] labels = {"Concluídas", "Disponíveis", "Aguardando", "Ocultas"};
+        for (int i = 0; i < order.length; i++) {
+            int count = 0;
+            for (State state : states) if (state == order[i]) count++;
+            int y = 97 + i * 16;
+            g.fill(18, y + 1, 23, y + 6, order[i].color);
+            text(g, labels[i], 29, y, TEXT);
+            text(g, Integer.toString(count), 120, y, order[i].color);
+        }
+        g.fill(17, 163, 133, 164, LINE);
+        text(g, "PESQUISA SELECIONADA", 17, 173, MUTED);
+        text(g, ENTRIES[selected].name(), 17, 192, TEXT);
+        text(g, states[selected].label, 17, 207, states[selected].color);
+        g.fill(17, 223, 133, 224, LINE);
+        text(g, "DESBLOQUEIO", 17, 234, MUTED);
+        text(g, selected == 0 ? "Pesquisa Fio de Cobre" : "Receita de Fio de Cobre", 17, 249, TEXT);
+        if (tab == 0) {
+            sidebarAction(g, complete(selected) ? "Concluída" : "Iniciar pesquisa",
+                    states[selected] == State.READY);
+        } else if (tab == 3) {
+            sidebarAction(g, "Escrever relatório", selectedReport >= 0 && canWrite(selectedReport));
+        }
+    }
+
+    private void sidebarAction(GuiGraphicsExtractor g, String label, boolean ready) {
+        frame(g, ACTION_X, ACTION_Y, ACTION_W, ACTION_H,
+                ready ? CYAN : LINE, ready ? 0xFF145368 : PANEL, DARK);
+        text(g, label, ACTION_X + 9, ACTION_Y + 8, ready ? TEXT : MUTED);
+    }
+
+    private static boolean hitsSidebarAction(double x, double y) {
+        return x >= ACTION_X && x < ACTION_X + ACTION_W
+                && y >= ACTION_Y && y < ACTION_Y + ACTION_H;
+    }
+
+    private void eras(GuiGraphicsExtractor g) {
+        String[] eras = {"Fundamentos", "Automação", "Energia", "Processamento", "Quântica"};
+        for (int i = 0; i < eras.length; i++) {
+            int x = 153 + i * 81;
+            frame(g, x, 104, 79, 30, i == 0 ? CYAN : LINE, i == 0 ? 0xFF145368 : PANEL, DARK);
+            text(g, "Era " + new String[]{"I", "II", "III", "IV", "V"}[i], x + 6, 109, TEXT);
+            text(g, eras[i], x + 6, 121, MUTED);
+            if (i > 0) lock(g, x + 59, 106);
+        }
+    }
+
+    private void report(GuiGraphicsExtractor g) {
+        text(g, "RELATÓRIO DE PESQUISA", 155, 77, CYAN);
+        text(g, "Guarde 1 tinta preta, 1 pena e 1 papel por relatório.", 155, 94, TEXT);
+        text(g, "Os materiais ficam na bancada quando você sai.", 155, 108, MUTED);
+        String[] names = {"Tinta preta", "Pena", "Papel"};
+        ItemStack[] icons = {new ItemStack(Items.BLACK_DYE), new ItemStack(Items.FEATHER), new ItemStack(Items.PAPER)};
+        for (int i = 0; i < names.length; i++) {
+            int x = 155 + i * 135;
+            frame(g, x, 125, 129, 75, LINE, PANEL, DARK);
+            g.fakeItem(icons[i], x + 8, 132);
+            text(g, names[i] + " × " + menu.supply(i), x + 29, 136, TEXT);
+            reportButton(g, x + 7, 153, 115, "Guardar", true);
+            reportButton(g, x + 7, 175, 115, "Retirar", menu.supply(i) > 0);
+        }
+        text(g, "SELECIONE UMA PESQUISA CONCLUÍDA", 155, 211, MUTED);
+        for (int id = 0; id < ENTRIES.length; id++) {
+            int x = 155 + id * 204;
+            boolean active = selectedReport == id;
+            frame(g, x, 225, 193, 19, active ? CYAN : LINE,
+                    active ? 0xFF145368 : PANEL, DARK);
+            text(g, ENTRIES[id].name(), x + 8, 231, complete(id) ? TEXT : MUTED);
+        }
+        text(g, "Entregue o relatório a outro jogador.", 155, 265, TEXT);
+        text(g, "Botão direito para aprender. Fio de Cobre exige Condutividade.", 155, 279, MUTED);
+    }
+
+    private boolean canWrite(int id) {
+        return complete(id) && menu.supply(0) > 0 && menu.supply(1) > 0 && menu.supply(2) > 0;
+    }
+
+    private void reportButton(GuiGraphicsExtractor g, int x, int y, int w, String label, boolean enabled) {
+        frame(g, x, y, w, 19, enabled ? CYAN : LINE, enabled ? 0xFF145368 : PANEL, DARK);
+        text(g, label, x + 6, y + 6, enabled ? TEXT : MUTED);
+    }
+
+    private boolean clickReport(double x, double y) {
+        int action = -1;
+        for (int i = 0; i < 3; i++) {
+            int start = 162 + i * 135;
+            if (x < start || x >= start + 115) continue;
+            if (y >= 153 && y < 172) action = ResearchTableMenu.REPORT_DEPOSIT + i;
+            if (y >= 175 && y < 194) action = ResearchTableMenu.REPORT_WITHDRAW + i;
+        }
+        if (y >= 225 && y < 244) {
+            int id = x >= 155 && x < 348 ? 0 : x >= 359 && x < 552 ? 1 : -1;
+            if (id >= 0 && complete(id)) {
+                selectedReport = id;
+                selected = id;
+                return true;
+            }
+        }
+        if (hitsSidebarAction(x, y)
+                && selectedReport >= 0 && canWrite(selectedReport)) {
+            action = ResearchTableMenu.REPORT_WRITE + selectedReport;
+        }
+        if (action < 0) return false;
+        var mode = Minecraft.getInstance().gameMode;
+        if (mode != null) mode.handleInventoryButtonClick(menu.containerId, action);
+        return true;
+    }
+
+    private void journal(GuiGraphicsExtractor g) {
+        text(g, TABS[tab].toUpperCase(java.util.Locale.ROOT), 155, 77, CYAN);
+        if (tab == 2 && menu.hasCopperWire()) {
+            frame(g, 155, 100, 401, 46, CYAN, PANEL, DARK);
+            for (int i = 0; i < 3; i++) g.fakeItem(new ItemStack(Items.COPPER_INGOT), 168 + i * 20, 112);
+            text(g, "→", 231, 116, CYAN);
+            g.fakeItem(new ItemStack(ModItems.COPPER_WIRE.get(), 6), 247, 112);
+            text(g, "6 fios de cobre", 273, 116, TEXT);
+        } else if (tab == 1 && menu.hasConductivity()) {
+            text(g, ENTRIES[0].description(), 157, 112, TEXT);
+            if (menu.hasCopperWire()) text(g, ENTRIES[1].description(), 157, 133, GREEN);
+        } else {
+            text(g, tab == 1 ? "Nenhuma pesquisa concluída." : "Nenhuma receita desbloqueada.",
+                    157, 112, MUTED);
+        }
+    }
+
+    private void footer(GuiGraphicsExtractor g, State state, ItemStack icon) {
+        frame(g, 9, 332, 558, 55, LINE, PANEL, DARK);
+        g.fakeItem(icon, 19, 348);
+        text(g, ENTRIES[selected].name(), 43, 345, TEXT);
+        text(g, "Era I / Fundamentos", 43, 360, MUTED);
+        g.fill(156, 340, 157, 380, LINE);
+        g.fill(316, 340, 317, 380, LINE);
+        text(g, "REQUISITOS", 165, 340, MUTED);
+        boolean[] ready = requirements(selected);
+        for (int i = 0; i < ready.length; i++) {
+            boolean met = state == State.DONE || ready[i];
+            text(g, (met ? "+ " : "- ") + ENTRIES[selected].costs()[i],
+                    165, 351 + i * 10, met ? GREEN : GOLD);
+        }
+        text(g, "PROGRESSO DA PESQUISA", 327, 340, MUTED);
+        for (int i = 0; i < 16; i++) {
+            int x = 327 + i * 10;
+            g.fill(x, 354, x + 8, 362, state == State.DONE ? CYAN : LINE);
+            if (state != State.DONE) g.fill(x + 1, 355, x + 7, 361, DARK);
+        }
+        text(g, state == State.DONE ? "100%" : "0%", 500, 354, TEXT);
+        text(g, state.label, 327, 369, state.color);
+
+        frame(g, 4, 396, 568, 32, LINE, PANEL, DARK);
+        text(g, "INVENTÁRIO DO OPERADOR", 15, 408, MUTED);
+        for (int i = 0; i < 9; i++) {
+            int x = 178 + i * 25;
+            frame(g, x, 401, 23, 23, LINE, DARK, DARK);
+            g.item(inventory.getItem(i), x + 3, 404);
+        }
+        text(g, "LAB / 04", 512, 408, MUTED);
     }
 
     @Override
-    protected void extractLabels(GuiGraphicsExtractor g, int mouseX, int mouseY) {
-        g.text(font, "QUANTUM INDUSTRIES  /  RESEARCH BENCH", 16, 16, WHITE, false);
-        g.text(font, "ARVORE", 43, 49, tab == 0 ? CYAN : MUTED, false);
-        g.text(font, "CONHECIMENTO", 163, 49, tab == 1 ? CYAN : MUTED, false);
-        g.text(font, "RECEITAS", 311, 49, tab == 2 ? CYAN : MUTED, false);
-
-        if (tab != 0) {
-            g.text(font, tab == 1 ? "BASE DE CONHECIMENTO" : "RECEITAS DESBLOQUEADAS", 148, 82, CYAN, false);
-            g.text(font, "Condutividade:", 150, 109, MUTED, false);
-            g.text(font, menu.hasConductivity() ? "Concluida" : "Nao pesquisada", 251, 109,
-                    menu.hasConductivity() ? GREEN : MUTED, false);
-            g.text(font, "Fio de cobre:", 150, 129, MUTED, false);
-            g.text(font, menu.hasCopperWire() ? "Liberado" : "Bloqueado", 251, 129,
-                    menu.hasCopperWire() ? GREEN : MUTED, false);
-            g.text(font, "A arvore completa sera adicionada depois.", 148, 176, MUTED, false);
-        } else {
-            g.text(font, "STATUS", 20, 81, CYAN, false);
-            g.text(font, "Concluidas: " + ((menu.hasConductivity() ? 1 : 0) + (menu.hasCopperWire() ? 1 : 0)),
-                    20, 99, GREEN, false);
-            g.text(font, "Disponiveis: " + (!menu.hasConductivity() || !menu.hasCopperWire() ? 1 : 0),
-                    20, 114, MUTED, false);
-            g.text(font, "Ocultas: " + (menu.hasConductivity() ? 0 : 1),
-                    20, 129, MUTED, false);
-            g.text(font, "PESQUISA ATUAL", 20, 155, CYAN, false);
-            g.text(font, selected == 0 ? "Condutividade" : "Fio de cobre", 20, 169, WHITE, false);
-            g.text(font, !revealed(selected) ? "OCULTA" : researched(selected) ? "CONCLUIDA" : "DISPONIVEL",
-                    20, 176, researched(selected) ? GREEN : GOLD, false);
-            g.text(font, researched(selected) ? "CONCLUIDA" : "PESQUISAR", 37, 193,
-                    researched(selected) ? MUTED : WHITE, false);
-
-            g.text(font, "ERA I  /  FUNDAMENTOS", 148, 81, CYAN, false);
-            g.text(font, "Condutividade", 166, 122, WHITE, false);
-            g.text(font, menu.hasConductivity() ? "Fio de cobre" : "?", 306, 122, menu.hasConductivity() ? WHITE : MUTED, false);
-
-            int focused = hoverNode(mouseX, mouseY);
-            if (focused < 0) focused = selected;
-            if (revealed(focused)) {
-                g.text(font, focused == 0 ? "CONDUTIVIDADE" : "FIO DE COBRE", 148, 158, CYAN, false);
-                g.text(font, focused == 0 ? "Estudar principios de conducao." : "Fabricar fios a partir de cobre.",
-                        148, 170, WHITE, false);
-                g.text(font, focused == 0 ? "Custo: 3 cobre, 1 redstone, 1 papel" : "Requer condutividade concluida.",
-                        148, 184, MUTED, false);
-                g.text(font, focused == 0 ? "Desbloqueia: pesquisa de fios" : "Custo: 2 cobre, 1 papel",
-                        148, 199, GREEN, false);
-            }
-        }
-        g.text(font, "PESQUISAS: " + ((menu.hasConductivity() ? 1 : 0) + (menu.hasCopperWire() ? 1 : 0))
-                + " / 2", 19, 227, CYAN, false);
-        g.text(font, "TECNOLOGIA: ERA I", 284, 227, MUTED, false);
-    }
+    protected void extractLabels(GuiGraphicsExtractor g, int mouseX, int mouseY) {}
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         if (event.button() == 0) {
-            double mx = event.x(), my = event.y();
-            if (within(mx, my, 9, 41, 127, 23)) { tab = 0; return true; }
-            if (within(mx, my, 141, 41, 126, 23)) { tab = 1; return true; }
-            if (within(mx, my, 272, 41, 129, 23)) { tab = 2; return true; }
+            double x = (event.x() - originX()) / scale(), y = (event.y() - originY()) / scale();
+            for (int i = 0; i < TABS.length; i++) {
+                int start = 9 + i * 140;
+                if (y >= 39 && y < 62 && x >= start && x < start + 136) {
+                    tab = i;
+                    return true;
+                }
+            }
+            if (tab == 3 && clickReport(x, y)) return true;
             if (tab == 0) {
-                int node = hoverNode((int) mx, (int) my);
-                if (node >= 0) { selected = node; return true; }
-                if (within(mx, my, 19, 185, 101, 21) && revealed(selected) && !researched(selected)) {
-                    if (Minecraft.getInstance().gameMode != null) {
-                        Minecraft.getInstance().gameMode.handleInventoryButtonClick(menu.containerId, selected);
-                    }
+                int id = ResearchTreeView.hit(x, y);
+                if (id >= 0 && menu.isRevealed(id)) {
+                    selected = id;
+                    return true;
+                }
+                if (hitsSidebarAction(x, y) && state(selected) == State.READY) {
+                    var gameMode = Minecraft.getInstance().gameMode;
+                    if (gameMode != null) gameMode.handleInventoryButtonClick(menu.containerId, selected);
                     return true;
                 }
             }
@@ -185,3 +304,8 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         return super.mouseClicked(event, doubleClick);
     }
 }
+
+
+
+
+

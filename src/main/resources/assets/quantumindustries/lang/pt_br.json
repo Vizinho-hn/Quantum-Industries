@@ -17,5 +17,7 @@
   "gui.quantumindustries.research_table.active": "ATIVA %1$d%%",
   "gui.quantumindustries.research_table.standby": "EM ESPERA",
   "gui.quantumindustries.research_table.inventory": "INVENTÁRIO DO OPERADOR",
-  "item.quantumindustries.copper_wire": "Fio de cobre"
+  "item.quantumindustries.copper_wire": "Fio de cobre",
+  "itemGroup.quantumindustries.main": "Quantum Industries",
+  "item.quantumindustries.research_data": "Dados de pesquisa"
 }

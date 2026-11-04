@@ -17,5 +17,7 @@
   "gui.quantumindustries.research_table.active": "ACTIVE %1$d%%",
   "gui.quantumindustries.research_table.standby": "STANDBY",
   "gui.quantumindustries.research_table.inventory": "OPERATOR INVENTORY",
-  "item.quantumindustries.copper_wire": "Copper wire"
+  "item.quantumindustries.copper_wire": "Copper wire",
+  "itemGroup.quantumindustries.main": "Quantum Industries",
+  "item.quantumindustries.research_data": "Research Data"
 }
