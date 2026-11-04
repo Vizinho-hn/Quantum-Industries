@@ -91,7 +91,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     @Override
-    protected void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
+    public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         g.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, BG);
         g.fill(leftPos + 5, topPos + 31, leftPos + 251, topPos + 144, PANEL);
         g.fill(leftPos + 5, topPos + 145, leftPos + 251, topPos + 252, PANEL);
