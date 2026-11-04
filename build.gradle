@@ -185,3 +185,6 @@ idea {
         downloadJavadoc = true
     }
 }
+
+// Include client-only sources in the mod compilation.
+sourceSets.main.java.srcDir("src/client/java")

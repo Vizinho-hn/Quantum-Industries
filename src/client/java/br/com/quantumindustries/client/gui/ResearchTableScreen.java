@@ -1,11 +1,9 @@
 package br.com.quantumindustries.client.gui;
 
 import br.com.quantumindustries.menu.ResearchTableMenu;
-import net.neoforged.neoforge.client.extensions.IClientExtendedEntityInformation;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -13,124 +11,264 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResearchTableScreen extends AbstractContainerScreen<ResearchTableMenu> {
-    private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath("quantumindustries", "textures/gui/research_table_gui.png");
+    private static final int BACKGROUND = 0xFF10151D;
+    private static final int PANEL = 0xFF1A222D;
+    private static final int PANEL_DARK = 0xFF131A23;
+    private static final int BORDER = 0xFF46566A;
+    private static final int MUTED = 0xFF8193A8;
+    private static final int TEXT = 0xFFE6EFFA;
+    private static final int CYAN = 0xFF00D9FF;
+    private static final int COPPER = 0xFFE07A48;
+    private static final float TWO_PI = (float) (Math.PI * 2.0);
 
-    private float animationTicks = 0.0f;
+    private static final int[][] LATTICE_NODES = {
+            {-1, -1, -1, 0}, {-1, -1, 1, 0}, {-1, 1, -1, 0}, {-1, 1, 1, 0},
+            {1, -1, -1, 0}, {1, -1, 1, 0}, {1, 1, -1, 0}, {1, 1, 1, 0},
+            {0, 0, 1, 1}, {0, 0, -1, 1}, {0, 1, 0, 1},
+            {0, -1, 0, 1}, {1, 0, 0, 1}, {-1, 0, 0, 1}
+    };
 
-    // Vértices da célula unitária cúbica centrada nas faces (CFC) do cobre
-    private final List<float[]> latticeNodes = new ArrayList<>();
+    private float animationTicks;
 
     public ResearchTableScreen(ResearchTableMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 256, 224);
-        initLattice();
+        super(menu, inventory, title, 320, 240);
+        this.titleLabelX = 28;
+        this.titleLabelY = -100;
+        this.inventoryLabelX = 72;
+        this.inventoryLabelY = -100;
     }
 
-    private void initLattice() {
-        // 8 Vértices do Cubo [-1, 1]
-        for (int x = -1; x <= 1; x += 2) {
-            for (int y = -1; y <= 1; y += 2) {
-                for (int z = -1; z <= 1; z += 2) {
-                    latticeNodes.add(new float[]{x, y, z, 0});
-                }
-            }
-        }
-        // 6 Centros das Faces (CFC)
-        latticeNodes.add(new float[]{ 0,  0,  1, 1});
-        latticeNodes.add(new float[]{ 0,  0, -1, 1});
-        latticeNodes.add(new float[]{ 0,  1,  0, 1});
-        latticeNodes.add(new float[]{ 0, -1,  0, 1});
-        latticeNodes.add(new float[]{ 1,  0,  0, 1});
-        latticeNodes.add(new float[]{-1,  0,  0, 1});
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    private void renderBg(GuiGraphicsExtractor graphics, float partialTick, int mouseX, int mouseY) {
         int left = (this.width - this.imageWidth) / 2;
         int top = (this.height - this.imageHeight) / 2;
 
-        // Fundo principal da interface
-        guiGraphics.blit(TEXTURE, left, top, 0, 0, this.imageWidth, this.imageHeight);
-
-        // Se estiver ativa a análise, incrementa os ticks visuais
-        if (this.menu.isActive() || this.menu.hasToolAndSample()) {
-            animationTicks += partialTick * 0.05f;
-        }
-
-        int monitorCenterX = left + 115;
-        int monitorCenterY = top + 52;
-
-        // --- 1. RENDERIZAÇÃO DA REDE ATÔMICA 3D ---
-        render3DLattice(guiGraphics, monitorCenterX, monitorCenterY);
-
-        // --- 2. RENDERIZAÇÃO DA FORMA DE ONDA DO OSCILOSCÓPIO ---
-        renderWaveform(guiGraphics, left + 78, top + 92, 74, 18);
-
-        // --- 3. BARRA E DADOS DE TELEMETRIA LATERAL ---
-        renderTelemetryData(guiGraphics, left, top);
+        graphics.fill(left, top, left + imageWidth, top + imageHeight, BACKGROUND);
+        drawHeader(graphics, left, top);
+        drawPanel(graphics, left + 10, top + 43, 86, 97);
+        drawPanel(graphics, left + 102, top + 43, 128, 97);
+        drawPanel(graphics, left + 236, top + 43, 74, 97);
+        drawPanel(graphics, left + 10, top + 143, 300, 89);
+        drawInputLabels(graphics, left, top);
+        drawCrystalMonitor(graphics, left, top);
+        drawTelemetry(graphics, left, top);
+        drawInventoryPanel(graphics, left, top);
     }
 
-    private void render3DLattice(GuiGraphics graphics, int cx, int cy) {
-        float angleY = animationTicks * 0.8f;
-        float angleX = 0.35f;
-        float scale = 22.0f;
+    @Override
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        renderBg(graphics, partialTick, mouseX, mouseY);
+        super.extractContents(graphics, mouseX, mouseY, partialTick);
+        extractTooltip(graphics, mouseX, mouseY);
+    }
 
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        animationTicks = (animationTicks + 0.045f) % TWO_PI;
+    }
+
+    private void drawHeader(GuiGraphicsExtractor graphics, int left, int top) {
+        drawPanel(graphics, left + 10, top + 7, 300, 29);
+        drawMoleculeMark(graphics, left + 20, top + 14);
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.brand",
+                left + 38, top + 11, MUTED);
+        graphics.text(this.font, this.title, left + 38, top + 20, TEXT, false);
+        graphics.fill(left + 274, top + 13, left + 300, top + 14, BORDER);
+        graphics.fill(left + 274, top + 18, left + 296, top + 19, CYAN);
+        graphics.fill(left + 274, top + 23, left + 289, top + 24, BORDER);
+        drawCornerMarks(graphics, left + 10, top + 7, 300, 29, CYAN);
+    }
+
+    private void drawInputLabels(GuiGraphicsExtractor graphics, int left, int top) {
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.sample", left + 15, top + 54, MUTED);
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.probe", left + 15, top + 90, MUTED);
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.output", left + 62, top + 69, MUTED);
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.result", left + 62, top + 108, CYAN);
+    }
+
+    private void drawCrystalMonitor(GuiGraphicsExtractor graphics, int left, int top) {
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.crystal", left + 110, top + 49, TEXT);
+        graphics.fill(left + 108, top + 62, left + 224, top + 63, 0xFF293747);
+        drawLattice(graphics, left + 166, top + 86);
+
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.oscilloscope",
+                left + 109, top + 112, MUTED);
+        int waveX = left + 109;
+        int waveY = top + 123;
+        int waveWidth = 112;
+        int centerY = waveY + 6;
+        graphics.fill(waveX, waveY, waveX + waveWidth, waveY + 13, PANEL_DARK);
+        for (int x = 0; x < waveWidth; x += 8) {
+            graphics.fill(waveX + x, waveY, waveX + x + 1, waveY + 13, 0xFF243342);
+        }
+        graphics.fill(waveX, centerY, waveX + waveWidth, centerY + 1, 0xFF334351);
+
+        float amplitude = this.menu.hasToolAndSample() ? 5.0f : 1.0f;
+        int lastY = centerY;
+        for (int x = 0; x < waveWidth; x++) {
+            int y = centerY + (int) (Mth.sin(x * 0.24f + animationTicks * 3.0f) * amplitude);
+            drawLine(graphics, waveX + x, lastY, waveX + x + 1, y, CYAN);
+            lastY = y;
+        }
+    }
+
+    private void drawLattice(GuiGraphicsExtractor graphics, int centerX, int centerY) {
+        float angleY = animationTicks;
+        float angleX = 0.35f;
         float cosY = Mth.cos(angleY);
         float sinY = Mth.sin(angleY);
         float cosX = Mth.cos(angleX);
         float sinX = Mth.sin(angleX);
+        List<ProjectedNode> projected = new ArrayList<>(LATTICE_NODES.length);
 
-        for (float[] node : latticeNodes) {
+        for (int[] node : LATTICE_NODES) {
             float x1 = node[0] * cosY - node[2] * sinY;
             float z1 = node[0] * sinY + node[2] * cosY;
-            float y1 = node[1];
+            float y2 = node[1] * cosX - z1 * sinX;
+            float z2 = node[1] * sinX + z1 * cosX;
+            projected.add(new ProjectedNode(
+                    node[0], node[1], node[2], node[3] == 1, z2,
+                    centerX + (int) (x1 * 21), centerY + (int) (y2 * 18)));
+        }
 
-            float y2 = y1 * cosX - z1 * sinX;
-            float z2 = y1 * sinX + z1 * cosX;
+        List<LatticeBond> bonds = new ArrayList<>();
+        for (int first = 0; first < projected.size(); first++) {
+            for (int second = first + 1; second < projected.size(); second++) {
+                ProjectedNode a = projected.get(first);
+                ProjectedNode b = projected.get(second);
+                if (isBond(a, b)) {
+                    bonds.add(new LatticeBond(a, b));
+                }
+            }
+        }
 
-            int px = cx + (int) (x1 * scale);
-            int py = cy + (int) (y2 * scale);
+        bonds.sort((a, b) -> Float.compare(a.depth(), b.depth()));
+        for (LatticeBond bond : bonds) {
+            int color = bond.depth() > 0 ? 0xFF527589 : 0xFF304454;
+            drawLine(graphics, bond.first().screenX(), bond.first().screenY(),
+                    bond.second().screenX(), bond.second().screenY(), color);
+        }
 
-            int color = (node[3] == 0) ? 0xFFE07A48 : 0xFF00E5FF;
-            int size = (z2 > 0) ? 3 : 2;
-            graphics.fill(px - size / 2, py - size / 2, px + size / 2 + 1, py + size / 2 + 1, color);
+        projected.sort((a, b) -> Float.compare(a.depth(), b.depth()));
+        for (ProjectedNode node : projected) {
+            int size = node.depth() > 0.1f ? 3 : 2;
+            int color = node.faceCenter() ? CYAN : (node.depth() > 0 ? COPPER : 0xFF9A6349);
+            graphics.fill(node.screenX() - size / 2, node.screenY() - size / 2,
+                    node.screenX() + size / 2 + 1, node.screenY() + size / 2 + 1, color);
+            if (node.faceCenter()) {
+                graphics.fill(node.screenX() - 2, node.screenY(), node.screenX() + 3, node.screenY() + 1,
+                        0x664FEAFF);
+            }
         }
     }
 
-    private void renderWaveform(GuiGraphics graphics, int x, int y, int width, int height) {
-        int centerY = y + height / 2;
-        float freq = 0.25f;
-        float speed = animationTicks * 4.0f;
-        float amplitude = this.menu.isActive() ? 6.0f : 1.5f;
+    private boolean isBond(ProjectedNode a, ProjectedNode b) {
+        if (a.faceCenter() == b.faceCenter()) {
+            if (a.faceCenter()) {
+                return false;
+            }
+            int differences = 0;
+            if (a.x() != b.x()) differences++;
+            if (a.y() != b.y()) differences++;
+            if (a.z() != b.z()) differences++;
+            return differences == 1;
+        }
 
-        int lastPy = centerY;
-        for (int i = 0; i < width; i++) {
-            float sinVal = Mth.sin(i * freq + speed);
-            int py = centerY + (int) (sinVal * amplitude);
-            graphics.fill(x + i, Math.min(lastPy, py), x + i + 1, Math.max(lastPy, py) + 1, 0xFF00FFCC);
-            lastPy = py;
+        ProjectedNode face = a.faceCenter() ? a : b;
+        ProjectedNode corner = a.faceCenter() ? b : a;
+        return (face.x() == 0 || face.x() == corner.x())
+                && (face.y() == 0 || face.y() == corner.y())
+                && (face.z() == 0 || face.z() == corner.z());
+    }
+
+    private void drawTelemetry(GuiGraphicsExtractor graphics, int left, int top) {
+        int x = left + 243;
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.readings", x, top + 49, TEXT);
+        graphics.fill(x, top + 62, left + 303, top + 63, 0xFF293747);
+
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.resistivity", x, top + 69, MUTED);
+        graphics.text(this.font, "1.68e-8 Ω·m", x, top + 79, CYAN, false);
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.conductivity", x, top + 91, MUTED);
+        graphics.text(this.font, "5.96e7 S/m", x, top + 101, 0xFF75E6A2, false);
+
+        int maxProgress = Math.max(1, this.menu.getMaxProgress());
+        int progress = Mth.clamp(this.menu.getProgress(), 0, maxProgress);
+        int percent = progress * 100 / maxProgress;
+        Component status = Component.translatable(
+                this.menu.hasToolAndSample()
+                        ? "gui.quantumindustries.research_table.active"
+                        : "gui.quantumindustries.research_table.standby",
+                percent);
+        graphics.text(this.font, status, x, top + 113, this.menu.hasToolAndSample() ? CYAN : MUTED, false);
+        graphics.fill(x, top + 126, left + 303, top + 131, PANEL_DARK);
+        int progressWidth = (left + 303 - x) * percent / 100;
+        if (progressWidth > 0) {
+            graphics.fill(x, top + 126, x + progressWidth, top + 131, CYAN);
+            graphics.fill(x, top + 126, x + progressWidth, top + 127, 0xFF9AF2FF);
         }
     }
 
-    private void renderTelemetryData(GuiGraphics graphics, int left, int top) {
-        // Use screen's font
-        graphics.drawString(this.font, "§7Resistividade:", left + 168, top + 42, 0xFFFFFFFF, false);
-        graphics.drawString(this.font, "§b1.68e-8 Ω·m", left + 168, top + 52, 0xFFFFFFFF, false);
-        graphics.drawString(this.font, "§7Condutividade:", left + 168, top + 66, 0xFFFFFFFF, false);
-        graphics.drawString(this.font, "§a5.96e7 S/m", left + 168, top + 76, 0xFFFFFFFF, false);
-
-        int progress = this.menu.getProgress();
-        int max = Math.max(1, this.menu.getMaxProgress());
-        int progressWidth = (progress * 62) / max;
-
-        graphics.drawString(this.font, "Status: " + ((progress * 100) / max) + "%", left + 168, top + 92, 0xFF00E5FF, false);
-        graphics.fill(left + 168, top + 102, left + 168 + 62, top + 106, 0xFF1A222D);
-        graphics.fill(left + 168, top + 102, left + 168 + progressWidth, top + 106, 0xFF00E5FF);
+    private void drawInventoryPanel(GuiGraphicsExtractor graphics, int left, int top) {
+        drawTranslatedText(graphics, "gui.quantumindustries.research_table.inventory",
+                left + 72, top + 150, MUTED);
+        graphics.fill(left + 72, top + 158, left + 234, top + 159, 0xFF293747);
+        graphics.fill(left + 72, top + 212, left + 234, top + 213, 0xFF293747);
+        graphics.fill(left + 22, top + 157, left + 45, top + 158, 0xFF293747);
+        drawText(graphics, "Q-01", left + 22, top + 218, 0xFF536579);
+        drawText(graphics, "LAB / 04", left + 259, top + 218, 0xFF536579);
     }
 
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    private void drawPanel(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+        graphics.fill(x, y, x + width, y + height, PANEL);
+        graphics.fill(x, y, x + width, y + 1, BORDER);
+        graphics.fill(x, y + height - 1, x + width, y + height, 0xFF111820);
+        graphics.fill(x, y, x + 1, y + height, BORDER);
+        graphics.fill(x + width - 1, y, x + width, y + height, 0xFF111820);
+    }
+
+    private void drawCornerMarks(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int color) {
+        graphics.fill(x, y, x + 7, y + 1, color);
+        graphics.fill(x, y, x + 1, y + 7, color);
+        graphics.fill(x + width - 7, y + height - 1, x + width, y + height, color);
+        graphics.fill(x + width - 1, y + height - 7, x + width, y + height, color);
+    }
+
+    private void drawMoleculeMark(GuiGraphicsExtractor graphics, int x, int y) {
+        graphics.fill(x + 3, y, x + 5, y + 2, CYAN);
+        graphics.fill(x, y + 4, x + 2, y + 6, COPPER);
+        graphics.fill(x + 7, y + 5, x + 9, y + 7, CYAN);
+        graphics.fill(x + 4, y + 2, x + 5, y + 5, BORDER);
+        graphics.fill(x + 2, y + 4, x + 4, y + 5, BORDER);
+        graphics.fill(x + 5, y + 4, x + 7, y + 6, BORDER);
+    }
+
+    private void drawTranslatedText(GuiGraphicsExtractor graphics, String translationKey, int x, int y, int color) {
+        graphics.text(this.font, Component.translatable(translationKey), x, y, color, false);
+    }
+
+    private void drawText(GuiGraphicsExtractor graphics, String text, int x, int y, int color) {
+        graphics.text(this.font, text, x, y, color, false);
+    }
+
+    private void drawLine(GuiGraphicsExtractor graphics, int x1, int y1, int x2, int y2, int color) {
+        int steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
+        if (steps == 0) {
+            graphics.fill(x1, y1, x1 + 1, y1 + 1, color);
+            return;
+        }
+        for (int step = 0; step <= steps; step++) {
+            int x = x1 + (x2 - x1) * step / steps;
+            int y = y1 + (y2 - y1) * step / steps;
+            graphics.fill(x, y, x + 1, y + 1, color);
+        }
+    }
+
+    private record ProjectedNode(int x, int y, int z, boolean faceCenter, float depth, int screenX, int screenY) {
+    }
+
+    private record LatticeBond(ProjectedNode first, ProjectedNode second) {
+        private float depth() {
+            return (first.depth() + second.depth()) / 2.0f;
+        }
     }
 }

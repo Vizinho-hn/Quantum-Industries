@@ -1,40 +1,24 @@
-# Interface de pesquisa — conceito aprovado
+# Interface da Mesa de Pesquisa
 
-**Status:** mockup aprovado; interface funcional ainda não implementada.
+**Status:** implementada como interface de bancada no menu da Mesa de Pesquisa.
 
-O conceito de UI aprovado usa um painel tecnológico escuro com detalhes ciano, inspirado na Mesa de Pesquisa.
+## Layout
 
-## Estrutura principal
+- Cabeçalho Quantum Industries com o nome da bancada.
+- Coluna esquerda com entradas para amostra e sonda e o slot de saída.
+- Monitor central com rede cristalina CFC animada e traço de osciloscópio.
+- Painel direito com resistividade, condutividade, estado e progresso da análise.
+- Inventário do jogador em uma faixa inferior.
 
-- Cabeçalho: símbolo atômico e título **Mesa de Pesquisa**.
-- Navegação à esquerda: Fundamentos, Energia, Máquinas, Materiais, Quântica e Dimensões.
-- Centro: árvore de pesquisas, dependências visuais e nós bloqueados/desbloqueados.
-- Painel à direita: nome da pesquisa, descrição, pré-requisitos, tempo e botão **Pesquisar**.
-- Rodapé: slots de inventário do jogador e materiais necessários.
+A interface é desenhada proceduralmente em código, com paleta escura industrial,
+bordas pixeladas e acentos em ciano e cobre. A textura de fundo não é necessária
+para renderizar o menu.
 
-## Estados esperados
+## Estados
 
-- Bloqueada: requisitos não atendidos.
-- Disponível: pré-requisitos atendidos e pesquisa iniciável.
-- Pesquisando: contagem de tempo e andamento.
-- Concluída: indicador de desbloqueio persistente.
+- **Em espera:** aguardando amostra e sonda compatíveis.
+- **Ativa:** monitor e progresso indicam a análise em andamento.
+- **Concluída:** os dados de pesquisa aparecem no slot de saída.
 
-## Paleta do conceito
-
-| Uso | Cor |
-| --- | --- |
-| Fundo | `#1A1D24` |
-| Painéis | `#2B313D` |
-| Bordas | `#4A556B` |
-| Destaques | `#00D9FF` |
-| Texto | `#E6EFFA` |
-
-## Variações visuais
-
-O mockup contém uma árvore principal e alternativas de lista de pesquisas, progressão linear e enciclopédia. A **árvore** foi escolhida como layout base.
-
-## Arquivo de referência previsto
-
-- `docs/design/mesa-de-pesquisa/research_ui_concept.png` — imagem do conceito visual aprovado.
-
-**Observação:** esta especificação documenta a UI, mas o PNG do mockup e os componentes gráficos ainda precisam ser versionados e convertidos em texturas e código de tela no Minecraft.
+Os valores de resistividade e condutividade exibidos atualmente representam a
+amostra de cobre suportada pela bancada.

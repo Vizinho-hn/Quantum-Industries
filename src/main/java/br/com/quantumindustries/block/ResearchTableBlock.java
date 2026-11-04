@@ -68,6 +68,11 @@ public class ResearchTableBlock extends BaseEntityBlock {
         return new ResearchTableBlockEntity(pos, state);
     }
 
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        return openResearchMenu(level, pos, player);
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
@@ -77,13 +82,17 @@ public class ResearchTableBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide()) {
-            BlockEntity entity = level.getBlockEntity(pos);
-            if (entity instanceof MenuProvider menuProvider) {
-                player.openMenu(menuProvider);
-                return InteractionResult.SUCCESS;
-            }
+        return openResearchMenu(level, pos, player);
+    }
+
+    private InteractionResult openResearchMenu(Level level, BlockPos pos, Player player) {
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (!(entity instanceof MenuProvider menuProvider)) {
+            return InteractionResult.PASS;
         }
-        return InteractionResult.CONSUME;
+        if (!level.isClientSide()) {
+            player.openMenu(menuProvider, pos);
+        }
+        return InteractionResult.SUCCESS;
     }
 }

@@ -159,7 +159,7 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.quantumindustries.scientific_analyzer");
+        return Component.translatable("gui.quantumindustries.research_table.title");
     }
 
     @Override

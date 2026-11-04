@@ -2,5 +2,19 @@
   "item.quantumindustries.scientific_analyzer": "Scientific Analyzer",
   "block.quantumindustries.scientific_analyzer": "Scientific Analyzer",
   "item.quantumindustries.test_probes": "Test Probes",
-  "block.quantumindustries.test_probes": "Test Probes"
+  "block.quantumindustries.test_probes": "Test Probes",
+  "gui.quantumindustries.research_table.brand": "QUANTUM INDUSTRIES",
+  "gui.quantumindustries.research_table.title": "Research Bench",
+  "gui.quantumindustries.research_table.sample": "SAMPLE",
+  "gui.quantumindustries.research_table.probe": "PROBE",
+  "gui.quantumindustries.research_table.output": "OUTPUT",
+  "gui.quantumindustries.research_table.result": "DATA",
+  "gui.quantumindustries.research_table.crystal": "FCC LATTICE",
+  "gui.quantumindustries.research_table.oscilloscope": "OSCILLOSCOPE",
+  "gui.quantumindustries.research_table.readings": "READINGS",
+  "gui.quantumindustries.research_table.resistivity": "RESISTIVITY",
+  "gui.quantumindustries.research_table.conductivity": "CONDUCTIVITY",
+  "gui.quantumindustries.research_table.active": "ACTIVE %1$d%%",
+  "gui.quantumindustries.research_table.standby": "STANDBY",
+  "gui.quantumindustries.research_table.inventory": "OPERATOR INVENTORY"
 }

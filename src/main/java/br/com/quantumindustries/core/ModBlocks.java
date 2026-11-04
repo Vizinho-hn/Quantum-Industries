@@ -15,8 +15,8 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
 
-    public static final DeferredBlock<Block> RESEARCH_TABLE = BLOCKS.register("scientific_analyzer",
-            () -> new ResearchTableBlock(Block.Properties.of().strength(2.5F).requiresCorrectToolForDrops().noOcclusion()));
+    public static final DeferredBlock<ResearchTableBlock> RESEARCH_TABLE = BLOCKS.registerBlock("scientific_analyzer",
+            ResearchTableBlock::new, properties -> properties.strength(2.5F).requiresCorrectToolForDrops().noOcclusion());
 
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<ResearchTableBlockEntity>> RESEARCH_TABLE_ENTITY =
             BLOCK_ENTITIES.register("research_table",

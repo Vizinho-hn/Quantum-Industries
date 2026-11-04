@@ -2,5 +2,19 @@
   "item.quantumindustries.scientific_analyzer": "Analisador Científico",
   "block.quantumindustries.scientific_analyzer": "Analisador Científico",
   "item.quantumindustries.test_probes": "Sondas de Teste",
-  "block.quantumindustries.test_probes": "Sondas de Teste"
+  "block.quantumindustries.test_probes": "Sondas de Teste",
+  "gui.quantumindustries.research_table.brand": "QUANTUM INDUSTRIES",
+  "gui.quantumindustries.research_table.title": "Mesa de Pesquisa",
+  "gui.quantumindustries.research_table.sample": "AMOSTRA",
+  "gui.quantumindustries.research_table.probe": "SONDA",
+  "gui.quantumindustries.research_table.output": "SAÍDA",
+  "gui.quantumindustries.research_table.result": "DADOS",
+  "gui.quantumindustries.research_table.crystal": "REDE CFC",
+  "gui.quantumindustries.research_table.oscilloscope": "OSCILOSCÓPIO",
+  "gui.quantumindustries.research_table.readings": "LEITURAS",
+  "gui.quantumindustries.research_table.resistivity": "RESISTIVIDADE",
+  "gui.quantumindustries.research_table.conductivity": "CONDUTIVIDADE",
+  "gui.quantumindustries.research_table.active": "ATIVA %1$d%%",
+  "gui.quantumindustries.research_table.standby": "EM ESPERA",
+  "gui.quantumindustries.research_table.inventory": "INVENTÁRIO DO OPERADOR"
 }

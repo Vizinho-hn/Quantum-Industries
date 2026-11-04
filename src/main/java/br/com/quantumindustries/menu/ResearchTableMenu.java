@@ -3,38 +3,58 @@ package br.com.quantumindustries.menu;
 import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.core.ModMenuTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.IContainerFactory;
 
 public class ResearchTableMenu extends AbstractContainerMenu implements IContainerFactory<ResearchTableMenu> {
-    private final ResearchTableBlockEntity blockEntity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
 
     public ResearchTableMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, inv, (ResearchTableBlockEntity) inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
+        this(containerId, inv, resolveBlockEntity(inv, extraData), new SimpleContainerData(3));
     }
 
     public ResearchTableMenu(int containerId, Inventory inv, ResearchTableBlockEntity entity, ContainerData data) {
         super(ModMenuTypes.RESEARCH_TABLE_MENU.get(), containerId);
-        this.blockEntity = entity;
         this.data = data;
-        this.levelAccess = ContainerLevelAccess.create(entity.getLevel(), entity.getBlockPos());
+        this.levelAccess = entity == null
+                ? ContainerLevelAccess.NULL
+                : ContainerLevelAccess.create(inv.player.level(), entity.getBlockPos());
+        Container inventory = entity == null ? createUnavailableInventory() : entity.getItemHandler();
 
-        // Slot 0: Amostra (X=24, Y=38)
-        addSlot(new Slot(entity.getItemHandler(), 0, 24, 38));
-        // Slot 1: Sonda / Ferramenta de Teste (X=24, Y=78)
-        addSlot(new Slot(entity.getItemHandler(), 1, 24, 78));
-        // Slot 2: Saída (X=134, Y=58) - central right
-        addSlot(new Slot(entity.getItemHandler(), 2, 134, 58));
+        addSlot(new Slot(inventory, 0, 21, 72));
+        addSlot(new Slot(inventory, 1, 21, 108));
+        addSlot(new Slot(inventory, 2, 66, 90));
 
         addDataSlots(data);
         layoutPlayerInventory(inv);
+    }
+
+    private static ResearchTableBlockEntity resolveBlockEntity(Inventory inventory, FriendlyByteBuf extraData) {
+        if (extraData.readableBytes() < Long.BYTES) {
+            return null;
+        }
+        BlockPos pos = extraData.readBlockPos();
+        return inventory.player.level().getBlockEntity(pos) instanceof ResearchTableBlockEntity entity
+                ? entity
+                : null;
+    }
+
+    private static Container createUnavailableInventory() {
+        return new SimpleContainer(3) {
+            @Override
+            public boolean canPlaceItem(int slot, ItemStack stack) {
+                return false;
+            }
+        };
     }
 
     // Static factory method for MenuType (MenuSupplier)
@@ -89,11 +109,11 @@ public class ResearchTableMenu extends AbstractContainerMenu implements IContain
     private void layoutPlayerInventory(Inventory inv) {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(inv, col + row * 9 + 9, 48 + col * 18, 142 + row * 18));
+                this.addSlot(new Slot(inv, col + row * 9 + 9, 72 + col * 18, 162 + row * 18));
             }
         }
         for (int col = 0; col < 9; ++col) {
-            this.addSlot(new Slot(inv, col, 48 + col * 18, 200));
+            this.addSlot(new Slot(inv, col, 72 + col * 18, 216));
         }
     }
 }
