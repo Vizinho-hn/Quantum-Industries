@@ -108,3 +108,9 @@ cd Quantum-Industries
 ## Licença
 
 A licença ainda não foi definida. Até que os autores decidam, não presuma que o código ou os assets estejam liberados para redistribuição.
+
+## Abrir o jogo no Windows
+
+Com Java 25 instalado, abra `Jogar.exe` na raiz do repositório. O lançador usa
+o Gradle Wrapper para iniciar o Minecraft com NeoForge a partir do código local.
+No Linux, use `./gradlew runClient`.
