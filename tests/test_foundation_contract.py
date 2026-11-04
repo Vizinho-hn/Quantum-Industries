@@ -49,7 +49,7 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn("new SimpleContainerData(2)", menu)
         self.assertIn("clickMenuButton", menu)
         self.assertIn("spend(player.getInventory()", menu)
-        self.assertIn('output.putInt("progress", progress)', entity)
+        self.assertIn('output.putInt("progress", legacyProgress)', entity)
         self.assertIn('output.store("slot_" + i, ItemStack.CODEC, stack)', entity)
 
     def test_recipe_requires_research_on_server(self):
