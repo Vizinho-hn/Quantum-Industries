@@ -2,6 +2,7 @@ name: Quantum Industries Java compile
 on:
   push:
     branches:
+      - main
       - feature/v0.1.1-conductivity-research
   pull_request:
     branches:
