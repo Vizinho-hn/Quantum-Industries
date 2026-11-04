@@ -76,8 +76,8 @@ public class ResearchTableBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide()) return null;
-        return (lvl, pos, st, be) -> ResearchTableBlockEntity.serverTick(lvl, pos, st, (ResearchTableBlockEntity) be);
+        // Research is handled by the world-level research profile, not a ticking block entity.
+        return null;
     }
 
     @Override

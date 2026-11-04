@@ -1,0 +1,33 @@
+name: Quantum Industries Java compile
+on:
+  push:
+    branches:
+      - main
+      - feature/v0.1.1-conductivity-research
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check F0 contracts (Python standard library)
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Compile and package mod
+        run: bash ./gradlew --no-daemon build
+      - name: Upload testable mod jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: quantum-industries-neoforge-jar
+          path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
