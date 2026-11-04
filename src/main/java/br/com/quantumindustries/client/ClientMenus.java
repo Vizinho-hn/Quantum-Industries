@@ -13,5 +13,6 @@ public final class ClientMenus {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.RESEARCH_TABLE_MENU.get(), ResearchTableScreen::new);
+        event.register(ModMenuTypes.EMPIRICAL_ASSAY_MENU.get(), br.com.quantumindustries.client.gui.EmpiricalAssayBenchScreen::new);
     }
 }
