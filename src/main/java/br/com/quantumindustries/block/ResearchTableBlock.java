@@ -76,8 +76,12 @@ public class ResearchTableBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide()) return null;
-        return (lvl, pos, st, be) -> ResearchTableBlockEntity.serverTick(lvl, pos, st, (ResearchTableBlockEntity) be);
+        if (level.isClientSide() || type != ModBlocks.RESEARCH_TABLE_ENTITY.get()) return null;
+        return (lvl, pos, st, be) -> {
+            if (be instanceof ResearchTableBlockEntity table) {
+                ResearchTableBlockEntity.serverTick(lvl, pos, st, table);
+            }
+        };
     }
 
     @Override
