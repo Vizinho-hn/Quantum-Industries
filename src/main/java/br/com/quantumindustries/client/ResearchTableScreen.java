@@ -8,149 +8,122 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 /**
- * Research bench interface: left side retains the existing inventory slots,
- * while the right panel switches between the analyzer and the technology tree.
- * Tree nodes are informational; only the server grants discoveries.
+ * F0 research-first interface. The tree is intentionally a presentation of
+ * server-owned state, never a source of unlocks. Future nodes are anonymized
+ * until ResearchManager can safely synchronize discoveries.
+ *
+ * Existing three machine slots remain visible for backwards compatibility.
+ * Their legacy processing behavior will be migrated in a separate feature PR.
  */
 public final class ResearchTableScreen extends AbstractContainerScreen<ResearchTableMenu> {
-    private static final int BG = 0xFF111923;
-    private static final int PANEL = 0xFF1B2633;
-    private static final int BORDER = 0xFF455B70;
-    private static final int CYAN = 0xFF10CCE7;
-    private static final int GREEN = 0xFF5BD394;
-    private static final int MUTED = 0xFF8DA2B6;
+    private static final int BG = 0xFF101720;
+    private static final int PANEL = 0xFF1A2633;
+    private static final int DEEP = 0xFF0B1018;
+    private static final int BORDER = 0xFF415B70;
+    private static final int CYAN = 0xFF20D6ED;
+    private static final int GREEN = 0xFF64D89F;
+    private static final int MUTED = 0xFF91A4B7;
+    private static final int WHITE = 0xFFE5EEF4;
 
-    private boolean treeTab = false;
-    private int selected = 0;
-    private final Button[] nodes = new Button[8];
-
-    private static final String[] TITLES = {
-        "Condutividade", "Isolamento", "Engenharia",
-        "Eletronica", "Geracao", "Armazenamento",
-        "Processamento", "Trituracao"
-    };
-    private static final String[] DETAILS = {
-        "Libera fio de cobre",
-        "Libera cabo de cobre (futuro)",
-        "Libera estrutura basica (futuro)",
-        "Libera circuito basico (futuro)",
-        "Libera gerador a carvao (futuro)",
-        "Libera armazenamento (futuro)",
-        "Libera fornalha eletrica (futuro)",
-        "Libera triturador (futuro)"
-    };
+    private boolean knowledgeTab = false;
+    private Button firstNode;
 
     public ResearchTableScreen(ResearchTableMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 256, 256);
-        this.titleLabelX = 12;
-        this.titleLabelY = 32;
-        this.inventoryLabelX = 72;
-        this.inventoryLabelY = 150;
+        super(menu, inventory, title, 320, 256);
+        titleLabelX = 12;
+        titleLabelY = -100;
+        inventoryLabelX = 72;
+        inventoryLabelY = -100;
     }
 
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(Button.builder(Component.literal("ANALISADOR"), b -> showTab(false))
-                .bounds(leftPos + 8, topPos + 7, 113, 20).build());
-        addRenderableWidget(Button.builder(Component.literal("PESQUISAS"), b -> showTab(true))
-                .bounds(leftPos + 126, topPos + 7, 121, 20).build());
-
-        for (int i = 0; i < nodes.length; i++) {
-            final int index = i;
-            int x = leftPos + 96 + (i % 2) * 76;
-            int y = topPos + 47 + (i / 2) * 22;
-            nodes[i] = addRenderableWidget(Button.builder(
-                    Component.literal(String.format("%02d", i + 1) + " " + shortName(i)),
-                    b -> selected = index
-            ).bounds(x, y, 73, 19).build());
-        }
-        updateNodes();
+        addRenderableWidget(Button.builder(Component.literal("ARVORE DE PESQUISA"), b -> selectTab(false))
+                .bounds(leftPos + 10, topPos + 27, 143, 19).build());
+        addRenderableWidget(Button.builder(Component.literal("CONHECIMENTO"), b -> selectTab(true))
+                .bounds(leftPos + 159, topPos + 27, 151, 19).build());
+        firstNode = addRenderableWidget(Button.builder(Component.literal("Condutividade"),
+                b -> { /* selection only: never unlock from the client */ })
+                .bounds(leftPos + 107, topPos + 75, 95, 19).build());
+        firstNode.visible = !knowledgeTab;
     }
 
-    private String shortName(int id) {
-        return switch (id) {
-            case 0 -> "Cobre";
-            case 1 -> "Isolar";
-            case 2 -> "Mecanica";
-            case 3 -> "Circuito";
-            case 4 -> "Gerador";
-            case 5 -> "Bateria";
-            case 6 -> "Fornalha";
-            default -> "Triturar";
-        };
+    private void selectTab(boolean knowledge) {
+        knowledgeTab = knowledge;
+        if (firstNode != null) firstNode.visible = !knowledgeTab;
     }
 
-    private void showTab(boolean tree) {
-        treeTab = tree;
-        updateNodes();
-    }
-
-    private void updateNodes() {
-        for (Button b : nodes) if (b != null) b.visible = treeTab;
+    private void panel(GuiGraphicsExtractor g, int x, int y, int w, int h) {
+        g.fill(leftPos + x, topPos + y, leftPos + x + w, topPos + y + h, BORDER);
+        g.fill(leftPos + x + 1, topPos + y + 1, leftPos + x + w - 1, topPos + y + h - 1, PANEL);
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
+    public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float partialTick) {
         g.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, BG);
-        g.fill(leftPos + 5, topPos + 31, leftPos + 251, topPos + 144, PANEL);
-        g.fill(leftPos + 5, topPos + 145, leftPos + 251, topPos + 252, PANEL);
-        // An accent line marks the active tab.
-        int start = treeTab ? 126 : 8;
-        g.fill(leftPos + start, topPos + 28, leftPos + start + (treeTab ? 121 : 113), topPos + 30, CYAN);
-        if (treeTab) {
-            g.fill(leftPos + 91, topPos + 40, leftPos + 92, topPos + 140, BORDER);
-            g.fill(leftPos + 95, topPos + 134, leftPos + 250, topPos + 135, BORDER);
-        } else {
-            g.fill(leftPos + 91, topPos + 40, leftPos + 92, topPos + 140, BORDER);
-            g.fill(leftPos + 99, topPos + 88, leftPos + 242, topPos + 91, BORDER);
-            int width = menu.getMaxProgress() > 0
-                    ? Math.min(143, 143 * menu.getProgress() / menu.getMaxProgress()) : 0;
-            g.fill(leftPos + 99, topPos + 88, leftPos + 99 + width, topPos + 91, CYAN);
+        g.fill(leftPos + 6, topPos + 5, leftPos + 10, topPos + 23, CYAN);
+        g.fill(leftPos + 6, topPos + 5, leftPos + 24, topPos + 8, CYAN);
+        g.fill(leftPos + 310, topPos + 5, leftPos + 314, topPos + 23, CYAN);
+        g.fill(leftPos + 296, topPos + 5, leftPos + 314, topPos + 8, CYAN);
+        panel(g, 9, 50, 302, 94);
+        panel(g, 9, 148, 302, 103);
+        g.fill(leftPos + (knowledgeTab ? 159 : 10), topPos + 47,
+               leftPos + (knowledgeTab ? 310 : 153), topPos + 49, CYAN);
+
+        if (!knowledgeTab) {
+            // Structural lines convey progression, not unrevealed names.
+            g.fill(leftPos + 201, topPos + 84, leftPos + 217, topPos + 86, BORDER);
+            g.fill(leftPos + 217, topPos + 65, leftPos + 219, topPos + 119, BORDER);
+            g.fill(leftPos + 219, topPos + 65, leftPos + 226, topPos + 67, BORDER);
+            g.fill(leftPos + 219, topPos + 117, leftPos + 226, topPos + 119, BORDER);
+            // Fully anonymous future nodes: no names, icons, or tooltip.
+            for (int y : new int[] {56, 107}) {
+                g.fill(leftPos + 226, topPos + y, leftPos + 300, topPos + y + 19, BORDER);
+                g.fill(leftPos + 227, topPos + y + 1, leftPos + 299, topPos + y + 18, DEEP);
+            }
         }
-        // Slot outlines (coordinates come from the existing ResearchTableMenu).
-        for (int[] p : new int[][] {{21,72},{21,108},{66,90}}) {
-            g.fill(leftPos + p[0] - 1, topPos + p[1] - 1,
-                    leftPos + p[0] + 17, topPos + p[1] + 17, BORDER);
-            g.fill(leftPos + p[0], topPos + p[1],
-                    leftPos + p[0] + 16, topPos + p[1] + 16, BG);
+
+        // Original machine inventory slots remain at their original menu coordinates.
+        for (int[] pos : new int[][] {{21,72}, {21,108}, {66,90}}) {
+            int x = pos[0], y = pos[1];
+            g.fill(leftPos + x - 1, topPos + y - 1, leftPos + x + 17, topPos + y + 17, BORDER);
+            g.fill(leftPos + x, topPos + y, leftPos + x + 16, topPos + y + 16, DEEP);
         }
-        // Inventory grid background.
+        // Original player inventory and hotbar coordinates are unchanged.
         for (int row = 0; row < 4; row++) {
-            int y = row == 3 ? 216 : 162 + row * 18;
+            int y = row == 3 ? 216 : 162 + 18 * row;
             for (int col = 0; col < 9; col++) {
-                int x = 72 + col * 18;
-                g.fill(leftPos + x - 1, topPos + y - 1,
-                        leftPos + x + 17, topPos + y + 17, BORDER);
-                g.fill(leftPos + x, topPos + y,
-                        leftPos + x + 16, topPos + y + 16, BG);
+                int x = 72 + 18 * col;
+                g.fill(leftPos + x - 1, topPos + y - 1, leftPos + x + 17, topPos + y + 17, BORDER);
+                g.fill(leftPos + x, topPos + y, leftPos + x + 16, topPos + y + 16, DEEP);
             }
         }
     }
 
     @Override
     protected void extractLabels(GuiGraphicsExtractor g, int mouseX, int mouseY) {
-        g.text(font, "QUANTUM INDUSTRIES", 12, 32, CYAN, false);
-        g.text(font, "AMOSTRA", 12, 59, MUTED, false);
-        g.text(font, "SONDA", 12, 96, MUTED, false);
-        g.text(font, "SAIDA", 54, 78, MUTED, false);
-        g.text(font, "INVENTARIO", 12, 149, MUTED, false);
-        if (treeTab) {
-            g.text(font, "ARVORE TECNOLOGICA", 98, 34, CYAN, false);
-            boolean unlocked = menu.hasConductivity();
-            g.text(font, TITLES[selected], 98, 139, CYAN, false);
-            g.text(font, DETAILS[selected], 8, 243, MUTED, false);
-            g.text(font, selected == 0 && unlocked ? "CONCLUIDA" : "BLOQUEADA",
-                    175, 139, selected == 0 && unlocked ? GREEN : MUTED, false);
+        g.text(font, "QUANTUM INDUSTRIES  /  RESEARCH BENCH", 17, 11, WHITE, false);
+        if (knowledgeTab) {
+            g.text(font, "BANCO DE CONHECIMENTO  /  F0", 18, 56, CYAN, false);
+            g.text(font, "Condutividade:", 18, 83, MUTED, false);
+            g.text(font, menu.hasConductivity() ? "DESCOBERTA" : "DESCONHECIDA",
+                    121, 83, menu.hasConductivity() ? GREEN : MUTED, false);
+            g.text(font, "Novas propriedades: proxima fase", 18, 112, MUTED, false);
         } else {
-            g.text(font, "ANALISE DE COBRE", 102, 49, CYAN, false);
-            g.text(font, menu.hasConductivity() ? "CONDUTIVIDADE: DESCOBERTA" :
-                    "CONDUTIVIDADE: DESCONHECIDA", 102, 65,
-                    menu.hasConductivity() ? GREEN : MUTED, false);
-            g.text(font, menu.hasConductivity() ? "Saida: 2 fios de cobre" :
-                    "Saida: dados de pesquisa", 102, 102, MUTED, false);
-            g.text(font, menu.getProgress() + " / " + menu.getMaxProgress(),
-                    102, 117, MUTED, false);
+            g.text(font, "ERA I  /  FUNDAMENTOS", 18, 56, CYAN, false);
+            g.text(font, "AMOSTRA", 15, 63, MUTED, false);
+            g.text(font, "SONDA", 15, 98, MUTED, false);
+            g.text(font, "SAIDA", 61, 78, MUTED, false);
+            g.text(font, "?", 258, 61, MUTED, false);
+            g.text(font, "?", 258, 112, MUTED, false);
+            g.text(font, menu.hasConductivity() ? "CONCLUIDA" : "A DESCOBRIR",
+                    113, 103, menu.hasConductivity() ? GREEN : MUTED, false);
+            g.text(font, "Pesquisa inicial: Condutividade", 18, 130, MUTED, false);
         }
+        g.text(font, "INVENTARIO", 18, 151, CYAN, false);
+        g.text(font, "Pesquisa: " + menu.getProgress() + "/" + menu.getMaxProgress(),
+                18, 235, MUTED, false);
+        g.text(font, "Q-01", 274, 237, MUTED, false);
     }
 }
