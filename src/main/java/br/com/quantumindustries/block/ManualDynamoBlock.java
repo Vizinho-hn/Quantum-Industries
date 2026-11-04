@@ -39,7 +39,7 @@ public final class ManualDynamoBlock extends Block {
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer operator)) {
             return InteractionResult.SUCCESS;
         }
-        if (!WorldResearchData.get(server).knows(player, 13)) {
+        if (!WorldResearchData.get(server).knows(player, "electromagnetic_induction")) {
             operator.sendOverlayMessage(Component.literal("Pré-requisito: Indução Eletromagnética."));
             return InteractionResult.SUCCESS;
         }

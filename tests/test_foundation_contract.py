@@ -24,7 +24,7 @@ class FoundationContractTest(unittest.TestCase):
 
     def test_world_save_codec_keeps_legacy_conductivity(self):
         source = read("src/main/java/br/com/quantumindustries/research/WorldResearchData.java")
-        self.assertIn('Codec.BOOL.fieldOf("conductivity")', source)
+        self.assertIn('Codec.BOOL.optionalFieldOf("conductivity", false)', source)
         self.assertIn('"research"', source)
         self.assertIn("getDataStorage().computeIfAbsent(TYPE)", source)
         self.assertIn("setDirty()", source)
@@ -54,9 +54,11 @@ class FoundationContractTest(unittest.TestCase):
 
     def test_recipe_requires_research_on_server(self):
         recipe = read("src/main/java/br/com/quantumindustries/recipe/CopperWireRecipe.java")
-        self.assertIn("instanceof ServerLevel", recipe)
-        self.assertIn("!research.knows(crafter, 0)", recipe)
-        self.assertIn("!research.knows(crafter, 1)", recipe)
+        self.assertIn('ResearchCraftingAccess.allows(level, "conductivity")', recipe)
+        self.assertIn('ResearchCraftingAccess.allows(level, "copper_wire")', recipe)
+        policy = read("src/main/java/br/com/quantumindustries/recipe/ResearchCraftingAccess.java")
+        self.assertIn("instanceof ServerLevel", policy)
+        self.assertIn("player != null && player.level() == level", policy)
         menu = read("src/main/java/br/com/quantumindustries/menu/ResearchTableMenu.java")
         self.assertIn("!stillValid(player)", menu)
         self.assertIn("WorldResearchData.get(serverLevel)", menu)
@@ -82,6 +84,3 @@ class FoundationContractTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
-

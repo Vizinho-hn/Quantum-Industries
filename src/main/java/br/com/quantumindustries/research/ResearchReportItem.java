@@ -19,7 +19,7 @@ public final class ResearchReportItem extends Item {
     public static ItemStack create(int research) {
         ItemStack stack = new ItemStack(ModItems.RESEARCH_DATA.get());
         CompoundTag tag = new CompoundTag();
-        tag.putInt("quantum_research", research);
+        tag.putString("quantum_research_id", ResearchCatalog.STUDIES.get(research).key());
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         stack.set(DataComponents.CUSTOM_NAME, Component.literal(
                 "Relatório: " + ResearchCatalog.STUDIES.get(research).name()));
@@ -30,10 +30,11 @@ public final class ResearchReportItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!(level instanceof ServerLevel server)) return InteractionResult.SUCCESS;
         ItemStack stack = player.getItemInHand(hand);
-        int id = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getIntOr("quantum_research", -1);
+        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        String id = tag.getString("quantum_research_id")
+                .orElseGet(() -> LegacyResearch.key(tag.getIntOr("quantum_research", -1)));
         WorldResearchData research = WorldResearchData.get(server);
-        if (!ResearchCatalog.valid(id)) return message(player, "Este relatório está em branco.");
+        if (ResearchCatalog.find(id) == null) return message(player, "Este relatório está em branco.");
         if (research.knows(player, id)) return message(player, "Você já conhece essa pesquisa.");
         if (!research.learn(player, id)) return message(player, "Faltam pesquisas prévias para ler este relatório.");
         stack.shrink(1);
@@ -47,4 +48,3 @@ public final class ResearchReportItem extends Item {
         return InteractionResult.SUCCESS;
     }
 }
-
