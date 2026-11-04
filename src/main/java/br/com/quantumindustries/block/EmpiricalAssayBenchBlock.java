@@ -20,10 +20,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class EmpiricalAssayBenchBlock extends Block {
+public class EmpiricalAssayBenchBlock extends net.minecraft.world.level.block.BaseEntityBlock {
     public EmpiricalAssayBenchBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.BED_PART, BedPart.FOOT));
+    }
+    @Override protected com.mojang.serialization.MapCodec<? extends net.minecraft.world.level.block.BaseEntityBlock> codec() { return simpleCodec(EmpiricalAssayBenchBlock::new); }
+    @Override public net.minecraft.world.level.block.RenderShape getRenderShape(BlockState state) { return net.minecraft.world.level.block.RenderShape.MODEL; }
+    @Override public net.minecraft.world.level.block.entity.BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(BlockStateProperties.BED_PART)==BedPart.FOOT
+            ? new br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity(pos,state) : null;
     }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.BED_PART);

@@ -753,55 +753,55 @@
         "up": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         },
         "north": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         },
         "south": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         },
         "down": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         },
         "west": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         },
         "east": {
           "texture": "#table",
           "uv": [
-            0,
-            4,
             2,
-            6
+            8,
+            4,
+            10
           ]
         }
       },
@@ -821,55 +821,55 @@
         "up": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         },
         "north": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         },
         "south": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         },
         "down": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         },
         "west": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         },
         "east": {
           "texture": "#table",
           "uv": [
-            0,
             4,
-            2,
-            6
+            8,
+            6,
+            10
           ]
         }
       },

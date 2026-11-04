@@ -1,28 +1,28 @@
 # Mesa de Pesquisa — Quantum Industries
 
-**Status:** conceito visual aprovado; implementação pendente.
+A Mesa de Pesquisa é o terminal de desenvolvimento de tecnologias. Está
+implementada e ocupa um bloco, com modelo 3D próprio. É um componente separado
+da [Bancada de Ensaio Empírico](../bancada-de-ensaio/README.md).
 
-A Mesa de Pesquisa é uma máquina de um único bloco Minecraft (1×1×1 de ocupação), com modelo 3D personalizado e detalhes salientes no topo.
+## Funcionamento atual
 
-## Direção visual aprovada
+A interface apresenta as pesquisas de condutividade e cabo de cobre. O servidor
+confere os recursos e pré-requisitos de cada jogador antes de registrar uma
+pesquisa. A receita de cabo de cobre respeita esses desbloqueios.
 
-- Base industrial em grafite / metal escuro, reforços nos cantos e madeira na bancada.
-- Iluminação azul-ciano e símbolo de átomo na superfície e na frente.
-- Livro aberto, pequeno monitor vertical e pilha de livros como geometria adicional.
-- Referência de ferramenta de modelagem: Blockbench (.bbmodel).
-- Textura de trabalho: PNG 128×128, a ajustar conforme o modelo.
+A mesa também guarda papel, tinta e livros para escrever relatórios científicos
+sobre pesquisas conhecidas. O conhecimento e as autorizações pertencem a cada
+jogador; compartilhar a mesa não compartilha automaticamente a progressão.
 
-## Arquivos previstos
+As novas observações dos dez materiais da bancada ainda não são pré-requisitos
+automáticos dessas pesquisas. Essa integração permanece em definição.
 
-- `assets/mesas-de-pesquisa/quantum_research_table.bbmodel` — fonte editável no Blockbench.
-- `assets/mesas-de-pesquisa/quantum_research_table_texture.png` — atlas do modelo.
-- `docs/design/mesa-de-pesquisa/README.md` — especificação do bloco.
+## Modelo e arquivos
 
-**Observação:** os arquivos binários de arte devem ser enviados sem alteração para os caminhos indicados. Este documento não significa que os arquivos já tenham sido incorporados ao jogo.
+- Fonte editável: [`design/quantum_research_table.bbmodel`](../../../design/quantum_research_table.bbmodel).
+- Modelo do jogo: [`research_table.json`](../../../src/main/resources/assets/quantumindustries/models/block/research_table.json).
+- Textura: [`research_table.png`](../../../src/main/resources/assets/quantumindustries/textures/block/research_table.png).
+- Interface: [`ResearchTableScreen.java`](../../../src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java).
 
-## Próximos passos
-
-1. Versionar modelo e textura originais.
-2. Abrir e validar a geometria e UVs no Blockbench.
-3. Exportar para o formato de renderização escolhido para o mod.
-4. Implementar o bloco, block entity e vínculo com a interface de pesquisa.
+O modelo combina base industrial, madeira, detalhes em azul-ciano, símbolo de
+átomo, livros e monitor. A galeria da bancada está em seu [guia próprio](../bancada-de-ensaio/README.md#galeria).

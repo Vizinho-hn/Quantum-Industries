@@ -23,6 +23,9 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.COPPER_WIRE.get());
                     output.accept(ModItems.TEST_PROBES.get());
                     output.accept(ModItems.RESEARCH_DATA.get());
+                    output.accept(ModItems.MAGNIFYING_GLASS.get());
+                    output.accept(net.minecraft.world.item.Items.FLINT_AND_STEEL);
+                    output.accept(ModItems.BRASS_WEIGHTS.get());
                 })
                 .build());
     }

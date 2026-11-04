@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I",
+    "N"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "N": "minecraft:iron_nugget"
+  },
+  "result": {
+    "count": 1,
+    "id": "quantumindustries:brass_weights"
+  }
+}

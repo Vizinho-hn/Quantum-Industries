@@ -1,24 +1,21 @@
-# Interface da Mesa de Pesquisa
+# Interfaces de investigação
 
-**Status:** implementada como interface de bancada no menu da Mesa de Pesquisa.
+A **Bancada de Ensaio Empírico** possui uma interface própria de 350 × 236 pixels,
+com madeira, instrumentos mecânicos, bordas de latão e caderno de papel. Os três
+painéis centrais selecionam prensa mecânica, aquecimento e ensaio galvânico.
 
-## Layout
+A coluna esquerda contém a entrada da amostra e os slots de lupa, isqueiro
+e pesos de ferro. Uma indicação identificada representa a amostra reservada no perfil,
+sem permitir retirar uma segunda unidade. O inventário ocupa a faixa inferior.
+O botão de ensaio e a barra de progresso refletem o estado validado pelo servidor.
 
-- Cabeçalho Quantum Industries com o nome da bancada.
-- Coluna esquerda com entradas para amostra e sonda e o slot de saída.
-- Monitor central com rede cristalina CFC animada e traço de osciloscópio.
-- Painel direito com resistividade, condutividade, estado e progresso da análise.
-- Inventário do jogador em uma faixa inferior.
+O caderno à direita permite escolher entre dez materiais. Exibe somente as
+observações descobertas, o progresso do material (0/3) e o total do catálogo
+(0/30). As observações completas podem ser consultadas nas dicas da interface.
 
-A interface é desenhada proceduralmente em código, com paleta escura industrial,
-bordas pixeladas e acentos em ciano e cobre. A textura de fundo não é necessária
-para renderizar o menu.
+As regras, os resultados e a persistência estão descritos em
+[Bancada de ensaio](../bancada-de-ensaio/README.md).
 
-## Estados
-
-- **Em espera:** aguardando amostra e sonda compatíveis.
-- **Ativa:** monitor e progresso indicam a análise em andamento.
-- **Concluída:** os dados de pesquisa aparecem no slot de saída.
-
-Os valores de resistividade e condutividade exibidos atualmente representam a
-amostra de cobre suportada pela bancada.
+A **Mesa de Pesquisa** e seus desbloqueios tecnológicos permanecem um sistema
+separado. As antigas descrições de rede cristalina, sonda, valores quantitativos
+e saída de dados não descrevem o funcionamento atual da bancada de ensaio.

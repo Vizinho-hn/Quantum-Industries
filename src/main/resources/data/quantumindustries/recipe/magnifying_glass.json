@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "S",
+    "N"
+  ],
+  "key": {
+    "G": "minecraft:glass_pane",
+    "S": "minecraft:stick",
+    "N": "minecraft:iron_nugget"
+  },
+  "result": {
+    "count": 1,
+    "id": "quantumindustries:magnifying_glass"
+  }
+}
