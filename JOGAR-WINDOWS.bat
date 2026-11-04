@@ -17,9 +17,9 @@ if errorlevel 1 (
   exit /b 1
 )
 for /f "delims=" %%B in ('git branch --show-current') do set "CURRENT_BRANCH=%%B"
-if /I not "%CURRENT_BRANCH%"=="feature/v0.1.1-conductivity-research" (
+if /I not "%CURRENT_BRANCH%"=="main" if /I not "%CURRENT_BRANCH%"=="feature/v0.1.1-conductivity-research" (
   echo ERRO: branch atual: %CURRENT_BRANCH%
-  echo Execute: git switch feature/v0.1.1-conductivity-research
+  echo Execute: git switch main
   pause
   exit /b 1
 )
