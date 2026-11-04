@@ -26,12 +26,12 @@ import net.neoforged.neoforge.network.IContainerFactory;
  * directly from the player's own inventory, validated on the server.
  */
 public final class ResearchTableMenu extends AbstractContainerMenu implements IContainerFactory<ResearchTableMenu> {
-    public static final int RESEARCH_CONDUCTIVITY = 0;
-    public static final int RESEARCH_COPPER_WIRE = 1;
 
-    public static final int REPORT_DEPOSIT = 32;
-    public static final int REPORT_WITHDRAW = 35;
-    public static final int REPORT_WRITE = 40;
+
+
+    public static final int REPORT_DEPOSIT = ResearchCatalog.STUDIES.size();
+    public static final int REPORT_WITHDRAW = REPORT_DEPOSIT + 3;
+    public static final int REPORT_WRITE = REPORT_WITHDRAW + 3;
     private static final Item[] SUPPLIES = {Items.BLACK_DYE, Items.FEATHER, Items.PAPER};
 
     public static final int DATA_SIZE = 3 + 2 * ResearchCatalog.STUDIES.size();
@@ -60,7 +60,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
                 var study = ResearchCatalog.STUDIES.get(id);
                 for (int i = 0; i < study.costs().size(); i++) {
                     var cost = study.costs().get(i);
-                    boolean empirical = id == 3 && cost.item() == Items.COPPER_INGOT
+                    boolean empirical = study.key().equals("material_malleability") && cost.item() == Items.COPPER_INGOT
                             && hasCopperObservation(inventory.player);
                     if (empirical || count(inventory, cost.item()) >= cost.amount()) mask |= 1 << i;
                 }
@@ -90,8 +90,6 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return createMenu(id, inventory, extraData);
     }
 
-    public boolean hasConductivity() { return complete(0); }
-    public boolean hasCopperWire() { return complete(1); }
     public boolean complete(int id) { return data.get(3 + id * 2) == 2; }
     public boolean isRevealed(int id) { return data.get(3 + id * 2) != 0; }
     public boolean hasCost(int id, int cost) { return (data.get(4 + id * 2) & (1 << cost)) != 0; }
@@ -112,7 +110,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         if (!research.prerequisites(player, id) || research.knows(player, id)) return false;
         var study = ResearchCatalog.STUDIES.get(id);
         // An existing empirical copper observation can substitute for the deformation sample.
-        boolean empirical = id == 3 && hasCopperObservation(player);
+        boolean empirical = study.key().equals("material_malleability") && hasCopperObservation(player);
         Cost[] costs = study.costs().stream()
                 .filter(cost -> !empirical || cost.item() != Items.COPPER_INGOT)
                 .map(cost -> new Cost(cost.item(), cost.amount())).toArray(Cost[]::new);
@@ -153,8 +151,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         }
         for (int i = 0; i < SUPPLIES.length; i++) supplies.removeItem(i, 1);
         ItemStack report = br.com.quantumindustries.research.ResearchReportItem.create(id);
-        player.getInventory().add(report);
-        if (!report.isEmpty()) player.drop(report, false);
+        player.getInventory().placeItemBackInInventory(report);
         broadcastChanges();
         return true;
     }

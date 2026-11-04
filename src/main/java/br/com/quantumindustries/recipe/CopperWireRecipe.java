@@ -1,9 +1,6 @@
 package br.com.quantumindustries.recipe;
 
 import br.com.quantumindustries.ModItems;
-import br.com.quantumindustries.research.WorldResearchData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -21,22 +18,7 @@ import net.minecraft.world.level.Level;
 public final class CopperWireRecipe extends CustomRecipe {
     public static final CopperWireRecipe INSTANCE = new CopperWireRecipe();
 
-    private static final ThreadLocal<Player> CRAFTER = new ThreadLocal<>();
-
     private CopperWireRecipe() {}
-
-    static Player crafter() { return CRAFTER.get(); }
-
-    public static void withCrafter(Player player, Runnable action) {
-        Player previous = CRAFTER.get();
-        CRAFTER.set(player);
-        try {
-            action.run();
-        } finally {
-            if (previous == null) CRAFTER.remove();
-            else CRAFTER.set(previous);
-        }
-    }
 
     static FoundationRecipe.Preview preview() {
         return new FoundationRecipe.Preview(result(), 3, java.util.List.of(
@@ -50,10 +32,8 @@ public final class CopperWireRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingInput input, Level level) {
-        if (!(level instanceof ServerLevel serverLevel)) return false;
-        WorldResearchData research = WorldResearchData.get(serverLevel);
-        Player crafter = CRAFTER.get();
-        if (crafter == null || !research.knows(crafter, 0) || !research.knows(crafter, 1)) return false;
+        if (!ResearchCraftingAccess.allows(level, "conductivity")
+                || !ResearchCraftingAccess.allows(level, "copper_wire")) return false;
         if (input.width() != 3 || input.ingredientCount() != 3) return false;
 
         for (int row = 0; row < input.height(); row++) {
@@ -79,4 +59,3 @@ public final class CopperWireRecipe extends CustomRecipe {
         return ModRecipes.COPPER_WIRE.get();
     }
 }
-

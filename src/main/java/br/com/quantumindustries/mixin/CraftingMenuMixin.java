@@ -1,6 +1,6 @@
 package br.com.quantumindustries.mixin;
 
-import br.com.quantumindustries.recipe.CopperWireRecipe;
+import br.com.quantumindustries.recipe.ResearchCraftingAccess;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +19,6 @@ abstract class CraftingMenuMixin {
     private static void quantumindustries$withResearchOwner(AbstractContainerMenu menu, ServerLevel level,
             Player player, CraftingContainer grid, ResultContainer result, RecipeHolder<CraftingRecipe> hint,
             Operation<Void> original) {
-        CopperWireRecipe.withCrafter(player, () -> original.call(menu, level, player, grid, result, hint));
+        ResearchCraftingAccess.withCrafter(player, () -> original.call(menu, level, player, grid, result, hint));
     }
 }

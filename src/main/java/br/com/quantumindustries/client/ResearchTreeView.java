@@ -120,9 +120,9 @@ final class ResearchTreeView {
                 }
             }
             for (Node node : nodes) {
-                for (int dependency : ResearchCatalog.STUDIES.get(node.id).prerequisites()) {
+                for (String dependency : ResearchCatalog.STUDIES.get(node.id).prerequisites()) {
                     for (Node source : nodes) {
-                        if (source.id == dependency) edge(theme, g, source, node, states[source.id] == State.DONE);
+                        if (ResearchCatalog.STUDIES.get(source.id).key().equals(dependency)) edge(theme, g, source, node, states[source.id] == State.DONE);
                     }
                 }
             }

@@ -53,14 +53,14 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private State state(int id) {
-        if (!menu.isRevealed(id)) return id == 1 ? State.HIDDEN : State.BLOCKED;
+        if (!menu.isRevealed(id)) return ResearchCatalog.STUDIES.get(id).key().equals("copper_wire") ? State.HIDDEN : State.BLOCKED;
         if (complete(id)) return State.DONE;
         for (boolean ready : requirements(id)) if (!ready) return State.WAITING;
         return State.READY;
     }
 
     private ItemStack icon(int id) {
-        return new ItemStack(id == 1 ? ModItems.COPPER_WIRE.get() : ResearchCatalog.STUDIES.get(id).icon());
+        return new ItemStack(ResearchCatalog.STUDIES.get(id).key().equals("copper_wire") ? ModItems.COPPER_WIRE.get() : ResearchCatalog.STUDIES.get(id).icon());
     }
 
     private void pagination(GuiGraphicsExtractor g) {
@@ -130,7 +130,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         if (!dependencies.isEmpty()) {
             text(g, "Pré-requisitos:", 163, 294, MUTED);
             for (int i = 0; i < dependencies.size(); i++) {
-                int id = dependencies.get(i);
+                int id = ResearchCatalog.indexOf(dependencies.get(i));
                 clipped(g, (complete(id) ? "+ " : "- ") + ENTRIES[id].name(),
                         247 + (i % 2) * 149, 294 + i / 2 * 11, 144, complete(id) ? GREEN : GOLD);
             }
@@ -216,7 +216,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 text(g, ERAS[i], 0, 0, MUTED);
                 g.pose().popMatrix();
             }
-            if (i > 1 || i == 1 && !complete(12)) theme.lock(g, x + 59, 106);
+            if (i > 1 || i == 1 && !complete(ResearchCatalog.indexOf("manual_dynamo_design"))) theme.lock(g, x + 59, 106);
         }
     }
 
@@ -285,7 +285,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private void recipeGuide(GuiGraphicsExtractor g) {
         int id = selected / 2 == page ? selected : page * 2;
         if (!complete(id)) return;
-        if (id == 5) {
+        if (ResearchCatalog.STUDIES.get(id).key().equals("metal_sheets")) {
             text(g, "Martelo na mão principal e lingote de ferro ou cobre na outra.", 165, 250, TEXT);
             text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
             return;
@@ -322,7 +322,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private void knowledgeBase(GuiGraphicsExtractor g) {
         int y = 100;
         for (var branch : ResearchCatalog.ERA_ONE_BRANCHES) {
-            if (!branch.studies().stream().allMatch(this::complete)) continue;
+            if (!branch.studies().stream().allMatch(key -> complete(ResearchCatalog.indexOf(key)))) continue;
             theme.frame(g, 155, y, 401, 63, LINE, PANEL, DARK);
             text(g, branch.title(), 166, y + 8, GREEN);
             knowledgeParagraph(g, branch.knowledge(), y + 21);
@@ -372,7 +372,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.frame(g, 9, 332, 558, 55, LINE, PANEL, DARK);
         g.fakeItem(icon, 19, 348);
         clipped(g, ENTRIES[selected].name(), 43, 345, 108, TEXT);
-        text(g, selected == 13 ? "Era II / Automação" : "Era I / Fundamentos", 43, 360, MUTED);
+        text(g, ResearchCatalog.STUDIES.get(selected).era() == 2 ? "Era II / Automação" : "Era I / Fundamentos", 43, 360, MUTED);
         theme.fill(g,156, 340, 157, 380, LINE);
         theme.fill(g,316, 340, 317, 380, LINE);
         text(g, "REQUISITOS", 165, 340, MUTED);
@@ -439,7 +439,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                         int start = 153 + index * 81;
                         if (x < start || x >= start + 79) continue;
                         int next = index + 1;
-                        if (next == 1 || next == 2 && complete(12)) {
+                        if (next == 1 || next == 2 && complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
                             era = next;
                             tree.setEra(era);
                             for (int study = 0; study < ENTRIES.length; study++) {

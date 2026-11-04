@@ -1,6 +1,7 @@
 package br.com.quantumindustries.block;
 
 import br.com.quantumindustries.ModItems;
+import br.com.quantumindustries.material.FormingMaterials;
 import br.com.quantumindustries.research.WorldResearchData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -12,7 +13,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -39,24 +39,29 @@ public final class FormingBenchBlock extends Block {
             return InteractionResult.SUCCESS;
         }
         ItemStack metal = player.getOffhandItem();
-        int material = metal.is(Items.IRON_INGOT) ? 1 : metal.is(Items.COPPER_INGOT) ? 2 : 0;
-        if (material == 0 || !WorldResearchData.get(serverLevel).knows(player, 5)) {
-            server.sendOverlayMessage(Component.literal(material == 0 ? "Segure ferro ou cobre na mão secundária."
+        var material = FormingMaterials.find(metal);
+        if (material == null || !WorldResearchData.get(serverLevel).knows(player, "metal_sheets")) {
+            server.sendOverlayMessage(Component.literal(material == null ? "Segure ferro ou cobre na mão secundária."
                     : "Pesquise Chapas Metálicas antes de martelar."));
             return InteractionResult.SUCCESS;
         }
         if (player.getCooldowns().isOnCooldown(hammer)) return InteractionResult.SUCCESS;
         player.getCooldowns().addCooldown(hammer, 8);
         CompoundTag work = hammer.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        int strikes = work.getIntOr("forming_metal", 0) == material
+        String priorMaterial = work.getString("forming_metal_id").orElseGet(() -> switch (work.getIntOr("forming_metal", 0)) {
+            case 1 -> "iron";
+            case 2 -> "copper";
+            default -> "";
+        });
+        int strikes = material.key().equals(priorMaterial)
                 ? Math.max(0, Math.min(2, work.getIntOr("forming_strikes", 0))) + 1 : 1;
-        work.putInt("forming_metal", material);
+        work.putString("forming_metal_id", material.key());
         work.putInt("forming_strikes", strikes == 3 ? 0 : strikes);
         hammer.set(DataComponents.CUSTOM_DATA, CustomData.of(work));
         if (strikes == 3) {
             metal.shrink(1);
-            ItemStack sheet = new ItemStack(material == 1 ? ModItems.IRON_SHEET.get() : ModItems.COPPER_SHEET.get());
-            if (!player.addItem(sheet) && !sheet.isEmpty()) player.drop(sheet, false);
+            ItemStack sheet = new ItemStack(material.sheet().get());
+            player.getInventory().placeItemBackInInventory(sheet);
         }
         hammer.hurtAndBreak(1, player, hand);
         server.sendOverlayMessage(Component.literal(strikes == 3 ? "Chapa pronta."
