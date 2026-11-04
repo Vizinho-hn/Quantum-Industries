@@ -1,4 +1,6 @@
 {
   "item.quantumindustries.scientific_analyzer": "Analisador Científico",
-  "block.quantumindustries.scientific_analyzer": "Analisador Científico"
+  "block.quantumindustries.scientific_analyzer": "Analisador Científico",
+  "item.quantumindustries.copper_cable": "Cabo de cobre",
+  "item.quantumindustries.copper_analysis_report": "Relatório: condutividade do cobre"
 }
