@@ -6,15 +6,11 @@
     " S "
   ],
   "key": {
-    "I": {
-      "item": "minecraft:copper_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "I": "minecraft:copper_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "quantumindustries:test_probes",
+    "id": "quantumindustries:test_probes",
     "count": 1
   }
 }

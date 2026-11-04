@@ -1,16 +1,21 @@
 {
   "meta": {
-    "format_version": "4.10",
+    "format_version": "5.0",
     "model_format": "free",
     "box_uv": false
   },
-  "name": "Quantum Industries - Mesa de Pesquisa",
+  "name": "quantum_research_table_experimento",
   "model_identifier": "quantum_research_table",
   "visible_box": [
     2,
     2,
     2
   ],
+  "variable_placeholders": "",
+  "multi_file_ruleset": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
   "resolution": {
     "width": 128,
     "height": 128
@@ -18,8 +23,12 @@
   "elements": [
     {
       "name": "Carcaça industrial",
-      "type": "cube",
-      "uuid": "cda2e112-d796-4a36-b8e2-d1cda872ad9f",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         0,
         0,
@@ -30,10 +39,12 @@
         13,
         16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.0,
+        8,
         6.5,
-        8.0
+        8
       ],
       "faces": {
         "north": {
@@ -91,12 +102,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "cda2e112-d796-4a36-b8e2-d1cda872ad9f"
     },
     {
       "name": "Bancada de madeira",
-      "type": "cube",
-      "uuid": "9fbcc8a2-994f-4fcc-9d80-676f867cc3de",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         0,
         13,
@@ -107,10 +123,12 @@
         14,
         16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.0,
+        8,
         13.5,
-        8.0
+        8
       ],
       "faces": {
         "north": {
@@ -168,12 +186,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "9fbcc8a2-994f-4fcc-9d80-676f867cc3de"
     },
     {
       "name": "Reforço de aço",
-      "type": "cube",
-      "uuid": "b391fb95-d66f-4244-b700-b35311b3199a",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         0,
         0,
@@ -184,6 +207,8 @@
         14.5,
         1.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         0.75,
         7.25,
@@ -245,12 +270,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "b391fb95-d66f-4244-b700-b35311b3199a"
     },
     {
       "name": "Reforço de aço",
-      "type": "cube",
-      "uuid": "7f7062c2-438f-4e76-9a5d-ba5083cfcd11",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         0,
         0,
@@ -259,8 +289,10 @@
       "to": [
         1.5,
         14.5,
-        16.0
+        16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         0.75,
         7.25,
@@ -322,22 +354,29 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "7f7062c2-438f-4e76-9a5d-ba5083cfcd11"
     },
     {
       "name": "Reforço de aço",
-      "type": "cube",
-      "uuid": "e601e317-0cb3-46f1-888a-ad6c1ebe5bcf",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         14.5,
         0,
         0
       ],
       "to": [
-        16.0,
+        16,
         14.5,
         1.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         15.25,
         7.25,
@@ -399,22 +438,29 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "e601e317-0cb3-46f1-888a-ad6c1ebe5bcf"
     },
     {
       "name": "Reforço de aço",
-      "type": "cube",
-      "uuid": "b5e04aca-745f-4fb8-b872-71a8e42b6bdc",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         14.5,
         0,
         14.5
       ],
       "to": [
-        16.0,
+        16,
         14.5,
-        16.0
+        16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         15.25,
         7.25,
@@ -476,12 +522,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "b5e04aca-745f-4fb8-b872-71a8e42b6bdc"
     },
     {
       "name": "LED frontal",
-      "type": "cube",
-      "uuid": "e68ff3ca-d384-441c-8842-abec7e68cb62",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         1.5,
         5,
@@ -492,9 +543,11 @@
         11,
         0.22
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         1.9,
-        8.0,
+        8,
         0.11
       ],
       "faces": {
@@ -553,12 +606,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "e68ff3ca-d384-441c-8842-abec7e68cb62"
     },
     {
       "name": "LED lateral",
-      "type": "cube",
-      "uuid": "e99a03ea-493d-49ea-8158-9b8451676c3b",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         1.5,
         5,
@@ -569,9 +627,11 @@
         11,
         16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         1.9,
-        8.0,
+        8,
         15.9
       ],
       "faces": {
@@ -630,12 +690,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "e99a03ea-493d-49ea-8158-9b8451676c3b"
     },
     {
       "name": "LED frontal",
-      "type": "cube",
-      "uuid": "a1f730f4-ac05-468d-87f6-5fc63e87c13f",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         13.7,
         5,
@@ -646,9 +711,11 @@
         11,
         0.22
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         14.1,
-        8.0,
+        8,
         0.11
       ],
       "faces": {
@@ -707,12 +774,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "a1f730f4-ac05-468d-87f6-5fc63e87c13f"
     },
     {
       "name": "LED lateral",
-      "type": "cube",
-      "uuid": "7388f009-a051-40b4-a2d6-3a888226d6f7",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         13.7,
         5,
@@ -723,9 +795,11 @@
         11,
         16
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         14.1,
-        8.0,
+        8,
         15.9
       ],
       "faces": {
@@ -784,12 +858,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "7388f009-a051-40b4-a2d6-3a888226d6f7"
     },
     {
       "name": "Faixa LED frontal",
-      "type": "cube",
-      "uuid": "505f0b6b-7a02-474c-aa37-e3c2468bac1f",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         5,
         12.2,
@@ -800,10 +879,12 @@
         13.1,
         0.1
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.0,
-        12.649999999999999,
-        -0.009999999999999995
+        8,
+        12.65,
+        -0.01
       ],
       "faces": {
         "north": {
@@ -861,12 +942,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "505f0b6b-7a02-474c-aa37-e3c2468bac1f"
     },
     {
       "name": "Emblema atômico",
-      "type": "cube",
-      "uuid": "2681c54e-b620-4929-ac50-21a3a4725079",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         5.2,
         5,
@@ -877,150 +963,164 @@
         10.8,
         0
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.0,
+        8,
         7.9,
         -0.1
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
-            32,
             16,
-            48
+            64,
+            32,
+            80
           ],
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "2681c54e-b620-4929-ac50-21a3a4725079"
     },
     {
       "name": "Painel superior com átomo",
-      "type": "cube",
-      "uuid": "dbf3e8e3-73bc-4a96-813e-7e2060790b56",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         4.2,
         14,
-        5.0
+        5
       ],
       "to": [
         11.8,
         14.12,
         12.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.0,
-        14.059999999999999,
+        8,
+        14.06,
         8.75
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
             32,
-            16,
-            48
+            64,
+            48,
+            80
           ],
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "dbf3e8e3-73bc-4a96-813e-7e2060790b56"
     },
     {
       "name": "Base do monitor",
-      "type": "cube",
-      "uuid": "6d9d5463-1d68-4758-9bf9-56d8df48dd51",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         1.4,
         14,
@@ -1031,6 +1131,8 @@
         14.6,
         5.3
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         2.95,
         14.3,
@@ -1092,12 +1194,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "6d9d5463-1d68-4758-9bf9-56d8df48dd51"
     },
     {
       "name": "Monitor vertical",
-      "type": "cube",
-      "uuid": "25da195c-32b0-4b75-96ae-8b72b96b553e",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         1.7,
         14.6,
@@ -1108,6 +1215,8 @@
         19.5,
         3.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         2.9,
         17.05,
@@ -1169,12 +1278,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "25da195c-32b0-4b75-96ae-8b72b96b553e"
     },
     {
       "name": "Borda do monitor",
-      "type": "cube",
-      "uuid": "8efb9eba-85f3-475b-806a-b1e963d10da6",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         1.4,
         14.5,
@@ -1185,8 +1299,10 @@
         19.8,
         3.85
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        2.9000000000000004,
+        2.9,
         17.15,
         3.675
       ],
@@ -1246,12 +1362,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "8efb9eba-85f3-475b-806a-b1e963d10da6"
     },
     {
       "name": "Suporte do livro",
-      "type": "cube",
-      "uuid": "3fb44c2e-a0e8-4242-a93a-ba81c1eeaf89",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         5,
         14,
@@ -1262,10 +1383,12 @@
         14.65,
         5.4
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         8.4,
         14.325,
-        3.5500000000000003
+        3.55
       ],
       "faces": {
         "north": {
@@ -1323,12 +1446,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "3fb44c2e-a0e8-4242-a93a-ba81c1eeaf89"
     },
     {
       "name": "Livro capa esquerda",
-      "type": "cube",
-      "uuid": "32444724-2c74-4ab9-aa66-38b024c1c654",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         4.9,
         14.65,
@@ -1337,11 +1465,13 @@
       "to": [
         8.4,
         15.05,
-        5.0
+        5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         6.65,
-        14.850000000000001,
+        14.85,
         3.1
       ],
       "faces": {
@@ -1400,12 +1530,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "32444724-2c74-4ab9-aa66-38b024c1c654"
     },
     {
       "name": "Livro capa direita",
-      "type": "cube",
-      "uuid": "5ab4f25f-9d87-4b56-ac9c-210312fc2a9c",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         8.4,
         14.65,
@@ -1414,11 +1549,13 @@
       "to": [
         11.9,
         15.05,
-        5.0
+        5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         10.15,
-        14.850000000000001,
+        14.85,
         3.1
       ],
       "faces": {
@@ -1477,12 +1614,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "5ab4f25f-9d87-4b56-ac9c-210312fc2a9c"
     },
     {
       "name": "Página esquerda",
-      "type": "cube",
-      "uuid": "aa34b017-8802-4557-86f3-0a3b24ff724d",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         5.2,
         15.05,
@@ -1493,6 +1635,8 @@
         15.18,
         4.75
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         6.75,
         15.115,
@@ -1554,12 +1698,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "aa34b017-8802-4557-86f3-0a3b24ff724d"
     },
     {
       "name": "Página direita",
-      "type": "cube",
-      "uuid": "9e0ac06c-c740-4451-8cbd-67fb66f2f9d3",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         8.5,
         15.05,
@@ -1570,6 +1719,8 @@
         15.18,
         4.75
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         10.05,
         15.115,
@@ -1631,12 +1782,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "9e0ac06c-c740-4451-8cbd-67fb66f2f9d3"
     },
     {
       "name": "Lombada central",
-      "type": "cube",
-      "uuid": "741ca54b-45a7-4b9e-baf6-919317cc0711",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         8.24,
         15.05,
@@ -1647,8 +1803,10 @@
         15.3,
         4.75
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        8.370000000000001,
+        8.37,
         15.175,
         3.125
       ],
@@ -1708,22 +1866,29 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "741ca54b-45a7-4b9e-baf6-919317cc0711"
     },
     {
       "name": "Livro empilhado 1",
-      "type": "cube",
-      "uuid": "d90fbe17-8571-49e6-b331-8eb3a69272b0",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12,
         14,
-        2.0
+        2
       ],
       "to": [
         15.5,
         14.5,
         5.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         14.25,
@@ -1785,12 +1950,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "d90fbe17-8571-49e6-b331-8eb3a69272b0"
     },
     {
       "name": "Páginas livro 1",
-      "type": "cube",
-      "uuid": "cf9403ef-d441-47c3-bafa-a289161291c6",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12.2,
         14.15,
@@ -1801,6 +1971,8 @@
         14.37,
         5.35
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         14.26,
@@ -1862,22 +2034,29 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "cf9403ef-d441-47c3-bafa-a289161291c6"
     },
     {
       "name": "Livro empilhado 2",
-      "type": "cube",
-      "uuid": "86033d7d-4cd1-4493-b6e3-a98ac83ea03a",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12,
         14.58,
-        2.0
+        2
       ],
       "to": [
         15.5,
         15.08,
         5.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         14.83,
@@ -1939,12 +2118,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "86033d7d-4cd1-4493-b6e3-a98ac83ea03a"
     },
     {
       "name": "Páginas livro 2",
-      "type": "cube",
-      "uuid": "4bdeb196-3df6-45ca-979f-3556d0e675fd",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12.2,
         14.73,
@@ -1955,6 +2139,8 @@
         14.95,
         5.35
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         14.84,
@@ -2016,22 +2202,29 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "4bdeb196-3df6-45ca-979f-3556d0e675fd"
     },
     {
       "name": "Livro empilhado 3",
-      "type": "cube",
-      "uuid": "502500b6-bb41-47ed-b991-473956fdfd0b",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12,
         15.16,
-        2.0
+        2
       ],
       "to": [
         15.5,
         15.66,
         5.5
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         15.41,
@@ -2093,12 +2286,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "502500b6-bb41-47ed-b991-473956fdfd0b"
     },
     {
       "name": "Páginas livro 3",
-      "type": "cube",
-      "uuid": "fe510e8f-7bca-4ec9-828e-ecb2c637b85a",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         12.2,
         15.31,
@@ -2109,6 +2307,8 @@
         15.53,
         5.35
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
         13.75,
         15.42,
@@ -2170,12 +2370,17 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "fe510e8f-7bca-4ec9-828e-ecb2c637b85a"
     },
     {
       "name": "Nota de pesquisa",
-      "type": "cube",
-      "uuid": "39df8350-1a46-413a-83a4-61771d38d948",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
       "from": [
         11.7,
         14,
@@ -2186,9 +2391,11 @@
         14.12,
         14.3
       ],
+      "autouv": 0,
+      "color": 0,
       "origin": [
-        12.899999999999999,
-        14.059999999999999,
+        12.9,
+        14.06,
         13.05
       ],
       "faces": {
@@ -2247,9 +2454,11 @@
           "texture": 0
         }
       },
-      "color": 0
+      "type": "cube",
+      "uuid": "39df8350-1a46-413a-83a4-61771d38d948"
     }
   ],
+  "groups": [],
   "outliner": [
     "cda2e112-d796-4a36-b8e2-d1cda872ad9f",
     "9fbcc8a2-994f-4fcc-9d80-676f867cc3de",
@@ -2283,18 +2492,37 @@
   ],
   "textures": [
     {
-      "path": "quantum_research_table_texture.png",
       "name": "quantum_research_table_texture.png",
+      "path": "",
       "folder": "",
       "namespace": "",
       "id": "0",
+      "group": "",
+      "scope": 0,
+      "width": 128,
+      "height": 128,
+      "uv_width": 128,
+      "uv_height": 128,
       "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
       "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "force_translucent": false,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
       "visible": true,
-      "mode": "bitmap",
-      "saved": true,
+      "internal": true,
+      "saved": false,
       "uuid": "3db4aadc-b3d7-4b31-bba9-b9eaba4c855a",
-      "source": "data:image/png;base64,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"
+      "source": "data:image/png;base64,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"
     }
   ]
 }

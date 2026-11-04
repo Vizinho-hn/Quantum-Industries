@@ -1,0 +1,10 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/runtime')
+        neoForge.runs.client {
+            gameDirectory = file('build/assay-preview')
+            systemProperty 'quantumindustries.previewAssay', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'AssayQA', '--width', '1100', '--height', '760'
+        }
+    }
+}

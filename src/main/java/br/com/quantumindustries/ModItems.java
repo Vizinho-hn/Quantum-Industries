@@ -20,6 +20,11 @@ public class ModItems {
     // Ferramenta de teste (Sonda)
     public static final DeferredItem<Item> TEST_PROBES = ITEMS.registerItem("test_probes", Item::new, properties -> properties.durability(100));
 
+    // Itens de interface e assay
+    public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights", Item::new, properties -> properties.stacksTo(1));
+
     // Dados de pesquisa (output da bancada)
     public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerItem("research_data", br.com.quantumindustries.research.ResearchReportItem::new);
     public static final DeferredItem<Item> COPPER_WIRE = ITEMS.registerSimpleItem("copper_wire");
