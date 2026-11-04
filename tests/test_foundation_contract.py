@@ -28,6 +28,7 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn('"research"', source)
         self.assertIn("getDataStorage().computeIfAbsent(TYPE)", source)
         self.assertIn("setDirty()", source)
+        self.assertIn('Codec.BOOL.optionalFieldOf("copper_wire", false)', source)
 
     def test_registry_ids_stable(self):
         blocks = read("src/main/java/br/com/quantumindustries/core/ModBlocks.java")
@@ -44,18 +45,31 @@ class FoundationContractTest(unittest.TestCase):
     def test_menu_slots_and_save_keys_stable(self):
         menu = read("src/main/java/br/com/quantumindustries/menu/ResearchTableMenu.java")
         entity = read("src/main/java/br/com/quantumindustries/block/entity/ResearchTableBlockEntity.java")
-        for needle in ("Slot(inventory, 0, 21, 72)", "Slot(inventory, 1, 21, 108)",
-                       "Slot(inventory, 2, 66, 90)", "new SimpleContainerData(4)"):
-            self.assertIn(needle, menu)
+        self.assertNotIn("addSlot(", menu)
+        self.assertIn("new SimpleContainerData(2)", menu)
+        self.assertIn("clickMenuButton", menu)
+        self.assertIn("spend(player.getInventory()", menu)
         self.assertIn('output.putInt("progress", progress)', entity)
         self.assertIn('output.store("slot_" + i, ItemStack.CODEC, stack)', entity)
+
+    def test_recipe_requires_research_on_server(self):
+        recipe = read("src/main/java/br/com/quantumindustries/recipe/CopperWireRecipe.java")
+        self.assertIn("instanceof ServerLevel", recipe)
+        self.assertIn("!research.hasConductivity()", recipe)
+        self.assertIn("!research.hasCopperWire()", recipe)
+        menu = read("src/main/java/br/com/quantumindustries/menu/ResearchTableMenu.java")
+        self.assertIn("!stillValid(player)", menu)
+        self.assertIn("WorldResearchData.get(serverLevel)", menu)
 
     def test_f0_screen_does_not_fake_unlocked_research(self):
         screen = read("src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java")
         self.assertIn("menu.hasConductivity()", screen)
         self.assertNotIn("unlockConductivity(", screen)
         self.assertNotIn("TITLES =", screen)
-        self.assertIn("DEEP", screen)
+        self.assertIn("DARK", screen)
+        self.assertNotIn("AMOSTRA", screen)
+        self.assertNotIn("SONDA", screen)
+        self.assertNotIn("SAIDA", screen)
 
 if __name__ == "__main__":
     unittest.main()
