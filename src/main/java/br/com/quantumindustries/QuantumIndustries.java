@@ -3,6 +3,7 @@ package br.com.quantumindustries;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.core.ModMenuTypes;
 import br.com.quantumindustries.ModItems;
+import br.com.quantumindustries.recipe.ModRecipes;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 import net.neoforged.api.distmarker.Dist;
@@ -22,6 +23,7 @@ public class QuantumIndustries {
         modEventBus.addListener(this::commonSetup);
         ModItems.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModRecipes.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 
