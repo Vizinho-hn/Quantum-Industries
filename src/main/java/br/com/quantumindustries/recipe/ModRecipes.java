@@ -22,6 +22,10 @@ public final class ModRecipes {
                     StreamCodec.unit(CopperWireRecipe.INSTANCE)
             ));
 
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FoundationRecipe>> FOUNDATIONS =
+            SERIALIZERS.register("foundations", () -> new RecipeSerializer<>(
+                    MapCodec.unit(FoundationRecipe.INSTANCE), StreamCodec.unit(FoundationRecipe.INSTANCE)));
+
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
     }

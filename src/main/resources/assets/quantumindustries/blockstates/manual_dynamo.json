@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "quantumindustries:block/manual_dynamo"
+      }
+    }
+  ]
+}

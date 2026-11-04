@@ -19,9 +19,18 @@ public class ModBlocks {
     public static final DeferredBlock<ResearchTableBlock> RESEARCH_TABLE = BLOCKS.registerBlock("scientific_analyzer",
             ResearchTableBlock::new, properties -> properties.strength(2.5F).requiresCorrectToolForDrops().noOcclusion());
 
+    public static final DeferredBlock<ResearchTableBlock> RESEARCH_TABLE_TIER_1 =
+            BLOCKS.registerBlock("scientific_analyzer_tier_1", ResearchTableBlock::new,
+                    properties -> properties.strength(2.0F).noOcclusion());
+
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<ResearchTableBlockEntity>> RESEARCH_TABLE_ENTITY =
             BLOCK_ENTITIES.register("research_table",
-                    () -> new BlockEntityType<>(ResearchTableBlockEntity::new, Set.of(RESEARCH_TABLE.get()), false));
+                    () -> new BlockEntityType<>(ResearchTableBlockEntity::new, Set.of(RESEARCH_TABLE.get(), RESEARCH_TABLE_TIER_1.get()), false));
+
+    public static final DeferredBlock<Block> FORMING_BENCH = BLOCKS.registerBlock("forming_bench",
+            br.com.quantumindustries.block.FormingBenchBlock::new, properties -> properties.strength(2.5F).noOcclusion());
+    public static final DeferredBlock<Block> MANUAL_DYNAMO = BLOCKS.registerBlock("manual_dynamo",
+            br.com.quantumindustries.block.ManualDynamoBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity>> EMPIRICAL_ASSAY_ENTITY =
             BLOCK_ENTITIES.register("empirical_assay_bench",

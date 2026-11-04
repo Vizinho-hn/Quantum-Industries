@@ -71,11 +71,16 @@ public final class WorldResearchData extends SavedData {
     }
 
     public boolean knows(Player player, int id) {
-        return id >= 0 && id < 2 && (progress(player) & (1 << id)) != 0;
+        return ResearchCatalog.valid(id) && (progress(player) & (1 << id)) != 0;
+    }
+
+    public boolean prerequisites(Player player, int id) {
+        return ResearchCatalog.valid(id)
+                && ResearchCatalog.STUDIES.get(id).prerequisites().stream().allMatch(required -> knows(player, required));
     }
 
     public boolean learn(Player player, int id) {
-        if (id < 0 || id > 1 || knows(player, id) || (id == 1 && !knows(player, 0))) return false;
+        if (!ResearchCatalog.valid(id) || knows(player, id) || !prerequisites(player, id)) return false;
         players.put(player.getUUID().toString(), progress(player) | (1 << id));
         setDirty();
         return true;

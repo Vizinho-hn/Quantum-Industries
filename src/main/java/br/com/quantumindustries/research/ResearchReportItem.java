@@ -22,7 +22,7 @@ public final class ResearchReportItem extends Item {
         tag.putInt("quantum_research", research);
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         stack.set(DataComponents.CUSTOM_NAME, Component.literal(
-                "Relatório: " + (research == 0 ? "Condutividade" : "Fio de Cobre")));
+                "Relatório: " + ResearchCatalog.STUDIES.get(research).name()));
         return stack;
     }
 
@@ -33,9 +33,9 @@ public final class ResearchReportItem extends Item {
         int id = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getIntOr("quantum_research", -1);
         WorldResearchData research = WorldResearchData.get(server);
-        if (id < 0 || id > 1) return message(player, "Este relatório está em branco.");
+        if (!ResearchCatalog.valid(id)) return message(player, "Este relatório está em branco.");
         if (research.knows(player, id)) return message(player, "Você já conhece essa pesquisa.");
-        if (!research.learn(player, id)) return message(player, "Pré-requisito: Condutividade.");
+        if (!research.learn(player, id)) return message(player, "Faltam pesquisas prévias para ler este relatório.");
         stack.shrink(1);
         return message(player, "Pesquisa aprendida.");
     }

@@ -1,0 +1,1 @@
+{"type":"minecraft:block","pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"quantumindustries:scientific_analyzer_tier_1"}],"conditions":[{"condition":"minecraft:survives_explosion"}]}]}

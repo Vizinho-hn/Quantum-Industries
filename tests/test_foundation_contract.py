@@ -46,7 +46,7 @@ class FoundationContractTest(unittest.TestCase):
         menu = read("src/main/java/br/com/quantumindustries/menu/ResearchTableMenu.java")
         entity = read("src/main/java/br/com/quantumindustries/block/entity/ResearchTableBlockEntity.java")
         self.assertNotIn("addSlot(", menu)
-        self.assertIn("new SimpleContainerData(8)", menu)
+        self.assertIn("new SimpleContainerData(DATA_SIZE)", menu)
         self.assertIn("clickMenuButton", menu)
         self.assertIn("spend(player.getInventory()", menu)
         self.assertIn('output.putInt("progress", legacyProgress)', entity)
@@ -63,7 +63,7 @@ class FoundationContractTest(unittest.TestCase):
 
     def test_f0_screen_does_not_fake_unlocked_research(self):
         screen = read("src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java")
-        self.assertIn("menu.hasConductivity()", screen)
+        self.assertIn("menu.complete(id)", screen)
         self.assertNotIn("unlockConductivity(", screen)
         self.assertNotIn("TITLES =", screen)
         self.assertIn("ResearchTheme", screen)

@@ -14,20 +14,33 @@ public class ModItems {
 
     public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
 
+    public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER_TIER_1 =
+            ITEMS.registerSimpleBlockItem(ModBlocks.RESEARCH_TABLE_TIER_1);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER = ITEMS.registerSimpleBlockItem(RESEARCH_TABLE);
     public static final DeferredItem<BlockItem> EMPIRICAL_ASSAY_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.EMPIRICAL_ASSAY_BENCH);
 
     // Ferramenta de teste (Sonda)
     public static final DeferredItem<Item> TEST_PROBES = ITEMS.registerItem("test_probes", Item::new, properties -> properties.durability(100));
 
-    // Itens de interface e assay
-    public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass", Item::new, properties -> properties.stacksTo(1));
-    public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));
-    public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights", Item::new, properties -> properties.stacksTo(1));
-
     // Dados de pesquisa (output da bancada)
     public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerItem("research_data", br.com.quantumindustries.research.ResearchReportItem::new);
     public static final DeferredItem<Item> COPPER_WIRE = ITEMS.registerSimpleItem("copper_wire");
+
+    public static final DeferredItem<Item> MANUAL_HAMMER = ITEMS.registerItem("manual_hammer", Item::new, properties -> properties.durability(96));
+    public static final DeferredItem<Item> IRON_SHEET = ITEMS.registerSimpleItem("iron_sheet");
+    public static final DeferredItem<Item> COPPER_SHEET = ITEMS.registerSimpleItem("copper_sheet");
+    public static final DeferredItem<Item> IRON_GEAR = ITEMS.registerSimpleItem("iron_gear");
+    public static final DeferredItem<Item> MECHANICAL_SHAFT = ITEMS.registerSimpleItem("mechanical_shaft");
+    public static final DeferredItem<Item> HAND_CRANK = ITEMS.registerSimpleItem("hand_crank");
+    public static final DeferredItem<Item> INSULATED_COPPER_WIRE = ITEMS.registerSimpleItem("insulated_copper_wire");
+    public static final DeferredItem<Item> COPPER_COIL = ITEMS.registerSimpleItem("copper_coil");
+    public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerSimpleItem("electromechanical_frame");
+    public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
+    public static final DeferredItem<BlockItem> MANUAL_DYNAMO = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_DYNAMO);
+
+    public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights", Item::new, properties -> properties.stacksTo(1));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

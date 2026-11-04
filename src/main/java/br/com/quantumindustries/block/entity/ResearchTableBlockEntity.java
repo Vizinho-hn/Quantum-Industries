@@ -53,7 +53,7 @@ public class ResearchTableBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new br.com.quantumindustries.menu.ResearchTableMenu(id, inventory, this, new net.minecraft.world.inventory.SimpleContainerData(8));
+        return new br.com.quantumindustries.menu.ResearchTableMenu(id, inventory, this, new net.minecraft.world.inventory.SimpleContainerData(br.com.quantumindustries.menu.ResearchTableMenu.DATA_SIZE));
     }
 
     @Override

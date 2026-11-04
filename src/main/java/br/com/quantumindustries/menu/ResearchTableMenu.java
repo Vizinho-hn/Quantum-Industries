@@ -4,6 +4,7 @@ import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.core.ModMenuTypes;
 import br.com.quantumindustries.research.WorldResearchData;
+import br.com.quantumindustries.research.ResearchCatalog;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,17 +29,18 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     public static final int RESEARCH_CONDUCTIVITY = 0;
     public static final int RESEARCH_COPPER_WIRE = 1;
 
-    public static final int REPORT_DEPOSIT = 10;
-    public static final int REPORT_WITHDRAW = 13;
-    public static final int REPORT_WRITE = 16;
+    public static final int REPORT_DEPOSIT = 32;
+    public static final int REPORT_WITHDRAW = 35;
+    public static final int REPORT_WRITE = 40;
     private static final Item[] SUPPLIES = {Items.BLACK_DYE, Items.FEATHER, Items.PAPER};
 
+    public static final int DATA_SIZE = 3 + 2 * ResearchCatalog.STUDIES.size();
     private final ResearchTableBlockEntity entity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
 
     public ResearchTableMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, resolveBlockEntity(inventory, extraData), new SimpleContainerData(8));
+        this(containerId, inventory, resolveBlockEntity(inventory, extraData), new SimpleContainerData(DATA_SIZE));
     }
 
     public ResearchTableMenu(int containerId, Inventory inventory, ResearchTableBlockEntity entity, ContainerData data) {
@@ -47,17 +49,25 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         this.data = new ContainerData() {
             @Override public int get(int index) {
                 if (!(inventory.player.level() instanceof ServerLevel server)) return data.get(index);
-                if (index < 2) return WorldResearchData.get(server).knows(inventory.player, index) ? 1 : 0;
-                if (index >= 5) return entity == null ? 0 : entity.reportSupplies().getItem(index - 5).getCount();
-                return switch (index) {
-                    case 2 -> count(inventory, Items.COPPER_INGOT);
-                    case 3 -> count(inventory, Items.REDSTONE);
-                    case 4 -> count(inventory, Items.PAPER);
-                    default -> 0;
-                };
+                if (index < 3) return entity == null ? 0 : entity.reportSupplies().getItem(index).getCount();
+                int id = (index - 3) / 2;
+                WorldResearchData research = WorldResearchData.get(server);
+                if (index % 2 == 1) {
+                    if (research.knows(inventory.player, id)) return 2;
+                    return research.prerequisites(inventory.player, id) ? 1 : 0;
+                }
+                int mask = 0;
+                var study = ResearchCatalog.STUDIES.get(id);
+                for (int i = 0; i < study.costs().size(); i++) {
+                    var cost = study.costs().get(i);
+                    boolean empirical = id == 3 && cost.item() == Items.COPPER_INGOT
+                            && hasCopperObservation(inventory.player);
+                    if (empirical || count(inventory, cost.item()) >= cost.amount()) mask |= 1 << i;
+                }
+                return mask;
             }
             @Override public void set(int index, int value) { data.set(index, value); }
-            @Override public int getCount() { return 8; }
+            @Override public int getCount() { return DATA_SIZE; }
         };
         this.levelAccess = entity == null ? ContainerLevelAccess.NULL
                 : ContainerLevelAccess.create(inventory.player.level(), entity.getBlockPos());
@@ -80,12 +90,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return createMenu(id, inventory, extraData);
     }
 
-    public boolean hasConductivity() { return data.get(0) != 0; }
-    public boolean hasCopperWire() { return data.get(1) != 0; }
-
-    public boolean isRevealed(int id) {
-        return id == RESEARCH_CONDUCTIVITY || id == RESEARCH_COPPER_WIRE && hasConductivity();
-    }
+    public boolean hasConductivity() { return complete(0); }
+    public boolean hasCopperWire() { return complete(1); }
+    public boolean complete(int id) { return data.get(3 + id * 2) == 2; }
+    public boolean isRevealed(int id) { return data.get(3 + id * 2) != 0; }
+    public boolean hasCost(int id, int cost) { return (data.get(4 + id * 2) & (1 << cost)) != 0; }
 
     @Override
     public boolean clickMenuButton(Player player, int id) {
@@ -97,24 +106,23 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         if (id >= REPORT_WITHDRAW && id < REPORT_WRITE) {
             return transferSupply(player, id - REPORT_WITHDRAW, false);
         }
-        if (id >= REPORT_WRITE && id < REPORT_WRITE + 2) {
+        if (id >= REPORT_WRITE && id < REPORT_WRITE + ResearchCatalog.STUDIES.size()) {
             return writeReport(player, research, id - REPORT_WRITE);
         }
-        if (id == RESEARCH_CONDUCTIVITY) {
-            if (research.knows(player, 0) || !spend(player.getInventory(), new Cost(Items.COPPER_INGOT, 3),
-                    new Cost(Items.REDSTONE, 1), new Cost(Items.PAPER, 1))) return false;
-            research.learn(player, 0);
-        } else if (id == RESEARCH_COPPER_WIRE) {
-            if (!research.knows(player, 0) || research.knows(player, 1) ||
-                    !spend(player.getInventory(), new Cost(Items.COPPER_INGOT, 2),
-                            new Cost(Items.PAPER, 1))) return false;
-            research.learn(player, 1);
-        } else return false;
+        if (!research.prerequisites(player, id) || research.knows(player, id)) return false;
+        var study = ResearchCatalog.STUDIES.get(id);
+        // An existing empirical copper observation can substitute for the deformation sample.
+        boolean empirical = id == 3 && hasCopperObservation(player);
+        Cost[] costs = study.costs().stream()
+                .filter(cost -> !empirical || cost.item() != Items.COPPER_INGOT)
+                .map(cost -> new Cost(cost.item(), cost.amount())).toArray(Cost[]::new);
+        if (!spend(player.getInventory(), costs)) return false;
+        research.learn(player, id);
         broadcastChanges();
         return true;
     }
 
-    public int supply(int index) { return data.get(index + 5); }
+    public int supply(int index) { return data.get(index); }
 
     private boolean transferSupply(Player player, int index, boolean deposit) {
         if (entity == null) return false;
@@ -151,9 +159,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return true;
     }
 
-    public int copper() { return data.get(2); }
-    public int redstone() { return data.get(3); }
-    public int paper() { return data.get(4); }
+    private static boolean hasCopperObservation(Player player) {
+        return br.com.quantumindustries.assay.AssayProfile.of(player).knows(
+                br.com.quantumindustries.assay.AssayCatalog.Material.COPPER,
+                br.com.quantumindustries.assay.AssayCatalog.Method.MECHANICAL);
+    }
 
     private static int count(Inventory inventory, Item item) {
         int total = 0;
@@ -197,10 +207,13 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return ItemStack.EMPTY;
     }
 
+    public boolean isTierOne() {
+        return entity != null && entity.getBlockState().is(ModBlocks.RESEARCH_TABLE_TIER_1.get());
+    }
+
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(levelAccess, player, ModBlocks.RESEARCH_TABLE.get());
+        return stillValid(levelAccess, player, isTierOne()
+                ? ModBlocks.RESEARCH_TABLE_TIER_1.get() : ModBlocks.RESEARCH_TABLE.get());
     }
 }
-
-

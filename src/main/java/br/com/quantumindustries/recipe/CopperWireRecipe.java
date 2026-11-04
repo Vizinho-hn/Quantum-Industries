@@ -25,6 +25,8 @@ public final class CopperWireRecipe extends CustomRecipe {
 
     private CopperWireRecipe() {}
 
+    static Player crafter() { return CRAFTER.get(); }
+
     public static void withCrafter(Player player, Runnable action) {
         Player previous = CRAFTER.get();
         CRAFTER.set(player);
@@ -34,6 +36,16 @@ public final class CopperWireRecipe extends CustomRecipe {
             if (previous == null) CRAFTER.remove();
             else CRAFTER.set(previous);
         }
+    }
+
+    static FoundationRecipe.Preview preview() {
+        return new FoundationRecipe.Preview(result(), 3, java.util.List.of(
+                new ItemStack(Items.COPPER_INGOT), new ItemStack(Items.COPPER_INGOT),
+                new ItemStack(Items.COPPER_INGOT)));
+    }
+
+    private static ItemStack result() {
+        return new ItemStack(ModItems.COPPER_WIRE.get(), 6);
     }
 
     @Override
@@ -59,7 +71,7 @@ public final class CopperWireRecipe extends CustomRecipe {
 
     @Override
     public ItemStack assemble(CraftingInput input) {
-        return new ItemStack(ModItems.COPPER_WIRE.get(), 6);
+        return result();
     }
 
     @Override

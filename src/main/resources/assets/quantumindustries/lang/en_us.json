@@ -1,6 +1,6 @@
 {
-  "item.quantumindustries.scientific_analyzer": "Scientific Analyzer",
-  "block.quantumindustries.scientific_analyzer": "Scientific Analyzer",
+  "item.quantumindustries.scientific_analyzer": "Scientific Analyzer — Tier 2",
+  "block.quantumindustries.scientific_analyzer": "Scientific Analyzer — Tier 2",
   "item.quantumindustries.test_probes": "Test Probes",
   "block.quantumindustries.test_probes": "Test Probes",
   "gui.quantumindustries.research_table.brand": "QUANTUM INDUSTRIES",
@@ -88,5 +88,18 @@
   "gui.quantumindustries.assay.observation.amethyst.galvanic": "No detectable response",
   "gui.quantumindustries.assay.method.mechanical": "Mechanical press",
   "gui.quantumindustries.assay.method.heating": "Heating",
-  "gui.quantumindustries.assay.method.galvanic": "Galvanic test"
+  "gui.quantumindustries.assay.method.galvanic": "Galvanic test",
+  "block.quantumindustries.scientific_analyzer_tier_1": "Scientific Analyzer — Tier 1",
+  "item.quantumindustries.scientific_analyzer_tier_1": "Scientific Analyzer — Tier 1",
+  "item.quantumindustries.manual_hammer": "Manual Hammer",
+  "item.quantumindustries.iron_sheet": "Iron Sheet",
+  "item.quantumindustries.copper_sheet": "Copper Sheet",
+  "item.quantumindustries.iron_gear": "Iron Gear",
+  "item.quantumindustries.mechanical_shaft": "Mechanical Shaft",
+  "item.quantumindustries.hand_crank": "Hand Crank",
+  "item.quantumindustries.insulated_copper_wire": "Insulated Copper Wire",
+  "item.quantumindustries.copper_coil": "Copper Coil",
+  "item.quantumindustries.electromechanical_frame": "Electromechanical Frame",
+  "block.quantumindustries.forming_bench": "Manual Forming Bench",
+  "block.quantumindustries.manual_dynamo": "Manual Dynamo"
 }

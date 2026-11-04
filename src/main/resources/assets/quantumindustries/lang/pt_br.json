@@ -1,6 +1,6 @@
 {
-  "item.quantumindustries.scientific_analyzer": "Analisador Científico",
-  "block.quantumindustries.scientific_analyzer": "Analisador Científico",
+  "item.quantumindustries.scientific_analyzer": "Analisador Científico — Tier 2",
+  "block.quantumindustries.scientific_analyzer": "Analisador Científico — Tier 2",
   "item.quantumindustries.test_probes": "Sondas de Teste",
   "block.quantumindustries.test_probes": "Sondas de Teste",
   "gui.quantumindustries.research_table.brand": "QUANTUM INDUSTRIES",
@@ -88,5 +88,18 @@
   "gui.quantumindustries.assay.observation.amethyst.galvanic": "Sem resposta detectável",
   "gui.quantumindustries.assay.method.mechanical": "Prensa mecânica",
   "gui.quantumindustries.assay.method.heating": "Aquecimento",
-  "gui.quantumindustries.assay.method.galvanic": "Ensaio galvânico"
+  "gui.quantumindustries.assay.method.galvanic": "Ensaio galvânico",
+  "block.quantumindustries.scientific_analyzer_tier_1": "Analisador Científico — Tier 1",
+  "item.quantumindustries.scientific_analyzer_tier_1": "Analisador Científico — Tier 1",
+  "item.quantumindustries.manual_hammer": "Martelo Manual",
+  "item.quantumindustries.iron_sheet": "Chapa de Ferro",
+  "item.quantumindustries.copper_sheet": "Chapa de Cobre",
+  "item.quantumindustries.iron_gear": "Engrenagem de Ferro",
+  "item.quantumindustries.mechanical_shaft": "Eixo Mecânico",
+  "item.quantumindustries.hand_crank": "Manivela Manual",
+  "item.quantumindustries.insulated_copper_wire": "Fio de Cobre Isolado",
+  "item.quantumindustries.copper_coil": "Bobina de Cobre",
+  "item.quantumindustries.electromechanical_frame": "Estrutura Eletromecânica",
+  "block.quantumindustries.forming_bench": "Bancada de Conformação Manual",
+  "block.quantumindustries.manual_dynamo": "Dínamo Manual"
 }
