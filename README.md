@@ -182,7 +182,7 @@ servidor de teste do dínamo, consulte [Dínamo Manual V1](docs/MANUAL_DYNAMO.md
 
 ## Licença
 
-A licença ainda não foi definida. Até que os autores decidam, não presuma que o código ou os assets estejam liberados para redistribuição.
+**Todos os direitos reservados (© 2026 Hian e Guilherme).** A concepção e a idealização do Quantum Industries são atribuídas a Hian e Guilherme. O acesso público ao repositório não concede licença para copiar, modificar, redistribuir ou explorar os conteúdos originais do projeto. Consulte o arquivo [LICENSE](LICENSE) para os termos completos, respeitados os direitos e licenças de terceiros.
 
 ## Abrir o jogo pelo atalho
 
