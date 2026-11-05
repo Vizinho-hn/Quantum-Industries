@@ -11,6 +11,7 @@ public final class AssayEvents {
     private AssayEvents(){}
     @SubscribeEvent public static void tick(PlayerTickEvent.Post event){
         var player=event.getEntity();
+        if(player.level() instanceof net.minecraft.server.level.ServerLevel level)AssayDelivery.of(level).deliver(player);
         if(!player.level().isClientSide()&&player.containerMenu instanceof EmpiricalAssayBenchMenu menu)menu.serverTick(player);
     }
     @SubscribeEvent public static void clone(PlayerEvent.Clone event){

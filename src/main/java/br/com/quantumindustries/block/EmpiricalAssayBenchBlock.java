@@ -31,6 +31,9 @@ public class EmpiricalAssayBenchBlock extends net.minecraft.world.level.block.Ba
         return state.getValue(BlockStateProperties.BED_PART)==BedPart.FOOT
             ? new br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity(pos,state) : null;
     }
+    @Override public <T extends net.minecraft.world.level.block.entity.BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(Level level, BlockState state, net.minecraft.world.level.block.entity.BlockEntityType<T> type) {
+        return level.isClientSide()?null:createTickerHelper(type,br.com.quantumindustries.core.ModBlocks.EMPIRICAL_ASSAY_ENTITY.get(),(l,p,s,b)->b.tick());
+    }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.BED_PART);
     }

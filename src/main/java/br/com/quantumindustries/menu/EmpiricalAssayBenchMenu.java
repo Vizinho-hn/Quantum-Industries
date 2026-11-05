@@ -23,8 +23,7 @@ public class EmpiricalAssayBenchMenu extends AbstractContainerMenu {
     private final Player owner;
     private final AssayProfile profile;
     private boolean closed;
-    private Material testingMaterial;
-    private Method testingMethod;
+    private final br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity bench;
 
     public EmpiricalAssayBenchMenu(int id, Inventory inv, BlockPos pos) {
         super(ModMenuTypes.EMPIRICAL_ASSAY_MENU.get(),id);
@@ -36,19 +35,21 @@ public class EmpiricalAssayBenchMenu extends AbstractContainerMenu {
             entity=new br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity(pos,owner.level().getBlockState(pos));
             owner.level().setBlockEntity(entity);
         }
+        bench=entity instanceof br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity b?b:null;
         inputs=entity instanceof br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity bench
             ? bench.inventory() : new SimpleContainer(4);
         profile=owner.level().isClientSide()?null:AssayProfile.of(owner);
-        int[][] coords={{28,54},{9,106},{30,106},{51,106}};
+        int[][] coords={{31,61},{10,113},{31,113},{52,113}};
         for(int i=0;i<4;i++) {
             final int index=i;
             addSlot(new Slot(inputs,i,coords[i][0],coords[i][1]) {
-                @Override public boolean mayPlace(ItemStack stack){return valid(index,stack);}
+                @Override public boolean mayPlace(ItemStack stack){return editable()&&valid(index,stack);}
+                @Override public boolean mayPickup(Player player){return editable();}
                 @Override public int getMaxStackSize(){return 1;}
             });
         }
-        for(int r=0;r<3;r++)for(int col=0;col<9;col++)addSlot(new Slot(inv,col+r*9+9,82+col*18,155+r*18));
-        for(int col=0;col<9;col++)addSlot(new Slot(inv,col,82+col*18,213));
+        for(int r=0;r<3;r++)for(int col=0;col<9;col++)addSlot(new Slot(inv,col+r*9+9,92+col*18,155+r*18));
+        for(int col=0;col<9;col++)addSlot(new Slot(inv,col,92+col*18,213));
         if(profile!=null){syncProfile();if(profile.reserved()!=null)data.set(VIEW,profile.reserved().ordinal());}
         addDataSlots(data);
     }
@@ -56,8 +57,8 @@ public class EmpiricalAssayBenchMenu extends AbstractContainerMenu {
         return switch(slot){
             case 0 -> AssayCatalog.material(s)!=null;
             case 1 -> s.is(ModItems.MAGNIFYING_GLASS.get());
-            case 2 -> (s.is(net.minecraft.world.item.Items.FLINT_AND_STEEL)||s.is(ModItems.FLAME_TEST_KIT.get()));
-            case 3 -> s.is(ModItems.BRASS_WEIGHTS.get());
+            case 2 -> s.is(ModItems.MANUAL_BELLOWS.get())||s.is(ModItems.FLAME_TEST_KIT.get())||s.is(net.minecraft.world.item.Items.FLINT_AND_STEEL);
+            case 3 -> s.is(ModItems.ASSAY_FLASK.get());
             default -> false;
         };
     }
@@ -66,65 +67,68 @@ public class EmpiricalAssayBenchMenu extends AbstractContainerMenu {
         for(var m:Material.values())data.set(MASKS+m.ordinal(),profile.mask(m));
     }
     public Material viewedMaterial(){return Material.values()[Math.clamp(data.get(VIEW),0,AssayCatalog.MATERIAL_COUNT-1)];}
-    public Material reservedMaterial(){int index=data.get(RESERVED)-1;return index>=0&&index<AssayCatalog.MATERIAL_COUNT?Material.values()[index]:null;}
-    public Method selectedMethod(){return Method.values()[Math.clamp(data.get(SELECTED),0,2)];}
+    public boolean editable(){return !running()&&(bench==null||bench.ownedBy(owner));}
+    public br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity bench(){return bench;}
+    public Material reservedMaterial(){if(bench!=null&&bench.researchMaterial()!=null)return bench.researchMaterial();int index=data.get(RESERVED)-1;return index>=0&&index<AssayCatalog.MATERIAL_COUNT?Material.values()[index]:null;}
+    public Method selectedMethod(){if(bench!=null&&bench.busy())return Method.values()[bench.activeTestStage];return Method.values()[Math.clamp(data.get(SELECTED),0,AssayCatalog.METHOD_COUNT-1)];}
     public boolean knows(Material material,Method method){return material!=null&&(data.get(MASKS+material.ordinal())&(1<<method.ordinal()))!=0;}
+    public Method candidateMethod(){return selectedMethod();}
+    public boolean canRun(Method method, Material material){
+        return method!=null&&material!=null&&!knows(material,method)&&missingTools(method)==0;
+    }
     public int discoveries(){return Integer.bitCount(data.get(MASKS+viewedMaterial().ordinal()));}
     public int totalDiscoveries(){int total=0;for(var m:Material.values())total+=Integer.bitCount(data.get(MASKS+m.ordinal()));return total;}
-    public int progressTicks(){return data.get(PROGRESS);}
-    public boolean running(){return data.get(RUNNING)!=0;}
+    public int burnTime(){return bench==null?0:bench.burnTime;}
+    public ItemStack experimentSample(){return bench==null?inputs.getItem(0):bench.sample();}
+    public int progressTicks(){return bench!=null?bench.progress:data.get(PROGRESS);}
+    public boolean running(){return bench!=null?bench.busy():data.get(RUNNING)!=0;}
     public int missingTools(){return missingTools(selectedMethod());}
-    private int missingTools(Method method){
-        int missing=valid(1,inputs.getItem(1))?0:1;
+    public int missingTools(Method method){
+        if(method==null)return 0;
+        int missing=0;
+        if(method==Method.INSPECTION&&!valid(1,inputs.getItem(1)))missing|=1;
         if(method==Method.HEATING&&!valid(2,inputs.getItem(2)))missing|=2;
-        if(method==Method.MECHANICAL&&!valid(3,inputs.getItem(3)))missing|=4;
+        if(method==Method.REACTION&&!valid(3,inputs.getItem(3)))missing|=4;
         return missing;
     }
     public boolean ready(){
         Material material=reservedMaterial();if(material==null)material=AssayCatalog.material(inputs.getItem(0));
-        return !closed&&!running()&&missingTools()==0&&material!=null&&!knows(material,selectedMethod());
+        Method method=candidateMethod();
+        return !closed&&editable()&&!running()&&material!=null&&method!=null&&canRun(method,material);
     }
     @Override public boolean clickMenuButton(Player player,int button){
         if(profile==null||closed||player!=owner||player.containerMenu!=this||!player.isAlive()||!stillValid(player))return false;
         syncProfile();
         if(button>=10&&button<10+AssayCatalog.MATERIAL_COUNT){data.set(VIEW,button-10);broadcastChanges();return true;}
-        if(button>=1&&button<=3){if(running())return false;data.set(SELECTED,button-1);broadcastChanges();return true;}
-        if(button!=0||!ready())return false;
+        if(button>=1&&button<=AssayCatalog.METHOD_COUNT){if(running())return false;data.set(SELECTED,button-1);broadcastChanges();return true;}
+        if(button!=0||running()||bench==null)return false;
         Material material=profile.reserved();
         if(material==null){
             material=AssayCatalog.material(inputs.getItem(0));
-            if(material==null||!profile.reserve(material))return false;
-            inputs.removeItem(0,1);
+            if(material==null)return false;
         }
-        testingMaterial=material;testingMethod=selectedMethod();
-        data.set(VIEW,material.ordinal());data.set(PROGRESS,0);data.set(RUNNING,1);
+        Method method=candidateMethod();
+        if(method==null||!canRun(method,material))return false;
+        if(!bench.start(player,material,method))return false;
+        data.set(VIEW,material.ordinal());data.set(SELECTED,method.ordinal());
         syncProfile();broadcastChanges();return true;
     }
-    private void cancelTimer(){testingMaterial=null;testingMethod=null;data.set(PROGRESS,0);data.set(RUNNING,0);}
     public void serverTick(Player player){
         if(profile==null||closed)return;
         syncProfile();
-        if(running()){
-            if(player!=owner||player.containerMenu!=this||!player.isAlive()||!stillValid(player)
-                ||testingMaterial!=profile.reserved()||testingMethod!=selectedMethod()||missingTools(testingMethod)!=0||profile.knows(testingMaterial,testingMethod)){
-                cancelTimer();
-            }else{
-                data.set(PROGRESS,data.get(PROGRESS)+1);
-                if(data.get(PROGRESS)>=AssayCatalog.TEST_TICKS){
-                    profile.complete(testingMaterial,testingMethod);
-                    cancelTimer();syncProfile();
-                }
-            }
+        if(bench!=null){
+            data.set(PROGRESS,bench.progress);data.set(RUNNING,bench.busy()?1:0);
+            if(bench.busy())data.set(SELECTED,bench.activeTestStage);
         }
         broadcastChanges();
     }
     @Override public boolean stillValid(Player player){return player==owner&&!closed&&stillValid(access,player,ModBlocks.EMPIRICAL_ASSAY_BENCH.get());}
     @Override public void removed(Player player){
         super.removed(player);
-        if(player==owner&&!closed){cancelTimer();closed=true;}
+        if(player==owner&&!closed){closed=true;}
     }
     @Override public ItemStack quickMoveStack(Player player,int index){
-        if(player!=owner||closed||index<0||index>=slots.size())return ItemStack.EMPTY;
+        if(player!=owner||closed||!editable()||index<0||index>=slots.size())return ItemStack.EMPTY;
         Slot slot=slots.get(index);if(!slot.hasItem())return ItemStack.EMPTY;
         ItemStack current=slot.getItem(),copy=current.copy();
         if(index<4){if(!moveItemStackTo(current,4,40,true))return ItemStack.EMPTY;}

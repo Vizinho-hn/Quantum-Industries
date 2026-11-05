@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " LL",
+    "SPL",
+    "N  "
+  ],
+  "key": {
+    "L": "minecraft:leather",
+    "S": "minecraft:stick",
+    "P": "minecraft:oak_planks",
+    "N": "minecraft:iron_nugget"
+  },
+  "result": {
+    "id": "quantumindustries:manual_bellows",
+    "count": 1
+  }
+}

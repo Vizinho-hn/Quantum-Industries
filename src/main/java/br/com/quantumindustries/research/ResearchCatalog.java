@@ -1,13 +1,16 @@
 package br.com.quantumindustries.research;
 
 import java.util.List;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 public final class ResearchCatalog {
     public record Cost(Item item, int amount, String label) {}
     public record Study(String key, String name, String description, String reward, Item icon,
-                        int era, List<String> prerequisites, List<Cost> costs) {}
+                        int era, List<String> prerequisites, List<Cost> costs) {
+        public Identifier id() { return ResearchIds.of(key); }
+    }
     // Ordering is for display and transient menu messages only.
     public static final List<Study> STUDIES = List.of(
         new Study("conductivity", "Condutividade", "Estudo da condução elétrica.", "Pesquisa de fabricação de fios", Items.REDSTONE, 1, List.of(), List.of(new Cost(Items.COPPER_INGOT, 3, "lingotes de cobre"), new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.PAPER, 1, "papel"))),
@@ -49,6 +52,8 @@ public final class ResearchCatalog {
 
     private static final java.util.Map<String, Study> BY_KEY = STUDIES.stream().collect(
             java.util.stream.Collectors.toUnmodifiableMap(Study::key, study -> study));
+    private static final java.util.Map<Identifier, Study> BY_ID = STUDIES.stream().collect(
+            java.util.stream.Collectors.toUnmodifiableMap(Study::id, study -> study));
 
     static {
         var visited = new java.util.HashSet<String>();
@@ -66,7 +71,13 @@ public final class ResearchCatalog {
         visited.add(key);
     }
 
-    public static Study find(String key) { return BY_KEY.get(key); }
+    public static Identifier identifier(String value) {
+        return ResearchIds.parse(value);
+    }
+
+    public static Study find(Identifier id) { return id == null ? null : BY_ID.get(id); }
+
+    public static Study find(String key) { return find(identifier(key)); }
 
     public static int indexOf(String key) { return STUDIES.indexOf(find(key)); }
 

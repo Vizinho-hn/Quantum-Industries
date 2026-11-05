@@ -40,6 +40,8 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.MAGNIFYING_GLASS.get());
                     output.accept(net.minecraft.world.item.Items.FLINT_AND_STEEL);
                     output.accept(ModItems.BRASS_WEIGHTS.get());
+                    output.accept(ModItems.MANUAL_BELLOWS.get());
+                    output.accept(ModItems.ASSAY_FLASK.get());
                 })
                 .build());
     }

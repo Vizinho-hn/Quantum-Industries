@@ -40,6 +40,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass", Item::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> MANUAL_BELLOWS = ITEMS.registerItem("manual_bellows", Item::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> ASSAY_FLASK = ITEMS.registerItem("assay_flask", Item::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights", Item::new, properties -> properties.stacksTo(1));
 
     public static final DeferredItem<Item> ENERGY_INSPECTION_GOGGLES = ITEMS.registerItem(

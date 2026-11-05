@@ -188,3 +188,23 @@ idea {
 
 // Include client-only sources in the mod compilation.
 sourceSets.main.java.srcDir("src/client/java")
+
+sourceSets.test.java {
+    srcDir("tests")
+    include("**/LegacyResearchCheck.java")
+}
+sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
+sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
+
+tasks.register("verifyLegacyResearch", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.research.LegacyResearchCheck"
+}
+
+tasks.named("check") {
+    dependsOn(tasks.named("verifyLegacyResearch"))
+}
+
+// This suite is a JavaExec verifier, not a JUnit suite.
+tasks.named('test', Test) { failOnNoDiscoveredTests = false }
