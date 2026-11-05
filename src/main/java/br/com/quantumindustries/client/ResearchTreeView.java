@@ -154,8 +154,8 @@ final class ResearchTreeView {
         int a = from.x + NODE_W, b = to.x, mid = (a + b) / 2;
         int y1 = from.y + NODE_H / 2, y2 = to.y + NODE_H / 2;
         int color = known ? GREEN : LINE;
-        theme.fill(g, a, y1, mid + 1, y1 + 1, color);
-        theme.fill(g, mid, Math.min(y1, y2), mid + 1, Math.max(y1, y2) + 1, color);
-        theme.fill(g, mid, y2, b, y2 + 1, color);
+        theme.fill(g, a, y1, mid + 2, y1 + 2, color);
+        theme.fill(g, mid, Math.min(y1, y2), mid + 2, Math.max(y1, y2) + 2, color);
+        theme.fill(g, mid, y2, b, y2 + 2, color);
     }
 }
