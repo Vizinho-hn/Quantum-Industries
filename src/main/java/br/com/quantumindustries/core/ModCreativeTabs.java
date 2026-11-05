@@ -33,7 +33,9 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.INSULATED_COPPER_WIRE.get());
                     output.accept(ModItems.COPPER_COIL.get());
                     output.accept(ModItems.ELECTROMECHANICAL_FRAME.get());
+                    output.accept(ModItems.PRIMITIVE_MECHANICAL_CORE.get());
                     output.accept(ModItems.FORMING_BENCH.get());
+                    output.accept(ModItems.ENERGY_INSPECTION_GOGGLES.get());
                     output.accept(ModItems.MANUAL_DYNAMO.get());
                     output.accept(ModItems.MAGNIFYING_GLASS.get());
                     output.accept(net.minecraft.world.item.Items.FLINT_AND_STEEL);

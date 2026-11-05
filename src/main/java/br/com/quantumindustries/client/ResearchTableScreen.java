@@ -125,7 +125,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         var entry = ENTRIES[selected];
         text(g, entry.name(), 163, 252, CYAN);
         text(g, entry.description(), 163, 265, TEXT);
-        text(g, "Desbloqueio: " + entry.reward(), 163, 278, GREEN);
+        clipped(g, "Desbloqueio: " + entry.reward(), 163, 278, 386, GREEN);
         var dependencies = ResearchCatalog.STUDIES.get(selected).prerequisites();
         if (!dependencies.isEmpty()) {
             text(g, "Pré-requisitos:", 163, 294, MUTED);
@@ -316,7 +316,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.frame(g, x + 84, 259, 22, 22, LINE, DARK, DARK);
         g.fakeItem(preview.output(), x + 87, 262);
         text(g, "×" + preview.output().getCount(), x + 112, 268, TEXT);
-        clipped(g, preview.output().getHoverName().getString(), x + 71, 290, 106, TEXT);
+        var lines = font.split(preview.output().getHoverName(), 106);
+        for (int i = 0; i < Math.min(lines.size(), 2); i++) {
+            g.text(font, lines.get(i), x + 71, 287 + i * 10, TEXT, false);
+        }
     }
 
     private void knowledgeBase(GuiGraphicsExtractor g) {
@@ -328,6 +331,9 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             knowledgeParagraph(g, branch.knowledge(), y + 21);
             knowledgeParagraph(g, branch.application(), y + 41);
             y += 70;
+        }
+        if (complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
+            knowledgeParagraph(g, "No dínamo, o giro move um conjunto magnético interno em relação às bobinas.", y - 4);
         }
         if (y == 100) {
             text(g, "Nenhum ramo concluído.", 165, 108, TEXT);

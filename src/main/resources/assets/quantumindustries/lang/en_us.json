@@ -101,5 +101,15 @@
   "item.quantumindustries.copper_coil": "Copper Coil",
   "item.quantumindustries.electromechanical_frame": "Electromechanical Frame",
   "block.quantumindustries.forming_bench": "Manual Forming Bench",
-  "block.quantumindustries.manual_dynamo": "Manual Dynamo"
+  "block.quantumindustries.manual_dynamo": "Manual Dynamo",
+  "item.quantumindustries.energy_inspection_goggles": "Energy Inspection Goggles",
+  "block.quantumindustries.manual_dynamo.installed": "Crank installed.",
+  "block.quantumindustries.manual_dynamo.already_installed": "This dynamo already has a crank.",
+  "block.quantumindustries.manual_dynamo.removed": "Crank removed.",
+  "block.quantumindustries.manual_dynamo.missing_crank": "Install a crank first.",
+  "block.quantumindustries.manual_dynamo.research": "Requires Manual Dynamo Design.",
+  "block.quantumindustries.manual_dynamo.full": "Energy storage is full.",
+  "gui.quantumindustries.dynamo.energy": "Energy: %s / %s FE",
+  "gui.quantumindustries.dynamo.charge": "Charge: %s%%",
+  "item.quantumindustries.primitive_mechanical_core": "Primitive Mechanical Core"
 }

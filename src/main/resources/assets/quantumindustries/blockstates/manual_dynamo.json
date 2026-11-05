@@ -1,9 +1,19 @@
 {
-  "multipart": [
-    {
-      "apply": {
-        "model": "quantumindustries:block/manual_dynamo"
-      }
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/manual_dynamo"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/manual_dynamo",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/manual_dynamo",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/manual_dynamo",
+      "y": 270
     }
-  ]
+  }
 }

@@ -1,0 +1,11 @@
+// Opt-in graphical verification, uses a separate copy of a test world.
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/runtime')
+        neoForge.runs.client {
+            gameDirectory = file('build/dynamo-preview')
+            systemProperty 'quantumindustries.previewDynamo', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'DynamoQA', '--width', '1100', '--height', '760'
+        }
+    }
+}

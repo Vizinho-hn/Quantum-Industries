@@ -48,6 +48,9 @@ public final class FoundationRecipe extends CustomRecipe {
         var wire = ModItems.COPPER_WIRE.get();
         var shaft = ModItems.MECHANICAL_SHAFT.get();
         var gear = ModItems.IRON_GEAR.get();
+        var sheet = ModItems.IRON_SHEET.get();
+        var coil = ModItems.COPPER_COIL.get();
+        var insulated = ModItems.INSULATED_COPPER_WIRE.get();
         return List.of(
             new Pattern("manual_forming", ModItems.MANUAL_HAMMER, 1, 3, nugget,nugget,nugget, null,stick,null, null,stick,null),
             new Pattern("manual_forming", ModItems.FORMING_BENCH, 1, 3, iron,iron,iron, plank,null,plank, plank,null,plank),
@@ -58,9 +61,14 @@ public final class FoundationRecipe extends CustomRecipe {
             new Pattern("copper_winding", ModItems.COPPER_COIL, 1, 3, wire,stick,wire, wire,paper,wire),
             new Pattern("electromechanical_structure", ModItems.ELECTROMECHANICAL_FRAME, 1, 3, plank,ModItems.IRON_SHEET.get(),plank,
                 null,shaft,null, plank,ModItems.IRON_SHEET.get(),plank),
-            new Pattern("electromagnetic_induction", ModItems.MANUAL_DYNAMO, 1, 3, null,ModItems.COPPER_COIL.get(),null,
-                gear,ModItems.ELECTROMECHANICAL_FRAME.get(),ModItems.HAND_CRANK.get(),
-                ModItems.INSULATED_COPPER_WIRE.get(),shaft,null)
+            new Pattern("electromechanical_structure", ModItems.PRIMITIVE_MECHANICAL_CORE, 1, 3,
+                sheet, gear, sheet,
+                nugget, ModItems.ELECTROMECHANICAL_FRAME.get(), nugget,
+                null, shaft, null),
+            new Pattern("manual_dynamo_design", ModItems.MANUAL_DYNAMO, 1, 3,
+                coil, gear, coil,
+                sheet, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), sheet,
+                insulated, shaft, insulated)
         );
     }
 
