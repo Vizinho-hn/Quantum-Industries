@@ -10,7 +10,7 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 ## Fase 1 — Núcleo de pesquisa
 
-- [x] Implementar a Bancada de Ensaio Empírico com dez materiais e três métodos.
+- [x] Implementar a Bancada de Ensaio Empírico com dez materiais, quatro métodos e 40 descobertas.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
 - [x] Integrar uma observação empírica à pesquisa de Maleabilidade.
