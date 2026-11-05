@@ -42,6 +42,14 @@ public class ModItems {
     public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights", Item::new, properties -> properties.stacksTo(1));
 
+    public static final DeferredItem<Item> ENERGY_INSPECTION_GOGGLES = ITEMS.registerItem(
+            "energy_inspection_goggles", Item::new, properties -> properties.stacksTo(1).component(
+                    net.minecraft.core.component.DataComponents.EQUIPPABLE,
+                    net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.HEAD).build()));
+
+    public static final DeferredItem<Item> PRIMITIVE_MECHANICAL_CORE =
+            ITEMS.registerSimpleItem("primitive_mechanical_core");
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
         ModBlocks.register(eventBus);

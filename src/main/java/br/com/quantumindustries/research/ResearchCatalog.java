@@ -21,9 +21,9 @@ public final class ResearchCatalog {
         new Study("mechanical_transmission", "Transmissão Mecânica", "Transmita movimento por eixos.", "Eixo e manivela", Items.STICK, 1, List.of("basic_mechanics"), List.of(new Cost(Items.IRON_INGOT, 1, "lingote de ferro"), new Cost(Items.STICK, 1, "graveto"))),
         new Study("basic_magnetism", "Magnetismo", "Observe a indicação de uma bússola.", "Conhecimento de magnetismo", Items.COMPASS, 1, List.of("material_observation"), List.of(new Cost(Items.COMPASS, 1, "bússola"))),
         new Study("copper_winding", "Bobinagem", "Enrole um condutor sobre um suporte.", "Bobina de cobre", Items.COPPER_INGOT, 1, List.of("copper_wire"), List.of(new Cost(Items.STICK, 1, "graveto"), new Cost(Items.PAPER, 1, "papel"))),
-        new Study("electromechanical_structure", "Estrutura Eletromecânica", "Projete um suporte para as peças.", "Estrutura eletromecânica", Items.IRON_INGOT, 1, List.of("metal_sheets", "mechanical_transmission", "basic_magnetism", "copper_winding"), List.of(new Cost(Items.IRON_INGOT, 1, "lingote de ferro"))),
-        new Study("manual_dynamo_design", "Projeto do Dínamo", "Conclua o projeto de geração manual.", "Era II e Indução Eletromagnética", Items.BOOK, 1, List.of("electrical_insulation", "electromechanical_structure"), List.of(new Cost(Items.PAPER, 1, "papel"))),
-        new Study("electromagnetic_induction", "Indução Eletromagnética", "Converta movimento em eletricidade.", "Dínamo Manual", Items.REDSTONE, 2, List.of("manual_dynamo_design"), List.of(new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.IRON_INGOT, 1, "lingote de ferro")))
+        new Study("electromechanical_structure", "Estrutura Eletromecânica", "Integre suportes, eixos e engrenagens em um núcleo mecânico.", "Estrutura Eletromecânica e Núcleo Mecânico Primitivo", Items.IRON_INGOT, 1, List.of("metal_sheets", "mechanical_transmission", "basic_magnetism", "copper_winding"), List.of(new Cost(Items.IRON_INGOT, 1, "lingote de ferro"))),
+        new Study("manual_dynamo_design", "Projeto do Dínamo", "Conclua a Era I e aplique movimento manual à geração.", "Dínamo Manual e acesso à Era II", Items.BOOK, 1, List.of("electrical_insulation", "electromechanical_structure"), List.of(new Cost(Items.PAPER, 1, "papel"))),
+        new Study("electromagnetic_induction", "Indução Eletromagnética", "Estude a conversão de movimento em eletricidade.", "Fundamentos para futuras aplicações elétricas", Items.REDSTONE, 2, List.of("manual_dynamo_design"), List.of(new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.IRON_INGOT, 1, "lingote de ferro")))
     );
 
     public record Branch(String title, List<String> studies, String knowledge, String application) {}
@@ -34,7 +34,7 @@ public final class ResearchCatalog {
                     "Use o martelo e a bancada de conformação para produzir chapas."),
             new Branch("Mecânica e Magnetismo", List.of("basic_mechanics", "mechanical_transmission", "basic_magnetism"),
                     "Engrenagens e eixos transmitem movimento. A bússola revela a orientação magnética.",
-                    "Monte transmissões manuais e reúna os fundamentos da estrutura eletromecânica."),
+                    "Monte transmissões para a estrutura e o núcleo mecânico."),
             new Branch("Eletricidade Básica", List.of("conductivity", "copper_wire", "electrical_insulation", "copper_winding"),
                     "O cobre conduz eletricidade. Um revestimento isola o fio e o enrolamento forma uma bobina.",
                     "Prepare fios isolados e bobinas para os primeiros projetos elétricos.")

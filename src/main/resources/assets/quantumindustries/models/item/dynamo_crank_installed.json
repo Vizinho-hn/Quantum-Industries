@@ -1,0 +1,353 @@
+{
+  "textures": {
+    "materials": "quantumindustries:item/era1_materials",
+    "particle": "#materials"
+  },
+  "elements": [
+    {
+      "name": "drive_pin",
+      "from": [
+        7.7,
+        7.5,
+        7.5
+      ],
+      "to": [
+        10.3,
+        8.5,
+        8.5
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "offset_arm",
+      "from": [
+        9.8,
+        8.5,
+        7.35
+      ],
+      "to": [
+        11.05,
+        12,
+        8.65
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            6.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "grip_pin",
+      "from": [
+        11.05,
+        11,
+        7.45
+      ],
+      "to": [
+        12.2,
+        12,
+        8.55
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "wooden_grip",
+      "from": [
+        12.2,
+        10.65,
+        7.1
+      ],
+      "to": [
+        15.25,
+        12.35,
+        8.9
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            9.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            10.25,
+            2.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "grip_cap",
+      "from": [
+        15.25,
+        11,
+        7.45
+      ],
+      "to": [
+        15.85,
+        12,
+        8.55
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    }
+  ]
+}

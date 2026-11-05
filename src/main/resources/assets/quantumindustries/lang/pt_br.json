@@ -101,5 +101,17 @@
   "item.quantumindustries.copper_coil": "Bobina de Cobre",
   "item.quantumindustries.electromechanical_frame": "Estrutura Eletromecânica",
   "block.quantumindustries.forming_bench": "Bancada de Conformação Manual",
-  "block.quantumindustries.manual_dynamo": "Dínamo Manual"
+  "block.quantumindustries.manual_dynamo": "Dínamo Manual",
+  "commands.quantumindustries.research.unlock": "Todas as pesquisas de %s foram desbloqueadas.",
+  "commands.quantumindustries.research.clear": "O progresso de pesquisa de %s foi limpo.",
+  "item.quantumindustries.energy_inspection_goggles": "Óculos de Inspeção Energética",
+  "block.quantumindustries.manual_dynamo.installed": "Manivela instalada.",
+  "block.quantumindustries.manual_dynamo.already_installed": "Este dínamo já tem uma manivela.",
+  "block.quantumindustries.manual_dynamo.removed": "Manivela removida.",
+  "block.quantumindustries.manual_dynamo.missing_crank": "Instale uma manivela primeiro.",
+  "block.quantumindustries.manual_dynamo.research": "Pré-requisito: Projeto do Dínamo Manual.",
+  "block.quantumindustries.manual_dynamo.full": "Armazenamento cheio.",
+  "gui.quantumindustries.dynamo.energy": "Energia: %s / %s FE",
+  "gui.quantumindustries.dynamo.charge": "Carga: %s%%",
+  "item.quantumindustries.primitive_mechanical_core": "Núcleo Mecânico Primitivo"
 }

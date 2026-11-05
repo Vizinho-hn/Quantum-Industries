@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Static F0 contract checks (not a substitute for Minecraft runtime tests)."""
+import json
 import pathlib
 import unittest
 
@@ -53,9 +54,10 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn('output.store("slot_" + i, ItemStack.CODEC, stack)', entity)
 
     def test_recipe_requires_research_on_server(self):
-        recipe = read("src/main/java/br/com/quantumindustries/recipe/CopperWireRecipe.java")
-        self.assertIn('ResearchCraftingAccess.allows(level, "conductivity")', recipe)
-        self.assertIn('ResearchCraftingAccess.allows(level, "copper_wire")', recipe)
+        recipe = read("src/main/java/br/com/quantumindustries/recipe/FoundationRecipe.java")
+        self.assertIn('new Pattern("copper_wire", ModItems.COPPER_WIRE', recipe)
+        self.assertIn('ResearchCraftingAccess.knows(player, "conductivity")', recipe)
+        self.assertIn('crafter != null && unlocked(crafter) && craft.fits(grid)', recipe)
         policy = read("src/main/java/br/com/quantumindustries/recipe/ResearchCraftingAccess.java")
         self.assertIn("instanceof ServerLevel", policy)
         self.assertIn("player != null && player.level() == level", policy)
@@ -74,13 +76,28 @@ class FoundationContractTest(unittest.TestCase):
         self.assertNotIn("SAIDA", screen)
 
     def test_wire_item_definition_points_to_textured_3d_model(self):
-        import json
         assets = ROOT / "src/main/resources/assets/quantumindustries"
         item = json.loads((assets / "items/copper_wire.json").read_text(encoding="utf-8"))
         self.assertEqual(item["model"]["model"], "quantumindustries:item/copper_wire")
         model = json.loads((assets / "models/item/copper_wire.json").read_text(encoding="utf-8"))
         self.assertTrue(model["elements"])
         self.assertTrue((assets / "textures/item/copper_wire.png").is_file())
+
+    def test_core_resources(self):
+        assets = ROOT / "src/main/resources/assets/quantumindustries"
+        item = json.loads((assets / "items/primitive_mechanical_core.json").read_text())
+        self.assertEqual(item["model"]["model"], "quantumindustries:item/primitive_mechanical_core")
+        model = json.loads((assets / "models/item/primitive_mechanical_core.json").read_text())
+        texture = model["textures"]["materials"].split(":")[1]
+        self.assertTrue((assets / "textures" / (texture + ".png")).is_file())
+        self.assertGreater(len(model["elements"]), 1)
+        self.assertTrue({"gui", "ground", "firstperson_righthand"} <= model["display"].keys())
+        for element in model["elements"]:
+            for start, end in zip(element["from"], element["to"]):
+                self.assertTrue(0 <= start < end <= 16)
+        for locale in ("en_us", "pt_br"):
+            labels = json.loads((assets / "lang" / (locale + ".json")).read_text(encoding="utf-8"))
+            self.assertTrue(labels["item.quantumindustries.primitive_mechanical_core"])
 
 if __name__ == "__main__":
     unittest.main()

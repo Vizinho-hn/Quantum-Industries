@@ -1,0 +1,10 @@
+// Opt-in server integration harness. Keep the world and results isolated from normal play.
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/runtime')
+        neoForge.runs.server {
+            gameDirectory = file('build/dynamo-verification/world')
+            systemProperty 'quantumindustries.verifyDynamo', 'true'
+        }
+    }
+}

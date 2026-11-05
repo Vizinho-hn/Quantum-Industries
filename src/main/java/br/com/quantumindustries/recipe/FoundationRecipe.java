@@ -2,20 +2,50 @@ package br.com.quantumindustries.recipe;
 
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.research.ResearchCatalog;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.registries.DeferredItem;
 
-public final class FoundationRecipe extends CustomRecipe {
-    public static final FoundationRecipe INSTANCE = new FoundationRecipe();
+public final class FoundationRecipe extends ShapedRecipe {
+    private static final Codec<String> RESULT_CODEC = Codec.STRING.validate(id ->
+            Patterns.BY_RESULT.containsKey(id) ? DataResult.success(id)
+                    : DataResult.error(() -> "Unknown Quantum Industries craft: " + id));
 
-    private record Pattern(String study, Supplier<? extends ItemLike> output, int count, int width, ItemLike... cells) {
+    static final RecipeSerializer<ShapedRecipe> SERIALIZER = new RecipeSerializer<>(
+            RESULT_CODEC.fieldOf("craft").xmap(FoundationRecipe::new, FoundationRecipe::craftId),
+            StreamCodec.<RegistryFriendlyByteBuf, ShapedRecipe>of(
+                    (buf, recipe) -> ByteBufCodecs.STRING_UTF8.encode(buf, craftId(recipe)),
+                    buf -> new FoundationRecipe(ByteBufCodecs.STRING_UTF8.decode(buf))));
+
+    static final RecipeSerializer<ShapedRecipe> COPPER_WIRE_SERIALIZER = new RecipeSerializer<>(
+            MapCodec.unit(() -> new FoundationRecipe("copper_wire")),
+            StreamCodec.of((buf, recipe) -> {}, buf -> new FoundationRecipe("copper_wire")));
+
+    private record Pattern(String study, DeferredItem<?> output, int count, int width, ItemLike... cells) {
+        String id() { return output.getId().getPath(); }
+
         boolean fits(CraftingInput grid) {
             if (grid.width() != width || grid.height() != cells.length / width) return false;
             for (int i = 0; i < cells.length; i++) {
@@ -24,22 +54,49 @@ public final class FoundationRecipe extends CustomRecipe {
             }
             return true;
         }
+
+        ShapedRecipePattern shape() {
+            return new ShapedRecipePattern(width, cells.length / width, Arrays.stream(cells)
+                    .map(item -> Optional.ofNullable(item).map(Ingredient::of)).toList(), Optional.empty());
+        }
+
+        Preview preview() {
+            var ingredients = Arrays.stream(cells)
+                    .map(item -> item == null ? ItemStack.EMPTY : new ItemStack(item)).toList();
+            return new Preview(new ItemStack(output.get(), count), width, ingredients);
+        }
+    }
+
+    private static final class Patterns {
+        private static final List<Pattern> ALL = createPatterns();
+        private static final Map<String, Pattern> BY_RESULT = ALL.stream()
+                .collect(Collectors.toUnmodifiableMap(Pattern::id, Function.identity()));
+    }
+
+    private final Pattern craft;
+
+    private FoundationRecipe(String id) {
+        this(Patterns.BY_RESULT.get(id));
+    }
+
+    private FoundationRecipe(Pattern craft) {
+        super(new CommonInfo(true), new CraftingBookInfo(CraftingBookCategory.MISC, ""),
+                craft.shape(), new ItemStackTemplate(craft.output().get(), craft.count()));
+        this.craft = craft;
+    }
+
+    private static String craftId(ShapedRecipe recipe) {
+        return ((FoundationRecipe) recipe).craft.id();
     }
 
     public record Preview(ItemStack output, int width, List<ItemStack> ingredients) {}
 
     public static List<Preview> previews(int research) {
-        // All crafting-table previews use the same grid in the research notebook.
         String key = ResearchCatalog.STUDIES.get(research).key();
-        if (key.equals("copper_wire")) return List.of(CopperWireRecipe.preview());
-        return patterns().stream().filter(pattern -> pattern.study().equals(key)).map(pattern -> {
-            var ingredients = java.util.Arrays.stream(pattern.cells())
-                    .map(item -> item == null ? ItemStack.EMPTY : new ItemStack(item)).toList();
-            return new Preview(new ItemStack(pattern.output().get(), pattern.count()), pattern.width(), ingredients);
-        }).toList();
+        return Patterns.ALL.stream().filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
     }
 
-    private static List<Pattern> patterns() {
+    private static List<Pattern> createPatterns() {
         var iron = Items.IRON_INGOT;
         var nugget = Items.IRON_NUGGET;
         var stick = Items.STICK;
@@ -48,7 +105,11 @@ public final class FoundationRecipe extends CustomRecipe {
         var wire = ModItems.COPPER_WIRE.get();
         var shaft = ModItems.MECHANICAL_SHAFT.get();
         var gear = ModItems.IRON_GEAR.get();
+        var sheet = ModItems.IRON_SHEET.get();
+        var coil = ModItems.COPPER_COIL.get();
+        var insulated = ModItems.INSULATED_COPPER_WIRE.get();
         return List.of(
+            new Pattern("copper_wire", ModItems.COPPER_WIRE, 6, 3, Items.COPPER_INGOT, Items.COPPER_INGOT, Items.COPPER_INGOT),
             new Pattern("manual_forming", ModItems.MANUAL_HAMMER, 1, 3, nugget,nugget,nugget, null,stick,null, null,stick,null),
             new Pattern("manual_forming", ModItems.FORMING_BENCH, 1, 3, iron,iron,iron, plank,null,plank, plank,null,plank),
             new Pattern("basic_mechanics", ModItems.IRON_GEAR, 1, 3, null,nugget,null, nugget,iron,nugget, null,nugget,null),
@@ -58,23 +119,29 @@ public final class FoundationRecipe extends CustomRecipe {
             new Pattern("copper_winding", ModItems.COPPER_COIL, 1, 3, wire,stick,wire, wire,paper,wire),
             new Pattern("electromechanical_structure", ModItems.ELECTROMECHANICAL_FRAME, 1, 3, plank,ModItems.IRON_SHEET.get(),plank,
                 null,shaft,null, plank,ModItems.IRON_SHEET.get(),plank),
-            new Pattern("electromagnetic_induction", ModItems.MANUAL_DYNAMO, 1, 3, null,ModItems.COPPER_COIL.get(),null,
-                gear,ModItems.ELECTROMECHANICAL_FRAME.get(),ModItems.HAND_CRANK.get(),
-                ModItems.INSULATED_COPPER_WIRE.get(),shaft,null)
+            new Pattern("electromechanical_structure", ModItems.PRIMITIVE_MECHANICAL_CORE, 1, 3,
+                sheet, gear, sheet,
+                nugget, ModItems.ELECTROMECHANICAL_FRAME.get(), nugget,
+                null, shaft, null),
+            new Pattern("manual_dynamo_design", ModItems.MANUAL_DYNAMO, 1, 3,
+                coil, gear, coil,
+                sheet, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), sheet,
+                insulated, shaft, insulated)
         );
     }
 
+    public boolean unlocked(Player player) {
+        return ResearchCraftingAccess.knows(player, craft.study())
+                && (!craft.study().equals("copper_wire") || ResearchCraftingAccess.knows(player, "conductivity"));
+    }
+
     @Override public boolean matches(CraftingInput grid, Level level) {
-        return patterns().stream().anyMatch(pattern -> pattern.fits(grid)
-                && ResearchCraftingAccess.allows(level, pattern.study()));
+        // Keep the original orientation instead of accepting a mirrored recipe.
+        Player crafter = ResearchCraftingAccess.crafter(level);
+        return crafter != null && unlocked(crafter) && craft.fits(grid);
     }
 
-    @Override public ItemStack assemble(CraftingInput grid) {
-        return patterns().stream().filter(pattern -> pattern.fits(grid)).findFirst()
-                .map(pattern -> new ItemStack(pattern.output().get(), pattern.count())).orElse(ItemStack.EMPTY);
-    }
-
-    @Override public RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return ModRecipes.FOUNDATIONS.get();
+    @Override public RecipeSerializer<ShapedRecipe> getSerializer() {
+        return craft.id().equals("copper_wire") ? ModRecipes.COPPER_WIRE.get() : ModRecipes.FOUNDATIONS.get();
     }
 }

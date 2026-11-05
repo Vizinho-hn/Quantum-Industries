@@ -1,6 +1,7 @@
 package br.com.quantumindustries.research;
 
 import br.com.quantumindustries.QuantumIndustries;
+import br.com.quantumindustries.recipe.ModRecipeBook;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
@@ -99,7 +100,23 @@ public final class WorldResearchData extends SavedData {
         if (study == null || knows(player, key) || !prerequisites(player, study)) return false;
         completed.computeIfAbsent(player.getUUID().toString(), ignored -> new HashSet<>()).add(key);
         setDirty();
+        ModRecipeBook.sync(player);
         return true;
+    }
+
+    public void unlockAll(Player player) {
+        Set<String> known = new HashSet<>(progress(player));
+        ResearchCatalog.STUDIES.forEach(study -> known.add(study.key()));
+        completed.put(player.getUUID().toString(), known);
+        setDirty();
+        ModRecipeBook.sync(player);
+    }
+
+    public void clearAll(Player player) {
+        // Keep an explicit empty entry so the legacy singleplayer fallback cannot restore it.
+        completed.put(player.getUUID().toString(), new HashSet<>());
+        setDirty();
+        ModRecipeBook.sync(player);
     }
 
     public static WorldResearchData get(ServerLevel level) {

@@ -1,5 +1,6 @@
 package br.com.quantumindustries;
 
+import br.com.quantumindustries.command.ResearchCommands;
 import br.com.quantumindustries.core.ModCreativeTabs;
 import br.com.quantumindustries.core.ModMenuTypes;
 import br.com.quantumindustries.ModItems;
@@ -25,6 +26,7 @@ public class QuantumIndustries {
         ModCreativeTabs.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+        NeoForge.EVENT_BUS.addListener(ResearchCommands::register);
         NeoForge.EVENT_BUS.register(this);
     }
 

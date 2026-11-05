@@ -4,6 +4,8 @@ import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.menu.ResearchTableMenu;
 import br.com.quantumindustries.research.ResearchCatalog;
 import br.com.quantumindustries.recipe.FoundationRecipe;
+import java.util.List;
+import java.util.stream.IntStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -27,7 +29,12 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private static final String[] ERA_NUMERALS = {"I", "II", "III", "IV", "V"};
     private final ResearchTreeView tree = new ResearchTreeView();
     private int era = 1;
-    private int page;
+    private final List<List<FoundationRecipe.Preview>> recipePreviews = IntStream.range(0, ENTRIES.length)
+            .mapToObj(FoundationRecipe::previews).toList();
+    private final List<ItemStack> sheets = List.of(
+            new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()));
+    private int recipePage;
+    private int reportPage;
     private boolean canvasPressed;
     private boolean canvasDragged;
     private final Inventory inventory;
@@ -60,13 +67,40 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private ItemStack icon(int id) {
-        return new ItemStack(ResearchCatalog.STUDIES.get(id).key().equals("copper_wire") ? ModItems.COPPER_WIRE.get() : ResearchCatalog.STUDIES.get(id).icon());
+        var outputs = outputs(id);
+        return outputs.isEmpty() ? new ItemStack(ResearchCatalog.STUDIES.get(id).icon()) : outputs.getFirst();
     }
 
-    private void pagination(GuiGraphicsExtractor g) {
+    private boolean isFormingProcess(int id) {
+        return ResearchCatalog.STUDIES.get(id).key().equals("metal_sheets");
+    }
+
+    private List<ItemStack> outputs(int id) {
+        return isFormingProcess(id) ? sheets : recipePreviews.get(id).stream()
+                .map(FoundationRecipe.Preview::output).toList();
+    }
+
+    private List<Integer> unlockedRecipes() {
+        return IntStream.range(0, ENTRIES.length)
+                .filter(id -> complete(id) && (isFormingProcess(id) || !recipePreviews.get(id).isEmpty()))
+                .boxed().toList();
+    }
+
+    private static int pageCount(int size) {
+        return (size + 1) / 2;
+    }
+
+    private void pagination(GuiGraphicsExtractor g, int page, int count) {
+        if (count == 0) return;
         reportButton(g, 420, 71, 28, "<", page > 0);
-        reportButton(g, 516, 71, 28, ">", page + 1 < ENTRIES.length / 2);
-        text(g, (page + 1) + " / " + (ENTRIES.length / 2), 462, 77, MUTED);
+        reportButton(g, 516, 71, 28, ">", page + 1 < count);
+        text(g, (page + 1) + " / " + count, 462, 77, MUTED);
+    }
+
+    private List<Integer> recipeRows(List<Integer> recipes) {
+        recipePage = Math.min(recipePage, Math.max(0, pageCount(recipes.size()) - 1));
+        int first = recipePage * 2;
+        return recipes.subList(first, Math.min(first + 2, recipes.size()));
     }
 
     private ResearchTheme theme = new ResearchTheme(false);
@@ -85,6 +119,9 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         int x = (int) Math.floor((mouseX - originX()) / scale());
         int y = (int) Math.floor((mouseY - originY()) / scale());
         int hover = tab == 0 && !canvasDragged ? tree.hit(x, y) : -1;
+        List<Integer> recipes = tab == 2 ? unlockedRecipes() : List.of();
+        List<Integer> rows = tab == 2 ? recipeRows(recipes) : List.of();
+        if (!rows.isEmpty() && !rows.contains(selected)) selected = rows.getFirst();
         State[] states = new State[ENTRIES.length];
         for (int id = 0; id < states.length; id++) states[id] = state(id);
         g.pose().pushMatrix();
@@ -103,12 +140,16 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 eras(g);
                 tree.draw(theme, g, font, states, selected, hover, this::icon, era);
                 selectedDetails(g);
+            } else if (tab == 2) {
+                recipeJournal(g, rows);
+                pagination(g, recipePage, pageCount(recipes.size()));
             } else if (tab == 3) {
                 report(g);
+                pagination(g, reportPage, pageCount(ENTRIES.length));
             } else {
-                journal(g);
+                text(g, "BASE DE CONHECIMENTO", 155, 77, CYAN);
+                knowledgeBase(g);
             }
-            if (tab == 2 || tab == 3) pagination(g);
             footer(g, states[selected], icon(selected));
             if (notebook) theme.binding(g);
         } finally {
@@ -124,8 +165,9 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         }
         var entry = ENTRIES[selected];
         text(g, entry.name(), 163, 252, CYAN);
+        if (complete(selected)) drawOutputs(g, outputs(selected), 548, 246);
         text(g, entry.description(), 163, 265, TEXT);
-        text(g, "Desbloqueio: " + entry.reward(), 163, 278, GREEN);
+        clipped(g, "Desbloqueio: " + entry.reward(), 163, 278, 386, GREEN);
         var dependencies = ResearchCatalog.STUDIES.get(selected).prerequisites();
         if (!dependencies.isEmpty()) {
             text(g, "Pré-requisitos:", 163, 294, MUTED);
@@ -235,7 +277,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             reportButton(g, x + 7, 175, 115, "Retirar", menu.supply(i) > 0);
         }
         text(g, "SELECIONE UMA PESQUISA CONCLUÍDA", 155, 211, MUTED);
-        for (int id = page * 2; id < page * 2 + 2; id++) {
+        for (int id = reportPage * 2; id < Math.min(reportPage * 2 + 2, ENTRIES.length); id++) {
             int x = 155 + (id % 2) * 204;
             boolean active = selectedReport == id;
             theme.frame(g, x, 225, 193, 19, active ? CYAN : LINE,
@@ -265,10 +307,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         }
         if (y >= 225 && y < 244) {
             int id = x >= 155 && x < 348 ? 0 : x >= 359 && x < 552 ? 1 : -1;
-            if (id >= 0 && complete(page * 2 + id)) {
-                id += page * 2;
-                selectedReport = id;
-                selected = id;
+            int study = reportPage * 2 + id;
+            if (id >= 0 && study < ENTRIES.length && complete(study)) {
+                selectedReport = study;
+                selected = study;
                 return true;
             }
         }
@@ -283,15 +325,13 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private void recipeGuide(GuiGraphicsExtractor g) {
-        int id = selected / 2 == page ? selected : page * 2;
-        if (!complete(id)) return;
-        if (ResearchCatalog.STUDIES.get(id).key().equals("metal_sheets")) {
+        if (isFormingProcess(selected)) {
             text(g, "Martelo na mão principal e lingote de ferro ou cobre na outra.", 165, 250, TEXT);
             text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
             return;
         }
         int x = 160;
-        for (var preview : FoundationRecipe.previews(id)) {
+        for (var preview : recipePreviews.get(selected)) {
             drawCraft(g, x, preview);
             x += 195;
         }
@@ -316,7 +356,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.frame(g, x + 84, 259, 22, 22, LINE, DARK, DARK);
         g.fakeItem(preview.output(), x + 87, 262);
         text(g, "×" + preview.output().getCount(), x + 112, 268, TEXT);
-        clipped(g, preview.output().getHoverName().getString(), x + 71, 290, 106, TEXT);
+        var lines = font.split(preview.output().getHoverName(), 106);
+        for (int i = 0; i < Math.min(lines.size(), 2); i++) {
+            g.text(font, lines.get(i), x + 71, 287 + i * 10, theme.ink(TEXT), false);
+        }
     }
 
     private void knowledgeBase(GuiGraphicsExtractor g) {
@@ -328,6 +371,9 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             knowledgeParagraph(g, branch.knowledge(), y + 21);
             knowledgeParagraph(g, branch.application(), y + 41);
             y += 70;
+        }
+        if (complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
+            knowledgeParagraph(g, "No dínamo, o giro move um conjunto magnético interno em relação às bobinas.", y - 4);
         }
         if (y == 100) {
             text(g, "Nenhum ramo concluído.", 165, 108, TEXT);
@@ -347,25 +393,36 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         text(g, value.substring(split).stripLeading(), 166, y + 10, TEXT);
     }
 
-    private void journal(GuiGraphicsExtractor g) {
-        text(g, TABS[tab].toUpperCase(java.util.Locale.ROOT), 155, 77, CYAN);
-        if (tab == 1) {
-            knowledgeBase(g);
+    private void drawOutputs(GuiGraphicsExtractor g, List<ItemStack> outputs, int right, int y) {
+        int x = right - outputs.size() * 23;
+        for (ItemStack output : outputs) {
+            theme.frame(g, x, y, 20, 20, LINE, DARK, DARK);
+            g.fakeItem(output, x + 2, y + 2);
+            x += 23;
+        }
+    }
+
+    private static int recipeRowY(int row) {
+        return 101 + row * 56;
+    }
+
+    private void recipeJournal(GuiGraphicsExtractor g, List<Integer> rows) {
+        text(g, "RECEITAS DESBLOQUEADAS", 155, 77, CYAN);
+        if (rows.isEmpty()) {
+            text(g, "Nenhuma receita desbloqueada.", 165, 108, TEXT);
+            text(g, "Conclua pesquisas de fabricação para consultar as receitas.", 165, 125, MUTED);
             return;
         }
-        for (int row = 0; row < 2; row++) {
-            int id = page * 2 + row;
-            int y = 101 + row * 65;
-            theme.frame(g, 155, y, 401, 55, LINE, PANEL, DARK);
-            if (!complete(id)) {
-                text(g, "Pesquisa ainda não concluída.", 165, y + 13, MUTED);
-                continue;
-            }
-            g.fakeItem(icon(id), 164, y + 10);
-            text(g, ENTRIES[id].name(), 188, y + 12, CYAN);
-            text(g, tab == 2 ? ENTRIES[id].reward() : ENTRIES[id].description(), 188, y + 31, TEXT);
+        for (int row = 0; row < rows.size(); row++) {
+            int id = rows.get(row);
+            int y = recipeRowY(row);
+            theme.frame(g, 155, y, 401, 48, id == selected ? CYAN : LINE, PANEL, DARK);
+            text(g, ENTRIES[id].name(), 165, y + 10, id == selected ? CYAN : TEXT);
+            clipped(g, ENTRIES[id].reward(), 165, y + 28, 326, MUTED);
+            drawOutputs(g, outputs(id), 548, y + 14);
         }
-        if (tab == 2) recipeGuide(g);
+        text(g, "FABRICAÇÃO", 160, 223, MUTED);
+        recipeGuide(g);
     }
 
     private void footer(GuiGraphicsExtractor g, State state, ItemStack icon) {
@@ -411,19 +468,30 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             for (int i = 0; i < TABS.length; i++) {
                 int start = 9 + i * 140;
                 if (y >= 39 && y < 62 && x >= start && x < start + 136) {
+                    if (i == 2 && tab != 2) {
+                        int index = unlockedRecipes().indexOf(selected);
+                        if (index >= 0) recipePage = index / 2;
+                    }
                     tab = i;
                     return true;
                 }
             }
             if ((tab == 2 || tab == 3) && y >= 71 && y < 90 && (x >= 420 && x < 448 || x >= 516 && x < 544)) {
-                page = Math.max(0, Math.min(ENTRIES.length / 2 - 1, page + (x < 448 ? -1 : 1)));
+                int step = x < 448 ? -1 : 1;
+                if (tab == 2) {
+                    List<Integer> recipes = unlockedRecipes();
+                    recipePage = Math.max(0, Math.min(pageCount(recipes.size()) - 1, recipePage + step));
+                } else {
+                    reportPage = Math.max(0, Math.min(pageCount(ENTRIES.length) - 1, reportPage + step));
+                }
                 return true;
             }
             if (tab == 2 && x >= 155 && x < 556) {
-                for (int row = 0; row < 2; row++) {
-                    int top = 101 + row * 65;
-                    if (y >= top && y < top + 55 && complete(page * 2 + row)) {
-                        selected = page * 2 + row;
+                List<Integer> rows = recipeRows(unlockedRecipes());
+                for (int row = 0; row < rows.size(); row++) {
+                    int top = recipeRowY(row);
+                    if (y >= top && y < top + 48) {
+                        selected = rows.get(row);
                         return true;
                     }
                 }
