@@ -49,6 +49,8 @@ Observação. O servidor também impede a fabricação manual antes do desbloque
 
 IDs e dados persistidos das pesquisas e dos ensaios são preservados.
 Pesquisas concluídas anteriormente continuam válidas sem repetir experimentos.
+Antes de aprender novos estudos, jogadores de saves antigos também precisam
+ter concluído Observação dos Materiais.
 O histórico galvanic permanece preservado e não equivale a reaction.
 
 /quantum:desbloquear_pesquisas concede estudos com privilégio administrativo.

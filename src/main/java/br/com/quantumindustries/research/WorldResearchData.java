@@ -140,8 +140,9 @@ public final class WorldResearchData extends SavedData {
 
     public boolean canLearn(Player player, Identifier id) {
         var study = ResearchCatalog.find(id);
-        return study != null && !knows(player, id) && prerequisites(player, study)
-                && evidenceSatisfied(player, study);
+        return study != null && !knows(player, id)
+                && (study.key().equals("material_observation") || knows(player, "material_observation"))
+                && prerequisites(player, study) && evidenceSatisfied(player, study);
     }
 
     public boolean evidenceSatisfied(Player player, ResearchCatalog.Study study) {

@@ -119,6 +119,8 @@ public final class ResearchEvidenceVerification {
         var old = WorldResearchData.CODEC.parse(JsonOps.INSTANCE, completed).getOrThrow();
         check(old.knows(other, "copper_wire") && old.knows(other, "material_malleability"),
                 "old learned technologies survive without new evidence");
+        check(!old.canLearn(other, ResearchIds.of("manual_forming")),
+                "future studies still require initial observation in a legacy save");
         var encoded = WorldResearchData.CODEC.encodeStart(JsonOps.INSTANCE, old).getOrThrow();
         var reloaded = WorldResearchData.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
         check(reloaded.knows(other, "copper_wire"), "old research survives save round-trip");
