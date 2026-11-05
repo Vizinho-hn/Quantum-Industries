@@ -39,7 +39,7 @@ public final class ResearchReportItem extends Item {
         WorldResearchData research = WorldResearchData.get(server);
         if (ResearchCatalog.find(id) == null) return message(player, "Este relatório está em branco.");
         if (research.knows(player, id)) return message(player, "Você já conhece essa pesquisa.");
-        if (!research.learn(player, id)) return message(player, "Faltam pesquisas prévias para ler este relatório.");
+        if (!research.learn(player, id)) return message(player, "Faltam pesquisas prévias ou evidências científicas. Consulte o Analisador Científico.");
         stack.shrink(1);
         return message(player, "Pesquisa aprendida.");
     }

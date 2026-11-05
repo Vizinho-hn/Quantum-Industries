@@ -5,6 +5,8 @@ import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.recipe.FoundationRecipe;
 import br.com.quantumindustries.recipe.ResearchCraftingAccess;
 import br.com.quantumindustries.research.ResearchIds;
+import br.com.quantumindustries.assay.AssayProfile;
+import br.com.quantumindustries.assay.AssayCatalog;
 import br.com.quantumindustries.research.WorldResearchData;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
@@ -115,6 +117,9 @@ public final class ResearchRuntimeVerification {
         check(!menu.complete(-1) && !menu.isRevealed(studyCount) && !menu.hasCost(-1, 0),
                 "invalid state queries safely reject");
 
+        check(WorldResearchData.get(level).learn(owner, "material_observation"), "initial observation completed");
+        AssayProfile.of(owner).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.INSPECTION);
+
         inventory.setItem(0, new ItemStack(Items.COPPER_INGOT, 3));
         inventory.setItem(1, new ItemStack(Items.REDSTONE));
         inventory.setItem(2, new ItemStack(Items.PAPER));
@@ -130,6 +135,8 @@ public final class ResearchRuntimeVerification {
 
         FakePlayer insufficient = player(level);
         ResearchTableMenu insufficientMenu = open(insufficient);
+        check(WorldResearchData.get(level).learn(insufficient, "material_observation"), "insufficient player has observation");
+        AssayProfile.of(insufficient).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.INSPECTION);
         insufficient.getInventory().setItem(0, new ItemStack(Items.COPPER_INGOT, 3));
         insufficient.getInventory().setItem(1, new ItemStack(Items.REDSTONE));
         check(!insufficientMenu.clickMenuButton(insufficient, 0), "missing one resource blocks research");
@@ -199,6 +206,9 @@ public final class ResearchRuntimeVerification {
         WorldResearchData research = WorldResearchData.get(level);
         check(!copperWireRecipe().matches(input, level), "automated crafting without a player is denied");
         check(!withCrafterMatches(player, input, level), "player without research is denied");
+        check(research.learn(player, "material_observation"), "observe before conductivity");
+        AssayProfile.of(player).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.INSPECTION);
+        AssayProfile.of(player).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.MECHANICAL);
         check(research.learn(player, ResearchIds.of("conductivity")), "test grants first prerequisite");
         check(research.learn(player, ResearchIds.of("copper_wire")), "test grants second prerequisite");
         check(withCrafterMatches(player, input, level), "authorized manual crafting is allowed");

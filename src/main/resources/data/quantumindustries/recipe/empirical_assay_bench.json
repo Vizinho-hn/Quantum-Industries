@@ -1,18 +1,4 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "INI",
-    "PPP",
-    "L L"
-  ],
-  "key": {
-    "I": "minecraft:iron_ingot",
-    "N": "minecraft:iron_nugget",
-    "P": "minecraft:oak_planks",
-    "L": "minecraft:oak_log"
-  },
-  "result": {
-    "id": "quantumindustries:empirical_assay_bench",
-    "count": 1
-  }
+  "type": "quantumindustries:foundations",
+  "craft": "empirical_assay_bench"
 }
