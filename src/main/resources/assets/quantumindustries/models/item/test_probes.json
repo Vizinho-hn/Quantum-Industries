@@ -1,6 +1,614 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "minecraft:block/block",
   "textures": {
-    "layer0": "quantumindustries:item/test_probes"
-  }
+    "materials": "quantumindustries:item/era1_materials",
+    "particle": "#materials"
+  },
+  "gui_light": "front",
+  "display": {
+    "gui": {
+      "rotation": [
+        18,
+        24,
+        -10
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.95,
+        0.95,
+        0.95
+      ]
+    },
+    "ground": {
+      "rotation": [
+        75,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.46,
+        0.46,
+        0.46
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        5,
+        18,
+        -25
+      ],
+      "translation": [
+        1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        5,
+        -18,
+        25
+      ],
+      "translation": [
+        -1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        -18
+      ],
+      "translation": [
+        0,
+        2.5,
+        1
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        18
+      ],
+      "translation": [
+        0,
+        2.5,
+        1
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    }
+  },
+  "elements": [
+    {
+      "name": "positive_handle",
+      "from": [
+        4.25,
+        4.5,
+        6.75
+      ],
+      "to": [
+        6.25,
+        10,
+        8.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            9.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            10.25,
+            2.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "negative_handle",
+      "from": [
+        10,
+        5.75,
+        7.25
+      ],
+      "to": [
+        12,
+        11.25,
+        9.25
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            2.25,
+            15.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "positive_point",
+      "from": [
+        4.75,
+        10,
+        7.25
+      ],
+      "to": [
+        5.75,
+        14.5,
+        8.25
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            5.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            0.25,
+            7.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            6.25,
+            0.25,
+            7.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            4.25,
+            2.25,
+            5.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            2.25,
+            5.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            6.25,
+            2.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "negative_point",
+      "from": [
+        10.5,
+        11.25,
+        7.75
+      ],
+      "to": [
+        11.5,
+        15,
+        8.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "positive_lead",
+      "from": [
+        4.75,
+        2.5,
+        7.25
+      ],
+      "to": [
+        5.75,
+        4.5,
+        8.25
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            2.25,
+            15.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "negative_lead",
+      "from": [
+        10.5,
+        2.5,
+        7.75
+      ],
+      "to": [
+        11.5,
+        5.75,
+        8.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            2.25,
+            15.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "joining_wire",
+      "from": [
+        5.75,
+        2.5,
+        7.25
+      ],
+      "to": [
+        10.5,
+        3.5,
+        8.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            0.25,
+            15.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            2.25,
+            13.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            2.25,
+            15.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    }
+  ]
 }

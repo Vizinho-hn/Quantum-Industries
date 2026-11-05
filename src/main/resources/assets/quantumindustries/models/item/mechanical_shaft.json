@@ -1,6 +1,476 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:block/block",
   "textures": {
-    "layer0": "quantumindustries:item/mechanical_shaft"
-  }
+    "materials": "quantumindustries:item/era1_materials",
+    "particle": "#materials"
+  },
+  "gui_light": "front",
+  "display": {
+    "gui": {
+      "rotation": [
+        25,
+        32,
+        -30
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.95,
+        0.95,
+        0.95
+      ]
+    },
+    "ground": {
+      "rotation": [
+        75,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.46,
+        0.46,
+        0.46
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        5,
+        18,
+        -25
+      ],
+      "translation": [
+        1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        5,
+        -18,
+        25
+      ],
+      "translation": [
+        -1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        -18
+      ],
+      "translation": [
+        0,
+        2,
+        0.5
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        18
+      ],
+      "translation": [
+        0,
+        2,
+        0.5
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    }
+  },
+  "elements": [
+    {
+      "name": "shaft",
+      "from": [
+        6.6,
+        3,
+        6.6
+      ],
+      "to": [
+        9.4,
+        13,
+        9.4
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "bottom_collar",
+      "from": [
+        5.8,
+        2,
+        5.8
+      ],
+      "to": [
+        10.2,
+        3,
+        10.2
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            6.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "top_collar",
+      "from": [
+        5.8,
+        13,
+        5.8
+      ],
+      "to": [
+        10.2,
+        14,
+        10.2
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            6.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "lower_key",
+      "from": [
+        7,
+        0.8,
+        7
+      ],
+      "to": [
+        9,
+        2,
+        9
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "upper_key",
+      "from": [
+        7,
+        14,
+        7
+      ],
+      "to": [
+        9,
+        15.2,
+        9
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            1.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            0.25,
+            3.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            2.25,
+            1.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            2.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    }
+  ]
 }

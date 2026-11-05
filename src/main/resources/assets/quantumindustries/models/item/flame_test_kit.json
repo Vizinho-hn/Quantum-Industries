@@ -1,6 +1,545 @@
 {
-    "parent": "minecraft:item/generated",
-    "textures": {
-        "layer0": "quantumindustries:item/flame_test_kit"
+  "parent": "minecraft:block/block",
+  "textures": {
+    "materials": "quantumindustries:item/era1_materials",
+    "particle": "#materials"
+  },
+  "gui_light": "front",
+  "display": {
+    "gui": {
+      "rotation": [
+        28,
+        34,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.95,
+        0.95,
+        0.95
+      ]
+    },
+    "ground": {
+      "rotation": [
+        75,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.46,
+        0.46,
+        0.46
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        5,
+        18,
+        -25
+      ],
+      "translation": [
+        1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        5,
+        -18,
+        25
+      ],
+      "translation": [
+        -1,
+        2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        -18
+      ],
+      "translation": [
+        0,
+        2,
+        0.5
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        18
+      ],
+      "translation": [
+        0,
+        2,
+        0.5
+      ],
+      "scale": [
+        0.62,
+        0.62,
+        0.62
+      ]
     }
+  },
+  "elements": [
+    {
+      "name": "wooden_tray",
+      "from": [
+        2,
+        3,
+        3
+      ],
+      "to": [
+        14,
+        4.5,
+        13
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            9.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            10.25,
+            0.25,
+            11.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            2.25,
+            9.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            10.25,
+            2.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "metal_burner",
+      "from": [
+        3,
+        4.5,
+        4
+      ],
+      "to": [
+        8,
+        8,
+        9
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            14.25,
+            4.25,
+            15.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            6.25,
+            13.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            6.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "brass_rim",
+      "from": [
+        3.25,
+        8,
+        4.25
+      ],
+      "to": [
+        7.75,
+        9,
+        8.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            4.25,
+            3.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            2.25,
+            4.25,
+            3.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            0.25,
+            6.25,
+            1.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            6.25,
+            1.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            6.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "recessed_flint",
+      "from": [
+        4,
+        9,
+        5
+      ],
+      "to": [
+        7,
+        10,
+        8
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            10.25,
+            4.25,
+            11.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            10.25,
+            4.25,
+            11.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            8.25,
+            6.25,
+            9.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            6.25,
+            9.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            10.25,
+            6.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "sample_holder",
+      "from": [
+        9,
+        4.5,
+        8
+      ],
+      "to": [
+        13,
+        10.5,
+        12
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4.25,
+            4.25,
+            5.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            4.25,
+            7.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            6.25,
+            4.25,
+            7.75,
+            5.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            4.25,
+            6.25,
+            5.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            6.25,
+            5.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            6.25,
+            6.25,
+            7.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "copper_cap",
+      "from": [
+        9.25,
+        10.5,
+        8.25
+      ],
+      "to": [
+        12.75,
+        12,
+        11.75
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            5.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            0.25,
+            7.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            6.25,
+            0.25,
+            7.75,
+            1.75
+          ],
+          "texture": "#materials"
+        },
+        "north": {
+          "uv": [
+            4.25,
+            2.25,
+            5.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            2.25,
+            5.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            6.25,
+            2.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    }
+  ]
 }
