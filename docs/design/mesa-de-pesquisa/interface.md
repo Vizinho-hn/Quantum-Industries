@@ -1,17 +1,20 @@
 # Interfaces de investigação
 
-A **Bancada de Ensaio Empírico** possui uma interface própria de 350 × 236 pixels,
-com madeira, instrumentos mecânicos, bordas de latão e caderno de papel. Os três
-painéis centrais selecionam prensa mecânica, aquecimento e ensaio galvânico.
+A **Bancada de Ensaio Empírico** possui uma interface própria de 380 × 236 pixels,
+com instrumentos mecânicos, estrutura artesanal e caderno de observações. Os quatro
+métodos são inspeção, aquecimento, reação e prensa mecânica.
 
-A coluna esquerda contém a entrada da amostra e os slots de lupa, isqueiro
-e pesos de ferro. Uma indicação identificada representa a amostra reservada no perfil,
-sem permitir retirar uma segunda unidade. O inventário ocupa a faixa inferior.
+A coluna esquerda contém a amostra e três slots de ferramentas: lupa para inspeção,
+fole manual para aquecimento e frasco para reação. O aquecimento também aceita
+itens legados compatíveis, incluindo o isqueiro vanilla. A prensa está integrada
+à bancada e não exige uma ferramenta adicional. A amostra reservada não pode ser
+retirada uma segunda vez; o inventário fica na parte inferior.
 O botão de ensaio e a barra de progresso refletem o estado validado pelo servidor.
 
 O caderno à direita permite escolher entre dez materiais. Exibe somente as
-observações descobertas, o progresso do material (0/3) e o total do catálogo
-(0/30). As observações completas podem ser consultadas nas dicas da interface.
+observações descobertas, o progresso individual do material (0/4) e o total
+do catálogo (0/40). As observações completas podem ser consultadas nas dicas.
+Cada ensaio leva 200 ticks (10 segundos), enquanto o chunk permanece carregado.
 
 As regras, os resultados e a persistência estão descritos em
 [Bancada de ensaio](../bancada-de-ensaio/README.md).
