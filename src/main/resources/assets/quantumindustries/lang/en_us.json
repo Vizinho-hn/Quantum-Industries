@@ -155,5 +155,8 @@
   "gui.quantumindustries.assay.observation.emerald.inspection": "Translucent green crystal.",
   "gui.quantumindustries.assay.observation.emerald.reaction": "No visible change in the reagent.",
   "gui.quantumindustries.assay.observation.amethyst.inspection": "Violet crystal with defined faces.",
-  "gui.quantumindustries.assay.observation.amethyst.reaction": "No visible change in the reagent."
+  "gui.quantumindustries.assay.observation.amethyst.reaction": "No visible change in the reagent.",
+  "gui.quantumindustries.research.evidence.assay": "%s of %s",
+  "gui.quantumindustries.research.evidence.or": " or ",
+  "block.quantumindustries.empirical_assay_bench": "Material Analyzer"
 }

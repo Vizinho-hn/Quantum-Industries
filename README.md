@@ -28,32 +28,24 @@ Pilares:
 
 ## Protótipo jogável atual
 
-A **Bancada de Ensaio Empírico** permite investigar dez materiais: cobre, ferro,
-ouro, carvão, diamante, quartzo, redstone, lápis-lazúli, esmeralda e ametista.
-Cada material possui três observações, obtidas por prensa mecânica, aquecimento
-e ensaio galvânico: são **30 descobertas individuais** no catálogo.
+Comece pela Mesa de Pesquisa Tier 1 e conclua **Observação dos Materiais**.
+Essa é a entrada da Era I e libera o **Analisador de Materiais**, que reutiliza
+o bloco da Bancada de Ensaio Empírico.
 
-1. Coloque uma amostra aceita e a lupa na bancada.
-2. Para a prensa, adicione os pesos de ferro; para aquecimento, o isqueiro vanilla.
-3. Selecione um dos três métodos e clique em **Realizar ensaio**.
-4. Aguarde 3 segundos e consulte a observação no caderno.
-5. Complete os demais métodos para concluir o ciclo da amostra.
+O analisador permite investigar dez materiais e quatro métodos, totalizando
+**40 descobertas individuais**. Inspeção usa a lupa, aquecimento usa o fole
+manual e carvão, reação usa o frasco de ensaio e o método mecânico usa a
+prensa. Cada ensaio dura 10 segundos. O equipamento continua trabalhando
+quando a interface é fechada. As ferramentas e os resultados pertencem ao
+sistema persistente da bancada e do jogador.
 
-O primeiro ensaio reserva uma unidade da amostra. O ciclo pode ser retomado após
-fechar a interface, trocar de bancada ou sair do mundo; a amostra é consumida ao
-concluir os três métodos. As ferramentas são reutilizáveis. Fechar a HUD mantém
-os itens na bancada, com salvamento no mundo; quebrá-la devolve os itens guardados.
-As ferramentas e a amostra inseridas aparecem no modelo 3D. O caderno permite
-consultar os materiais, mostra o progresso individual e revela somente as
-observações já descobertas. Textos longos podem ser lidos ao passar o mouse.
+A inspeção do cobre e do ferro familiariza o jogador com as amostras.
+Os ensaios mecânicos do cobre e do ferro passam a ser requisitos científicos
+de pesquisas específicas. Descobertas são reutilizadas, enquanto cada
+pesquisa ainda exige seus materiais e conhecimentos anteriores.
 
-A interface combina instrumentos mecânicos, madeira, latão e um caderno de
-observações, com traduções em português e inglês. A bancada tem modelo próprio
-e ocupa dois blocos. A lupa e os pesos têm itens, modelos e receitas próprios; o aquecimento usa o isqueiro vanilla.
-
-O ensaio mecânico do cobre registra uma observação que pode substituir o
-lingote de cobre no custo da pesquisa de Maleabilidade. Consulte os métodos
-e materiais no [guia da Bancada de Ensaio](docs/design/bancada-de-ensaio/README.md).
+[Regras científicas e compatibilidade](docs/SCIENTIFIC_RESEARCH.md).
+[Materiais, métodos e instrumentos](docs/design/bancada-de-ensaio/README.md).
 
 ### Pesquisa e fabricação
 
@@ -96,7 +88,8 @@ O conhecimento é individual e persistente. Na aba **Relatório de pesquisa**,
 guarde tinta preta, pena e papel no analisador. Selecione uma pesquisa concluída
 e clique em **Escrever relatório** para gastar uma unidade de cada material.
 Os insumos guardados permanecem no bloco. Outro jogador pode usar o relatório
-com o botão direito para aprender a pesquisa se já tiver os pré-requisitos.
+com o botão direito para aprender a pesquisa se já tiver os conhecimentos
+anteriores e as evidências científicas exigidas.
 
 Em multiplayer, o servidor valida pesquisas, operações e receitas para cada
 jogador, inclusive quando a bancada é compartilhada.
@@ -106,7 +99,9 @@ jogador, inclusive quando a bancada é compartilhada.
 Com permissão de operador, o jogador pode usar
 `/quantum:desbloquear_pesquisas` para liberar as pesquisas e
 `/quantum:clear_conhecimento` para limpar o próprio progresso de pesquisa.
-O livro de receitas acompanha o novo estado.
+O livro de receitas acompanha o novo estado. O desbloqueio administrativo
+concede as pesquisas diretamente. A limpeza de pesquisas mantém as descobertas
+experimentais registradas no perfil do jogador.
 
 ## Dimensões e energia
 

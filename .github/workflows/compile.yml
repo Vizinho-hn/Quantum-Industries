@@ -22,10 +22,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '25'
-      - name: Verify legacy research migration mapping
+      - name: Verify research migration and scientific progression
         run: |
-          javac -d "$RUNNER_TEMP/research-check" src/main/java/br/com/quantumindustries/research/LegacyResearch.java tests/LegacyResearchCheck.java
-          java -cp "$RUNNER_TEMP/research-check" br.com.quantumindustries.research.LegacyResearchCheck
+          mkdir -p build/dynamo-verification/world
+          printf 'eula=true\n' > build/dynamo-verification/world/eula.txt
+          printf 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25577\nmax-tick-time=0\nview-distance=2\nsimulation-distance=2\n' > build/dynamo-verification/world/server.properties
+          bash ./gradlew --no-daemon --init-script tests/dynamo.init.gradle runServer
+          python3 -c "from pathlib import Path; result=Path('build/dynamo-verification/result.txt').read_text(); print(result); assert result.startswith('PASS:')"
       - name: Compile and package mod
         run: bash ./gradlew --no-daemon build
       - name: Upload testable mod jar

@@ -155,5 +155,8 @@
   "gui.quantumindustries.assay.observation.emerald.inspection": "Cristal verde translúcido.",
   "gui.quantumindustries.assay.observation.emerald.reaction": "Sem mudança visível no reagente.",
   "gui.quantumindustries.assay.observation.amethyst.inspection": "Cristal violeta com faces definidas.",
-  "gui.quantumindustries.assay.observation.amethyst.reaction": "Sem mudança visível no reagente."
+  "gui.quantumindustries.assay.observation.amethyst.reaction": "Sem mudança visível no reagente.",
+  "gui.quantumindustries.research.evidence.assay": "%s de %s",
+  "gui.quantumindustries.research.evidence.or": " ou ",
+  "block.quantumindustries.empirical_assay_bench": "Analisador de Materiais"
 }

@@ -34,7 +34,7 @@ final class ResearchTreeView {
 
     enum State {
         HIDDEN("Oculta", LINE), BLOCKED("Bloqueada", LINE), WAITING("Faltam materiais", GOLD),
-        READY("Disponível", CYAN), DONE("Concluída", GREEN);
+        READY("Disponível", CYAN), EVIDENCE("Falta evidência", GOLD), DONE("Concluída", GREEN);
 
         final String label;
         final int color;
@@ -152,6 +152,10 @@ final class ResearchTreeView {
 
     private static void edge(ResearchTheme theme, GuiGraphicsExtractor g, Node from, Node to, boolean known) {
         int a = from.x + NODE_W, b = to.x, mid = (a + b) / 2;
+        if (to.x <= from.x) {
+            a = from.x;
+            mid = Math.min(from.x, to.x) - 4;
+        }
         int y1 = from.y + NODE_H / 2, y2 = to.y + NODE_H / 2;
         int color = known ? GREEN : LINE;
         theme.fill(g, a, y1, mid + 2, y1 + 2, color);

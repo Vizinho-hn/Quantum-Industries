@@ -22,7 +22,8 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Preserve a separação cliente/servidor: o **servidor é autoridade** sobre inventários, custos, descobertas, pesquisas, permissões e desbloqueios.
 - Mantenha descobertas e pesquisas persistentes **por jogador**. Compartilhar máquina não deve misturar progresso individual.
 - Nunca confie em pacotes ou ações do cliente como prova de conclusão de pesquisa. Valide requisitos e operações no servidor.
-- Preserve invariantes da Bancada de Ensaio: três métodos por material, reserva/consumo de amostra, persistência ao fechar/reabrir, ferramentas reutilizáveis e devolução de itens ao quebrar, salvo mudança de design aprovada.
+- Preserve invariantes da Bancada de Ensaio: quatro métodos por material, reserva/consumo de amostra, persistência ao fechar/reabrir, ferramentas reutilizáveis e devolução de itens ao quebrar, salvo mudança de design aprovada.
+- Novos requisitos científicos afetam pesquisas futuras. Preserve estudos já concluídos e use WorldResearchData.canLearn/learn em todos os caminhos normais.
 - Nomes de classes e métodos em inglês, seguindo convenções Java. Evite comentários redundantes e abstrações prematuras.
 - Ao mudar itens, blocos ou interfaces, confira registros, recursos, modelos, traduções PT-BR/EN-US e receitas pertinentes.
 - Não inclua credenciais, arquivos locais, caches Gradle, mundos de teste ou saídas de build no commit.
