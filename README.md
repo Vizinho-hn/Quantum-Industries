@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A fundação NeoForge, a Mesa de Pesquisa e a primeira versão funcional da Bancada de Ensaio Empírico estão implementadas. A expansão industrial e a integração das novas observações com aplicações tecnológicas seguem planejadas.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 13 pesquisas e termina no Dínamo Manual. A Era II começa com Indução Eletromagnética; redes e máquinas consumidoras estão no roadmap.
 
 ## Visão do projeto
 
@@ -51,13 +51,28 @@ A interface combina instrumentos mecânicos, madeira, latão e um caderno de
 observações, com traduções em português e inglês. A bancada tem modelo próprio
 e ocupa dois blocos. A lupa e os pesos têm itens, modelos e receitas próprios; o aquecimento usa o isqueiro vanilla.
 
-A **Mesa de Pesquisa** mantém o sistema de pesquisas, relatórios científicos e
-bloqueio da receita de cabo de cobre pelo servidor. As novas observações da
-bancada ainda não liberam automaticamente tecnologias: sua integração com
-pesquisas e receitas é a próxima etapa de design.
+O ensaio mecânico do cobre registra uma observação que pode substituir o
+lingote de cobre no custo da pesquisa de Maleabilidade. Consulte os métodos
+e materiais no [guia da Bancada de Ensaio](docs/design/bancada-de-ensaio/README.md).
 
-Consulte as regras completas e o catálogo em
-[Bancada de ensaio](docs/design/bancada-de-ensaio/README.md).
+### Pesquisa e fabricação
+
+- Os Analisadores Científicos Tier 1 e Tier 2 dão acesso à árvore de pesquisa,
+  à Base de Conhecimento, às Receitas Desbloqueadas e aos Relatórios. Os
+  ícones na árvore identificam os itens que cada pesquisa libera.
+- As receitas aparecem no caderno e no livro da bancada de trabalho do
+  Minecraft conforme o progresso individual. No livro do Minecraft, clicar
+  na receita posiciona os ingredientes disponíveis. Desligue o filtro de
+  fabricação para ver também as receitas para as quais faltam materiais.
+- Produza as chapas na Bancada de Conformação com o martelo. Estrutura
+  Eletromecânica libera a estrutura e o Núcleo Mecânico Primitivo, ambos em
+  3D. Projeto do Dínamo libera o dínamo e dá acesso à Era II. Indução
+  Eletromagnética é um estudo da Era II.
+- Fabrique a manivela separadamente, instale-a e gire. O dínamo armazena até
+  240 FE, gera 12 FE por giro e aceita um giro a cada 10 ticks. Os Óculos de
+  Inspeção Energética exibem a carga ao mirar no bloco.
+
+[Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 
 ## Imagens do protótipo
 
@@ -77,14 +92,21 @@ O projeto distingue três conceitos:
 - **Pesquisa:** desenvolvimento de uma aplicação ou tecnologia que utiliza conhecimentos e recursos.
 - **Desbloqueio:** autorização individual para fabricar ou utilizar uma tecnologia.
 
-O conhecimento é individual e persistente por jogador. Receber um relatório científico de outro jogador pode transmitir conhecimento, mas não deve concluir automaticamente pesquisas práticas ou conceder qualquer tecnologia sem as condições definidas pelo jogo.
+O conhecimento é individual e persistente. Na aba **Relatório de pesquisa**,
+guarde tinta preta, pena e papel no analisador. Selecione uma pesquisa concluída
+e clique em **Escrever relatório** para gastar uma unidade de cada material.
+Os insumos guardados permanecem no bloco. Outro jogador pode usar o relatório
+com o botão direito para aprender a pesquisa se já tiver os pré-requisitos.
 
-## Multiplayer
+Em multiplayer, o servidor valida pesquisas, operações e receitas para cada
+jogador, inclusive quando a bancada é compartilhada.
 
-- Dados de pesquisa pertencem a cada jogador.
-- O servidor é a autoridade para validar descobertas, pesquisas e desbloqueios.
-- Máquinas podem ser compartilhadas, mas uma operação tecnológica deve respeitar a autorização do jogador que a inicia ou conclui.
-- Relatórios científicos serão o mecanismo inicial de compartilhamento de conhecimento.
+### Comandos administrativos
+
+Com permissão de operador, o jogador pode usar
+`/quantum:desbloquear_pesquisas` para liberar as pesquisas e
+`/quantum:clear_conhecimento` para limpar o próprio progresso de pesquisa.
+O livro de receitas acompanha o novo estado.
 
 ## Dimensões e energia
 
@@ -110,25 +132,6 @@ As versões usadas pelo projeto estão fixadas em `gradle.properties`, `build.gr
 - [Arquitetura inicial](docs/ARCHITECTURE.md)
 - [Sistema de pesquisa](docs/RESEARCH_SYSTEM.md)
 - [Bancada de ensaio: materiais, métodos e caderno](docs/design/bancada-de-ensaio/README.md)
-
-## Estado atual e validação
-
-- Projeto Gradle/NeoForge configurado, compilação concluída e JAR gerado.
-- Bancada funcional com dez materiais, três métodos, reserva da amostra e caderno.
-- Progresso individual persistente, retomada do ciclo e validação pelo servidor.
-- Modelos da bancada e da Mesa de Pesquisa atualizados; ferramentas com assets próprios.
-- Receita de sondas corrigida para o formato da versão atual do Minecraft.
-- **11 testes automatizados passaram** na validação de 2026-11-04.
-- **521 verificações de integração no servidor passaram**, incluindo inventário persistente, acesso compartilhado e queda de itens ao quebrar a bancada.
-- Interface conferida no cliente: estado inicial, ensaio em andamento, descobertas
-  e ciclo completo em 3/3 com consumo da amostra. O cliente de preview encerrou normalmente.
-
-A causa dos dois travamentos do computador relatados durante o desenvolvimento
-não foi determinada. A execução bem-sucedida do preview não comprova a resolução
-desse problema.
-
-Próxima etapa: definir as aplicações tecnológicas das observações e conectá-las
-à progressão de pesquisas e receitas.
 
 ## Como rodar o projeto
 
@@ -158,8 +161,11 @@ cd Quantum-Industries
 # Contratos e recursos
 python3 -m unittest discover -s tests -v
 
-# Integração em servidor dedicado e mundo isolado
+# Integração da Bancada de Ensaio em um mundo isolado
 ./tools/verify-assay.sh
+
+# Integração da Era I, receitas, relatórios, comandos e dínamo
+./gradlew --init-script tests/dynamo.init.gradle runServer
 
 # Compilação normal
 ./gradlew build
@@ -171,7 +177,8 @@ python3 -m unittest discover -s tests -v
 O preview usa um mundo separado em `build/assay-preview` e captura oito estados
 da interface e dos itens exibidos na bancada. O limite de 30 FPS e as distâncias reduzidas pertencem a esse
 procedimento de verificação. Para jogar manualmente, use `./gradlew runClient`.
-As classes de verificação e preview ficam fora do JAR normal.
+As classes de verificação e preview ficam fora do JAR normal. Para preparar o
+servidor de teste do dínamo, consulte [Dínamo Manual V1](docs/MANUAL_DYNAMO.md).
 
 ## Licença
 

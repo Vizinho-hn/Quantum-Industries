@@ -3,30 +3,29 @@
 Este roadmap registra a direção do projeto. Itens são planejados, não promessas de entrega. As fases podem ser ajustadas após protótipos e testes.
 
 ## Fase 0 — Fundação técnica
-- [ ] Confirmar Minecraft 26.1 e compatibilidade do NeoForge.
-- [ ] Selecionar o MDK oficial correspondente e validar JDK/Gradle exigidos.
-- [ ] Criar projeto mínimo que compile e abra no cliente de desenvolvimento.
-- [ ] Definir package base, convenções de código e estrutura de assets.
-- [ ] Configurar execução local e teste em servidor dedicado.
-- [ ] Configurar CI para build e verificações básicas.
+
+- [x] Fixar Minecraft 26.1.2, NeoForge 26.1.2.125, Java 25 e Gradle 9.2.1.
+- [x] Configurar build, cliente, servidor dedicado e estrutura de recursos.
+- [x] Configurar CI para testes de contrato, migração de pesquisas e compilação.
 
 ## Fase 1 — Núcleo de pesquisa
-- [ ] Definir modelo de materiais e propriedades.
-- [ ] Definir catálogo de descobertas e requisitos de análise.
-- [ ] Implementar dados persistentes individuais por jogador.
-- [ ] Implementar validação no servidor.
-- [ ] Criar protótipo de Analisador.
-- [ ] Criar Bancada de Pesquisa e Banco de Dados Científico.
-- [ ] Implementar o ciclo cobre → condutividade → pesquisa de condutores → cabo de cobre.
-- [ ] Testar persistência após sair e entrar novamente.
-- [ ] Testar dois jogadores com progresso independente.
+
+- [x] Implementar a Bancada de Ensaio Empírico com dez materiais e três métodos.
+- [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
+- [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
+- [x] Integrar uma observação empírica à pesquisa de Maleabilidade.
+- [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
+- [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
+- [ ] Expandir as aplicações tecnológicas das observações empíricas.
 
 ## Fase 2 — Primeira indústria
-- [ ] Processamento mecânico básico.
-- [ ] Geração e armazenamento de energia.
-- [ ] Rede de energia e consumo por máquinas.
-- [ ] Máquinas iniciais e receitas.
-- [ ] Interface de estado, energia e progresso.
+
+- [x] Implementar as 13 pesquisas da Era I, com conformação manual, chapas e componentes mecânicos e elétricos.
+- [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
+- [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
+- [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
+- [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
+- [ ] Desenvolver a progressão da Era II, incluindo rede de energia e primeiras máquinas consumidoras.
 
 ## Fase 3 — Química e materiais
 - [ ] Reações e processos químicos.

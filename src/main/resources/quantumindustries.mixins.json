@@ -1,1 +1,5 @@
-{"required":true,"package":"br.com.quantumindustries.mixin","mixins":["CraftingMenuMixin"]}
+{
+  "required": true,
+  "package": "br.com.quantumindustries.mixin",
+  "mixins": ["CraftingMenuMixin", "RecipeBookPlacementMixin"]
+}

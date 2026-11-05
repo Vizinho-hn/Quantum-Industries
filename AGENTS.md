@@ -8,8 +8,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Mod ID: `quantumindustries`; grupo: `br.com.quantumindustries`.
 - Fontes Java principais em `src/main/java`, fontes específicas de cliente também em `src/client/java` (configuradas em `build.gradle`).
 - Recursos em `src/main/resources` e `src/generated/resources`.
-- Estado atual: Mesa de Pesquisa e Bancada de Ensaio Empírico; dez materiais e três métodos de ensaio. Consulte `README.md` e `docs/design/bancada-de-ensaio/README.md` antes de mexer nesses sistemas.
-- A integração entre descobertas e desbloqueios tecnológicos **ainda é trabalho planejado**: não a trate como implementada.
+- Consulte `README.md` e `ROADMAP.md` para o estado atual do jogo e `docs/design/bancada-de-ensaio/README.md` para as regras da Bancada de Ensaio Empírico.
 
 ## Antes de alterar código
 1. Leia somente os arquivos relevantes à tarefa; comece por `README.md`, `CONTRIBUTING.md`, `ROADMAP.md` e a documentação específica quando necessário. Não varra o repositório inteiro sem motivo.
@@ -28,6 +27,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Ao mudar itens, blocos ou interfaces, confira registros, recursos, modelos, traduções PT-BR/EN-US e receitas pertinentes.
 - Não inclua credenciais, arquivos locais, caches Gradle, mundos de teste ou saídas de build no commit.
 - Não altere licença nem redistribua assets de terceiros sem autorização.
+- A cada implementação ou atualização do mod, revise o README.md e o ROADMAP.md no mesmo PR. Registre o que foi entregue e mantenha o trabalho pendente identificado.
 
 ## Verificação proporcional ao risco
 - Testes de contratos e recursos: `python3 -m unittest discover -s tests -v`.

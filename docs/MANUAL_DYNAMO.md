@@ -18,9 +18,12 @@ envia o estado da Block Entity quando ele muda e quando o chunk começa a ser
 observado. O último giro sincronizado dirige a animação. A V1 não expõe
 capacidade de rede nem descarrega energia em repouso.
 
-A verificação em servidor usa `tests/dynamo.init.gradle`, com diretório isolado
-`build/dynamo-verification/world`. O resultado fica em
-`build/dynamo-verification/result.txt`. A captura local usa
+A verificação em servidor usa `tests/dynamo.init.gradle` e o diretório
+isolado `build/dynamo-verification/world`. Crie esse diretório, aceite a
+EULA do Minecraft no arquivo `eula.txt` e configure um servidor de teste
+local em `server.properties` com `server-ip=127.0.0.1`, `online-mode=false`
+e uma porta livre. Execute `./gradlew --init-script tests/dynamo.init.gradle runServer`
+e confira o resultado em `build/dynamo-verification/result.txt`. A captura local usa
 `tests/dynamo-preview.init.gradle` e um save de teste chamado `DynamoQA` em
 `build/dynamo-preview/saves`. As classes desses testes não entram no JAR normal.
 

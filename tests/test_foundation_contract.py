@@ -54,9 +54,10 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn('output.store("slot_" + i, ItemStack.CODEC, stack)', entity)
 
     def test_recipe_requires_research_on_server(self):
-        recipe = read("src/main/java/br/com/quantumindustries/recipe/CopperWireRecipe.java")
-        self.assertIn('ResearchCraftingAccess.allows(level, "conductivity")', recipe)
-        self.assertIn('ResearchCraftingAccess.allows(level, "copper_wire")', recipe)
+        recipe = read("src/main/java/br/com/quantumindustries/recipe/FoundationRecipe.java")
+        self.assertIn('new Pattern("copper_wire", ModItems.COPPER_WIRE', recipe)
+        self.assertIn('ResearchCraftingAccess.knows(player, "conductivity")', recipe)
+        self.assertIn('crafter != null && unlocked(crafter) && craft.fits(grid)', recipe)
         policy = read("src/main/java/br/com/quantumindustries/recipe/ResearchCraftingAccess.java")
         self.assertIn("instanceof ServerLevel", policy)
         self.assertIn("player != null && player.level() == level", policy)

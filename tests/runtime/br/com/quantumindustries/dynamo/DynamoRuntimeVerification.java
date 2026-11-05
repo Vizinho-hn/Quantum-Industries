@@ -5,8 +5,13 @@ import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
 import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import br.com.quantumindustries.menu.ResearchTableMenu;
 import br.com.quantumindustries.recipe.FoundationRecipe;
+import br.com.quantumindustries.recipe.ModRecipeBook;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import br.com.quantumindustries.recipe.ResearchCraftingAccess;
 import br.com.quantumindustries.research.ResearchCatalog;
+import br.com.quantumindustries.research.ResearchReportItem;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.research.WorldResearchData;
 import com.mojang.authlib.GameProfile;
@@ -17,6 +22,7 @@ import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -103,10 +109,15 @@ public final class DynamoRuntimeVerification {
         var entity = (ResearchTableBlockEntity) level.getBlockEntity(bench);
         var menu = (ResearchTableMenu) entity.createMenu(1, player.getInventory(), player);
         var research = WorldResearchData.get(level);
+        var coilKey = recipeKey(ModItems.COPPER_COIL.get());
+        ModRecipeBook.sync(player);
+        check(player.getRecipeBook().contains(recipeKey(ModItems.SCIENTIFIC_ANALYZER_TIER_1.get())),
+                "starter craft is available in the book on sync");
+        check(!player.getRecipeBook().contains(coilKey), "coil is hidden before research");
         check(menu.stillValid(player), "Tier 1 research bench is usable");
         check(!menu.clickMenuButton(player, design), "design rejects missing prerequisites");
-        check(!FoundationRecipe.INSTANCE.matches(coreGrid, level), "automation cannot craft core");
-        check(!FoundationRecipe.INSTANCE.matches(dynamoGrid, level), "automation cannot craft dynamo");
+        check(!craft(core).matches(coreGrid, level), "automation cannot craft core");
+        check(!craft(ModItems.MANUAL_DYNAMO.get()).matches(dynamoGrid, level), "automation cannot craft dynamo");
 
         int eraOne = 0;
         for (int id = 0; id < ResearchCatalog.STUDIES.size(); id++) {
@@ -124,6 +135,10 @@ public final class DynamoRuntimeVerification {
             }
             eraOne++;
         }
+        check(player.getRecipeBook().contains(coilKey), "research adds the coil to the book");
+        check(player.getRecipeBook().contains(recipeKey(core)), "research adds the core to the book");
+        check(player.getRecipeBook().contains(recipeKey(ModItems.MANUAL_DYNAMO.get())),
+                "research adds the dynamo to the book without induction");
         check(eraOne == 13 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
         verifyCraft(player, coreGrid, core, true);
         verifyCraft(player, dynamoGrid, ModItems.MANUAL_DYNAMO.get(), true);
@@ -132,10 +147,123 @@ public final class DynamoRuntimeVerification {
         verifyCraft(other, dynamoGrid, ModItems.MANUAL_DYNAMO.get(), false);
         BlockPos craftingTable = POS.south();
         level.setBlock(craftingTable, Blocks.CRAFTING_TABLE.defaultBlockState(), 3);
+        for (int id = 0; id < ResearchCatalog.STUDIES.size(); id++) {
+            for (var preview : FoundationRecipe.previews(id)) {
+                verifyBookPlacement(craftingTable, other, player, preview);
+            }
+        }
+        verifyResearchTransfer(menu, other);
+        verifyResearchCommands(craftingTable, other);
         verifyCraftingMenu(craftingTable, coreGrid, core);
         verifyCraftingMenu(craftingTable, dynamoGrid, ModItems.MANUAL_DYNAMO.get());
         check(FoundationRecipe.previews(structure).size() == 2, "structure and core recipe previews");
         check(FoundationRecipe.previews(design).getFirst().output().is(ModItems.MANUAL_DYNAMO.get()), "dynamo recipe preview");
+    }
+
+    private static ResourceKey<net.minecraft.world.item.crafting.Recipe<?>> recipeKey(ItemLike output) {
+        return ResourceKey.create(Registries.RECIPE, BuiltInRegistries.ITEM.getKey(output.asItem()));
+    }
+
+    private static FoundationRecipe craft(ItemLike output) {
+        return (FoundationRecipe) level.getServer().getRecipeManager().byKey(recipeKey(output)).orElseThrow().value();
+    }
+
+    private static void verifyBookPlacement(BlockPos table, FakePlayer guest, FakePlayer researcher, FoundationRecipe.Preview preview) {
+        var recipeManager = level.getServer().getRecipeManager();
+        var key = recipeKey(preview.output().getItem());
+        var recipe = recipeManager.byKey(key).orElseThrow();
+        var displays = new java.util.ArrayList<net.minecraft.world.item.crafting.display.RecipeDisplayEntry>();
+        recipeManager.listDisplaysForRecipe(key, displays::add);
+        check(displays.size() == 1, "one registered display for " + key.identifier());
+        for (FakePlayer crafter : java.util.List.of(guest, researcher)) {
+            boolean allowed = crafter == researcher;
+            check(crafter.getRecipeBook().contains(key) == allowed, "book ownership is individual");
+            for (ItemStack ingredient : preview.ingredients()) {
+                if (!ingredient.isEmpty()) check(crafter.getInventory().add(ingredient.copy()), "stage recipe ingredient");
+            }
+            var menu = new CraftingMenu(3, crafter.getInventory(), ContainerLevelAccess.create(level, table));
+            crafter.containerMenu = menu;
+            menu.handlePlacement(false, false, recipe, level, crafter.getInventory());
+            ItemStack result = menu.getSlot(0).getItem();
+            check(allowed ? ItemStack.matches(result, preview.output()) : result.isEmpty(),
+                    "recipe-book placement: " + key.identifier());
+            check(menu.getInputGridSlots().stream().filter(slot -> slot.hasItem()).count()
+                            == (allowed ? preview.ingredients().stream().filter(stack -> !stack.isEmpty()).count() : 0),
+                    "only the learned recipe moves ingredients");
+            menu.removed(crafter);
+            crafter.containerMenu = crafter.inventoryMenu;
+            crafter.getInventory().clearContent();
+        }
+    }
+
+    private static void verifyResearchTransfer(ResearchTableMenu menu, FakePlayer recipient) {
+        int wire = ResearchCatalog.indexOf("copper_wire");
+        int conductivity = ResearchCatalog.indexOf("conductivity");
+        for (int i = 0; i < 3; i++) {
+            var material = java.util.List.of(Items.BLACK_DYE, Items.FEATHER, Items.PAPER).get(i);
+            check(player.getInventory().add(new ItemStack(material, 2)), "stage report supplies");
+            check(menu.clickMenuButton(player, ResearchTableMenu.REPORT_DEPOSIT + i), "store report supplies");
+        }
+        check(menu.clickMenuButton(player, ResearchTableMenu.REPORT_WRITE + wire), "write wire report");
+        check(menu.clickMenuButton(player, ResearchTableMenu.REPORT_WRITE + conductivity), "write conductivity report");
+        for (int i = 0; i < 3; i++) check(menu.supply(i) == 0, "one of each supply per report");
+
+        var research = WorldResearchData.get(level);
+        ItemStack wireReport = takeReport(wire);
+        recipient.setItemInHand(InteractionHand.MAIN_HAND, wireReport);
+        wireReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
+        check(!wireReport.isEmpty() && !research.knows(recipient, wire), "report checks prerequisites");
+
+        ItemStack conductivityReport = takeReport(conductivity);
+        recipient.setItemInHand(InteractionHand.MAIN_HAND, conductivityReport);
+        conductivityReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
+        check(conductivityReport.isEmpty() && research.knows(recipient, conductivity), "report teaches its study");
+
+        recipient.setItemInHand(InteractionHand.MAIN_HAND, wireReport);
+        wireReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
+        check(wireReport.isEmpty() && research.knows(recipient, wire)
+                && recipient.getRecipeBook().contains(recipeKey(ModItems.COPPER_WIRE.get())), "report unlocks craft in book");
+    }
+
+    private static ItemStack takeReport(int study) {
+        var inventory = player.getInventory();
+        var expected = ResearchReportItem.create(study);
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (ItemStack.isSameItemSameComponents(inventory.getItem(slot), expected)) return inventory.removeItem(slot, 1);
+        }
+        throw new AssertionError("missing report");
+    }
+
+    private static void verifyResearchCommands(BlockPos table, FakePlayer recipient) {
+        var research = WorldResearchData.get(level);
+        var commands = level.getServer().getCommands();
+        var source = recipient.createCommandSourceStack();
+        var wire = recipeKey(ModItems.COPPER_WIRE.get());
+        var dynamo = recipeKey(ModItems.MANUAL_DYNAMO.get());
+        var noPermissions = source.withPermission(PermissionSet.NO_PERMISSIONS);
+        var admin = source.withPermission(PermissionSet.ALL_PERMISSIONS);
+        commands.performPrefixedCommand(noPermissions, "quantum:desbloquear_pesquisas");
+        check(!research.knows(recipient, "manual_dynamo_design"), "unlock requires permission");
+        commands.performPrefixedCommand(admin, "quantum:desbloquear_pesquisas");
+        check(research.knows(recipient, "manual_dynamo_design") && recipient.getRecipeBook().contains(dynamo),
+                "unlock command grants research and recipes");
+        commands.performPrefixedCommand(noPermissions, "quantum:clear_conhecimento");
+        check(recipient.getRecipeBook().contains(dynamo), "clear requires permission");
+
+        recipient.getInventory().add(new ItemStack(Items.COPPER_INGOT, 3));
+        var recipe = level.getServer().getRecipeManager().byKey(wire).orElseThrow();
+        var menu = new CraftingMenu(4, recipient.getInventory(), ContainerLevelAccess.create(level, table));
+        recipient.containerMenu = menu;
+        menu.handlePlacement(false, false, recipe, level, recipient.getInventory());
+        check(menu.getSlot(0).getItem().is(ModItems.COPPER_WIRE.get()), "unlocked wire craft is ready");
+        commands.performPrefixedCommand(admin, "quantum:clear_conhecimento");
+        check(!research.knows(recipient, "copper_wire") && !recipient.getRecipeBook().contains(wire)
+                && !recipient.getRecipeBook().contains(dynamo), "clear command removes research and recipes");
+        check(menu.getSlot(0).getItem().isEmpty(), "clear invalidates an open crafting result");
+        check(menu.getInputGridSlots().stream().filter(slot -> slot.hasItem()).count() == 3, "clear preserves inputs");
+        check(research.knows(player, "copper_wire"), "clear affects only the sender");
+        menu.removed(recipient);
+        recipient.containerMenu = recipient.inventoryMenu;
     }
 
     private static void verifyCraftingMenu(BlockPos table, CraftingInput grid, ItemLike output) {
@@ -163,9 +291,9 @@ public final class DynamoRuntimeVerification {
 
     private static void verifyCraft(FakePlayer crafter, CraftingInput grid, ItemLike output, boolean allowed) {
         ResearchCraftingAccess.withCrafter(crafter, () -> {
-            check(FoundationRecipe.INSTANCE.matches(grid, level) == allowed, "craft access: " + output);
+            check(craft(output).matches(grid, level) == allowed, "craft access: " + output);
             if (allowed) {
-                var result = FoundationRecipe.INSTANCE.assemble(grid);
+                var result = craft(output).assemble(grid);
                 check(result.is(output.asItem()) && result.getCount() == 1, "craft output: " + output);
             }
         });
@@ -220,7 +348,7 @@ public final class DynamoRuntimeVerification {
     private static void finish(Throwable error) throws Exception {
         turns = 0;
         try {
-            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 13 Era I studies, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
+            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 13 Era I studies, recipe book placement, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
             if (error != null) error.printStackTrace();
         } finally {
             level.getServer().halt(false);

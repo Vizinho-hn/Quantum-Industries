@@ -102,6 +102,8 @@
   "item.quantumindustries.electromechanical_frame": "Estrutura Eletromecânica",
   "block.quantumindustries.forming_bench": "Bancada de Conformação Manual",
   "block.quantumindustries.manual_dynamo": "Dínamo Manual",
+  "commands.quantumindustries.research.unlock": "Todas as pesquisas de %s foram desbloqueadas.",
+  "commands.quantumindustries.research.clear": "O progresso de pesquisa de %s foi limpo.",
   "item.quantumindustries.energy_inspection_goggles": "Óculos de Inspeção Energética",
   "block.quantumindustries.manual_dynamo.installed": "Manivela instalada.",
   "block.quantumindustries.manual_dynamo.already_installed": "Este dínamo já tem uma manivela.",
