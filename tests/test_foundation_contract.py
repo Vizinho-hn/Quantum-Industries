@@ -49,7 +49,9 @@ class FoundationContractTest(unittest.TestCase):
         self.assertNotIn("addSlot(", menu)
         self.assertIn("new SimpleContainerData(DATA_SIZE)", menu)
         self.assertIn("clickMenuButton", menu)
-        self.assertIn("spend(player.getInventory()", menu)
+        self.assertIn("prepareSpend(player.getInventory()", menu)
+        self.assertIn("payment.commit()", menu)
+        self.assertIn("payment.rollback()", menu)
         self.assertIn('output.putInt("progress", legacyProgress)', entity)
         self.assertIn('output.store("slot_" + i, ItemStack.CODEC, stack)', entity)
 

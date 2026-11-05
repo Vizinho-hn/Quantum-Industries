@@ -17,12 +17,14 @@ public final class ResearchReportItem extends Item {
     public ResearchReportItem(Properties properties) { super(properties); }
 
     public static ItemStack create(int research) {
+        if (!ResearchCatalog.valid(research)) return ItemStack.EMPTY;
+        var study = ResearchCatalog.STUDIES.get(research);
         ItemStack stack = new ItemStack(ModItems.RESEARCH_DATA.get());
         CompoundTag tag = new CompoundTag();
-        tag.putString("quantum_research_id", ResearchCatalog.STUDIES.get(research).key());
+        tag.putString("quantum_research_id", study.id().toString());
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         stack.set(DataComponents.CUSTOM_NAME, Component.literal(
-                "Relatório: " + ResearchCatalog.STUDIES.get(research).name()));
+                "Relatório: " + study.name()));
         return stack;
     }
 
@@ -31,8 +33,9 @@ public final class ResearchReportItem extends Item {
         if (!(level instanceof ServerLevel server)) return InteractionResult.SUCCESS;
         ItemStack stack = player.getItemInHand(hand);
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        String id = tag.getString("quantum_research_id")
+        String storedId = tag.getString("quantum_research_id")
                 .orElseGet(() -> LegacyResearch.key(tag.getIntOr("quantum_research", -1)));
+        var id = ResearchCatalog.identifier(storedId);
         WorldResearchData research = WorldResearchData.get(server);
         if (ResearchCatalog.find(id) == null) return message(player, "Este relatório está em branco.");
         if (research.knows(player, id)) return message(player, "Você já conhece essa pesquisa.");

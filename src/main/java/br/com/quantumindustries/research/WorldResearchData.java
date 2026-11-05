@@ -4,13 +4,10 @@ import br.com.quantumindustries.QuantumIndustries;
 import br.com.quantumindustries.recipe.ModRecipeBook;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.ArrayList;
+import net.minecraft.resources.Identifier;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -30,7 +27,7 @@ public final class WorldResearchData extends SavedData {
             Identifier.fromNamespaceAndPath(QuantumIndustries.MODID, "research"),
             WorldResearchData::new, CODEC, null);
 
-    private final Map<String, Set<String>> completed = new HashMap<>();
+    private final Map<String, ResearchProgress> completed = new HashMap<>();
     private final Map<String, Integer> legacyPlayers;
     private final boolean conductivity;
     private final boolean copperWire;
@@ -43,40 +40,56 @@ public final class WorldResearchData extends SavedData {
         this.copperWire = copperWire;
         // Retain the original bits, including any unrecognized ones, for compatibility.
         this.legacyPlayers = Map.copyOf(legacy);
-        progress.forEach((id, known) -> completed.put(id, new HashSet<>(known)));
-        legacy.forEach((id, bits) -> completed.computeIfAbsent(id, ignored -> LegacyResearch.decode(bits)));
-        if (!progress.keySet().containsAll(legacy.keySet())) setDirty();
+        boolean[] needsRewrite = {false};
+        progress.forEach((uuid, known) -> {
+            ResearchProgress decoded = ResearchProgress.decode(known);
+            if (!decoded.encode().equals(known)) needsRewrite[0] = true;
+            completed.put(uuid, decoded);
+        });
+        legacy.forEach((uuid, bits) -> {
+            ResearchProgress decoded = completed.computeIfAbsent(uuid, ignored -> new ResearchProgress());
+            if (bits != 0 && !progress.containsKey(uuid)) needsRewrite[0] = true;
+            for (String key : LegacyResearch.decode(bits)) {
+                if (decoded.addLegacy(key)) needsRewrite[0] = true;
+            }
+        });
+        if (needsRewrite[0]) setDirty();
     }
 
     private Map<String, List<String>> encodeProgress() {
         Map<String, List<String>> result = new HashMap<>();
-        completed.forEach((id, known) -> {
-            List<String> sorted = new ArrayList<>(known);
-            sorted.sort(String::compareTo);
-            result.put(id, sorted);
-        });
+        completed.forEach((uuid, known) -> result.put(uuid, known.encode()));
         return result;
     }
 
-    private Set<String> progress(Player player) {
+    private ResearchProgress progress(Player player) {
         String uuid = player.getUUID().toString();
-        Set<String> known = completed.get(uuid);
+        ResearchProgress known = completed.get(uuid);
         if (known != null) return known;
         if (conductivity && player.level() instanceof ServerLevel level) {
             var owner = level.getServer().getSingleplayerProfile();
             if (owner != null && owner.id().equals(player.getUUID())) {
-                known = new HashSet<>();
-                known.add("conductivity");
-                if (copperWire) known.add("copper_wire");
+                known = new ResearchProgress();
+                known.addLegacy("conductivity");
+                if (copperWire) known.addLegacy("copper_wire");
                 completed.put(uuid, known);
                 setDirty();
                 return known;
             }
         }
-        return Set.of();
+        return new ResearchProgress();
     }
 
-    public boolean knows(Player player, String key) { return progress(player).contains(key); }
+    public boolean knows(Player player, String key) {
+        return knows(player, ResearchIds.parse(key));
+    }
+
+    public boolean knows(Player player, Identifier id) { return progress(player).knows(id); }
+
+    boolean knows(String playerUuid, Identifier id) {
+        ResearchProgress known = completed.get(playerUuid);
+        return known != null && known.knows(id);
+    }
 
     public boolean knows(Player player, int slot) {
         return ResearchCatalog.valid(slot) && knows(player, ResearchCatalog.STUDIES.get(slot).key());
@@ -87,8 +100,10 @@ public final class WorldResearchData extends SavedData {
     }
 
     private boolean prerequisites(Player player, ResearchCatalog.Study study) {
-        Set<String> known = progress(player);
-        return known.containsAll(study.prerequisites());
+        ResearchProgress known = progress(player);
+        return study.prerequisites().stream()
+                .map(ResearchIds::parse)
+                .allMatch(known::knows);
     }
 
     public boolean learn(Player player, int slot) {
@@ -96,27 +111,38 @@ public final class WorldResearchData extends SavedData {
     }
 
     public boolean learn(Player player, String key) {
-        var study = ResearchCatalog.find(key);
-        if (study == null || knows(player, key) || !prerequisites(player, study)) return false;
-        completed.computeIfAbsent(player.getUUID().toString(), ignored -> new HashSet<>()).add(key);
+        return learn(player, ResearchCatalog.identifier(key));
+    }
+
+    public boolean learn(Player player, Identifier id) {
+        var study = ResearchCatalog.find(id);
+        if (study == null || knows(player, id) || !prerequisites(player, study)) return false;
+        if (!completed.computeIfAbsent(player.getUUID().toString(), ignored -> new ResearchProgress()).learn(id)) {
+            return false;
+        }
         setDirty();
         ModRecipeBook.sync(player);
         return true;
     }
 
     public void unlockAll(Player player) {
-        Set<String> known = new HashSet<>(progress(player));
-        ResearchCatalog.STUDIES.forEach(study -> known.add(study.key()));
+        ResearchProgress known = progress(player);
+        ResearchCatalog.STUDIES.forEach(study -> known.learn(ResearchCatalog.identifier(study.key())));
         completed.put(player.getUUID().toString(), known);
         setDirty();
         ModRecipeBook.sync(player);
     }
 
     public void clearAll(Player player) {
-        // Keep an explicit empty entry so the legacy singleplayer fallback cannot restore it.
-        completed.put(player.getUUID().toString(), new HashSet<>());
+        completed.put(player.getUUID().toString(), new ResearchProgress());
         setDirty();
         ModRecipeBook.sync(player);
+    }
+
+    public boolean canLearn(Player player, Identifier id) {
+        var study = ResearchCatalog.find(id);
+        return study != null && !knows(player, id) && prerequisites(player, study);
+
     }
 
     public static WorldResearchData get(ServerLevel level) {

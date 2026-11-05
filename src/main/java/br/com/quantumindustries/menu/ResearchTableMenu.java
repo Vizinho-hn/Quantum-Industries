@@ -20,6 +20,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.network.IContainerFactory;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Research-only menu. No item slots are exposed: research consumes materials
@@ -38,6 +42,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     private final ResearchTableBlockEntity entity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
+    private final Player owner;
 
     public ResearchTableMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, resolveBlockEntity(inventory, extraData), new SimpleContainerData(DATA_SIZE));
@@ -45,9 +50,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
 
     public ResearchTableMenu(int containerId, Inventory inventory, ResearchTableBlockEntity entity, ContainerData data) {
         super(ModMenuTypes.RESEARCH_TABLE_MENU.get(), containerId);
+        this.owner = inventory.player;
         this.entity = entity;
         this.data = new ContainerData() {
             @Override public int get(int index) {
+                if (index < 0 || index >= DATA_SIZE) return 0;
                 if (!(inventory.player.level() instanceof ServerLevel server)) return data.get(index);
                 if (index < 3) return entity == null ? 0 : entity.reportSupplies().getItem(index).getCount();
                 int id = (index - 3) / 2;
@@ -90,13 +97,17 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return createMenu(id, inventory, extraData);
     }
 
-    public boolean complete(int id) { return data.get(3 + id * 2) == 2; }
-    public boolean isRevealed(int id) { return data.get(3 + id * 2) != 0; }
-    public boolean hasCost(int id, int cost) { return (data.get(4 + id * 2) & (1 << cost)) != 0; }
+    public boolean complete(int id) { return ResearchCatalog.valid(id) && data.get(3 + id * 2) == 2; }
+    public boolean isRevealed(int id) { return ResearchCatalog.valid(id) && data.get(3 + id * 2) != 0; }
+    public boolean hasCost(int id, int cost) {
+        return ResearchCatalog.valid(id) && cost >= 0 && cost < ResearchCatalog.STUDIES.get(id).costs().size()
+                && cost < Integer.SIZE && (data.get(4 + id * 2) & (1 << cost)) != 0;
+    }
 
     @Override
     public boolean clickMenuButton(Player player, int id) {
-        if (!stillValid(player) || !(player.level() instanceof ServerLevel serverLevel)) return false;
+        if (player != owner || player.containerMenu != this || !stillValid(player)
+                || !(player.level() instanceof ServerLevel serverLevel) || id < 0) return false;
         WorldResearchData research = WorldResearchData.get(serverLevel);
         if (id >= REPORT_DEPOSIT && id < REPORT_WITHDRAW) {
             return transferSupply(player, id - REPORT_DEPOSIT, true);
@@ -107,15 +118,20 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         if (id >= REPORT_WRITE && id < REPORT_WRITE + ResearchCatalog.STUDIES.size()) {
             return writeReport(player, research, id - REPORT_WRITE);
         }
-        if (!research.prerequisites(player, id) || research.knows(player, id)) return false;
+        if (!ResearchCatalog.valid(id)) return false;
         var study = ResearchCatalog.STUDIES.get(id);
+        if (!research.canLearn(player, study.id())) return false;
         // An existing empirical copper observation can substitute for the deformation sample.
         boolean empirical = study.key().equals("material_malleability") && hasCopperObservation(player);
         Cost[] costs = study.costs().stream()
                 .filter(cost -> !empirical || cost.item() != Items.COPPER_INGOT)
                 .map(cost -> new Cost(cost.item(), cost.amount())).toArray(Cost[]::new);
-        if (!spend(player.getInventory(), costs)) return false;
-        research.learn(player, id);
+        SpendPlan payment = prepareSpend(player.getInventory(), costs);
+        if (payment == null || !payment.commit()) return false;
+        if (!research.learn(player, study.id())) {
+            payment.rollback();
+            return false;
+        }
         broadcastChanges();
         return true;
     }
@@ -123,14 +139,15 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     public int supply(int index) { return data.get(index); }
 
     private boolean transferSupply(Player player, int index, boolean deposit) {
-        if (entity == null) return false;
+        if (entity == null || index < 0 || index >= SUPPLIES.length) return false;
         SimpleContainer supplies = entity.reportSupplies();
         ItemStack stored = supplies.getItem(index);
         Inventory inventory = player.getInventory();
         if (deposit) {
             Item item = SUPPLIES[index];
             int amount = Math.min(new ItemStack(item).getMaxStackSize() - stored.getCount(), count(inventory, item));
-            if (amount <= 0 || !spend(inventory, new Cost(item, amount))) return false;
+            SpendPlan payment = prepareSpend(inventory, new Cost(item, amount));
+            if (amount <= 0 || payment == null || !payment.commit()) return false;
             supplies.setItem(index, new ItemStack(item, stored.getCount() + amount));
         } else {
             if (stored.isEmpty()) return false;
@@ -145,12 +162,13 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
 
     private boolean writeReport(Player player, WorldResearchData research, int id) {
         if (entity == null || !research.knows(player, id)) return false;
+        ItemStack report = br.com.quantumindustries.research.ResearchReportItem.create(id);
+        if (report.isEmpty()) return false;
         SimpleContainer supplies = entity.reportSupplies();
         for (int i = 0; i < SUPPLIES.length; i++) {
             if (!supplies.getItem(i).is(SUPPLIES[i])) return false;
         }
         for (int i = 0; i < SUPPLIES.length; i++) supplies.removeItem(i, 1);
-        ItemStack report = br.com.quantumindustries.research.ResearchReportItem.create(id);
         player.getInventory().placeItemBackInInventory(report);
         broadcastChanges();
         return true;
@@ -171,32 +189,63 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return total;
     }
 
-    private record Cost(Item item, int amount) {}
+    record Cost(Item item, int amount) {}
 
-    /** Two-phase withdrawal: verify all item counts first, then consume atomically. */
-    private static boolean spend(Inventory inventory, Cost... costs) {
+    private record Debit(int slot, Item item, int amount, ItemStack before) {}
+
+    static final class SpendPlan {
+        private final Inventory inventory;
+        private final List<Debit> debits;
+        private boolean committed;
+
+        private SpendPlan(Inventory inventory, List<Debit> debits) {
+            this.inventory = inventory;
+            this.debits = debits;
+        }
+
+        boolean commit() {
+            if (committed) return false;
+            for (Debit debit : debits) {
+                ItemStack stack = inventory.getItem(debit.slot());
+                if (!stack.is(debit.item()) || stack.getCount() < debit.amount()) return false;
+            }
+            for (Debit debit : debits) inventory.getItem(debit.slot()).shrink(debit.amount());
+            inventory.setChanged();
+            committed = true;
+            return true;
+        }
+
+        void rollback() {
+            if (!committed) return;
+            for (Debit debit : debits) inventory.setItem(debit.slot(), debit.before().copy());
+            inventory.setChanged();
+            committed = false;
+        }
+    }
+
+    static SpendPlan prepareSpend(Inventory inventory, Cost... costs) {
+        if (inventory == null || costs == null) return null;
+        Map<Item, Long> totals = new IdentityHashMap<>();
         for (Cost cost : costs) {
-            int found = 0;
-            for (int i = 0; i < inventory.getContainerSize(); ++i) {
-                if (inventory.getItem(i).is(cost.item())) {
-                    found += inventory.getItem(i).getCount();
+            if (cost == null || cost.item() == null || cost.amount() <= 0) return null;
+            totals.merge(cost.item(), (long) cost.amount(), Long::sum);
+        }
+
+        List<Debit> debits = new ArrayList<>();
+        for (var entry : totals.entrySet()) {
+            long remaining = entry.getValue();
+            for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
+                ItemStack stack = inventory.getItem(slot);
+                if (!stack.is(entry.getKey())) continue;
+                int amount = (int) Math.min(remaining, stack.getCount());
+                if (amount > 0) {
+                    debits.add(new Debit(slot, entry.getKey(), amount, stack.copy()));
+                    remaining -= amount;
                 }
             }
-            if (found < cost.amount()) return false;
+            if (remaining > 0) return null;
         }
-        for (Cost cost : costs) {
-            int remaining = cost.amount();
-            for (int i = 0; i < inventory.getContainerSize() && remaining > 0; ++i) {
-                ItemStack stack = inventory.getItem(i);
-                if (stack.is(cost.item())) {
-                    int taken = Math.min(remaining, stack.getCount());
-                    stack.shrink(taken);
-                    remaining -= taken;
-                }
-            }
-        }
-        inventory.setChanged();
-        return true;
+        return new SpendPlan(inventory, List.copyOf(debits));
     }
 
     @Override
@@ -210,7 +259,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(levelAccess, player, isTierOne()
+        return player == owner && stillValid(levelAccess, player, isTierOne()
                 ? ModBlocks.RESEARCH_TABLE_TIER_1.get() : ModBlocks.RESEARCH_TABLE.get());
     }
 }
