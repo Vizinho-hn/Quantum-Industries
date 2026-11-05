@@ -30,26 +30,26 @@ Pilares:
 
 A **Bancada de Ensaio Empírico** permite investigar dez materiais: cobre, ferro,
 ouro, carvão, diamante, quartzo, redstone, lápis-lazúli, esmeralda e ametista.
-Cada material possui três observações, obtidas por prensa mecânica, aquecimento
-e ensaio galvânico: são **30 descobertas individuais** no catálogo.
+Cada material possui quatro observações — inspeção, aquecimento, reação e
+prensa mecânica — totalizando **40 descobertas individuais** no catálogo.
 
-1. Coloque uma amostra aceita e a lupa na bancada.
-2. Para a prensa, adicione os pesos de ferro; para aquecimento, o isqueiro vanilla.
-3. Selecione um dos três métodos e clique em **Realizar ensaio**.
-4. Aguarde 3 segundos e consulte a observação no caderno.
-5. Complete os demais métodos para concluir o ciclo da amostra.
+1. Coloque uma amostra aceita na bancada.
+2. Para inspeção, coloque a lupa; para aquecimento, use o fole manual (ou um item de chama aceito); para reação, coloque o frasco de ensaio. A prensa de parafuso faz parte da bancada.
+3. Selecione um dos quatro métodos e clique em **Realizar ensaio**.
+4. Aguarde 10 segundos (200 ticks) e consulte a observação no caderno.
+5. Complete os demais métodos para concluir as quatro observações da amostra.
 
 O primeiro ensaio reserva uma unidade da amostra. O ciclo pode ser retomado após
 fechar a interface, trocar de bancada ou sair do mundo; a amostra é consumida ao
-concluir os três métodos. As ferramentas são reutilizáveis. Fechar a HUD mantém
+concluir os quatro métodos. As ferramentas são reutilizáveis. Fechar a HUD mantém
 os itens na bancada, com salvamento no mundo; quebrá-la devolve os itens guardados.
 As ferramentas e a amostra inseridas aparecem no modelo 3D. O caderno permite
 consultar os materiais, mostra o progresso individual e revela somente as
 observações já descobertas. Textos longos podem ser lidos ao passar o mouse.
 
-A interface combina instrumentos mecânicos, madeira, latão e um caderno de
+A interface combina instrumentos mecânicos, madeira, ferro e um caderno de
 observações, com traduções em português e inglês. A bancada tem modelo próprio
-e ocupa dois blocos. A lupa e os pesos têm itens, modelos e receitas próprios; o aquecimento usa o isqueiro vanilla.
+e ocupa dois blocos. Lupa, fole manual e frasco de ensaio possuem itens, modelos e receitas; a opção de aquecimento também aceita o isqueiro vanilla.
 
 O ensaio mecânico do cobre registra uma observação que pode substituir o
 lingote de cobre no custo da pesquisa de Maleabilidade. Consulte os métodos
