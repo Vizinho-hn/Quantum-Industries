@@ -209,5 +209,14 @@
   "message.quantumindustries.pneumatic.research": "Pesquise Pressão Pneumática primeiro.",
   "message.quantumindustries.pneumatic.blocked": "Entrada ou tubo de saída ocupado.",
   "message.quantumindustries.pneumatic.status": "Ejetor: %s/%s FE (10 FE por pulso).",
-  "message.quantumindustries.sorter.status": "Peneira %s. Leves vão para a saída lateral."
+  "message.quantumindustries.sorter.status": "Peneira %s. Leves vão para a saída lateral.",
+  "item.quantumindustries.galvanic_electrolyte": "Concentrado de Eletrólito Galvânico",
+  "item.quantumindustries.pigment_sediment": "Sedimento de Pigmento",
+  "message.quantumindustries.vat.research": "Pesquise Hidrostática primeiro.",
+  "message.quantumindustries.vat.status": "Cuba: %s/%s mB | Lápis: %s | Frascos: %s | Decantação: %s",
+  "message.quantumindustries.fluid.line": "Vazão: %s mB/t | Pressão: %s ticks",
+  "message.quantumindustries.pump.research": "Pesquise Mecânica Peristáltica primeiro.",
+  "message.quantumindustries.pump.blocked": "Entrada vazia ou saída bloqueada.",
+  "message.quantumindustries.pump.status": "Vazão: %s mB/t | Buffer: %s FE",
+  "gui.quantumindustries.fluid.amount": "Fluido: %s/%s mB"
 }

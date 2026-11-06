@@ -20,7 +20,15 @@ public final class FluidTransfer {
             FluidResource fluid=source.getResource(slot);
             if(fluid.isEmpty())continue;
             try(var tx=Transaction.openRoot()){
-                int taken=source.extract(slot,fluid,limit,tx);
+
+                int space=0;
+                for(int i=0;i<target.size();i++){
+                    if(!target.isValid(i,fluid))continue;
+                    space+=Math.max(0,target.getCapacityAsInt(i,fluid)-target.getAmountAsInt(i));
+                    if(space>=limit)break;
+                }
+                if(space<=0)continue;
+                int taken=source.extract(slot,fluid,Math.min(space,limit),tx);
                 if(taken<=0)continue;
                 int accepted=target.insert(fluid,taken,tx);
                 if(accepted!=taken)continue; // rollback BOTH handlers, no phantom fluid

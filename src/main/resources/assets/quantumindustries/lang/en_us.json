@@ -209,5 +209,14 @@
   "message.quantumindustries.pneumatic.research": "Research Pneumatic Pressure first.",
   "message.quantumindustries.pneumatic.blocked": "Input or output tube blocked.",
   "message.quantumindustries.pneumatic.status": "Ejector: %s/%s FE (10 FE per pulse).",
-  "message.quantumindustries.sorter.status": "Sieve %s. Light items travel to the side outlet."
+  "message.quantumindustries.sorter.status": "Sieve %s. Light items travel to the side outlet.",
+  "item.quantumindustries.galvanic_electrolyte": "Galvanic Electrolyte Concentrate",
+  "item.quantumindustries.pigment_sediment": "Pigment Sediment",
+  "message.quantumindustries.vat.research": "Research Hydrostatics first.",
+  "message.quantumindustries.vat.status": "Vat: %s/%s mB | Lapis: %s | Bottles: %s | Settling: %s",
+  "message.quantumindustries.fluid.line": "Flow: %s mB/t | Pressure: %s ticks",
+  "message.quantumindustries.pump.research": "Research Peristaltic Mechanics first.",
+  "message.quantumindustries.pump.blocked": "Input empty or output blocked.",
+  "message.quantumindustries.pump.status": "Flow: %s mB/t | Buffer: %s FE",
+  "gui.quantumindustries.fluid.amount": "Fluid: %s/%s mB"
 }

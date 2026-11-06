@@ -68,6 +68,7 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
     @Override protected void loadAdditional(ValueInput in){
         super.loadAdditional(in);tank.deserialize(in);
         pressureTicks=Math.clamp(in.getIntOr("pressure_ticks",0),0,20);
+        lastFlow=Math.clamp(in.getIntOr("visual_flow",0),0,MAX_RATE);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider regs){
         CompoundTag tag=saveCustomOnly(regs);
