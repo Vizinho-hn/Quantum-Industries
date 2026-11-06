@@ -1,1 +1,6 @@
-{"model":{"type":"minecraft:model","model":"quantumindustries:block/research_table"}}
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "quantumindustries:block/research_table_tier_1"
+  }
+}

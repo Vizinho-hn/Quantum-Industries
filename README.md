@@ -55,6 +55,15 @@ O ensaio mecânico do cobre registra uma observação que pode substituir o
 lingote de cobre no custo da pesquisa de Maleabilidade. Consulte os métodos
 e materiais no [guia da Bancada de Ensaio](docs/design/bancada-de-ensaio/README.md).
 
+### Visual da Mesa de Pesquisa Tier 1
+
+A Tier 1 tem bancada artesanal própria em madeira, ferro e cobre, com caderno
+aberto, balança mecânica, lupa, bandeja de amostras e gaveta decorativa.
+O modelo ocupa um único bloco, acompanha sua orientação e aparece também
+no inventário. A Tier 2 mantém seu visual tecnológico.
+
+[Modelo editável, textura e vistas](design/research_table_tier_1.md).
+
 ### Pesquisa e fabricação
 
 - Os Analisadores Científicos Tier 1 e Tier 2 dão acesso à árvore de pesquisa,
@@ -156,6 +165,9 @@ cd Quantum-Industries
 **Requisitos:** JDK 25 e internet para baixar dependências Gradle/NeoForge na primeira execução.
 
 ## Como verificar
+
+O CI executa a migração de pesquisas com `./gradlew verifyLegacyResearch`, usando
+as dependências do Minecraft/NeoForge configuradas no projeto.
 
 ```bash
 # Contratos e recursos

@@ -23,9 +23,7 @@ jobs:
           distribution: temurin
           java-version: '25'
       - name: Verify legacy research migration mapping
-        run: |
-          javac -d "$RUNNER_TEMP/research-check" src/main/java/br/com/quantumindustries/research/LegacyResearch.java tests/LegacyResearchCheck.java
-          java -cp "$RUNNER_TEMP/research-check" br.com.quantumindustries.research.LegacyResearchCheck
+        run: bash ./gradlew --no-daemon verifyLegacyResearch
       - name: Compile and package mod
         run: bash ./gradlew --no-daemon build
       - name: Upload testable mod jar

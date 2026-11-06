@@ -6,12 +6,13 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 - [x] Fixar Minecraft 26.1.2, NeoForge 26.1.2.125, Java 25 e Gradle 9.2.1.
 - [x] Configurar build, cliente, servidor dedicado e estrutura de recursos.
-- [x] Configurar CI para testes de contrato, migração de pesquisas e compilação.
+- [x] Configurar CI para testes de contrato, migração de pesquisas via Gradle (com as dependências do jogo) e compilação.
 
 ## Fase 1 — Núcleo de pesquisa
 
 - [x] Implementar a Bancada de Ensaio Empírico com dez materiais e três métodos.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
+- [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
 - [x] Integrar uma observação empírica à pesquisa de Maleabilidade.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
