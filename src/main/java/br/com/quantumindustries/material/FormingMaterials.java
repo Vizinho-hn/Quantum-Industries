@@ -20,6 +20,7 @@ public final class FormingMaterials {
     private static final class Metals {
         private static final List<Metal> ALL = List.of(
                 new Metal("iron", Items.IRON_INGOT, ModItems.IRON_SHEET),
-                new Metal("copper", Items.COPPER_INGOT, ModItems.COPPER_SHEET));
+                new Metal("copper", Items.COPPER_INGOT, ModItems.COPPER_SHEET),
+                new Metal("gold", Items.GOLD_INGOT, ModItems.GOLD_SHEET));
     }
 }

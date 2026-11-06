@@ -182,5 +182,11 @@
   "message.quantumindustries.field_notes.learned": "Four observations shared: %s",
   "block.quantumindustries.copper_busbar": "Bare Copper Busbar",
   "block.quantumindustries.insulated_conduit": "Insulated Conduit",
-  "gui.quantumindustries.cable.flow": "Flow: %s FE/t | Loss: %s FE/t"
+  "gui.quantumindustries.cable.flow": "Flow: %s FE/t | Loss: %s FE/t",
+  "item.quantumindustries.gold_sheet": "Gold Sheet",
+  "item.quantumindustries.gold_wire": "Gold Wire",
+  "block.quantumindustries.wire_drawing_bench": "Wire Drawing Bench",
+  "message.quantumindustries.wire.research": "Research Wire Drawing first.",
+  "message.quantumindustries.wire.busy": "The wire bench cannot accept this sheet now.",
+  "message.quantumindustries.wire.status": "Wire drawing: %s/%s | %s FE"
 }

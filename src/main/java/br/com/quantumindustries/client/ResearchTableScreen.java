@@ -32,7 +32,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private final List<List<FoundationRecipe.Preview>> recipePreviews = IntStream.range(0, ENTRIES.length)
             .mapToObj(FoundationRecipe::previews).toList();
     private final List<ItemStack> sheets = List.of(
-            new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()));
+            new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()), new ItemStack(ModItems.GOLD_SHEET.get()));
     private int recipePage;
     private int reportPage;
     private boolean canvasPressed;

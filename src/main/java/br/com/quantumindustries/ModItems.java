@@ -52,6 +52,10 @@ public class ModItems {
                     net.minecraft.core.component.DataComponents.EQUIPPABLE,
                     net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.HEAD).build()));
 
+    public static final DeferredItem<Item> GOLD_SHEET = ITEMS.registerSimpleItem("gold_sheet");
+    public static final DeferredItem<Item> GOLD_WIRE = ITEMS.registerSimpleItem("gold_wire");
+    public static final DeferredItem<BlockItem> WIRE_DRAWING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.WIRE_DRAWING_BENCH);
+
     public static final DeferredItem<Item> EMPIRICAL_FIELD_NOTES =
             ITEMS.registerItem("empirical_field_notes", br.com.quantumindustries.assay.EmpiricalFieldNotesItem::new,
                     properties -> properties.stacksTo(1));

@@ -49,6 +49,16 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
                             Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.WireDrawingBenchBlock> WIRE_DRAWING_BENCH =
+            BLOCKS.registerBlock("wire_drawing_bench",
+                    br.com.quantumindustries.block.WireDrawingBenchBlock::new,
+                    props -> props.strength(2.4F).noOcclusion());
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity>> WIRE_DRAWING_BENCH_ENTITY =
+            BLOCK_ENTITIES.register("wire_drawing_bench",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity::new,
+                            Set.of(WIRE_DRAWING_BENCH.get()), false));
+
     public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
             GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 

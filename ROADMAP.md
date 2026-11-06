@@ -28,7 +28,7 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
-- [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.
+- [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.
 
 ## Fase 3 — Química e materiais
 - [ ] Reações e processos químicos.

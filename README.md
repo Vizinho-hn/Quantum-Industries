@@ -83,6 +83,10 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.
 
+### Trefiladora de bancada
+
+Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre e ouro), o jogador constrói a trefiladora. Uma chapa de cobre ou ouro rende 4 fios do respectivo metal. O equipamento funciona manualmente com a Manivela na mão ou alimentado por FE, consumindo 60 FE por operação automatizada. A metalurgia permite obter chapas de ouro nos mesmos processos usados com ferro e cobre.
+
 ## Imagens do protótipo
 
 ![Bancada com amostra e ferramentas armazenadas](docs/design/bancada-de-ensaio/images/bancada-ferro.png)

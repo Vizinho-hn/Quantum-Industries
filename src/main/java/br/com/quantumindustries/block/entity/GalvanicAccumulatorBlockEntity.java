@@ -66,9 +66,10 @@ public final class GalvanicAccumulatorBlockEntity extends BlockEntity implements
                 this::energy, this::extractEnergy, MAX_TRANSFER);
         for (Direction dir : Direction.values()) {
             if (energy() <= 0) break;
-            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof ElectromechanicalPressBlockEntity press) {
+            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
+                    && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity)) {
                 int available = Math.min(MAX_TRANSFER, energy());
-                int accepted = press.receiveEnergy(available);
+                int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);
             }
         }

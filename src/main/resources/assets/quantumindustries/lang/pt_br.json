@@ -182,5 +182,11 @@
   "message.quantumindustries.field_notes.learned": "Quatro observações compartilhadas: %s",
   "block.quantumindustries.copper_busbar": "Barramento de Cobre Nu",
   "block.quantumindustries.insulated_conduit": "Conduíte Isolado",
-  "gui.quantumindustries.cable.flow": "Fluxo: %s FE/t | Perda: %s FE/t"
+  "gui.quantumindustries.cable.flow": "Fluxo: %s FE/t | Perda: %s FE/t",
+  "item.quantumindustries.gold_sheet": "Chapa de Ouro",
+  "item.quantumindustries.gold_wire": "Fio de Ouro",
+  "block.quantumindustries.wire_drawing_bench": "Trefiladora de Bancada",
+  "message.quantumindustries.wire.research": "Pesquise Trefilação de Fios primeiro.",
+  "message.quantumindustries.wire.busy": "A trefiladora não aceita essa chapa agora.",
+  "message.quantumindustries.wire.status": "Trefilação: %s/%s | %s FE"
 }
