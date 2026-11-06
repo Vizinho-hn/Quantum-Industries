@@ -82,6 +82,39 @@ public class ResearchTableBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (hand == InteractionHand.MAIN_HAND && itemStack.is(net.minecraft.world.item.Items.FEATHER)
+                && br.com.quantumindustries.assay.AssayCatalog.material(player.getOffhandItem()) != null) {
+            if (level instanceof net.minecraft.server.level.ServerLevel server) {
+                var material = br.com.quantumindustries.assay.AssayCatalog.material(player.getOffhandItem());
+                var profile = br.com.quantumindustries.assay.AssayProfile.of(player);
+                if (profile.mask(material) != br.com.quantumindustries.assay.AssayCatalog.COMPLETE_MASK) {
+                    ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                            "message.quantumindustries.field_notes.incomplete"));
+                    return InteractionResult.SUCCESS;
+                }
+                int paperSlot = -1;
+                for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+                    if (player.getInventory().getItem(slot).is(net.minecraft.world.item.Items.PAPER)) {
+                        paperSlot = slot;
+                        break;
+                    }
+                }
+                if (paperSlot < 0 && !player.getAbilities().instabuild) {
+                    ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                            "message.quantumindustries.field_notes.paper"));
+                    return InteractionResult.SUCCESS;
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                    player.getInventory().getItem(paperSlot).shrink(1);
+                }
+                player.getInventory().placeItemBackInInventory(
+                        br.com.quantumindustries.assay.EmpiricalFieldNotesItem.create(material));
+                ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                        "message.quantumindustries.field_notes.written"));
+            }
+            return InteractionResult.SUCCESS;
+        }
         return openResearchMenu(level, pos, player);
     }
 

@@ -32,7 +32,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private final List<List<FoundationRecipe.Preview>> recipePreviews = IntStream.range(0, ENTRIES.length)
             .mapToObj(FoundationRecipe::previews).toList();
     private final List<ItemStack> sheets = List.of(
-            new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()));
+            new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()), new ItemStack(ModItems.GOLD_SHEET.get()));
     private int recipePage;
     private int reportPage;
     private boolean canvasPressed;
@@ -375,7 +375,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
 
     private void recipeGuide(GuiGraphicsExtractor g) {
         if (isFormingProcess(selected)) {
-            text(g, "Martelo na mão principal e lingote de ferro ou cobre na outra.", 165, 250, TEXT);
+            text(g, "Martelo na mão principal e lingote de ferro, cobre ou ouro na outra.", 165, 250, TEXT);
             text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
             return;
         }

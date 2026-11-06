@@ -24,6 +24,12 @@ public final class AssayProfile {
     private static String key(AssayCatalog.Material m,AssayCatalog.Method method){return m.id()+"/"+method.id();}
     public boolean knows(AssayCatalog.Material m,AssayCatalog.Method method){return discoveries.getBoolean(key(m,method)).orElse(false);}
     public int mask(AssayCatalog.Material m){int mask=0;for(var method:AssayCatalog.Method.values())if(knows(m,method))mask|=1<<method.ordinal();return mask;}
+    /** Shares a complete scientific observation, never a research unlock. */
+    public boolean learnComplete(AssayCatalog.Material material) {
+        if (mask(material) == AssayCatalog.COMPLETE_MASK) return false;
+        for (AssayCatalog.Method method : AssayCatalog.Method.values()) complete(material, method);
+        return true;
+    }
     public AssayCatalog.Material reserved(){String id=root.getString("reserved_material").orElse("");for(var m:AssayCatalog.Material.values())if(m.id().equals(id))return m;return null;}
     public boolean reserve(AssayCatalog.Material m){if(reserved()!=null||mask(m)==AssayCatalog.COMPLETE_MASK)return false;root.putString("reserved_material",m.id());return true;}
     public boolean complete(AssayCatalog.Material m,AssayCatalog.Method method){

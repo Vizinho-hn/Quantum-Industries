@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/gravitational_sorter",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/gravitational_sorter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/gravitational_sorter",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/gravitational_sorter",
+      "y": 90
+    }
+  }
+}

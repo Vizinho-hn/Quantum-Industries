@@ -90,6 +90,15 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
         return false;
     }
 
+    /** Automation may extract completed sheets, never unfinished ingots. */
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     public ItemStack extractResult(boolean allowInput) {
         if (!(level instanceof ServerLevel)) return ItemStack.EMPTY;
         if (!output.isEmpty()) {
@@ -125,16 +134,17 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
             }
             return;
         }
+        int requiredTicks = br.com.quantumindustries.material.HeatTreatment.isHot(input, server) ? WORK_TICKS / 2 : WORK_TICKS;
         if (energy() < ENERGY_PER_TICK) return;
         try (var transaction = Transaction.openRoot()) {
             if (battery.extract(ENERGY_PER_TICK, transaction) < ENERGY_PER_TICK) return;
             transaction.commit();
         }
         progress++;
-        if (progress == WORK_TICKS / 2) {
+        if (progress == Math.max(1, requiredTicks / 2)) {
             server.playSound(null, worldPosition, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.35f, 0.9f);
         }
-        if (progress >= WORK_TICKS) {
+        if (progress >= requiredTicks) {
             progress = 0;
             ItemStack sheet = new ItemStack(metal.sheet().get());
             server.playSound(null, worldPosition, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.3f, 1.15f);

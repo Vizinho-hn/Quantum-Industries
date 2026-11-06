@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/wire_drawing_bench"
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/wire_drawing_bench",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/wire_drawing_bench",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/wire_drawing_bench",
+      "y": 90
+    }
+  }
+}
