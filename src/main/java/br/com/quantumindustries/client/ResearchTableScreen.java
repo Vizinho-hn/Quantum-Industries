@@ -375,7 +375,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
 
     private void recipeGuide(GuiGraphicsExtractor g) {
         if (isFormingProcess(selected)) {
-            text(g, "Martelo na mão principal e lingote de ferro ou cobre na outra.", 165, 250, TEXT);
+            text(g, "Martelo na mão principal e lingote de ferro, cobre ou ouro na outra.", 165, 250, TEXT);
             text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
             return;
         }
