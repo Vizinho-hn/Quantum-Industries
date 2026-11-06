@@ -47,8 +47,11 @@ public final class WorldResearchData extends SavedData {
             completed.put(uuid, decoded);
         });
         legacy.forEach((uuid, bits) -> {
+            // A modern entry, even an empty list, is authoritative. Reapplying
+            // old bitmasks after /quantum:clear_conhecimento would resurrect research.
+            if (progress.containsKey(uuid)) return;
             ResearchProgress decoded = completed.computeIfAbsent(uuid, ignored -> new ResearchProgress());
-            if (bits != 0 && !progress.containsKey(uuid)) needsRewrite[0] = true;
+            if (bits != 0) needsRewrite[0] = true;
             for (String key : LegacyResearch.decode(bits)) {
                 if (decoded.addLegacy(key)) needsRewrite[0] = true;
             }

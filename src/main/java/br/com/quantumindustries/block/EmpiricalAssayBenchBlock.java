@@ -68,7 +68,7 @@ public class EmpiricalAssayBenchBlock extends net.minecraft.world.level.block.Ba
         final BlockPos anchor=pos;
         if (!level.isClientSide()) player.openMenu(new SimpleMenuProvider(
             (id, inv, p) -> new EmpiricalAssayBenchMenu(id, inv, anchor),
-            Component.literal("Bancada de Ensaio Empírico")), pos);
+            Component.translatable("block.quantumindustries.empirical_assay_bench")), pos);
         return InteractionResult.SUCCESS;
     }
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {

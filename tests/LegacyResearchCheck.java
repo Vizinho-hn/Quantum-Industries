@@ -27,6 +27,7 @@ final class LegacyResearchCheck {
         }
         verifyStableIdentifiers();
         verifyLegacySaveMigration();
+        verifyModernProgressPrecedence();
         verifyProgressBeyondBitMask();
     }
 
@@ -78,6 +79,39 @@ final class LegacyResearchCheck {
         WorldResearchData reopened = decode(saved);
         if (!reopened.knows(uuid, ResearchIds.of("material_observation"))) {
             throw new AssertionError("Migrated progress was lost after save/reload");
+        }
+    }
+
+    /** A deliberately empty modern entry represents cleared research, not an incomplete migration. */
+    private static void verifyModernProgressPrecedence() {
+        String uuid = "00000000-0000-0000-0000-000000000004";
+        JsonObject saved = new JsonObject();
+        JsonObject players = new JsonObject();
+        players.addProperty(uuid, 3);
+        saved.add("players", players);
+        JsonObject modern = new JsonObject();
+        modern.add(uuid, new JsonArray());
+        saved.add("completed_research", modern);
+
+        WorldResearchData cleared = decode(saved);
+        if (cleared.knows(uuid, ResearchIds.of("conductivity"))
+                || cleared.knows(uuid, ResearchIds.of("copper_wire"))) {
+            throw new AssertionError("Old research resurrected after clearing modern progress");
+        }
+        WorldResearchData reloaded = decode(encode(cleared));
+        if (reloaded.knows(uuid, ResearchIds.of("conductivity"))
+                || reloaded.knows(uuid, ResearchIds.of("copper_wire"))) {
+            throw new AssertionError("Cleared modern research resurrected after save/reload");
+        }
+
+        JsonArray onlyModern = new JsonArray();
+        onlyModern.add("quantumindustries:material_observation");
+        modern.add(uuid, onlyModern);
+        WorldResearchData updated = decode(saved);
+        if (!updated.knows(uuid, ResearchIds.of("material_observation"))
+                || updated.knows(uuid, ResearchIds.of("conductivity"))
+                || updated.knows(uuid, ResearchIds.of("copper_wire"))) {
+            throw new AssertionError("Legacy bits overrode an existing modern research list");
         }
     }
 

@@ -24,7 +24,7 @@
   "item.quantumindustries.flame_test_kit": "Flame Test Kit",
   "item.quantumindustries.brass_weights": "Iron weights",
   "gui.quantumindustries.assay.perform": "Start assay",
-  "gui.quantumindustries.assay.title": "Empirical Analyzer",
+  "gui.quantumindustries.assay.title": "Material Analyzer",
   "gui.quantumindustries.assay.era": "ERA 0 · Manual instruments",
   "gui.quantumindustries.assay.previous": "‹",
   "gui.quantumindustries.assay.next": "›",
@@ -155,5 +155,7 @@
   "gui.quantumindustries.assay.observation.emerald.inspection": "Translucent green crystal.",
   "gui.quantumindustries.assay.observation.emerald.reaction": "No visible change in the reagent.",
   "gui.quantumindustries.assay.observation.amethyst.inspection": "Violet crystal with defined faces.",
-  "gui.quantumindustries.assay.observation.amethyst.reaction": "No visible change in the reagent."
+  "gui.quantumindustries.assay.observation.amethyst.reaction": "No visible change in the reagent.",
+  "block.quantumindustries.empirical_assay_bench": "Material Analyzer",
+  "item.quantumindustries.empirical_assay_bench": "Material Analyzer"
 }
