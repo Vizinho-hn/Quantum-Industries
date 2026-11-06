@@ -33,6 +33,9 @@ final class ResearchTreeView {
             Map.entry("wire_drawing", new Grid(2, 152)),
             Map.entry("thermal_annealing", new Grid(2, 24)),
             Map.entry("piezoelectricity", new Grid(2, 90)),
+            Map.entry("fluid_hydrostatics", new Grid(4, 28)),
+            Map.entry("pneumatic_transport", new Grid(4, 133)),
+            Map.entry("peristaltic_mechanics", new Grid(5, 28)),
             Map.entry("load_protection", new Grid(3, 60))
     );
 

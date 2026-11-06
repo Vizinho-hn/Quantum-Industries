@@ -198,5 +198,16 @@
   "block.quantumindustries.piezo_switch": "Piezoelectric Transducer",
   "block.quantumindustries.load_relay": "Load Relay",
   "message.quantumindustries.relay.status": "Relay %s | %s FE buffered",
-  "gui.quantumindustries.wire.operation": "Wire Drawing: 1 copper/gold sheet → 4 wires, using hand crank or 60 FE."
+  "gui.quantumindustries.wire.operation": "Wire Drawing: 1 copper/gold sheet → 4 wires, using hand crank or 60 FE.",
+  "block.quantumindustries.pneumatic_tube": "Pneumatic Copper-Glass Tube",
+  "block.quantumindustries.bellows_ejector": "Bellows Impulse Ejector",
+  "block.quantumindustries.gravitational_sorter": "Gravitational Item Sorter",
+  "block.quantumindustries.fluid_pipe": "Copper Fluid Pipe",
+  "block.quantumindustries.glass_pipe": "Glass Fluid Pipe",
+  "block.quantumindustries.peristaltic_pump": "Peristaltic Pump",
+  "block.quantumindustries.settling_vat": "Settling Vat",
+  "message.quantumindustries.pneumatic.research": "Research Pneumatic Pressure first.",
+  "message.quantumindustries.pneumatic.blocked": "Input or output tube blocked.",
+  "message.quantumindustries.pneumatic.status": "Ejector: %s/%s FE (10 FE per pulse).",
+  "message.quantumindustries.sorter.status": "Sieve %s. Light items travel to the side outlet."
 }

@@ -198,5 +198,16 @@
   "block.quantumindustries.piezo_switch": "Transdutor Piezoelétrico",
   "block.quantumindustries.load_relay": "Relé de Carga",
   "message.quantumindustries.relay.status": "Relé %s | %s FE no buffer",
-  "gui.quantumindustries.wire.operation": "Trefiladora: 1 chapa de cobre/ouro → 4 fios, com manivela ou 60 FE."
+  "gui.quantumindustries.wire.operation": "Trefiladora: 1 chapa de cobre/ouro → 4 fios, com manivela ou 60 FE.",
+  "block.quantumindustries.pneumatic_tube": "Tubo Pneumático de Vidro e Cobre",
+  "block.quantumindustries.bellows_ejector": "Ejetor Mecânico com Fole",
+  "block.quantumindustries.gravitational_sorter": "Classificador Gravitacional",
+  "block.quantumindustries.fluid_pipe": "Duto Hidráulico de Cobre",
+  "block.quantumindustries.glass_pipe": "Duto Hidráulico de Vidro",
+  "block.quantumindustries.peristaltic_pump": "Bomba Peristáltica",
+  "block.quantumindustries.settling_vat": "Cuba de Decantação",
+  "message.quantumindustries.pneumatic.research": "Pesquise Pressão Pneumática primeiro.",
+  "message.quantumindustries.pneumatic.blocked": "Entrada ou tubo de saída ocupado.",
+  "message.quantumindustries.pneumatic.status": "Ejetor: %s/%s FE (10 FE por pulso).",
+  "message.quantumindustries.sorter.status": "Peneira %s. Leves vão para a saída lateral."
 }
