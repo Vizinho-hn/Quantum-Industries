@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 13 pesquisas e termina no Dínamo Manual. A Era II começa com Indução Eletromagnética; redes e máquinas consumidoras estão no roadmap.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 13 pesquisas e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico (2.400 FE) e Prensa Eletromecânica.
 
 ## Visão do projeto
 
@@ -71,8 +71,11 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
   3D. Projeto do Dínamo libera o dínamo e dá acesso à Era II. Indução
   Eletromagnética é um estudo da Era II.
 - Fabrique a manivela separadamente, instale-a e gire. O dínamo armazena até
-  240 FE, gera 12 FE por giro e aceita um giro a cada 10 ticks. Os Óculos de
-  Inspeção Energética exibem a carga ao mirar no bloco.
+  240 FE, gera 12 FE por giro, aceita um giro a cada 10 ticks e transfere energia
+  para blocos elétricos adjacentes. Na Era II, o **Acumulador Galvânico** estoca
+  até 2.400 FE e alimenta a **Prensa Eletromecânica**, que prensa lingotes em
+  chapas consumindo 60 FE por ciclo sem gastar martelos. Os Óculos de Inspeção
+  Energética exibem a carga e o estado ao mirar em qualquer bloco elétrico.
 
 [Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 

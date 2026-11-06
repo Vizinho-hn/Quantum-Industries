@@ -128,7 +128,15 @@ public final class FoundationRecipe extends ShapedRecipe {
             new Pattern("manual_dynamo_design", ModItems.MANUAL_DYNAMO, 1, 3,
                 coil, gear, coil,
                 sheet, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), sheet,
-                insulated, shaft, insulated)
+                insulated, shaft, insulated),
+            new Pattern("galvanic_storage", ModItems.GALVANIC_ACCUMULATOR, 1, 3,
+                ModItems.COPPER_SHEET.get(), insulated, ModItems.COPPER_SHEET.get(),
+                plank, Items.LAPIS_LAZULI, plank,
+                sheet, coil, sheet),
+            new Pattern("electromechanical_forming", ModItems.ELECTROMECHANICAL_PRESS, 1, 3,
+                sheet, coil, sheet,
+                gear, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), shaft,
+                sheet, ModItems.FORMING_BENCH.get(), sheet)
         );
     }
 

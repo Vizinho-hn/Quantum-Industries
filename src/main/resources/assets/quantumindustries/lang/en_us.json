@@ -159,5 +159,17 @@
   "block.quantumindustries.empirical_assay_bench": "Material Analyzer",
   "item.quantumindustries.empirical_assay_bench": "Material Analyzer",
   "gui.quantumindustries.research.evidence.assay": "%s of %s",
-  "gui.quantumindustries.research.evidence.or": " or "
+  "gui.quantumindustries.research.evidence.or": " or ",
+  "block.quantumindustries.galvanic_accumulator": "Galvanic Accumulator",
+  "item.quantumindustries.galvanic_accumulator": "Galvanic Accumulator",
+  "block.quantumindustries.galvanic_accumulator.status": "Galvanic Charge: %s / %s FE (%s%%)",
+  "block.quantumindustries.electromechanical_press": "Electromechanical Press",
+  "item.quantumindustries.electromechanical_press": "Electromechanical Press",
+  "block.quantumindustries.electromechanical_press.research": "Requires Electromechanical Forming (Era II).",
+  "block.quantumindustries.electromechanical_press.inserted": "Ingot placed on the press (%s queued).",
+  "block.quantumindustries.electromechanical_press.busy": "Collect finished sheets or insert the same metal.",
+  "gui.quantumindustries.press.progress": "Pressing: %s%%",
+  "gui.quantumindustries.press.output_ready": "Ready: %s× %s",
+  "gui.quantumindustries.press.waiting_energy": "Waiting for energy (60 FE/sheet)",
+  "gui.quantumindustries.press.idle": "Insert iron or copper ingot"
 }

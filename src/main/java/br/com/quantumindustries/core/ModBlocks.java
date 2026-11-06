@@ -1,9 +1,12 @@
 package br.com.quantumindustries.core;
 
+import br.com.quantumindustries.block.ElectromechanicalPressBlock;
+import br.com.quantumindustries.block.GalvanicAccumulatorBlock;
 import br.com.quantumindustries.block.ResearchTableBlock;
+import br.com.quantumindustries.block.entity.ElectromechanicalPressBlockEntity;
+import br.com.quantumindustries.block.entity.GalvanicAccumulatorBlockEntity;
 import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -32,6 +35,12 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MANUAL_DYNAMO = BLOCKS.registerBlock("manual_dynamo",
             br.com.quantumindustries.block.ManualDynamoBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
+    public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
+            GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
+
+    public static final DeferredBlock<ElectromechanicalPressBlock> ELECTROMECHANICAL_PRESS = BLOCKS.registerBlock("electromechanical_press",
+            ElectromechanicalPressBlock::new, properties -> properties.strength(3.0F).noOcclusion());
+
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity>> EMPIRICAL_ASSAY_ENTITY =
             BLOCK_ENTITIES.register("empirical_assay_bench",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.EmpiricalAssayBenchBlockEntity::new, Set.of(EMPIRICAL_ASSAY_BENCH.get()), false));
@@ -39,6 +48,14 @@ public class ModBlocks {
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ManualDynamoBlockEntity>> MANUAL_DYNAMO_ENTITY =
             BLOCK_ENTITIES.register("manual_dynamo",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ManualDynamoBlockEntity::new, Set.of(MANUAL_DYNAMO.get()), false));
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<GalvanicAccumulatorBlockEntity>> GALVANIC_ACCUMULATOR_ENTITY =
+            BLOCK_ENTITIES.register("galvanic_accumulator",
+                    () -> new BlockEntityType<>(GalvanicAccumulatorBlockEntity::new, Set.of(GALVANIC_ACCUMULATOR.get()), false));
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectromechanicalPressBlockEntity>> ELECTROMECHANICAL_PRESS_ENTITY =
+            BLOCK_ENTITIES.register("electromechanical_press",
+                    () -> new BlockEntityType<>(ElectromechanicalPressBlockEntity::new, Set.of(ELECTROMECHANICAL_PRESS.get()), false));
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

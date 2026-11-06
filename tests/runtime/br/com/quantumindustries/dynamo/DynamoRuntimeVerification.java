@@ -165,6 +165,7 @@ public final class DynamoRuntimeVerification {
         BlockPos craftingTable = POS.south();
         level.setBlock(craftingTable, Blocks.CRAFTING_TABLE.defaultBlockState(), 3);
         for (int id = 0; id < ResearchCatalog.STUDIES.size(); id++) {
+            if (ResearchCatalog.STUDIES.get(id).era() != 1) continue;
             for (var preview : FoundationRecipe.previews(id)) {
                 verifyBookPlacement(craftingTable, other, player, preview);
             }

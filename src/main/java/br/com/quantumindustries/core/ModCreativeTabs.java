@@ -37,6 +37,8 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.FORMING_BENCH.get());
                     output.accept(ModItems.ENERGY_INSPECTION_GOGGLES.get());
                     output.accept(ModItems.MANUAL_DYNAMO.get());
+                    output.accept(ModItems.GALVANIC_ACCUMULATOR.get());
+                    output.accept(ModItems.ELECTROMECHANICAL_PRESS.get());
                     output.accept(ModItems.MAGNIFYING_GLASS.get());
                     output.accept(net.minecraft.world.item.Items.FLINT_AND_STEEL);
                     output.accept(ModItems.BRASS_WEIGHTS.get());

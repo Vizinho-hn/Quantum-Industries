@@ -2,8 +2,10 @@ package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
@@ -14,12 +16,13 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-public final class ManualDynamoBlockEntity extends BlockEntity {
+public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable {
     public static final int CAPACITY = 240;
     public static final int PER_TURN = 12;
+    public static final int MAX_EXTRACT = 24;
     public static final int TURN_TICKS = 10;
 
-    private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, PER_TURN, 0);
+    private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, PER_TURN, MAX_EXTRACT);
     private boolean installed;
     private boolean refundable;
     private long lastTurn = -TURN_TICKS;
@@ -28,7 +31,12 @@ public final class ManualDynamoBlockEntity extends BlockEntity {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
     }
 
-    public int energy() { return (int) battery.getAmountAsLong(); }
+    @Override public int energy() { return (int) battery.getAmountAsLong(); }
+    @Override public int capacity() { return CAPACITY; }
+    @Override public Component inspectTitle() {
+        return Component.translatable("block.quantumindustries.manual_dynamo");
+    }
+
     public boolean installed() { return installed; }
     public long lastTurn() { return lastTurn; }
 
@@ -61,6 +69,30 @@ public final class ManualDynamoBlockEntity extends BlockEntity {
         lastTurn = now;
         changed();
         return true;
+    }
+
+    public int extractEnergy(int maxExtract) {
+        if (!(level instanceof ServerLevel) || maxExtract <= 0 || energy() <= 0) return 0;
+        int extracted;
+        try (var transaction = Transaction.openRoot()) {
+            extracted = battery.extract(Math.min(MAX_EXTRACT, maxExtract), transaction);
+            if (extracted > 0) transaction.commit();
+        }
+        if (extracted > 0) changed();
+        return extracted;
+    }
+
+    public void tick() {
+        if (!(level instanceof ServerLevel server) || energy() <= 0) return;
+        for (Direction dir : Direction.values()) {
+            if (energy() <= 0) break;
+            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
+                    && !(target instanceof ManualDynamoBlockEntity)) {
+                int available = Math.min(MAX_EXTRACT, energy());
+                int accepted = target.receiveEnergy(available);
+                if (accepted > 0) extractEnergy(accepted);
+            }
+        }
     }
 
     private void changed() {

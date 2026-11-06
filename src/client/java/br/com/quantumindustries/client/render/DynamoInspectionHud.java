@@ -1,7 +1,7 @@
 package br.com.quantumindustries.client.render;
 
 import br.com.quantumindustries.ModItems;
-import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
+import br.com.quantumindustries.block.entity.EnergyInspectable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -30,16 +30,22 @@ public final class DynamoInspectionHud {
                 || !player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get())) return;
         if (!(player.pick(6.0, partialTick, false) instanceof BlockHitResult hit)
                 || hit.getType() != HitResult.Type.BLOCK
-                || !(minecraft.level.getBlockEntity(hit.getBlockPos()) instanceof ManualDynamoBlockEntity dynamo)) return;
-        int energy = dynamo.energy(), max = ManualDynamoBlockEntity.CAPACITY;
+                || !(minecraft.level.getBlockEntity(hit.getBlockPos()) instanceof EnergyInspectable target)) return;
+        int energy = target.energy(), max = Math.max(1, target.capacity());
         int percent = energy * 100 / max;
-        g.fill(7, 7, 151, 61, 0xFFB37B55);
-        g.fill(8, 8, 150, 60, 0xE8201C19);
-        g.text(minecraft.font, Component.translatable("block.quantumindustries.manual_dynamo"), 14, 13, 0xFFF4DCB9, false);
+        Component detail = target.inspectDetail();
+        int boxBottom = detail == null ? 61 : 73;
+        g.fill(7, 7, 165, boxBottom, 0xFFB37B55);
+        g.fill(8, 8, 164, boxBottom - 1, 0xE8201C19);
+        g.text(minecraft.font, target.inspectTitle(), 14, 13, 0xFFF4DCB9, false);
         g.text(minecraft.font, Component.translatable("gui.quantumindustries.dynamo.energy", energy, max), 14, 25, 0xFFF4EEE6, false);
         g.text(minecraft.font, Component.translatable("gui.quantumindustries.dynamo.charge", percent), 14, 36, 0xFFF4EEE6, false);
+        if (detail != null) {
+            g.text(minecraft.font, detail, 14, 47, 0xFFAEC6AD, false);
+        }
+        int barTop = detail == null ? 48 : 60;
         int color = percent <= 20 ? 0xFFC16A4B : percent <= 70 ? 0xFFCEA457 : 0xFF83A276;
-        g.fill(14, 48, 144, 54, 0xFF45382F);
-        if (energy > 0) g.fill(14, 48, 14 + 130 * energy / max, 54, color);
+        g.fill(14, barTop, 156, barTop + 6, 0xFF45382F);
+        if (energy > 0) g.fill(14, barTop, 14 + 142 * energy / max, barTop + 6, color);
     }
 }

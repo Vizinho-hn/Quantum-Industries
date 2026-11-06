@@ -159,5 +159,17 @@
   "block.quantumindustries.empirical_assay_bench": "Analisador de Materiais",
   "item.quantumindustries.empirical_assay_bench": "Analisador de Materiais",
   "gui.quantumindustries.research.evidence.assay": "%s de %s",
-  "gui.quantumindustries.research.evidence.or": " ou "
+  "gui.quantumindustries.research.evidence.or": " ou ",
+  "block.quantumindustries.galvanic_accumulator": "Acumulador Galvânico",
+  "item.quantumindustries.galvanic_accumulator": "Acumulador Galvânico",
+  "block.quantumindustries.galvanic_accumulator.status": "Carga Galvânica: %s / %s FE (%s%%)",
+  "block.quantumindustries.electromechanical_press": "Prensa Eletromecânica",
+  "item.quantumindustries.electromechanical_press": "Prensa Eletromecânica",
+  "block.quantumindustries.electromechanical_press.research": "Pré-requisito: Conformação Eletromecânica (Era II).",
+  "block.quantumindustries.electromechanical_press.inserted": "Lingote inserido na prensa (%s no suporte).",
+  "block.quantumindustries.electromechanical_press.busy": "Retire as chapas prontas ou use o mesmo metal.",
+  "gui.quantumindustries.press.progress": "Prensando: %s%%",
+  "gui.quantumindustries.press.output_ready": "Pronto: %s× %s",
+  "gui.quantumindustries.press.waiting_energy": "Aguardando energia (60 FE/chapa)",
+  "gui.quantumindustries.press.idle": "Insira lingote de ferro ou cobre"
 }
