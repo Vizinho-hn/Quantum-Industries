@@ -38,7 +38,8 @@ public final class PneumaticTubeRenderer implements BlockEntityRenderer<Pneumati
         state.item.clear();
         if(tube.packet().isEmpty()||tube.getLevel()==null)return;
         state.inlet=tube.inlet();
-        state.fraction=tube.fraction(partialTick);
+        state.fraction=Math.clamp((tube.getLevel().getGameTime()-tube.enteredAt()+partialTick)
+                /PneumaticTubeBlockEntity.HOP_TICKS,0f,1f);
         models.updateForTopItem(state.item,tube.packet().copyWithCount(1),ItemDisplayContext.FIXED,tube.getLevel(),null,0);
     }
     @Override public void submit(State state,PoseStack pose,SubmitNodeCollector collector,CameraRenderState camera){

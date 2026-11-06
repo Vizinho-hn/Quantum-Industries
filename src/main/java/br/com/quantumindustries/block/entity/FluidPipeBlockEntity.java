@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 
@@ -55,7 +56,8 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
             lastFlow=moved;lastFlowTime=server.getGameTime();
             if(neighbor instanceof FluidPipeBlockEntity pipe && pressureTicks>0)pipe.pressurize(20);
             if(getBlockState().is(ModBlocks.GLASS_PIPE.get())&&server.getGameTime()%6==0)
-                server.sendParticles(ParticleTypes.SPLASH,worldPosition.getX()+0.5,worldPosition.getY()+0.5,
+                server.sendParticles(tank.getResource(0).is(Fluids.LAVA)?ParticleTypes.LAVA:ParticleTypes.SPLASH,
+                        worldPosition.getX()+0.5,worldPosition.getY()+0.5,
                         worldPosition.getZ()+0.5,1,0.03,0.03,0.03,0.0);
             changed();break;
         }

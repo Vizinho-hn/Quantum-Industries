@@ -21,6 +21,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
     private ItemStack packet = ItemStack.EMPTY;
     private Direction inlet = Direction.DOWN;
     private int progress;
+    private long enteredAt;
 
     public PneumaticTubeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.PNEUMATIC_TUBE_ENTITY.get(), pos, state);
@@ -28,6 +29,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
     public ItemStack packet() { return packet; }
     public float fraction(float partialTick) { return Math.min(1f, (progress + partialTick) / HOP_TICKS); }
     public Direction inlet() { return inlet; }
+    public long enteredAt() { return enteredAt; }
 
     public boolean accept(ItemStack incoming, Direction from) {
         if (!(level instanceof ServerLevel) || !packet.isEmpty() || incoming.isEmpty()) return false;
@@ -35,6 +37,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
         incoming.setCount(0);
         inlet = from;
         progress = 0;
+        enteredAt=((ServerLevel)level).getGameTime();
         changed();
         return true;
     }
@@ -67,12 +70,14 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
         if (!packet.isEmpty()) out.store("packet", ItemStack.CODEC, packet);
         out.putInt("inlet", inlet.get3DDataValue());
         out.putInt("progress", progress);
+        out.putLong("entered_at", enteredAt);
     }
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
         packet = in.read("packet", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         inlet = Direction.from3DDataValue(in.getIntOr("inlet", 0));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, HOP_TICKS);
+        enteredAt = in.getLongOr("entered_at", 0L);
     }
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos, state);

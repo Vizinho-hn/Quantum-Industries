@@ -44,7 +44,8 @@ public final class BellowsEjectorBlockEntity extends BlockEntity implements Ener
                 || (powered && energy()<PULSE_FE)) return false;
         Direction output=getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
         BlockPos from=worldPosition.relative(output.getOpposite()), to=worldPosition.relative(output);
-        if (!(server.getBlockEntity(to) instanceof PneumaticTubeBlockEntity tube)
+        if (!server.hasChunkAt(from) || !server.hasChunkAt(to)
+                || !(server.getBlockEntity(to) instanceof PneumaticTubeBlockEntity tube)
                 || !tube.packet().isEmpty()) return false;
         ItemStack peek=ItemRouting.preview(server,from,count);
         if(peek.isEmpty()) return false;
