@@ -50,6 +50,10 @@ public class ModItems {
                     net.minecraft.core.component.DataComponents.EQUIPPABLE,
                     net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.HEAD).build()));
 
+    public static final DeferredItem<Item> EMPIRICAL_FIELD_NOTES =
+            ITEMS.registerItem("empirical_field_notes", br.com.quantumindustries.assay.EmpiricalFieldNotesItem::new,
+                    properties -> properties.stacksTo(1));
+
     public static final DeferredItem<Item> PRIMITIVE_MECHANICAL_CORE =
             ITEMS.registerSimpleItem("primitive_mechanical_core");
 

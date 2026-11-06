@@ -104,7 +104,7 @@ Os insumos guardados permanecem no bloco. Outro jogador pode usar o relatório
 com o botão direito para aprender a pesquisa se já tiver os conhecimentos
 anteriores e as evidências científicas exigidas.
 
-Em multiplayer, o servidor valida pesquisas, operações e receitas para cada
+Para compartilhar as quatro observações de um material, conclua os ensaios 4/4, segure uma pena na mão principal e uma amostra do material na mão secundária, leve um papel no inventário e clique com o botão direito no Analisador Científico. Isso gera uma Ficha de Observação, que outro jogador pode consumir para adquirir somente aquelas quatro descobertas, sem desbloquear pesquisas automaticamente.\n\nEm multiplayer, o servidor valida pesquisas, operações e receitas para cada
 jogador, inclusive quando a bancada é compartilhada.
 
 ### Comandos administrativos

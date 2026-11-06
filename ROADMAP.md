@@ -18,7 +18,7 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
 - [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
-- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.
+- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.\n- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
 
 ## Fase 2 — Primeira indústria
 

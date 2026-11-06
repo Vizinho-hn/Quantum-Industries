@@ -171,5 +171,13 @@
   "gui.quantumindustries.press.progress": "Prensando: %s%%",
   "gui.quantumindustries.press.output_ready": "Pronto: %s× %s",
   "gui.quantumindustries.press.waiting_energy": "Aguardando energia (60 FE/chapa)",
-  "gui.quantumindustries.press.idle": "Insira lingote de ferro ou cobre"
+  "gui.quantumindustries.press.idle": "Insira lingote de ferro ou cobre",
+  "item.quantumindustries.empirical_field_notes": "Ficha de Observação",
+  "item.quantumindustries.empirical_field_notes.named": "Ficha de Observação: %s",
+  "message.quantumindustries.field_notes.incomplete": "Conclua os quatro ensaios deste material antes de escrever a ficha.",
+  "message.quantumindustries.field_notes.paper": "Precisa de um papel no inventário.",
+  "message.quantumindustries.field_notes.written": "Ficha científica registrada.",
+  "message.quantumindustries.field_notes.invalid": "Esta ficha não contém observações válidas.",
+  "message.quantumindustries.field_notes.known": "Você já conhece todas as observações deste material.",
+  "message.quantumindustries.field_notes.learned": "Quatro observações compartilhadas: %s"
 }
