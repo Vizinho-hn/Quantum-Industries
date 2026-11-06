@@ -56,9 +56,14 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
     }
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
-        flow = 0;
-        loss = 0;
+        flow = in.getIntOr("cable_flow", 0);
+        loss = in.getIntOr("cable_loss", 0);
     }
-    @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveCustomOnly(registries); }
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = saveCustomOnly(registries);
+        tag.putInt("cable_flow", flow);
+        tag.putInt("cable_loss", loss);
+        return tag;
+    }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
 }
