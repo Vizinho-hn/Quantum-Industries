@@ -2,6 +2,11 @@
 
 Este roadmap registra a direção do projeto. Itens são planejados, não promessas de entrega. As fases podem ser ajustadas após protótipos e testes.
 
+As fases de entrega abaixo não são números de era. A divisão tecnológica é:
+I — Engenharia Mecânica e Ciência Empírica; II — Revolução Elétrica;
+III — Ondas Eletromagnéticas e Tecnologia Moderna; IV — Engenharia Quântica;
+V — Inteligência Artificial e Automação Autônoma.
+
 ## Fase 0 — Fundação técnica
 
 - [x] Fixar Minecraft 26.1.2, NeoForge 26.1.2.125, Java 25 e Gradle 9.2.1.
@@ -22,7 +27,13 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 ## Fase 2 — Primeira indústria
 
-- [x] Implementar as 13 pesquisas da Era I, com conformação manual, chapas e componentes mecânicos e elétricos.
+- [x] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (nesta branch; integração por PR).
+- [x] Receitas JSON de processamento, sincronização nativa e prévias automáticas no caderno.
+- [x] Testes automatizados da cadeia em survival com suprimentos preparados, reinício real, carga compartilhada, inventários e chunks.
+- [ ] Moinho de Pedra, Prensa Mecânica de Fuso, Guincho de Mineração e Bomba Mecânica.
+- [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
+
+- [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico, preservando os IDs e a migração.
 - [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.

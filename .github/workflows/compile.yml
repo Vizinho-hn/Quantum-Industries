@@ -24,6 +24,8 @@ jobs:
           java-version: '25'
       - name: Verify legacy research migration mapping
         run: bash ./gradlew --no-daemon verifyLegacyResearch
+      - name: Verify mechanical survival chain and save reload
+        run: bash tools/verify-mechanical.sh
       - name: Compile and package mod
         run: bash ./gradlew --no-daemon build
       - name: Upload testable mod jar

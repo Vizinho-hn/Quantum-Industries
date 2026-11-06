@@ -192,6 +192,7 @@ sourceSets.main.java.srcDir("src/client/java")
 sourceSets.test.java {
     srcDir("tests")
     include("**/LegacyResearchCheck.java")
+    include("**/MechanicalFoundationCheck.java")
 }
 sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
 sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
@@ -204,6 +205,13 @@ tasks.register("verifyLegacyResearch", JavaExec) {
 
 tasks.named("check") {
     dependsOn(tasks.named("verifyLegacyResearch"))
+    dependsOn(tasks.named("verifyMechanicalFoundation"))
+}
+
+tasks.register("verifyMechanicalFoundation", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.mechanical.MechanicalFoundationCheck"
 }
 
 // This suite is a JavaExec verifier, not a JUnit suite.

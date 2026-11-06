@@ -1,0 +1,10 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/mechanical-runtime')
+        neoForge.runs.server {
+            gameDirectory = file(providers.gradleProperty('mechanicalRunDir').getOrElse('build/mechanical-verification') + '/world')
+            systemProperty 'quantumindustries.verifyMechanical', 'true'
+            systemProperty 'quantumindustries.verifyMechanicalChunkOnly', providers.gradleProperty('mechanicalChunkOnly').getOrElse('false')
+        }
+    }
+}

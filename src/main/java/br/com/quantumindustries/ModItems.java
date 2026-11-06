@@ -35,6 +35,9 @@ public class ModItems {
     public static final DeferredItem<Item> COPPER_COIL = ITEMS.registerSimpleItem("copper_coil");
     public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerSimpleItem("electromechanical_frame");
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
+    public static final DeferredItem<BlockItem> MECHANICAL_SAWMILL = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_SAWMILL);
+    public static final DeferredItem<BlockItem> MECHANICAL_SHAFT_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_SHAFT_BLOCK);
+    public static final DeferredItem<BlockItem> PRIMITIVE_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.PRIMITIVE_WATER_WHEEL);
     public static final DeferredItem<BlockItem> MANUAL_DYNAMO = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_DYNAMO);
     public static final DeferredItem<BlockItem> COPPER_BUSBAR = ITEMS.registerSimpleBlockItem(ModBlocks.COPPER_BUSBAR);
     public static final DeferredItem<BlockItem> INSULATED_CONDUIT = ITEMS.registerSimpleBlockItem(ModBlocks.INSULATED_CONDUIT);

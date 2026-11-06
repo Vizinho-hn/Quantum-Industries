@@ -10,7 +10,7 @@ class ResearchCatalogTest(unittest.TestCase):
     def test_catalog_graph(self):
         source = (RESEARCH / "ResearchCatalog.java").read_text(encoding="utf-8")
         entries = re.findall(r'new Study\("([^"]+)"[^\n]*?, [12], List.of\(([^)]*)\)', source)
-        self.assertEqual(len(entries), 16)
+        self.assertEqual(len(entries), 17)
         graph = {key: re.findall(r'"([^"]+)"', deps) for key, deps in entries}
         self.assertEqual(len(graph), len(entries))
         self.assertEqual([key for key, deps in graph.items() if not deps], ["material_observation"])
@@ -19,6 +19,7 @@ class ResearchCatalogTest(unittest.TestCase):
         self.assertEqual(graph["electromagnetic_induction"], ["manual_dynamo_design"])
         self.assertEqual(graph["galvanic_storage"], ["electromagnetic_induction"])
         self.assertEqual(graph["electromechanical_forming"], ["electromagnetic_induction"])
+        self.assertEqual(graph["hydraulic_power"], ["mechanical_transmission"])
         for method in ("Method.INSPECTION", "Method.MECHANICAL", "Method.HEATING", "Method.REACTION"):
             self.assertIn(method, source)
         self.assertIn("ResearchEvidence.AnyOf", source)

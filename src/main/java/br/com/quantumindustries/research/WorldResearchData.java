@@ -89,7 +89,7 @@ public final class WorldResearchData extends SavedData {
 
     public boolean knows(Player player, Identifier id) { return progress(player).knows(id); }
 
-    boolean knows(String playerUuid, Identifier id) {
+    public boolean knows(String playerUuid, Identifier id) {
         ResearchProgress known = completed.get(playerUuid);
         return known != null && known.knows(id);
     }

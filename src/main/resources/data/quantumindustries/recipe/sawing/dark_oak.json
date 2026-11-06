@@ -1,0 +1,16 @@
+{
+  "type": "quantumindustries:mechanical_processing",
+  "inputs": [
+    "minecraft:dark_oak_log",
+    "minecraft:stripped_dark_oak_log",
+    "minecraft:dark_oak_wood",
+    "minecraft:stripped_dark_oak_wood"
+  ],
+  "result": {
+    "id": "minecraft:dark_oak_planks",
+    "count": 6
+  },
+  "ticks": 100,
+  "mechanical_load": 6,
+  "research": "mechanical_transmission"
+}

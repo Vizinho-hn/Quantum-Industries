@@ -18,6 +18,7 @@ public final class ModRecipeBook {
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
+        event.sendRecipes(ModRecipes.MECHANICAL_PROCESSING_TYPE.get());
         event.getRelevantPlayers().forEach(ModRecipeBook::sync);
     }
 

@@ -156,7 +156,7 @@ public final class DynamoRuntimeVerification {
         check(player.getRecipeBook().contains(recipeKey(core)), "research adds the core to the book");
         check(player.getRecipeBook().contains(recipeKey(ModItems.MANUAL_DYNAMO.get())),
                 "research adds the dynamo to the book without induction");
-        check(eraOne == 13 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
+        check(eraOne == 14 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
         verifyCraft(player, coreGrid, core, true);
         verifyCraft(player, dynamoGrid, ModItems.MANUAL_DYNAMO.get(), true);
         var other = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "DynamoGuest"));
@@ -374,7 +374,7 @@ public final class DynamoRuntimeVerification {
     private static void finish(Throwable error) throws Exception {
         turns = 0;
         try {
-            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 13 Era I studies, recipe book placement, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
+            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 14 Era I studies, recipe book placement, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
             if (error != null) error.printStackTrace();
         } finally {
             level.getServer().halt(false);

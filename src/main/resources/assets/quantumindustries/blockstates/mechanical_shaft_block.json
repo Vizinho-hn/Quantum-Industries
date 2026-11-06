@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/mechanical_shaft_block"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/mechanical_shaft_block",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/mechanical_shaft_block",
+      "x": 90
+    }
+  }
+}
