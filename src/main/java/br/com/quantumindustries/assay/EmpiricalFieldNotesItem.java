@@ -32,7 +32,7 @@ public final class EmpiricalFieldNotesItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (!(level instanceof ServerLevel)) return InteractionResult.SUCCESS;
+        if (!(level instanceof ServerLevel) || !(player instanceof net.minecraft.server.level.ServerPlayer operator)) return InteractionResult.SUCCESS;
         ItemStack stack = player.getItemInHand(hand);
         String id = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getString(MATERIAL_TAG).orElse("");
@@ -41,16 +41,16 @@ public final class EmpiricalFieldNotesItem extends Item {
             if (candidate.id().equals(id)) { material = candidate; break; }
         }
         if (material == null) {
-            player.displayClientMessage(Component.translatable("message.quantumindustries.field_notes.invalid"), true);
+            operator.sendOverlayMessage(Component.translatable("message.quantumindustries.field_notes.invalid"));
             return InteractionResult.SUCCESS;
         }
         if (!AssayProfile.of(player).learnComplete(material)) {
-            player.displayClientMessage(Component.translatable("message.quantumindustries.field_notes.known"), true);
+            operator.sendOverlayMessage(Component.translatable("message.quantumindustries.field_notes.known"));
             return InteractionResult.SUCCESS;
         }
         if (!player.getAbilities().instabuild) stack.shrink(1);
-        player.displayClientMessage(Component.translatable("message.quantumindustries.field_notes.learned",
-                Component.translatable(material.translationKey())), true);
+        operator.sendOverlayMessage(Component.translatable("message.quantumindustries.field_notes.learned",
+                Component.translatable(material.translationKey())));
         return InteractionResult.SUCCESS;
     }
 }

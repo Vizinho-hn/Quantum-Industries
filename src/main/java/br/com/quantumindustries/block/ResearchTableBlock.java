@@ -88,8 +88,8 @@ public class ResearchTableBlock extends BaseEntityBlock {
                 var material = br.com.quantumindustries.assay.AssayCatalog.material(player.getOffhandItem());
                 var profile = br.com.quantumindustries.assay.AssayProfile.of(player);
                 if (profile.mask(material) != br.com.quantumindustries.assay.AssayCatalog.COMPLETE_MASK) {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
-                            "message.quantumindustries.field_notes.incomplete"), true);
+                    ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                            "message.quantumindustries.field_notes.incomplete"));
                     return InteractionResult.SUCCESS;
                 }
                 int paperSlot = -1;
@@ -100,8 +100,8 @@ public class ResearchTableBlock extends BaseEntityBlock {
                     }
                 }
                 if (paperSlot < 0 && !player.getAbilities().instabuild) {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
-                            "message.quantumindustries.field_notes.paper"), true);
+                    ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                            "message.quantumindustries.field_notes.paper"));
                     return InteractionResult.SUCCESS;
                 }
                 if (!player.getAbilities().instabuild) {
@@ -110,8 +110,8 @@ public class ResearchTableBlock extends BaseEntityBlock {
                 }
                 player.getInventory().placeItemBackInInventory(
                         br.com.quantumindustries.assay.EmpiricalFieldNotesItem.create(material));
-                player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
-                        "message.quantumindustries.field_notes.written"), true);
+                ((net.minecraft.server.level.ServerPlayer) player).sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                        "message.quantumindustries.field_notes.written"));
             }
             return InteractionResult.SUCCESS;
         }

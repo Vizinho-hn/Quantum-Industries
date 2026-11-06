@@ -46,7 +46,7 @@ public final class CopperCableBlock extends BaseEntityBlock {
         return level.isClientSide() ? null : createTickerHelper(type, ModBlocks.COPPER_CABLE_ENTITY.get(),
                 (l, p, s, entity) -> entity.tick());
     }
-    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effects) {
+    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effects, boolean isPrecise) {
         if (insulated || !(level instanceof ServerLevel server) || !(entity instanceof LivingEntity living)
                 || !living.getItemBySlot(EquipmentSlot.FEET).isEmpty()
                 || server.getGameTime() % 20 != 0) return;
