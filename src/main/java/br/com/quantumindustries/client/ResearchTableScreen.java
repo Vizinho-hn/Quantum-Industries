@@ -4,6 +4,7 @@ import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.menu.ResearchTableMenu;
 import br.com.quantumindustries.research.ResearchCatalog;
 import br.com.quantumindustries.recipe.FoundationRecipe;
+import br.com.quantumindustries.recipe.MechanicalProcessingRecipe;
 import java.util.List;
 import java.util.stream.IntStream;
 import net.minecraft.client.Minecraft;
@@ -25,7 +26,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             .map(study -> new ResearchDetailsPanel.Entry(study.name(), study.description(), study.reward(),
                     study.costs().stream().map(cost -> cost.amount() + " " + cost.label()).toArray(String[]::new)))
             .toArray(ResearchDetailsPanel.Entry[]::new);
-    private static final String[] ERAS = {"Fundamentos", "Automação", "Energia", "Processamento", "Quântica"};
+    private static final String[] ERAS = {"Fundamentos", "Elétrica", "Ondas / Moderna", "Quântica", "IA / Autônoma"};
     private static final String[] ERA_NUMERALS = {"I", "II", "III", "IV", "V"};
     private final ResearchTreeView tree = new ResearchTreeView();
     private int era = 1;
@@ -34,6 +35,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private final List<ItemStack> sheets = List.of(
             new ItemStack(ModItems.IRON_SHEET.get()), new ItemStack(ModItems.COPPER_SHEET.get()));
     private int recipePage;
+    private int guidePage, guideResearch = -1;
     private int reportPage;
     private boolean canvasPressed;
     private boolean canvasDragged;
@@ -77,13 +79,26 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private List<ItemStack> outputs(int id) {
-        return isFormingProcess(id) ? sheets : recipePreviews.get(id).stream()
+        return isFormingProcess(id) ? sheets : crafts(id).stream()
                 .map(FoundationRecipe.Preview::output).toList();
     }
 
+    private List<FoundationRecipe.Preview> crafts(int id) {
+        return recipePreviews.get(id).stream().filter(preview -> preview.requiredResearch().stream()
+                .allMatch(key -> complete(ResearchCatalog.indexOf(key)))).toList();
+    }
+
+    private List<MechanicalProcessingRecipe> processes(int id) {
+        if (!complete(id)) return List.of();
+        String key = ResearchCatalog.STUDIES.get(id).key();
+        return MechanicalRecipeCache.all().stream().filter(recipe -> recipe.research().equals(key)).toList();
+    }
+
+    private int guideSize() { return crafts(selected).size() + processes(selected).size(); }
+
     private List<Integer> unlockedRecipes() {
         return IntStream.range(0, ENTRIES.length)
-                .filter(id -> complete(id) && (isFormingProcess(id) || !recipePreviews.get(id).isEmpty()))
+                .filter(id -> complete(id) && (isFormingProcess(id) || !crafts(id).isEmpty() || !processes(id).isEmpty()))
                 .boxed().toList();
     }
 
@@ -379,11 +394,37 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
             return;
         }
+        var available = crafts(selected);
+        var operations = processes(selected);
+        int total = available.size() + operations.size();
+        if (guideResearch != selected) { guidePage = 0; guideResearch = selected; }
+        guidePage = Math.clamp(guidePage, 0, Math.max(0, pageCount(total) - 1));
+        if (total > 2) {
+            reportButton(g, 492, 217, 22, "<", guidePage > 0);
+            reportButton(g, 531, 217, 22, ">", guidePage + 1 < pageCount(total));
+            text(g, "" + (guidePage + 1), 518, 222, MUTED);
+        }
         int x = 160;
-        for (var preview : recipePreviews.get(selected)) {
-            drawCraft(g, x, preview);
+        for (int i = guidePage * 2; i < Math.min(guidePage * 2 + 2, total); i++) {
+            if (i < available.size()) drawCraft(g, x, available.get(i));
+            else drawProcess(g, x, operations.get(i - available.size()));
             x += 195;
         }
+    }
+
+    private void drawProcess(GuiGraphicsExtractor g, int x, MechanicalProcessingRecipe recipe) {
+        theme.frame(g, x, 238, 185, 76, LINE, PANEL, DARK);
+        clipped(g, Component.translatable("block.quantumindustries.mechanical_sawmill").getString(), x + 7, 244, 172, TEXT);
+        var input = new ItemStack(recipe.inputs().getFirst());
+        var result = recipe.result();
+        g.fakeItem(input, x + 7, 259);
+        clipped(g, input.getHoverName().getString(), x + 28, 263, 100, TEXT);
+        text(g, "→", x + 132, 263, MUTED);
+        g.fakeItem(result, x + 148, 259);
+        text(g, "×" + result.getCount(), x + 166, 263, TEXT);
+        clipped(g, result.getCount() + "× " + result.getHoverName().getString(), x + 7, 280, 172, TEXT);
+        text(g, Component.translatable("gui.quantumindustries.mechanical.process_rating", recipe.ticks() / 20f, recipe.mechanicalLoad()).getString(), x + 7, 292, MUTED);
+        text(g, Component.translatable("gui.quantumindustries.mechanical.process_drive").getString(), x + 7, 303, MUTED);
     }
 
     private void drawCraft(GuiGraphicsExtractor g, int x, FoundationRecipe.Preview preview) {
@@ -470,7 +511,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             clipped(g, ENTRIES[id].reward(), 165, y + 28, 326, MUTED);
             drawOutputs(g, outputs(id), 548, y + 14);
         }
-        text(g, "FABRICAÇÃO", 160, 223, MUTED);
+        text(g, Component.translatable("gui.quantumindustries.mechanical.recipe_heading").getString(), 160, 223, MUTED);
         recipeGuide(g);
     }
 
@@ -536,6 +577,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 return true;
             }
             if (tab == 2 && x >= 155 && x < 556) {
+                if (y >= 217 && y < 236 && (x >= 492 && x < 514 || x >= 531 && x < 553)) {
+                    guidePage = Math.clamp(guidePage + (x < 514 ? -1 : 1), 0, Math.max(0, pageCount(guideSize()) - 1));
+                    return true;
+                }
                 List<Integer> rows = recipeRows(unlockedRecipes());
                 for (int row = 0; row < rows.size(); row++) {
                     int top = recipeRowY(row);

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/primitive_water_wheel"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/primitive_water_wheel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/primitive_water_wheel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/primitive_water_wheel",
+      "y": 270
+    }
+  }
+}

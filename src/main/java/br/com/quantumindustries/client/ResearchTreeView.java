@@ -21,6 +21,7 @@ final class ResearchTreeView {
             Map.entry("basic_magnetism", new Grid(1, 76)),
             Map.entry("basic_mechanics", new Grid(3, 76)),
             Map.entry("mechanical_transmission", new Grid(4, 76)),
+            Map.entry("hydraulic_power", new Grid(5, 20)),
             Map.entry("conductivity", new Grid(0, 135)),
             Map.entry("copper_wire", new Grid(1, 135)),
             Map.entry("copper_winding", new Grid(3, 128)),

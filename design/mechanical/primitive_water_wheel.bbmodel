@@ -1,0 +1,1215 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "primitive_water_wheel",
+  "resolution": {
+    "width": 64,
+    "height": 32
+  },
+  "elements": [
+    {
+      "name": "Suporte",
+      "from": [
+        6,
+        0,
+        1
+      ],
+      "to": [
+        10,
+        10,
+        4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "f9ee81ca-a522-57e6-8f97-d10561190899",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Suporte",
+      "from": [
+        6,
+        0,
+        12
+      ],
+      "to": [
+        10,
+        10,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "570e4d3a-fb8f-54ad-8c2c-1fcdc82d9e9a",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Eixo hidraulico",
+      "from": [
+        7,
+        7,
+        0
+      ],
+      "to": [
+        9,
+        9,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "c6801ff0-66f3-528a-a3fd-928b9d6e8867",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        4,
+        14,
+        6
+      ],
+      "to": [
+        12,
+        16,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "36fa3db0-608c-5d59-aef8-c3226042e823",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        4,
+        0,
+        6
+      ],
+      "to": [
+        12,
+        2,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "fee3b40e-1e01-5daa-a08b-807f5b8e5020",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        0,
+        4,
+        6
+      ],
+      "to": [
+        2,
+        12,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "ff00671a-082b-564c-bbdc-60952e6e63f6",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        14,
+        4,
+        6
+      ],
+      "to": [
+        16,
+        12,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "8c5ccf3a-2dfb-5465-bc08-6c014042d389",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        2,
+        2,
+        6
+      ],
+      "to": [
+        4,
+        4,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "d201b718-030f-5f3b-b83e-413c2d746c75",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        12,
+        2,
+        6
+      ],
+      "to": [
+        14,
+        4,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "a617eb5b-015b-55aa-b7cf-7452206d9e24",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        2,
+        12,
+        6
+      ],
+      "to": [
+        4,
+        14,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "714d4883-1168-5380-9541-90f24c860eb4",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro de madeira",
+      "from": [
+        12,
+        12,
+        6
+      ],
+      "to": [
+        14,
+        14,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "e35945fa-c633-570d-bbd8-d23c3f74cae6",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Raio horizontal",
+      "from": [
+        1,
+        7,
+        7
+      ],
+      "to": [
+        15,
+        9,
+        9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "d7268ba7-d693-5f22-86ef-ef5e6fa3faf7",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Raio vertical",
+      "from": [
+        7,
+        1,
+        7
+      ],
+      "to": [
+        9,
+        15,
+        9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7c6a5f8e-a59b-55e0-b8b4-641bccad61dd",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Cubo de ferro",
+      "from": [
+        6,
+        6,
+        5.5
+      ],
+      "to": [
+        10,
+        10,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "a64b6224-9d75-5d50-99d4-204c94f2bcb9",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "base",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "f9ee81ca-a522-57e6-8f97-d10561190899",
+        "570e4d3a-fb8f-54ad-8c2c-1fcdc82d9e9a"
+      ]
+    },
+    {
+      "name": "rotor",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "c6801ff0-66f3-528a-a3fd-928b9d6e8867",
+        "36fa3db0-608c-5d59-aef8-c3226042e823",
+        "fee3b40e-1e01-5daa-a08b-807f5b8e5020",
+        "ff00671a-082b-564c-bbdc-60952e6e63f6",
+        "8c5ccf3a-2dfb-5465-bc08-6c014042d389",
+        "d201b718-030f-5f3b-b83e-413c2d746c75",
+        "a617eb5b-015b-55aa-b7cf-7452206d9e24",
+        "714d4883-1168-5380-9541-90f24c860eb4",
+        "e35945fa-c633-570d-bbd8-d23c3f74cae6",
+        "d7268ba7-d693-5f22-86ef-ef5e6fa3faf7",
+        "7c6a5f8e-a59b-55e0-b8b4-641bccad61dd",
+        "a64b6224-9d75-5d50-99d4-204c94f2bcb9"
+      ]
+    },
+    {
+      "name": "crank",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": []
+    }
+  ],
+  "textures": [
+    {
+      "name": "mechanical_workshop.png",
+      "id": "0",
+      "width": 64,
+      "height": 32,
+      "uv_width": 64,
+      "uv_height": 32,
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgCAIAAAAt/+nTAAAA8klEQVR4nO2XMQrCQBBFx2VAhHU7ISZeIY29Vga8ggcQvITH8FrewF6wEJbtbCwUsZDNfnGVifOaQPJ3J8W8zKa3WU4JYVKNoPyBCii/aBooz7eLtfZxK4TQugzKp2z4dp6/UCMr7L2HFvhhH6vgCriEB/LsnMPeB8yf8CUOyd9b6CVZxfgUHHkmQgxWB37sgCHhsDhrYw6k+PA8B5L80TnQcQcMCYfFz4HVrIZ23+3PUH67nkP5cVVSXWKf0dxHhqx5Q8JhtOeIBll7mlAH4CP+8ZL7F8L91VnIkHBYHWhHHYihDiSgc6DTLWRIOCx9DlwBwmGc/9gsVssAAAAASUVORK5CYII="
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  }
+}
