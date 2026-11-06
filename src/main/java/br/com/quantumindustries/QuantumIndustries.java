@@ -26,6 +26,7 @@ public class QuantumIndustries {
         ModCreativeTabs.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+        modEventBus.addListener(br.com.quantumindustries.fluid.ModFluidCapabilities::register);
         NeoForge.EVENT_BUS.addListener(ResearchCommands::register);
         NeoForge.EVENT_BUS.register(this);
     }
