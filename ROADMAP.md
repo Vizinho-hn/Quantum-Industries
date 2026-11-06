@@ -10,14 +10,15 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 ## Fase 1 — Núcleo de pesquisa
 
-- [x] Implementar a Bancada de Ensaio Empírico com dez materiais e três métodos.
+- [x] Implementar a Bancada de Ensaio Empírico com dez materiais, quatro métodos e 40 descobertas individualizadas.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
 - [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
-- [x] Integrar uma observação empírica à pesquisa de Maleabilidade.
+- [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.
+- [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
 - [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
-- [ ] Expandir as aplicações tecnológicas das observações empíricas.
+- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.
 
 ## Fase 2 — Primeira indústria
 

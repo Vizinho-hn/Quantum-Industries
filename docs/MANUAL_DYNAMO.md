@@ -29,16 +29,16 @@ e confira o resultado em `build/dynamo-verification/result.txt`. A captura local
 
 ## Roteiro de sobrevivência da Era I
 
-1. Em um mundo novo, fabrique o Analisador Científico Tier 1 e a Bancada de
-   Ensaio. A Bancada de Ensaio usa cobre, vidro e cobre na primeira linha;
-   tábuas, bancada de trabalho e tábuas na segunda; e tábuas nas duas pontas
-   da terceira. Faça o ensaio mecânico do cobre para registrar a deformação.
-2. Pesquise Observação, Maleabilidade, Conformação Manual e Chapas Metálicas.
+1. Em um mundo novo, fabrique o Analisador Científico Tier 1, conclua Observação
+   dos Materiais e fabrique o Analisador de Materiais liberado pela pesquisa. Sua receita usa ferro, pepita e ferro na primeira linha, três tábuas
+   na segunda e dois troncos nas pontas da terceira. Faça o ensaio mecânico do cobre para registrar a deformação.
+2. Após o ensaio mecânico do cobre, pesquise Maleabilidade e Conformação Manual.
+   Faça o ensaio mecânico do ferro para pesquisar Chapas Metálicas e Mecânica.
    Fabrique o martelo e a bancada de conformação. Martele ferro para obter chapas.
-3. Conclua Mecânica Fundamental, Transmissão e Magnetismo. Fabrique engrenagens,
-   eixos e uma manivela à parte. Conclua Condutividade, Fabricação de Fios,
-   Isolamento e Bobinagem para produzir os fios e as bobinas.
-4. Pesquise Estrutura Eletromecânica e fabrique a estrutura. A mesma pesquisa
+3. Conclua Mecânica Fundamental e Transmissão. Inspecione o ferro e pesquise Magnetismo. Fabrique engrenagens,
+   eixos e uma manivela à parte. Inspecione o cobre para pesquisar Condutividade e inspecione carvão ou quartzo
+   para pesquisar Isolamento. Conclua Fabricação de Fios, Isolamento e Bobinagem para produzir os fios e as bobinas.
+4. Realize o ensaio de aquecimento do ferro ou do cobre, pesquise Estrutura Eletromecânica e fabrique a estrutura. A mesma pesquisa
    libera o núcleo: chapa / engrenagem / chapa; pepita / estrutura / pepita;
    vazio / eixo / vazio.
 5. Conclua Projeto do Dínamo. Fabrique o dínamo com bobina / engrenagem / bobina;

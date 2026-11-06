@@ -38,7 +38,8 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     public static final int REPORT_WRITE = REPORT_WITHDRAW + 3;
     private static final Item[] SUPPLIES = {Items.BLACK_DYE, Items.FEATHER, Items.PAPER};
 
-    public static final int DATA_SIZE = 3 + 2 * ResearchCatalog.STUDIES.size();
+    private static final int EVIDENCE_OFFSET = 3 + 2 * ResearchCatalog.STUDIES.size();
+    public static final int DATA_SIZE = EVIDENCE_OFFSET + ResearchCatalog.STUDIES.size();
     private final ResearchTableBlockEntity entity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
@@ -57,8 +58,16 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
                 if (index < 0 || index >= DATA_SIZE) return 0;
                 if (!(inventory.player.level() instanceof ServerLevel server)) return data.get(index);
                 if (index < 3) return entity == null ? 0 : entity.reportSupplies().getItem(index).getCount();
-                int id = (index - 3) / 2;
                 WorldResearchData research = WorldResearchData.get(server);
+                if (index >= EVIDENCE_OFFSET) {
+                    var study = ResearchCatalog.STUDIES.get(index - EVIDENCE_OFFSET);
+                    int mask = 0;
+                    for (int i = 0; i < study.evidence().size(); i++) {
+                        if (study.evidence().get(i).satisfied(inventory.player)) mask |= 1 << i;
+                    }
+                    return mask;
+                }
+                int id = (index - 3) / 2;
                 if (index % 2 == 1) {
                     if (research.knows(inventory.player, id)) return 2;
                     return research.prerequisites(inventory.player, id) ? 1 : 0;
@@ -67,9 +76,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
                 var study = ResearchCatalog.STUDIES.get(id);
                 for (int i = 0; i < study.costs().size(); i++) {
                     var cost = study.costs().get(i);
-                    boolean empirical = study.key().equals("material_malleability") && cost.item() == Items.COPPER_INGOT
-                            && hasCopperObservation(inventory.player);
-                    if (empirical || count(inventory, cost.item()) >= cost.amount()) mask |= 1 << i;
+                    if (count(inventory, cost.item()) >= cost.amount()) mask |= 1 << i;
                 }
                 return mask;
             }
@@ -121,10 +128,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         if (!ResearchCatalog.valid(id)) return false;
         var study = ResearchCatalog.STUDIES.get(id);
         if (!research.canLearn(player, study.id())) return false;
-        // An existing empirical copper observation can substitute for the deformation sample.
-        boolean empirical = study.key().equals("material_malleability") && hasCopperObservation(player);
         Cost[] costs = study.costs().stream()
-                .filter(cost -> !empirical || cost.item() != Items.COPPER_INGOT)
                 .map(cost -> new Cost(cost.item(), cost.amount())).toArray(Cost[]::new);
         SpendPlan payment = prepareSpend(player.getInventory(), costs);
         if (payment == null || !payment.commit()) return false;
@@ -174,10 +178,18 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         return true;
     }
 
-    private static boolean hasCopperObservation(Player player) {
-        return br.com.quantumindustries.assay.AssayProfile.of(player).knows(
-                br.com.quantumindustries.assay.AssayCatalog.Material.COPPER,
-                br.com.quantumindustries.assay.AssayCatalog.Method.MECHANICAL);
+    public boolean hasEvidence(int id, int evidence) {
+        return ResearchCatalog.valid(id) && evidence >= 0
+                && evidence < ResearchCatalog.STUDIES.get(id).evidence().size()
+                && (data.get(EVIDENCE_OFFSET + id) & (1 << evidence)) != 0;
+    }
+
+    public boolean evidenceReady(int id) {
+        if (!ResearchCatalog.valid(id)) return false;
+        for (int i = 0; i < ResearchCatalog.STUDIES.get(id).evidence().size(); i++) {
+            if (!hasEvidence(id, i)) return false;
+        }
+        return true;
     }
 
     private static int count(Inventory inventory, Item item) {

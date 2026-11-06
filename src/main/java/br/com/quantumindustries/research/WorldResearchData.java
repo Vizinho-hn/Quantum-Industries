@@ -118,8 +118,7 @@ public final class WorldResearchData extends SavedData {
     }
 
     public boolean learn(Player player, Identifier id) {
-        var study = ResearchCatalog.find(id);
-        if (study == null || knows(player, id) || !prerequisites(player, study)) return false;
+        if (!canLearn(player, id)) return false;
         if (!completed.computeIfAbsent(player.getUUID().toString(), ignored -> new ResearchProgress()).learn(id)) {
             return false;
         }
@@ -144,8 +143,13 @@ public final class WorldResearchData extends SavedData {
 
     public boolean canLearn(Player player, Identifier id) {
         var study = ResearchCatalog.find(id);
-        return study != null && !knows(player, id) && prerequisites(player, study);
+        return study != null && !knows(player, id)
+                && (study.key().equals("material_observation") || knows(player, "material_observation"))
+                && prerequisites(player, study) && evidenceSatisfied(player, study);
+    }
 
+    public boolean evidenceSatisfied(Player player, ResearchCatalog.Study study) {
+        return study.evidence().stream().allMatch(evidence -> evidence.satisfied(player));
     }
 
     public static WorldResearchData get(ServerLevel level) {

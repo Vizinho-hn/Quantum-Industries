@@ -1,21 +1,23 @@
-# Bancada de ensaio — primeira versão funcional
+# Bancada de Ensaio Empírico — versão atual
 
-A bancada registra observações individuais de dez materiais por três métodos:
-prensa mecânica (maleabilidade), aquecimento (comportamento ao fogo) e ensaio
-galvânico (condução elétrica qualitativa). As respostas descrevem as condições
-limitadas deste ensaio; ausência de resposta não comprova uma propriedade universal.
+A bancada permite **10 materiais × 4 métodos = 40 descobertas individuais**:
+inspeção, aquecimento, reação e prensa mecânica. Cada método registra uma
+observação qualitativa própria, consultável no caderno. Esses ensaios são
+simplificações de gameplay, não medições laboratoriais rigorosas.
 
 ## Como usar
 
-1. Coloque uma amostra aceita e a lupa nos respectivos slots.
-2. Selecione um dos três painéis. A prensa exige também pesos de ferro;
-   o aquecimento exige também o isqueiro vanilla. A manivela e a bússola já pertencem à mesa.
-3. Clique em **Realizar ensaio** e aguarde 3 segundos (60 ticks do servidor).
-4. Consulte a observação no caderno. Selecione os demais métodos para completar o material.
+1. Insira uma amostra aceita na bancada.
+2. Instale a lupa para inspeção, o fole manual para aquecimento ou o frasco
+   de ensaio para reação. O aquecimento também aceita itens de chama legados,
+   incluindo o isqueiro vanilla. A prensa mecânica já faz parte da bancada.
+3. Selecione um dos **quatro** métodos e clique em **Realizar ensaio**.
+4. Aguarde **10 segundos (200 ticks)**, com o chunk carregado, e consulte o resultado.
+5. Complete os quatro métodos para finalizar o ciclo de uma amostra.
 
-O caderno permite percorrer os dez materiais e consultar apenas os resultados já
-conhecidos. Mostra até 3 descobertas por material e 30 no catálogo geral. Consultas
-não exigem amostra, não consomem itens e não concedem recompensas.
+O caderno percorre os dez materiais, revelando somente as observações já
+concluídas. Exibe **0/4 por material** e **0/40 no catálogo** inicialmente.
+Consultar os resultados não consome itens nem concede novas descobertas.
 
 ## Amostra e persistência
 
@@ -26,63 +28,54 @@ outra bancada permite retomar a mesma amostra e os resultados anteriores.
 
 Interromper o teste cancela somente o temporizador. Acesso e ferramentas são
 revalidados pelo servidor; um teste interrompido precisa ser iniciado novamente.
-A reserva é consumida definitivamente ao completar os três métodos únicos.
+A reserva é consumida definitivamente ao completar os quatro métodos únicos.
 Ferramentas são reutilizáveis. Os quatro slots pertencem à bancada: fechar a
 HUD não devolve ferramentas nem amostras ainda não reservadas ao inventário.
 Os itens permanecem após salvar e carregar o mundo, podem ser retirados pela
 interface e caem ao quebrar a bancada. Os dois lados do bloco acessam o mesmo
 inventário; jogadores que usam a mesma bancada compartilham esses itens.
 
-A lupa, o isqueiro, os pesos e a amostra aparecem sobre a bancada somente quando
-ocupam seus slots. Ferro aparece como lingote de ferro, ouro como lingote de ouro,
-e assim por diante. A lupa decorativa e as amostras fixas foram retiradas do modelo.
+A lupa, o fole, o frasco e a amostra aparecem sobre a bancada quando seus
+slots estão ocupados. A amostra utiliza seu ItemStack real, preservando
+a aparência do item inserido, inclusive cobre bruto. O aparato integrado
+permanece visível independentemente dos itens de ferramenta.
 Quando o primeiro ensaio reserva uma amostra, ela deixa o slot físico e passa a
 ser indicada como **Reservada** na HUD. Essa reserva continua individual e não
 é um segundo item exposto ou retirável da bancada. Dois jogadores mantêm ciclos e descobertas independentes.
 
 As descobertas usam identificadores estáveis de material e método, separados das
-pesquisas existentes. O contador antigo do cobre migra, na ordem, para prensa,
-aquecimento e ensaio galvânico; não revela resultados de outros materiais.
+pesquisas tecnológicas. A migração preserva os ensaios antigos de prensa e
+aquecimento. O resultado legado `galvanic` permanece no histórico e **não**
+é convertido em reação ou inspeção; essas descobertas exigem os novos ensaios.
 
-## Catálogo de observações
+## Catálogo e ferramentas
 
-| Amostra aceita | Prensa mecânica | Aquecimento | Ensaio galvânico |
-| --- | --- | --- | --- |
-| Lingote de cobre | Achata sem se fragmentar (Maleável) | Superfície escurece | Ponteiro responde |
-| Lingote de ferro | Oferece maior resistência à deformação | Superfície escurece | Ponteiro responde |
-| Lingote de ouro | Deforma facilmente | Sem alteração visível neste ensaio | Ponteiro responde |
-| Carvão | Fragmenta e produz pó | Queima e deixa resíduos | Sem resposta conclusiva |
-| Diamante | Não apresenta deformação visível | Sem alteração visível neste ensaio | Sem resposta detectável |
-| Quartzo | Fratura sem formar uma chapa | Sem alteração visível neste ensaio | Sem resposta detectável |
-| Pó de redstone | Pó se compacta, sem formar chapa | Escurece, sem chama característica | Resposta pulsante (comportamento ficcional do mod) |
-| Lápis-lazúli | Fragmenta, produzindo pó azul | Sem alteração diagnóstica | Sem resposta detectável |
-| Esmeralda | Fratura, sem deformação plástica | Sem alteração diagnóstica | Sem resposta detectável |
-| Fragmento de ametista | Fragmenta sob pressão | Sem alteração diagnóstica | Sem resposta detectável |
+Os dez materiais aceitos são: cobre, ferro, ouro, carvão, diamante, quartzo,
+redstone, lápis-lazúli, esmeralda e ametista. **Cobre bruto** também é aceito
+como variante da amostra de cobre. Cada um possui os mesmos quatro métodos,
+com resultados próprios nas traduções do jogo. Não confundir um resultado de
+ensaio com uma propriedade científica universal.
 
-Blocos, minérios brutos e carvão vegetal não são aceitos. A bancada não informa
-fórmula química, estrutura atômica, dureza medida, resistividade ou valores de
-condutividade. Aquecer o lingote de cobre não revela uma chama verde fixa.
+- **Inspeção:** usa a lupa (`magnifying_glass`).
+- **Aquecimento:** usa o fole manual (`manual_bellows`) ou, por compatibilidade,
+  o item legado de chama / isqueiro vanilla.
+- **Reação:** usa o frasco de ensaio (`assay_flask`).
+- **Prensa mecânica:** utiliza o mecanismo integrado à bancada, sem exigir
+  os antigos pesos como ferramenta.
 
-## Ferramentas e progressão inicial
-
-- **Lupa:** item próprio, feito com vidro, graveto e pepita de ferro.
-- **Isqueiro:** o item vanilla inicia o aquecimento no aparato da bancada; não
-  existe uma segunda ferramenta obrigatória chamada kit de chama. Nesta versão,
-  seu uso na bancada não gasta durabilidade.
-- **Pesos de ferro:** item próprio, feito com lingote e pepita de ferro. Não exige
-  produzir latão nem introduz uma liga antes da etapa de metalurgia.
-
-Para compatibilidade com mundos existentes, o identificador dos pesos continua
-`quantumindustries:brass_weights`. O antigo `flame_test_kit` ainda é reconhecido
-em saves, mas não aparece na aba criativa e sua receita foi retirada.
+As ferramentas não são consumidas. O ensaio usa uma unidade de material
+para o ciclo completo de quatro observações, e não uma por método.
+Os antigos pesos e identificadores legados continuam sujeitos às regras de
+compatibilidade; não devem ser descritos como equipamentos obrigatórios
+da bancada atual.
 
 ## Galeria
 
-Capturas reais do cliente de desenvolvimento, em 2026-11-04.
+As imagens abaixo foram produzidas em 2026-11-04 e podem retratar uma versão anterior da interface; a especificação atual está descrita acima e em `design/assay-v2/README.md`.
 
 ### Bancada com itens guardados
 
-![Bancada com amostra de ferro, lupa, isqueiro e pesos](images/bancada-ferro.png)
+![Captura histórica da bancada com amostra de ferro](images/bancada-ferro.png)
 
 Trocar a amostra muda o item exibido no mundo:
 
@@ -96,7 +89,7 @@ Trocar a amostra muda o item exibido no mundo:
 
 ![HUD com amostra e ferramentas inseridas, antes de iniciar o ensaio](images/hud-inicial.png)
 
-![Caderno com os três resultados do cobre e o ciclo concluído](images/hud-completa.png)
+![Captura histórica do caderno de observações](images/hud-completa.png)
 
 ## Próxima etapa de design
 
@@ -106,7 +99,7 @@ existentes e os bloqueios de receitas.
 
 ## Verificação reproduzível
 
-Com Java 25 e o cache Gradle disponível, execute na raiz:
+Na raiz do projeto, com Java 25 e o cache Gradle configurado:
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -114,37 +107,20 @@ python3 -m unittest discover -s tests -v
 ./gradlew build
 ```
 
-O segundo comando inclui temporariamente as fontes de `tests/runtime`, inicia
-um servidor dedicado em `build/assay-verification/world` e exige um resultado
-explícito `PASS` em `build/assay-verification/result.txt`. Exercita os dez materiais,
-os três métodos, início inválido e duplicado, interrupção, reserva e consumo,
-retomada em outra bancada, persistência NBT, clone após morte, independência entre
-jogadores e migração do contador antigo. O mundo de verificação aceita a EULA
-localmente e usa a porta 25576. As classes do ensaio automatizado não entram no
-JAR de um build normal.
+O servidor de teste da versão atual exercita **quatro métodos em dez materiais**,
+incluindo reserva de amostra, ensaio interrompido, persistência, autoria,
+recuperação de resultados e migração de dados. Veja
+`design/assay-v2/README.md` para os resultados documentados dessa versão
+(570 verificações na entrega de 2026-11-04).
 
-`tests/assay-preview.init.gradle` habilita um cliente de verificação separado em
-`build/assay-preview`, com capturas da HUD e dos itens no mundo. As fontes de preview também são
-excluídas de builds normais.
+O preview opcional usa `./tools/preview-assay.sh` em ambiente Linux com
+Java 25, Xvfb e cache Gradle. Os resultados de teste acima não foram
+executados novamente apenas para esta atualização documental.
 
-Para executar o preview com carga reduzida, use `./tools/preview-assay.sh`
-(requer Xvfb, Java 25 e o cache Gradle já preenchido). O script usa janela de
-1100×760, 30 FPS, 2 chunks de renderização, distância de simulação 5 e dois
-threads de renderização por software. Limita a execução a quatro minutos e
-exige oito capturas novas em `build/assay-preview/screenshots`. A abertura
-da interface ocorre depois do teleporte, para permitir sua sincronização.
+## Histórico de versões anteriores
 
-Validação visual concluída em 2026-11-04: estado inicial 0/3, ensaio em curso,
-primeira descoberta, aquecimento e ciclo completo 3/3, com consumo da amostra
-reservada e encerramento normal do cliente. As observações longas são abreviadas
-no caderno; o texto completo está disponível ao passar o mouse. O teste usou
-llvmpipe com os limites acima; a causa do travamento anterior segue sem confirmação.
-
-
-## Validação do armazenamento
-
-Em 2026-11-04 passaram **521 verificações de integração no servidor**, incluindo
-retenção ao fechar a HUD, serialização e carregamento do inventário, dois
-jogadores acessando os mesmos slots, retirada sem duplicação e queda dos quatro
-itens armazenados ao quebrar o bloco. Os **11 testes de contratos e recursos**
-também passaram. O preview captura a HUD e a bancada com ferro, ouro e slots vazios.
+As capturas e relatórios anteriores à versão com quatro métodos podem mostrar
+**0/3 ou 0/30**, ferramentas de pesos/isqueiro ou ensaios galvânicos. Esses
+valores descrevem somente o protótipo antigo; não correspondem ao jogo atual.
+O resultado `galvanic` antigo continua preservado como histórico durante a
+migração, mas não representa o método atual de reação.

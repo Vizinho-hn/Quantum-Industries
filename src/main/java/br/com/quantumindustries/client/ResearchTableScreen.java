@@ -39,7 +39,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private boolean canvasDragged;
     private final Inventory inventory;
     private int tab;
-    private int selected;
+    private int selected = ResearchCatalog.indexOf("material_observation");
     private int selectedReport = -1;
 
     public ResearchTableScreen(ResearchTableMenu menu, Inventory inventory, Component title) {
@@ -62,6 +62,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private State state(int id) {
         if (!menu.isRevealed(id)) return ResearchCatalog.STUDIES.get(id).key().equals("copper_wire") ? State.HIDDEN : State.BLOCKED;
         if (complete(id)) return State.DONE;
+        if (!menu.evidenceReady(id)) return State.EVIDENCE;
         for (boolean ready : requirements(id)) if (!ready) return State.WAITING;
         return State.READY;
     }
@@ -155,6 +156,31 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         } finally {
             g.pose().popMatrix();
         }
+        if (tab == 0 && x >= 153 && x < 559 && y >= 244 && y < 321) {
+            var study = ResearchCatalog.STUDIES.get(selected);
+            var details = new java.util.ArrayList<Component>();
+            details.add(Component.literal(study.name()));
+            details.add(Component.literal(study.description()));
+            details.add(Component.literal("Conhecimentos anteriores"));
+            for (String key : study.prerequisites()) {
+                int id = ResearchCatalog.indexOf(key);
+                details.add(Component.literal((complete(id) ? "+ " : "- ") + ENTRIES[id].name()));
+            }
+            details.add(Component.literal(complete(selected) && !menu.evidenceReady(selected)
+                    ? "Evidências científicas. Dispensadas neste estudo já concluído." : "Evidências científicas"));
+            if (study.evidence().isEmpty()) details.add(Component.literal("Nenhuma evidência adicional."));
+            for (int i = 0; i < study.evidence().size(); i++) {
+                details.add(Component.literal(menu.hasEvidence(selected, i) ? "+ " : "- ")
+                        .append(study.evidence().get(i).description()));
+            }
+            if (!study.evidence().isEmpty()) details.add(Component.literal("Realize o ensaio no Analisador de Materiais."));
+            details.add(Component.literal("Materiais de pesquisa"));
+            for (int i = 0; i < study.costs().size(); i++) {
+                details.add(Component.literal((complete(selected) || menu.hasCost(selected, i) ? "+ " : "- ")
+                        + ENTRIES[selected].costs()[i]));
+            }
+            g.setComponentTooltipForNextFrame(font, details, mouseX, mouseY);
+        }
     }
 
     private void selectedDetails(GuiGraphicsExtractor g) {
@@ -166,16 +192,38 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         var entry = ENTRIES[selected];
         text(g, entry.name(), 163, 252, CYAN);
         if (complete(selected)) drawOutputs(g, outputs(selected), 548, 246);
-        text(g, entry.description(), 163, 265, TEXT);
+        clipped(g, entry.description(), 163, 265, 386, TEXT);
         clipped(g, "Desbloqueio: " + entry.reward(), 163, 278, 386, GREEN);
-        var dependencies = ResearchCatalog.STUDIES.get(selected).prerequisites();
+        var study = ResearchCatalog.STUDIES.get(selected);
+        var dependencies = study.prerequisites();
+        int dependencyY = study.evidence().isEmpty() ? 294 : 288;
         if (!dependencies.isEmpty()) {
-            text(g, "Pré-requisitos:", 163, 294, MUTED);
-            for (int i = 0; i < dependencies.size(); i++) {
-                int id = ResearchCatalog.indexOf(dependencies.get(i));
-                clipped(g, (complete(id) ? "+ " : "- ") + ENTRIES[id].name(),
-                        247 + (i % 2) * 149, 294 + i / 2 * 11, 144, complete(id) ? GREEN : GOLD);
+            text(g, "Pré-requisitos:", 163, dependencyY, MUTED);
+            if (!study.evidence().isEmpty()) {
+                String names = dependencies.stream().map(key -> {
+                    int id = ResearchCatalog.indexOf(key);
+                    return (complete(id) ? "+ " : "- ") + ENTRIES[id].name();
+                }).collect(java.util.stream.Collectors.joining(", "));
+                boolean ready = dependencies.stream().allMatch(key -> complete(ResearchCatalog.indexOf(key)));
+                clipped(g, names, 247, dependencyY, 302, ready ? GREEN : GOLD);
+            } else {
+                for (int i = 0; i < dependencies.size(); i++) {
+                    int id = ResearchCatalog.indexOf(dependencies.get(i));
+                    clipped(g, (complete(id) ? "+ " : "- ") + ENTRIES[id].name(),
+                            247 + (i % 2) * 149, dependencyY + i / 2 * 11, 144, complete(id) ? GREEN : GOLD);
+                }
             }
+        }
+        if (!study.evidence().isEmpty()) {
+            int pending = 0;
+            while (pending < study.evidence().size() && menu.hasEvidence(selected, pending)) pending++;
+            int evidence = Math.min(pending, study.evidence().size() - 1);
+            boolean met = menu.hasEvidence(selected, evidence);
+            String evidenceLabel = complete(selected) && !menu.evidenceReady(selected)
+                    ? "Pesquisa concluída. Evidência adicional dispensada."
+                    : (met ? "+ " : "- ") + study.evidence().get(evidence).description().getString();
+            clipped(g, evidenceLabel, 163, 299, 386, met || complete(selected) ? GREEN : GOLD);
+            text(g, "Investigue no Analisador de Materiais. Passe o mouse para detalhes.", 163, 310, MUTED);
         }
     }
 
@@ -205,7 +253,8 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         String[] labels = {"Concluídas", "Disponíveis", "Aguardando", "Bloqueadas"};
         for (int i = 0; i < order.length; i++) {
             int count = 0;
-            for (State state : states) if (state == order[i] || order[i] == State.HIDDEN && state == State.BLOCKED) count++;
+            for (State state : states) if (state == order[i] || order[i] == State.HIDDEN && state == State.BLOCKED
+                    || order[i] == State.WAITING && state == State.EVIDENCE) count++;
             int y = 97 + i * 16;
             theme.fill(g,18, y + 1, 23, y + 6, order[i].color);
             text(g, labels[i], 29, y, TEXT);
@@ -222,7 +271,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 ? "Veja dependências abaixo" : ENTRIES[selected].reward();
         clipped(g, note, 17, 249, 115, TEXT);
         if (tab == 0) {
-            sidebarAction(g, complete(selected) ? "Concluída" : "Iniciar pesquisa",
+            sidebarAction(g, complete(selected) ? "Concluída" : states[selected] == State.EVIDENCE ? "Falta evidência" : "Iniciar pesquisa",
                     ResearchCatalog.STUDIES.get(selected).era() == era && states[selected] == State.READY);
         } else if (tab == 3) {
             sidebarAction(g, "Escrever relatório", selectedReport >= 0 && canWrite(selectedReport));
@@ -512,7 +561,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                             tree.setEra(era);
                             for (int study = 0; study < ENTRIES.length; study++) {
                                 if (ResearchCatalog.STUDIES.get(study).era() == era) {
-                                    selected = study;
+                                    selected = era == 1 ? ResearchCatalog.indexOf("material_observation") : study;
                                     break;
                                 }
                             }
