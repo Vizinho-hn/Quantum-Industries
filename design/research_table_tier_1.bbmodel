@@ -1,0 +1,4674 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "Research Bench Tier 1",
+  "model_identifier": "quantumindustries:research_table_tier_1",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "Perna de madeira",
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        3.5,
+        11.5,
+        3.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "884de4f2-094d-5f00-8b7d-e37bdf95d1b1",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Sapato de ferro",
+      "from": [
+        0.875,
+        0.35,
+        0.875
+      ],
+      "to": [
+        3.625,
+        1.5,
+        3.625
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "86c13069-38a0-5e30-b311-e53c56bce094",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Cinta superior",
+      "from": [
+        0.875,
+        9.25,
+        0.875
+      ],
+      "to": [
+        3.625,
+        10.5,
+        3.625
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "919e5bb5-af4d-5e16-8d8e-bb3023188787",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Perna de madeira",
+      "from": [
+        1,
+        0,
+        12.5
+      ],
+      "to": [
+        3.5,
+        11.5,
+        15.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "3c218e9d-d910-5a4e-bd06-d8fc18844a55",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Sapato de ferro",
+      "from": [
+        0.875,
+        0.35,
+        12.375
+      ],
+      "to": [
+        3.625,
+        1.5,
+        15.125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "bdf5c5d1-51fc-52fb-ba3e-a5fdf60385be",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Cinta superior",
+      "from": [
+        0.875,
+        9.25,
+        12.375
+      ],
+      "to": [
+        3.625,
+        10.5,
+        15.125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "12bdb93f-01bb-5e18-b057-1077ad459912",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Perna de madeira",
+      "from": [
+        12.5,
+        0,
+        1
+      ],
+      "to": [
+        15.0,
+        11.5,
+        3.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "13c92521-c23d-5eeb-b09c-db39ca132921",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Sapato de ferro",
+      "from": [
+        12.375,
+        0.35,
+        0.875
+      ],
+      "to": [
+        15.125,
+        1.5,
+        3.625
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "ef9330ca-5149-5c7e-815e-8fdf1ce8e462",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Cinta superior",
+      "from": [
+        12.375,
+        9.25,
+        0.875
+      ],
+      "to": [
+        15.125,
+        10.5,
+        3.625
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2fc22448-f993-5959-ac68-6915960fcd19",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Perna de madeira",
+      "from": [
+        12.5,
+        0,
+        12.5
+      ],
+      "to": [
+        15.0,
+        11.5,
+        15.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            11.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "d4c2e3cc-037c-5ad3-82e9-c61d4671b87a",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Sapato de ferro",
+      "from": [
+        12.375,
+        0.35,
+        12.375
+      ],
+      "to": [
+        15.125,
+        1.5,
+        15.125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "cc81a7c8-d08b-5790-a604-71b8a3cfda04",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Cinta superior",
+      "from": [
+        12.375,
+        9.25,
+        12.375
+      ],
+      "to": [
+        15.125,
+        10.5,
+        15.125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            1.25
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.75,
+            2.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "9e48b8be-089a-57c5-957c-c2aa32743ec8",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Prateleira inferior",
+      "from": [
+        1,
+        2.25,
+        1
+      ],
+      "to": [
+        15,
+        3.25,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            14.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            14.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            14.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            14.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            30.0,
+            14.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            14.0,
+            14.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "aea079a4-4e24-57b0-ae33-1fa99d6b444d",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Travessa esquerda",
+      "from": [
+        1,
+        4,
+        2
+      ],
+      "to": [
+        2,
+        5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            12.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            12.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            12.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            12.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "66132d7c-d9df-5c85-87dd-2ba970e1eed3",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Travessa direita",
+      "from": [
+        14,
+        4,
+        2
+      ],
+      "to": [
+        15,
+        5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            12.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            12.0,
+            1.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            12.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            1.0,
+            12.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "02495574-4a3b-5cae-bf52-fcdbd2b7f7fe",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Fundo da gaveta",
+      "from": [
+        2.75,
+        7.75,
+        2
+      ],
+      "to": [
+        13.25,
+        8.25,
+        9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            7.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            7.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            7.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            7.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7595a05b-ba03-5cad-9db0-facfa9605a23",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Caixa da gaveta",
+      "from": [
+        2.75,
+        8.25,
+        2
+      ],
+      "to": [
+        13.25,
+        10.75,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            6.0,
+            2.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            6.0,
+            2.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            6.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            10.5,
+            6.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "419a7be7-537b-5530-a115-007acc1418e8",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Frente da gaveta",
+      "from": [
+        3,
+        8.25,
+        0.75
+      ],
+      "to": [
+        13,
+        10.75,
+        1.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            26.0,
+            2.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            16.55,
+            2.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            26.0,
+            2.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            16.55,
+            2.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            26.0,
+            0.55
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            26.0,
+            0.55
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "484e9936-2c16-5e74-87f6-5e16521a846b",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Fixacao da alca",
+      "from": [
+        6.5,
+        9,
+        0.45
+      ],
+      "to": [
+        7.0,
+        9.75,
+        0.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "a417533a-ab71-58c3-be0c-dd35e3a03377",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Fixacao da alca",
+      "from": [
+        9,
+        9,
+        0.45
+      ],
+      "to": [
+        9.5,
+        9.75,
+        0.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.75
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2fb477b4-e106-51af-a639-c7586f855dfa",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Alca de cobre",
+      "from": [
+        6.5,
+        9.15,
+        0.25
+      ],
+      "to": [
+        9.5,
+        9.65,
+        0.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            51.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            51.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            51.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            51.0,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "c586910e-2d7e-52ec-8dc8-1131cf646155",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Tampo envelhecido",
+      "from": [
+        0,
+        11,
+        0
+      ],
+      "to": [
+        16,
+        12.25,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16.0,
+            1.25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16.0,
+            1.25
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16.0,
+            1.25
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16.0,
+            1.25
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32.0,
+            16.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32.0,
+            16.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "891efe74-1233-5525-a999-87f11b62945e",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Fita de ferro do tampo",
+      "from": [
+        0.5,
+        12.25,
+        0.5
+      ],
+      "to": [
+        15.5,
+        12.45,
+        1.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7b5c59a0-d097-5290-8d3c-1dc1edc9773a",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Fita de ferro do tampo",
+      "from": [
+        0.5,
+        12.25,
+        14.75
+      ],
+      "to": [
+        15.5,
+        12.45,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            47.0,
+            0.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "c3399863-cf22-5802-bd07-7d3ecf0e32b2",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Capa esquerda",
+      "from": [
+        4,
+        12.25,
+        6
+      ],
+      "to": [
+        8,
+        12.55,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            22.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            22.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            22.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            22.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "020f50c2-e8c6-5bc5-bf82-4022d14de9b5",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Capa direita",
+      "from": [
+        8,
+        12.25,
+        6
+      ],
+      "to": [
+        12,
+        12.55,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            22.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            22.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            22.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            20.0,
+            22.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "1e7f6e35-58e2-5111-b107-5e7d018af45a",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Miolo esquerdo",
+      "from": [
+        4.25,
+        12.55,
+        6.25
+      ],
+      "to": [
+        7.75,
+        12.9,
+        11.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            5.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            5.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            21.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "aa5b21bb-8530-57a6-9840-d732dc6fa8d0",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Miolo direito",
+      "from": [
+        8.25,
+        12.55,
+        6.25
+      ],
+      "to": [
+        11.75,
+        12.9,
+        11.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            5.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            5.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            3.5,
+            21.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "09a15539-c487-5508-9818-c95deff7c93c",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Lombada encadernada",
+      "from": [
+        7.75,
+        12.55,
+        6.15
+      ],
+      "to": [
+        8.25,
+        13,
+        11.85
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            21.7,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            21.7,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            21.7
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            21.7
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "b99df0a7-c29f-5645-a219-c7a4760b877e",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Marcador de couro",
+      "from": [
+        10.5,
+        12.9,
+        11.25
+      ],
+      "to": [
+        11,
+        13,
+        12.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            17.3,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            17.3,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            17.3
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            16.5,
+            17.3
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "01766b70-ad65-5f94-b942-61665b3b74b3",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Folha de notas",
+      "from": [
+        5,
+        12.25,
+        3.25
+      ],
+      "to": [
+        10,
+        12.35,
+        5.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            5.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            2.25,
+            16.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            5.0,
+            16.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            2.25,
+            16.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            5.0,
+            18.25
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "4336310f-17e4-5534-96d7-ddcaa55fa30e",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Base da balanca",
+      "from": [
+        1,
+        12.25,
+        2
+      ],
+      "to": [
+        4.75,
+        12.7,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            3.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            3.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            3.75,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            3.0,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            3.75,
+            3.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            3.75,
+            3.0
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "79375910-1e3d-5a28-a56c-d699052a2325",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Coluna da balanca",
+      "from": [
+        2.6,
+        12.7,
+        3.15
+      ],
+      "to": [
+        3.1,
+        15.5,
+        3.65
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            2.8000000000000007
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            2.8000000000000007
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            2.8000000000000007
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            2.8000000000000007
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7f4ee7f1-aadb-53a9-a2e8-20dfcd6a4f0e",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Braco da balanca",
+      "from": [
+        0.75,
+        15.15,
+        3.15
+      ],
+      "to": [
+        5,
+        15.6,
+        3.65
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            36.25,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            36.25,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            36.25,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            36.25,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2be60cc3-7770-5111-994d-aee6c876fa7c",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Haste do prato",
+      "from": [
+        1.2,
+        13.95,
+        3.3
+      ],
+      "to": [
+        1.45,
+        15.15,
+        3.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "da71eb86-ab03-5f3f-95cf-1f9f072b748b",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Prato da balanca",
+      "from": [
+        0.55,
+        13.7,
+        2.65
+      ],
+      "to": [
+        2.1,
+        13.95,
+        4.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            1.5500000000000003
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            1.5500000000000003
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "92e89714-4abe-5d65-97e8-6e43f09b8e3f",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Haste do prato",
+      "from": [
+        4.45,
+        13.95,
+        3.3
+      ],
+      "to": [
+        4.7,
+        15.15,
+        3.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            1.200000000000001
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "76fc3279-f1f9-5f8d-8c05-28cc4ccf2bf4",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Prato da balanca",
+      "from": [
+        3.8,
+        13.7,
+        2.65
+      ],
+      "to": [
+        5.35,
+        13.95,
+        4.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            1.5500000000000003
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            49.55,
+            1.5500000000000003
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "a2f439a8-efae-5fd4-b6fd-511c1430c0af",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Peso de ferro",
+      "from": [
+        3.95,
+        13.95,
+        3.05
+      ],
+      "to": [
+        4.7,
+        14.6,
+        3.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.6500000000000004
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.6500000000000004
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.6500000000000004
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.6500000000000004
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.75
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.75,
+            0.75
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "460ce71d-ab80-54c7-a505-d831c52ee9a1",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Base da lupa",
+      "from": [
+        11.5,
+        12.25,
+        2.25
+      ],
+      "to": [
+        15,
+        12.65,
+        4.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            3.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            3.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            3.5,
+            2.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            3.5,
+            2.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "11c060fd-288b-5bda-a10b-024e0f1c1a5c",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Haste da lupa",
+      "from": [
+        13,
+        12.65,
+        3.15
+      ],
+      "to": [
+        13.5,
+        14,
+        3.65
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.3499999999999996
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.3499999999999996
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.3499999999999996
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.3499999999999996
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "70802185-c937-5af0-8a2b-67fac77ed724",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro inferior",
+      "from": [
+        12.6,
+        13.2,
+        3.15
+      ],
+      "to": [
+        13.9,
+        13.6,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "aea95223-9026-5332-911e-4be0f84ca01e",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro superior",
+      "from": [
+        12.6,
+        15.4,
+        3.15
+      ],
+      "to": [
+        13.9,
+        15.8,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            49.3,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "c4b56a02-27fa-5043-9ff6-5f890b6fa7e6",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro lateral",
+      "from": [
+        11.9,
+        13.95,
+        3.15
+      ],
+      "to": [
+        12.3,
+        15.05,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "e462759c-2a91-5828-87c1-26b42c899ae5",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Aro lateral",
+      "from": [
+        14.2,
+        13.95,
+        3.15
+      ],
+      "to": [
+        14.6,
+        15.05,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            1.1000000000000014
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "5da0bf2a-be3f-5913-b507-9d29e15a472a",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Quina do aro",
+      "from": [
+        12.25,
+        13.55,
+        3.15
+      ],
+      "to": [
+        12.65,
+        14.0,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7334dfa6-c8ca-5686-a21e-5f582217e757",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Quina do aro",
+      "from": [
+        12.25,
+        15,
+        3.15
+      ],
+      "to": [
+        12.65,
+        15.45,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "cc8cdc2a-0435-513f-93f3-0ba118eede73",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Quina do aro",
+      "from": [
+        13.85,
+        13.55,
+        3.15
+      ],
+      "to": [
+        14.25,
+        14.0,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "712bc91e-55c4-5507-b147-e64edb9788d5",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Quina do aro",
+      "from": [
+        13.85,
+        15,
+        3.15
+      ],
+      "to": [
+        14.25,
+        15.45,
+        3.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            48.5,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "cda3f5ea-4888-51d8-b00a-fb02e228e9cd",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Bandeja de amostras",
+      "from": [
+        12.4,
+        12.25,
+        9
+      ],
+      "to": [
+        15.3,
+        12.5,
+        12.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            32,
+            2.9000000000000004,
+            32.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            32,
+            3.8000000000000007,
+            32.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            32,
+            2.9000000000000004,
+            32.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            32,
+            3.8000000000000007,
+            32.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            32,
+            2.9000000000000004,
+            35.8
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            32,
+            2.9000000000000004,
+            35.8
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "0fe1aea6-771d-5ef8-aac8-ef5882ff1960",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Borda da bandeja",
+      "from": [
+        12.4,
+        12.5,
+        9
+      ],
+      "to": [
+        15.3,
+        12.8,
+        9.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "b1ef6097-0f17-5aa8-8557-f9005ddfb116",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Borda da bandeja",
+      "from": [
+        12.4,
+        12.5,
+        12.5
+      ],
+      "to": [
+        15.3,
+        12.8,
+        12.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            34.9,
+            0.5
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "fd183965-584e-5a55-a5cb-0bc4c22e97a4",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Borda da bandeja",
+      "from": [
+        12.4,
+        12.5,
+        9.3
+      ],
+      "to": [
+        12.700000000000001,
+        12.8,
+        12.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            35.2,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            35.2,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            3.1999999999999993
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            3.1999999999999993
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "7832e467-8f6d-5969-b307-a931e31504d0",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Borda da bandeja",
+      "from": [
+        15,
+        12.5,
+        9.3
+      ],
+      "to": [
+        15.3,
+        12.8,
+        12.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            35.2,
+            0.5
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            0.5
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            35.2,
+            0.5
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            3.1999999999999993
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            32.5,
+            3.1999999999999993
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "efdeb369-ab6f-52c2-96ed-8c737f3afeca",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Amostra de cobre",
+      "from": [
+        13,
+        12.5,
+        9.7
+      ],
+      "to": [
+        14.5,
+        13.2,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            48,
+            1.5,
+            48.7
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            48,
+            1.1000000000000014,
+            48.7
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            48,
+            1.5,
+            48.7
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            48,
+            1.1000000000000014,
+            48.7
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            48,
+            1.5,
+            49.1
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            48,
+            1.5,
+            49.1
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "ca2e3c46-7f85-5077-a6e7-a87ba6be410b",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Amostra de ferro",
+      "from": [
+        13.25,
+        12.5,
+        11.4
+      ],
+      "to": [
+        14.25,
+        13.05,
+        12.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            32,
+            33.0,
+            32.55
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            32,
+            32.7,
+            32.55
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            32,
+            33.0,
+            32.55
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            32,
+            32.7,
+            32.55
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            32,
+            33.0,
+            32.7
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            32,
+            33.0,
+            32.7
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "b87c4234-4fc3-59bc-99c9-dee8ca36f079",
+      "box_uv": false,
+      "autouv": 0,
+      "export": true,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "Estrutura",
+      "uuid": "bc3945b8-ca96-533f-93bb-4d98b6cd5645",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "884de4f2-094d-5f00-8b7d-e37bdf95d1b1",
+        "3c218e9d-d910-5a4e-bd06-d8fc18844a55",
+        "13c92521-c23d-5eeb-b09c-db39ca132921",
+        "d4c2e3cc-037c-5ad3-82e9-c61d4671b87a",
+        "aea079a4-4e24-57b0-ae33-1fa99d6b444d",
+        "66132d7c-d9df-5c85-87dd-2ba970e1eed3",
+        "02495574-4a3b-5cae-bf52-fcdbd2b7f7fe",
+        "891efe74-1233-5525-a999-87f11b62945e"
+      ]
+    },
+    {
+      "name": "Ferragens",
+      "uuid": "e9989d84-9ad7-5efb-a3f0-5baa8e3460f5",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "86c13069-38a0-5e30-b311-e53c56bce094",
+        "919e5bb5-af4d-5e16-8d8e-bb3023188787",
+        "bdf5c5d1-51fc-52fb-ba3e-a5fdf60385be",
+        "12bdb93f-01bb-5e18-b057-1077ad459912",
+        "ef9330ca-5149-5c7e-815e-8fdf1ce8e462",
+        "2fc22448-f993-5959-ac68-6915960fcd19",
+        "cc81a7c8-d08b-5790-a604-71b8a3cfda04",
+        "9e48b8be-089a-57c5-957c-c2aa32743ec8",
+        "7b5c59a0-d097-5290-8d3c-1dc1edc9773a",
+        "c3399863-cf22-5802-bd07-7d3ecf0e32b2"
+      ]
+    },
+    {
+      "name": "Gaveta",
+      "uuid": "4d578392-5bbe-5aca-9197-9007c7172060",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "7595a05b-ba03-5cad-9db0-facfa9605a23",
+        "419a7be7-537b-5530-a115-007acc1418e8",
+        "484e9936-2c16-5e74-87f6-5e16521a846b",
+        "a417533a-ab71-58c3-be0c-dd35e3a03377",
+        "2fb477b4-e106-51af-a639-c7586f855dfa",
+        "c586910e-2d7e-52ec-8dc8-1131cf646155"
+      ]
+    },
+    {
+      "name": "Caderno",
+      "uuid": "507dd5f0-f5b0-5d0b-85f2-acf314a09446",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "020f50c2-e8c6-5bc5-bf82-4022d14de9b5",
+        "1e7f6e35-58e2-5111-b107-5e7d018af45a",
+        "aa5b21bb-8530-57a6-9840-d732dc6fa8d0",
+        "09a15539-c487-5508-9818-c95deff7c93c",
+        "b99df0a7-c29f-5645-a219-c7a4760b877e",
+        "01766b70-ad65-5f94-b942-61665b3b74b3",
+        "4336310f-17e4-5534-96d7-ddcaa55fa30e"
+      ]
+    },
+    {
+      "name": "Balanca",
+      "uuid": "28a695aa-6ea0-5653-a885-ed253f7e3da1",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "79375910-1e3d-5a28-a56c-d699052a2325",
+        "7f4ee7f1-aadb-53a9-a2e8-20dfcd6a4f0e",
+        "2be60cc3-7770-5111-994d-aee6c876fa7c",
+        "da71eb86-ab03-5f3f-95cf-1f9f072b748b",
+        "92e89714-4abe-5d65-97e8-6e43f09b8e3f",
+        "76fc3279-f1f9-5f8d-8c05-28cc4ccf2bf4",
+        "a2f439a8-efae-5fd4-b6fd-511c1430c0af",
+        "460ce71d-ab80-54c7-a505-d831c52ee9a1"
+      ]
+    },
+    {
+      "name": "Lupa",
+      "uuid": "954aa16b-c5b5-57fa-9888-a7b5a569ee39",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "11c060fd-288b-5bda-a10b-024e0f1c1a5c",
+        "70802185-c937-5af0-8a2b-67fac77ed724",
+        "aea95223-9026-5332-911e-4be0f84ca01e",
+        "c4b56a02-27fa-5043-9ff6-5f890b6fa7e6",
+        "e462759c-2a91-5828-87c1-26b42c899ae5",
+        "5da0bf2a-be3f-5913-b507-9d29e15a472a",
+        "7334dfa6-c8ca-5686-a21e-5f582217e757",
+        "cc8cdc2a-0435-513f-93f3-0ba118eede73",
+        "712bc91e-55c4-5507-b147-e64edb9788d5",
+        "cda3f5ea-4888-51d8-b00a-fb02e228e9cd"
+      ]
+    },
+    {
+      "name": "Amostras",
+      "uuid": "cb5dd9cc-a226-5ae0-a031-37bac4dfb261",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "children": [
+        "0fe1aea6-771d-5ef8-aac8-ef5882ff1960",
+        "b1ef6097-0f17-5aa8-8557-f9005ddfb116",
+        "fd183965-584e-5a55-a5cb-0bc4c22e97a4",
+        "7832e467-8f6d-5969-b307-a931e31504d0",
+        "efdeb369-ab6f-52c2-96ed-8c737f3afeca",
+        "ca2e3c46-7f85-5077-a6e7-a87ba6be410b",
+        "b87c4234-4fc3-59bc-99c9-dee8ca36f079"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "research_table_tier_1.png",
+      "id": "0",
+      "namespace": "quantumindustries",
+      "folder": "block",
+      "width": 64,
+      "height": 64,
+      "uv_width": 64,
+      "uv_height": 64,
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAC1UlEQVR4nOWaQYvTQBiGv45jEsVSLyviBkV7cvcmgjkIexJEQTwp+Au8+h+8CB49ijcXdn+DF2/14k22qwdhKT0kEKgtqXRhlaZL6bbJzLzTmexO9zmU0rz5ZiYzb758k9ZeP75HCOH6GqT/dXQtCAJ1/ZMrMaTnZJ80TRWVg8GANgJIz33fJ6J+vz/9tV6vC85B9TQcf4RhSESdTqdMFeaCdrtNIDyO4/kWh3mbJXgX/0F6qjfIJrzRwBpA9fERia/9BKlAxwOj0Wj63fM8aSxUb4RjDxRSeAjVTzxgD77oATGLHpCwGh6wByPH4XMLV3qDR/Wn6YFh0Q1e4IHihHBuPfD18k0i2soOln0WMpINNB4ltmRdl+eBCXMCVL8KeSDNEavSXDCZMfWnUc/zagffP6t3JkmS928/quuJ6MOnd1D87A9wQZMk4VmWkU3Q+BmohxOZnzOawRcijrazvUvLAVdkvV5P+osiO9u7L1+9KDva+vaj7FD0YFN/AFDBKr7Ygt7P9bKimliaMaY9Vlk5raIZWBwVPAC4HihZOdIxRJZmQHvFq6x7DarzANr7VrmJZ+enin0hvftmZGkJwfWA7sppnZyBsvGY9IDgkMa6jyzNgME8MIu2s817oCwbLLmEjGViuB7QJTqbecA4tWfPn0LLunkhgRrYeITFr6/fguKPZwDaj2/evgQ1gMbf1BgAVHTD7we0uLF2Yu+jm/SMeQB9n9AkTbrlnS4YgPr+PbovZBtuMNbpvB+gyusBs3D0BHQfSdsDtgZQjQe6ag5eifcDVEk94IYHhkUJ4Zx6QJ1jD4Q5Ap1UMGV215Hsw89sPYA9jarv32vkAWi/n0D4m/tXg4fX1U/4sv8bauDn3p56PfD38PAOUm+M3w/A/+fBgeJn2V0ouPOJjJHjMHIcRo7DyHEYOQ4jx2HkOIwch5HjMHIcRo7DyHE4+v8cjTasxv8Pf9Nac6y1MD8AAAAASUVORK5CYII="
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    }
+  }
+}

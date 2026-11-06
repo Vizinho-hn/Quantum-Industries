@@ -1,1 +1,19 @@
-{"variants":{"":{"model":"quantumindustries:block/research_table"}}}
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/research_table_tier_1"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/research_table_tier_1",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/research_table_tier_1",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/research_table_tier_1",
+      "y": 270
+    }
+  }
+}

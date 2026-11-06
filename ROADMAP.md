@@ -12,6 +12,7 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 - [x] Implementar a Bancada de Ensaio Empírico com dez materiais e três métodos.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
+- [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
 - [x] Integrar uma observação empírica à pesquisa de Maleabilidade.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
