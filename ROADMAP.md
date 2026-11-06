@@ -6,7 +6,7 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 - [x] Fixar Minecraft 26.1.2, NeoForge 26.1.2.125, Java 25 e Gradle 9.2.1.
 - [x] Configurar build, cliente, servidor dedicado e estrutura de recursos.
-- [x] Configurar CI para testes de contrato, migração de pesquisas e compilação.
+- [x] Configurar CI para testes de contrato, migração de pesquisas via Gradle (com as dependências do jogo) e compilação.
 
 ## Fase 1 — Núcleo de pesquisa
 

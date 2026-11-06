@@ -166,6 +166,9 @@ cd Quantum-Industries
 
 ## Como verificar
 
+O CI executa a migração de pesquisas com `./gradlew verifyLegacyResearch`, usando
+as dependências do Minecraft/NeoForge configuradas no projeto.
+
 ```bash
 # Contratos e recursos
 python3 -m unittest discover -s tests -v
