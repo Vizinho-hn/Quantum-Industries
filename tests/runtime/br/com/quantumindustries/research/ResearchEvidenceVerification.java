@@ -79,7 +79,7 @@ public final class ResearchEvidenceVerification {
         check(!research.learn(player, "material_malleability"), "direct learning also validates evidence");
         var profile = AssayProfile.of(player);
         profile.complete(Material.COPPER, Method.HEATING);
-        profile.complete(Material.IRON, Method.MECHANICAL);
+        profile.complete(Material.COAL, Method.MECHANICAL);
         check(!menu.evidenceReady(malleability), "wrong material or method is insufficient");
         profile.complete(Material.COPPER, Method.MECHANICAL);
         check(menu.evidenceReady(malleability) && menu.clickMenuButton(player, malleability),
@@ -92,6 +92,7 @@ public final class ResearchEvidenceVerification {
                 && research.learn(player, "copper_winding"), "one mechanical discovery is reused by multiple studies");
 
         check(research.learn(player, "manual_forming"), "manual forming reuses prior science");
+        profile.complete(Material.IRON, Method.MECHANICAL);
         check(research.canLearn(player, ResearchIds.of("metal_sheets"))
                 && research.canLearn(player, ResearchIds.of("basic_mechanics")),
                 "iron mechanics unlocks sheet and mechanism research");

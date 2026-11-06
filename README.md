@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 13 pesquisas e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico (2.400 FE) e Prensa Eletromecânica.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 14 pesquisas, inclui a oficina mecânica e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico (2.400 FE) e Prensa Eletromecânica.
 
 ## Visão do projeto
 
@@ -13,8 +13,8 @@ As cinco eras seguem a progressão: **Engenharia Mecânica e Ciência Empírica*
 **Engenharia Quântica** e **Inteligência Artificial e Automação Autônoma**.
 O Dínamo Manual encerra a Era I e prepara a passagem para a eletricidade.
 
-Em desenvolvimento na branch `feat/era1-mechanical-foundation`: uma oficina
-mecânica com serraria, transmissão por eixos e roda-d'água, independente de FE.
+Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
+e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
 [Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
 
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
@@ -28,12 +28,11 @@ Pilares:
 
 ## Progressão planejada
 
-1. **Fundação:** infraestrutura do mod e sistema de pesquisa.
-2. **Indústria inicial:** processamento de recursos, geração e armazenamento de energia.
-3. **Química e materiais:** reações, separação, síntese e propriedades dos materiais.
-4. **Engenharia atômica e nuclear:** análise de composição, isótopos, fissão e fusão.
-5. **Computação avançada:** automação, redes de controle, computação quântica e IA.
-6. **Tecnologia dimensional:** exploração e conversão de fenômenos energéticos de diferentes dimensões.
+1. **Era I — Engenharia Mecânica e Ciência Empírica:** materiais, metalurgia, mecanismos e aproveitamento hidráulico. O dínamo encerra a era.
+2. **Era II — Revolução Elétrica:** geração, distribuição, armazenamento, motores e máquinas elétricas.
+3. **Era III — Ondas Eletromagnéticas e Tecnologia Moderna:** eletrônica, sinais, sensores, comunicação e controle programável.
+4. **Era IV — Engenharia Quântica:** materiais avançados, precisão e processamento sofisticado.
+5. **Era V — Inteligência Artificial e Automação Autônoma:** planejamento e coordenação inteligente das instalações.
 
 ## Protótipo jogável atual
 
@@ -67,6 +66,14 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 [Modelo editável, textura e vistas](design/research_table_tier_1.md).
 
 ### Pesquisa e fabricação
+
+- **Oficina mecânica:** Mecânica Fundamental e Transmissão Mecânica levam à
+  Serraria Mecânica. Estude também Chapas Metálicas para fabricá-la. Uma tora
+  rende seis tábuas da espécie correta em cinco segundos de movimento.
+  Instale a manivela existente para começar sem eletricidade. Aproveitamento
+  Hidráulico libera a roda-d'água, que transmite movimento por eixos alinhados.
+  Crafts e processos aparecem na mesma aba Receitas Desbloqueadas.
+  [Montagem, controles, limite de carga e testes](docs/ERA1_MECHANICAL.md).
 
 - Os Analisadores Científicos Tier 1 e Tier 2 dão acesso à árvore de pesquisa,
   à Base de Conhecimento, às Receitas Desbloqueadas e aos Relatórios. Os

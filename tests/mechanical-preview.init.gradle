@@ -1,0 +1,10 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/mechanical-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/mechanical-preview')
+            systemProperty 'quantumindustries.previewMechanical', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', providers.gradleProperty('mechanicalPreviewWorld').getOrElse('MechanicalQA'), '--width', '1280', '--height', '800'
+        }
+    }
+}
