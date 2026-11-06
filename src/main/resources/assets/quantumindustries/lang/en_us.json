@@ -194,5 +194,8 @@
   "item.quantumindustries.heated_copper_ingot": "Heated Copper Ingot",
   "message.quantumindustries.brazier.research": "Research Thermal Annealing first.",
   "message.quantumindustries.brazier.busy": "Brazier is busy or fuel is full.",
-  "message.quantumindustries.brazier.status": "Fuel: %s ticks | Heat: %s | Progress: %s"
+  "message.quantumindustries.brazier.status": "Fuel: %s ticks | Heat: %s | Progress: %s",
+  "block.quantumindustries.piezo_switch": "Piezoelectric Transducer",
+  "block.quantumindustries.load_relay": "Load Relay",
+  "message.quantumindustries.relay.status": "Relay %s | %s FE buffered"
 }

@@ -67,7 +67,7 @@ public final class GalvanicAccumulatorBlockEntity extends BlockEntity implements
         for (Direction dir : Direction.values()) {
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
-                    && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity)) {
+                    && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity)) {
                 int available = Math.min(MAX_TRANSFER, energy());
                 int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);

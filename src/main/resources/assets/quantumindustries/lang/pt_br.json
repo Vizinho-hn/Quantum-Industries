@@ -194,5 +194,8 @@
   "item.quantumindustries.heated_copper_ingot": "Lingote de Cobre Aquecido",
   "message.quantumindustries.brazier.research": "Pesquise Recozimento Térmico primeiro.",
   "message.quantumindustries.brazier.busy": "Forja cheia ou combustível já abastecido.",
-  "message.quantumindustries.brazier.status": "Carvão: %s ticks | Calor: %s | Aquecimento: %s"
+  "message.quantumindustries.brazier.status": "Carvão: %s ticks | Calor: %s | Aquecimento: %s",
+  "block.quantumindustries.piezo_switch": "Transdutor Piezoelétrico",
+  "block.quantumindustries.load_relay": "Relé de Carga",
+  "message.quantumindustries.relay.status": "Relé %s | %s FE no buffer"
 }

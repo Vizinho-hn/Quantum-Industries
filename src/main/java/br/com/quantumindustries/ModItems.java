@@ -54,6 +54,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> HEATED_IRON_INGOT = ITEMS.registerSimpleItem("heated_iron_ingot");
     public static final DeferredItem<Item> HEATED_COPPER_INGOT = ITEMS.registerSimpleItem("heated_copper_ingot");
+    public static final DeferredItem<BlockItem> PIEZO_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.PIEZO_SWITCH);
+    public static final DeferredItem<BlockItem> LOAD_RELAY = ITEMS.registerSimpleBlockItem(ModBlocks.LOAD_RELAY);
+
     public static final DeferredItem<BlockItem> BELLOWS_BRAZIER = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_BRAZIER);
 
     public static final DeferredItem<Item> GOLD_SHEET = ITEMS.registerSimpleItem("gold_sheet");

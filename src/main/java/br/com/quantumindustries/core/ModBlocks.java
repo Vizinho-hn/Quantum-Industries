@@ -49,6 +49,21 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
                             Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.PiezoSwitchBlock> PIEZO_SWITCH =
+            BLOCKS.registerBlock("piezo_switch", br.com.quantumindustries.block.PiezoSwitchBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.LoadRelayBlock> LOAD_RELAY =
+            BLOCKS.registerBlock("load_relay", br.com.quantumindustries.block.LoadRelayBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PiezoSwitchBlockEntity>> PIEZO_SWITCH_ENTITY =
+            BLOCK_ENTITIES.register("piezo_switch",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.PiezoSwitchBlockEntity::new,
+                            Set.of(PIEZO_SWITCH.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.LoadRelayBlockEntity>> LOAD_RELAY_ENTITY =
+            BLOCK_ENTITIES.register("load_relay",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.LoadRelayBlockEntity::new,
+                            Set.of(LOAD_RELAY.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.BellowsBrazierBlock> BELLOWS_BRAZIER =
             BLOCKS.registerBlock("bellows_brazier", br.com.quantumindustries.block.BellowsBrazierBlock::new,
                     props -> props.strength(2.4F).noOcclusion());

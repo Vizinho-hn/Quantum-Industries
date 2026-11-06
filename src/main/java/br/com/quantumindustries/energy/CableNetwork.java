@@ -23,6 +23,12 @@ public final class CableNetwork {
 
     public static void transfer(ServerLevel level, BlockPos source, IntSupplier stored,
                                 IntUnaryOperator extract, int senderLimit) {
+        transfer(level, source, stored, extract, senderLimit, target -> true);
+    }
+
+    public static void transfer(ServerLevel level, BlockPos source, IntSupplier stored,
+                                IntUnaryOperator extract, int senderLimit,
+                                java.util.function.Predicate<EnergyInspectable> acceptsTarget) {
         if (stored.getAsInt() <= 0) return;
         Queue<Route> queue = new ArrayDeque<>();
         Set<BlockPos> visited = new HashSet<>();
@@ -49,7 +55,7 @@ public final class CableNetwork {
                                 Math.min(path.rate(), cable.insulated() ? 64 : 32)));
                     }
                 } else if (level.getBlockEntity(next) instanceof EnergyInspectable target
-                        && target.capacity() > 0 && target.energy() < target.capacity()
+                        && acceptsTarget.test(target) && target.capacity() > 0 && target.energy() < target.capacity()
                         && !destinations.stream().anyMatch(route -> route.pos().equals(next))) {
                     destinations.add(new Route(next, path.cables(), path.bare(), path.rate()));
                 }
