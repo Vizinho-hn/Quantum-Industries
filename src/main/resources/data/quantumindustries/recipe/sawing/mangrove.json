@@ -1,0 +1,16 @@
+{
+  "type": "quantumindustries:mechanical_processing",
+  "inputs": [
+    "minecraft:mangrove_log",
+    "minecraft:stripped_mangrove_log",
+    "minecraft:mangrove_wood",
+    "minecraft:stripped_mangrove_wood"
+  ],
+  "result": {
+    "id": "minecraft:mangrove_planks",
+    "count": 6
+  },
+  "ticks": 100,
+  "mechanical_load": 6,
+  "research": "mechanical_transmission"
+}

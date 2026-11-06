@@ -1,0 +1,16 @@
+{
+  "type": "quantumindustries:mechanical_processing",
+  "inputs": [
+    "minecraft:warped_stem",
+    "minecraft:stripped_warped_stem",
+    "minecraft:warped_hyphae",
+    "minecraft:stripped_warped_hyphae"
+  ],
+  "result": {
+    "id": "minecraft:warped_planks",
+    "count": 6
+  },
+  "ticks": 100,
+  "mechanical_load": 6,
+  "research": "mechanical_transmission"
+}

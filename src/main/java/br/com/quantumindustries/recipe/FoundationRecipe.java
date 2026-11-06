@@ -45,6 +45,9 @@ public final class FoundationRecipe extends ShapedRecipe {
 
     private record Pattern(String study, DeferredItem<?> output, int count, int width, ItemLike... cells) {
         String id() { return output.getId().getPath(); }
+        List<String> requirements() {
+            return id().equals("mechanical_sawmill") ? List.of(study, "metal_sheets") : List.of(study);
+        }
 
         boolean fits(CraftingInput grid) {
             if (grid.width() != width || grid.height() != cells.length / width) return false;
@@ -63,7 +66,7 @@ public final class FoundationRecipe extends ShapedRecipe {
         Preview preview() {
             var ingredients = Arrays.stream(cells)
                     .map(item -> item == null ? ItemStack.EMPTY : new ItemStack(item)).toList();
-            return new Preview(new ItemStack(output.get(), count), width, ingredients);
+            return new Preview(new ItemStack(output.get(), count), width, ingredients, requirements());
         }
     }
 
@@ -89,7 +92,7 @@ public final class FoundationRecipe extends ShapedRecipe {
         return ((FoundationRecipe) recipe).craft.id();
     }
 
-    public record Preview(ItemStack output, int width, List<ItemStack> ingredients) {}
+    public record Preview(ItemStack output, int width, List<ItemStack> ingredients, List<String> requiredResearch) {}
 
     public static List<Preview> previews(int research) {
         String key = ResearchCatalog.STUDIES.get(research).key();
@@ -117,6 +120,11 @@ public final class FoundationRecipe extends ShapedRecipe {
             new Pattern("basic_mechanics", ModItems.IRON_GEAR, 1, 3, null,nugget,null, nugget,iron,nugget, null,nugget,null),
             new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT, 2, 1, iron,iron),
             new Pattern("mechanical_transmission", ModItems.HAND_CRANK, 1, 2, shaft,gear, null,stick),
+            new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT_BLOCK, 2, 3, plank,shaft,plank, plank,shaft,plank),
+            new Pattern("mechanical_transmission", ModItems.MECHANICAL_SAWMILL, 1, 3,
+                sheet, iron, sheet, plank, gear, plank, plank, shaft, plank),
+            new Pattern("hydraulic_power", ModItems.PRIMITIVE_WATER_WHEEL, 1, 3,
+                plank, plank, plank, gear, shaft, gear, plank, plank, plank),
             new Pattern("electrical_insulation", ModItems.INSULATED_COPPER_WIRE, 2, 2, wire,wire, Items.LEATHER,paper),
             new Pattern("copper_winding", ModItems.COPPER_COIL, 1, 3, wire,stick,wire, wire,paper,wire),
             new Pattern("electromechanical_structure", ModItems.ELECTROMECHANICAL_FRAME, 1, 3, plank,ModItems.IRON_SHEET.get(),plank,
@@ -141,7 +149,7 @@ public final class FoundationRecipe extends ShapedRecipe {
     }
 
     public boolean unlocked(Player player) {
-        return ResearchCraftingAccess.knows(player, craft.study())
+        return craft.requirements().stream().allMatch(key -> ResearchCraftingAccess.knows(player, key))
                 && (!craft.study().equals("copper_wire") || ResearchCraftingAccess.knows(player, "conductivity"));
     }
 

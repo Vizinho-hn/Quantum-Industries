@@ -171,5 +171,18 @@
   "gui.quantumindustries.press.progress": "Pressing: %s%%",
   "gui.quantumindustries.press.output_ready": "Ready: %s× %s",
   "gui.quantumindustries.press.waiting_energy": "Waiting for energy (60 FE/sheet)",
-  "gui.quantumindustries.press.idle": "Insert iron or copper ingot"
+  "gui.quantumindustries.press.idle": "Insert iron or copper ingot",
+  "block.quantumindustries.mechanical_sawmill": "Mechanical Sawmill",
+  "block.quantumindustries.mechanical_shaft_block": "Mechanical Transmission Shaft",
+  "block.quantumindustries.primitive_water_wheel": "Primitive Water Wheel",
+  "gui.quantumindustries.sawmill.help": "Insert a log. Install the crank and turn it empty-handed. Requires Mechanical Transmission. Sneak: retrieve input, then crank.",
+  "gui.quantumindustries.sawmill.status": "Input: %s | Output: %s | Progress: %s ticks | %s",
+  "gui.quantumindustries.mechanical.running": "Running",
+  "gui.quantumindustries.mechanical.stopped": "Stopped / waiting for power",
+  "gui.quantumindustries.mechanical.help": "Crank installed: empty hand to turn; sneak empty-handed to remove.",
+  "gui.quantumindustries.mechanical.network": "Capacity: %s MU | Load: %s MU",
+  "gui.quantumindustries.wheel.status": "Capacity: %s MU | Load: %s MU. Flowing water must contact the rim in the wheel plane.",
+  "gui.quantumindustries.mechanical.process_rating": "%s s | %s MU",
+  "gui.quantumindustries.mechanical.process_drive": "Manual or mechanical | no FE",
+  "gui.quantumindustries.mechanical.recipe_heading": "CRAFTS AND PROCESSES"
 }

@@ -1,0 +1,16 @@
+{
+  "type": "quantumindustries:mechanical_processing",
+  "inputs": [
+    "minecraft:birch_log",
+    "minecraft:stripped_birch_log",
+    "minecraft:birch_wood",
+    "minecraft:stripped_birch_wood"
+  ],
+  "result": {
+    "id": "minecraft:birch_planks",
+    "count": 6
+  },
+  "ticks": 100,
+  "mechanical_load": 6,
+  "research": "mechanical_transmission"
+}

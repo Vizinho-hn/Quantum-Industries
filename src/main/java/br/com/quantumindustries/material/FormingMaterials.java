@@ -13,8 +13,6 @@ public final class FormingMaterials {
     private FormingMaterials() {}
 
     public static Metal find(ItemStack stack) {
-        if (!MaterialProcesses.supports(br.com.quantumindustries.assay.AssayCatalog.material(stack),
-                MaterialProcesses.Process.SHEET)) return null;
         for (Metal metal : Metals.ALL) if (stack.is(metal.ingot())) return metal;
         return null;
     }

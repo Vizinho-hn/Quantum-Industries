@@ -19,7 +19,7 @@ public final class ResearchCatalog {
         new Study("conductivity", "Condutividade", "Após inspecionar o cobre, estude a condução elétrica.", "Pesquisa de fabricação de fios", Items.REDSTONE, 1, List.of("material_observation"), List.of(new Cost(Items.COPPER_INGOT, 3, "lingotes de cobre"), new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.Assay(Material.COPPER, Method.INSPECTION))),
         new Study("copper_wire", "Fabricação de Fios", "Técnica de fabricação de fios metálicos.", "Fio de cobre", Items.COPPER_INGOT, 1, List.of("conductivity"), List.of(new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL))),
         new Study("material_observation", "Observação dos Materiais", "Compare madeira, pedra e metal para iniciar suas investigações.", "Analisador de Materiais", Items.SPYGLASS, 1, List.of(), List.of(new Cost(Items.OAK_PLANKS, 1, "tábua de carvalho"), new Cost(Items.COBBLESTONE, 1, "pedregulho"), new Cost(Items.COPPER_INGOT, 1, "lingote de cobre")), List.of()),
-        new Study("material_malleability", "Maleabilidade", "Observe a deformação plástica de um metal sob compressão.", "Pesquisa de Conformação Manual", Items.COPPER_INGOT, 1, List.of("material_observation"), List.of(new Cost(Items.COPPER_INGOT, 1, "lingote de cobre"), new Cost(Items.STONE, 1, "pedra")), List.of(new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL), new ResearchEvidence.Assay(Material.GOLD, Method.MECHANICAL))))),
+        new Study("material_malleability", "Maleabilidade", "Observe a deformação plástica de um metal sob compressão.", "Pesquisa de Conformação Manual", Items.COPPER_INGOT, 1, List.of("material_observation"), List.of(new Cost(Items.COPPER_INGOT, 1, "lingote de cobre"), new Cost(Items.STONE, 1, "pedra")), List.of(new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL), new ResearchEvidence.Assay(Material.GOLD, Method.MECHANICAL), new ResearchEvidence.Assay(Material.IRON, Method.MECHANICAL))))),
         new Study("manual_forming", "Conformação Manual", "Aprenda a trabalhar metais à mão.", "Martelo e bancada de conformação", Items.IRON_NUGGET, 1, List.of("material_malleability"), List.of(new Cost(Items.IRON_NUGGET, 3, "pepitas de ferro"), new Cost(Items.STICK, 2, "gravetos")), List.of()),
         new Study("metal_sheets", "Chapas Metálicas", "Aprenda a formar lâminas de metal.", "Chapas de ferro e cobre", Items.IRON_INGOT, 1, List.of("manual_forming"), List.of(new Cost(Items.IRON_INGOT, 1, "lingote de ferro"), new Cost(Items.COPPER_INGOT, 1, "lingote de cobre")), List.of(new ResearchEvidence.Assay(Material.IRON, Method.MECHANICAL))),
         new Study("electrical_insulation", "Isolamento", "Compare materiais não metálicos e de revestimento.", "Fio de cobre isolado", Items.LEATHER, 1, List.of("copper_wire"), List.of(new Cost(Items.LEATHER, 1, "couro"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.COAL, Method.INSPECTION), new ResearchEvidence.Assay(Material.QUARTZ, Method.INSPECTION))))),
@@ -41,8 +41,8 @@ public final class ResearchCatalog {
             new Branch("Ciência dos Materiais", List.of("material_observation", "material_malleability", "manual_forming", "metal_sheets"),
                     "Metais maleáveis podem ser moldados por golpes controlados.",
                     "Use o martelo e a bancada de conformação para produzir chapas."),
-            new Branch("Mecânica e Magnetismo", List.of("basic_mechanics", "mechanical_transmission", "basic_magnetism"),
-                    "Engrenagens e eixos transmitem movimento. A bússola revela a orientação magnética.",
+            new Branch("Engenharia Mecânica", List.of("basic_mechanics", "mechanical_transmission"),
+                    "Engrenagens e eixos transmitem movimento. Fontes manuais ou hidráulicas podem mover a oficina.",
                     "Acione a serraria à manivela ou transmita movimento de uma roda-d'água por eixos."),
             new Branch("Eletricidade Básica", List.of("conductivity", "copper_wire", "electrical_insulation", "copper_winding"),
                     "O cobre conduz eletricidade. Um revestimento isola o fio e o enrolamento forma uma bobina.",
@@ -50,10 +50,12 @@ public final class ResearchCatalog {
     );
 
     public static String sectionTitle(int study) {
+        if (STUDIES.get(study).key().equals("hydraulic_power")) return "Engenharia Mecânica";
+        if (STUDIES.get(study).key().equals("basic_magnetism")) return "Eletricidade Básica";
         for (Branch branch : ERA_ONE_BRANCHES) {
             if (branch.studies().contains(STUDIES.get(study).key())) return branch.title();
         }
-        return STUDIES.get(study).era() == 1 ? "Integração Eletromecânica" : "Era II — Automação";
+        return STUDIES.get(study).era() == 1 ? "Integração Eletromecânica" : "Era II — Revolução Elétrica";
     }
 
     private static final java.util.Map<String, Study> BY_KEY = STUDIES.stream().collect(

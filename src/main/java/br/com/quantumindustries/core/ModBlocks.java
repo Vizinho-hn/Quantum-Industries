@@ -35,6 +35,25 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MANUAL_DYNAMO = BLOCKS.registerBlock("manual_dynamo",
             br.com.quantumindustries.block.ManualDynamoBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalSawmillBlock> MECHANICAL_SAWMILL =
+            BLOCKS.registerBlock("mechanical_sawmill", br.com.quantumindustries.block.MechanicalSawmillBlock::new,
+                    properties -> properties.strength(2.5F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalShaftBlock> MECHANICAL_SHAFT_BLOCK =
+            BLOCKS.registerBlock("mechanical_shaft_block", br.com.quantumindustries.block.MechanicalShaftBlock::new,
+                    properties -> properties.strength(2.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.PrimitiveWaterWheelBlock> PRIMITIVE_WATER_WHEEL =
+            BLOCKS.registerBlock("primitive_water_wheel", br.com.quantumindustries.block.PrimitiveWaterWheelBlock::new,
+                    properties -> properties.strength(2.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PrimitiveWaterWheelBlockEntity>> PRIMITIVE_WATER_WHEEL_ENTITY =
+            BLOCK_ENTITIES.register("primitive_water_wheel", () -> new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.PrimitiveWaterWheelBlockEntity::new, Set.of(PRIMITIVE_WATER_WHEEL.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalShaftBlockEntity>> MECHANICAL_SHAFT_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_shaft_block", () -> new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.MechanicalShaftBlockEntity::new, Set.of(MECHANICAL_SHAFT_BLOCK.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity>> MECHANICAL_SAWMILL_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_sawmill", () -> new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity::new, Set.of(MECHANICAL_SAWMILL.get()), false));
+
     public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
             GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 

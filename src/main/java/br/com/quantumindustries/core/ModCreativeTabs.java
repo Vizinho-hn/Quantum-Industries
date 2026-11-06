@@ -35,6 +35,9 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.ELECTROMECHANICAL_FRAME.get());
                     output.accept(ModItems.PRIMITIVE_MECHANICAL_CORE.get());
                     output.accept(ModItems.FORMING_BENCH.get());
+                    output.accept(ModItems.MECHANICAL_SAWMILL.get());
+                    output.accept(ModItems.MECHANICAL_SHAFT_BLOCK.get());
+                    output.accept(ModItems.PRIMITIVE_WATER_WHEEL.get());
                     output.accept(ModItems.ENERGY_INSPECTION_GOGGLES.get());
                     output.accept(ModItems.MANUAL_DYNAMO.get());
                     output.accept(ModItems.GALVANIC_ACCUMULATOR.get());
