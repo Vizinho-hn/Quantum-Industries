@@ -24,7 +24,7 @@
   "item.quantumindustries.flame_test_kit": "Kit de ensaio de chama",
   "item.quantumindustries.brass_weights": "Pesos de ferro",
   "gui.quantumindustries.assay.perform": "Iniciar ensaio",
-  "gui.quantumindustries.assay.title": "Analisador Empírico",
+  "gui.quantumindustries.assay.title": "Analisador de Materiais",
   "gui.quantumindustries.assay.era": "ERA 0 · Instrumentos manuais",
   "gui.quantumindustries.assay.previous": "‹",
   "gui.quantumindustries.assay.next": "›",
@@ -155,5 +155,7 @@
   "gui.quantumindustries.assay.observation.emerald.inspection": "Cristal verde translúcido.",
   "gui.quantumindustries.assay.observation.emerald.reaction": "Sem mudança visível no reagente.",
   "gui.quantumindustries.assay.observation.amethyst.inspection": "Cristal violeta com faces definidas.",
-  "gui.quantumindustries.assay.observation.amethyst.reaction": "Sem mudança visível no reagente."
+  "gui.quantumindustries.assay.observation.amethyst.reaction": "Sem mudança visível no reagente.",
+  "block.quantumindustries.empirical_assay_bench": "Analisador de Materiais",
+  "item.quantumindustries.empirical_assay_bench": "Analisador de Materiais"
 }
