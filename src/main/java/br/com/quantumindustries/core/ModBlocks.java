@@ -49,6 +49,25 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
                             Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.PneumaticTubeBlock> PNEUMATIC_TUBE =
+            BLOCKS.registerBlock("pneumatic_tube",br.com.quantumindustries.block.PneumaticTubeBlock::new,
+                    p->p.strength(1.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.BellowsEjectorBlock> BELLOWS_EJECTOR =
+            BLOCKS.registerBlock("bellows_ejector",br.com.quantumindustries.block.BellowsEjectorBlock::new,
+                    p->p.strength(2.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.GravitationalSorterBlock> GRAVITATIONAL_SORTER =
+            BLOCKS.registerBlock("gravitational_sorter",br.com.quantumindustries.block.GravitationalSorterBlock::new,
+                    p->p.strength(2.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity>> PNEUMATIC_TUBE_ENTITY =
+            BLOCK_ENTITIES.register("pneumatic_tube",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity::new,Set.of(PNEUMATIC_TUBE.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsEjectorBlockEntity>> BELLOWS_EJECTOR_ENTITY =
+            BLOCK_ENTITIES.register("bellows_ejector",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.BellowsEjectorBlockEntity::new,Set.of(BELLOWS_EJECTOR.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity>> GRAVITATIONAL_SORTER_ENTITY =
+            BLOCK_ENTITIES.register("gravitational_sorter",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity::new,Set.of(GRAVITATIONAL_SORTER.get()),false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.PiezoSwitchBlock> PIEZO_SWITCH =
             BLOCKS.registerBlock("piezo_switch", br.com.quantumindustries.block.PiezoSwitchBlock::new,
                     props -> props.strength(2.0F).noOcclusion());

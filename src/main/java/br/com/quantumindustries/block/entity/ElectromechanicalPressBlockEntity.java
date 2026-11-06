@@ -90,6 +90,15 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
         return false;
     }
 
+    /** Automation may extract completed sheets, never unfinished ingots. */
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     public ItemStack extractResult(boolean allowInput) {
         if (!(level instanceof ServerLevel)) return ItemStack.EMPTY;
         if (!output.isEmpty()) {
