@@ -49,6 +49,14 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
                             Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.BellowsBrazierBlock> BELLOWS_BRAZIER =
+            BLOCKS.registerBlock("bellows_brazier", br.com.quantumindustries.block.BellowsBrazierBlock::new,
+                    props -> props.strength(2.4F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity>> BELLOWS_BRAZIER_ENTITY =
+            BLOCK_ENTITIES.register("bellows_brazier",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity::new,
+                            Set.of(BELLOWS_BRAZIER.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.WireDrawingBenchBlock> WIRE_DRAWING_BENCH =
             BLOCKS.registerBlock("wire_drawing_bench",
                     br.com.quantumindustries.block.WireDrawingBenchBlock::new,

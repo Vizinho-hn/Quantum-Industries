@@ -188,5 +188,11 @@
   "block.quantumindustries.wire_drawing_bench": "Wire Drawing Bench",
   "message.quantumindustries.wire.research": "Research Wire Drawing first.",
   "message.quantumindustries.wire.busy": "The wire bench cannot accept this sheet now.",
-  "message.quantumindustries.wire.status": "Wire drawing: %s/%s | %s FE"
+  "message.quantumindustries.wire.status": "Wire drawing: %s/%s | %s FE",
+  "block.quantumindustries.bellows_brazier": "Thermal Annealing Brazier",
+  "item.quantumindustries.heated_iron_ingot": "Heated Iron Ingot",
+  "item.quantumindustries.heated_copper_ingot": "Heated Copper Ingot",
+  "message.quantumindustries.brazier.research": "Research Thermal Annealing first.",
+  "message.quantumindustries.brazier.busy": "Brazier is busy or fuel is full.",
+  "message.quantumindustries.brazier.status": "Fuel: %s ticks | Heat: %s | Progress: %s"
 }

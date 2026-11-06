@@ -87,6 +87,10 @@ Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulado
 
 Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre e ouro), o jogador constrói a trefiladora. Uma chapa de cobre ou ouro rende 4 fios do respectivo metal. O equipamento funciona manualmente com a Manivela na mão ou alimentado por FE, consumindo 60 FE por operação automatizada. A metalurgia permite obter chapas de ouro nos mesmos processos usados com ferro e cobre.
 
+### Recozimento térmico
+
+A Forja de Recozimento recebe carvão e um lingote de ferro/cobre, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo. Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
+
 ## Imagens do protótipo
 
 ![Bancada com amostra e ferramentas armazenadas](docs/design/bancada-de-ensaio/images/bancada-ferro.png)

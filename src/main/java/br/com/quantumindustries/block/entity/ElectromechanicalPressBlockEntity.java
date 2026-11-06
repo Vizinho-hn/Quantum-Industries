@@ -125,16 +125,17 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
             }
             return;
         }
+        int requiredTicks = br.com.quantumindustries.material.HeatTreatment.isHot(input, server) ? WORK_TICKS / 2 : WORK_TICKS;
         if (energy() < ENERGY_PER_TICK) return;
         try (var transaction = Transaction.openRoot()) {
             if (battery.extract(ENERGY_PER_TICK, transaction) < ENERGY_PER_TICK) return;
             transaction.commit();
         }
         progress++;
-        if (progress == WORK_TICKS / 2) {
+        if (progress == Math.max(1, requiredTicks / 2)) {
             server.playSound(null, worldPosition, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.35f, 0.9f);
         }
-        if (progress >= WORK_TICKS) {
+        if (progress >= requiredTicks) {
             progress = 0;
             ItemStack sheet = new ItemStack(metal.sheet().get());
             server.playSound(null, worldPosition, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.3f, 1.15f);

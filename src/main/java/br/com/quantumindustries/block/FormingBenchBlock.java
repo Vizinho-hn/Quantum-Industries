@@ -53,19 +53,20 @@ public final class FormingBenchBlock extends Block {
             case 2 -> "copper";
             default -> "";
         });
+        int required = br.com.quantumindustries.material.HeatTreatment.isHot(metal, serverLevel) ? 1 : 3;
         int strikes = material.key().equals(priorMaterial)
                 ? Math.max(0, Math.min(2, work.getIntOr("forming_strikes", 0))) + 1 : 1;
         work.putString("forming_metal_id", material.key());
-        work.putInt("forming_strikes", strikes == 3 ? 0 : strikes);
+        work.putInt("forming_strikes", strikes >= required ? 0 : strikes);
         hammer.set(DataComponents.CUSTOM_DATA, CustomData.of(work));
-        if (strikes == 3) {
+        if (strikes >= required) {
             metal.shrink(1);
             ItemStack sheet = new ItemStack(material.sheet().get());
             player.getInventory().placeItemBackInInventory(sheet);
         }
         hammer.hurtAndBreak(1, player, hand);
-        server.sendOverlayMessage(Component.literal(strikes == 3 ? "Chapa pronta."
-                : "Conformação: " + strikes + " / 3 golpes"));
+        server.sendOverlayMessage(Component.literal(strikes >= required ? "Chapa pronta."
+                : "Conformação: " + strikes + " / " + required + " golpes"));
         return InteractionResult.SUCCESS;
     }
 }

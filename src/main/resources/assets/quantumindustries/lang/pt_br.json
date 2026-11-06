@@ -188,5 +188,11 @@
   "block.quantumindustries.wire_drawing_bench": "Trefiladora de Bancada",
   "message.quantumindustries.wire.research": "Pesquise Trefilação de Fios primeiro.",
   "message.quantumindustries.wire.busy": "A trefiladora não aceita essa chapa agora.",
-  "message.quantumindustries.wire.status": "Trefilação: %s/%s | %s FE"
+  "message.quantumindustries.wire.status": "Trefilação: %s/%s | %s FE",
+  "block.quantumindustries.bellows_brazier": "Forja de Recozimento Térmico",
+  "item.quantumindustries.heated_iron_ingot": "Lingote de Ferro Aquecido",
+  "item.quantumindustries.heated_copper_ingot": "Lingote de Cobre Aquecido",
+  "message.quantumindustries.brazier.research": "Pesquise Recozimento Térmico primeiro.",
+  "message.quantumindustries.brazier.busy": "Forja cheia ou combustível já abastecido.",
+  "message.quantumindustries.brazier.status": "Carvão: %s ticks | Calor: %s | Aquecimento: %s"
 }
