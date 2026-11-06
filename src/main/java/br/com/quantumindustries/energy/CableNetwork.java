@@ -70,6 +70,11 @@ public final class CableNetwork {
             if (!(level.getBlockEntity(route.pos()) instanceof EnergyInspectable target)) continue;
             int loss = route.bare() / 4;
             int budget = Math.min(remaining, route.rate());
+            for (BlockPos cablePos : route.cables()) {
+                if (level.getBlockEntity(cablePos) instanceof CopperCableBlockEntity cableBe) {
+                    budget = Math.min(budget, cableBe.availableThisTick(level.getGameTime()));
+                }
+            }
             if (budget <= loss) continue;
             int offer = Math.min(budget - loss, target.capacity() - target.energy());
             if (offer <= 0) continue;

@@ -32,10 +32,15 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         return Component.translatable("gui.quantumindustries.cable.flow", flow, loss);
     }
     public int flow() { return flow; }
+    /** Residual edge capacity for the *current* server tick. */
+    public int availableThisTick(long time) {
+        return Math.max(0, capacity() - (lastFlow == time ? flow : 0));
+    }
     public void recordTransfer(int amount, int dissipated, long time) {
         // A junction can be part of several deliveries in one tick.
         if (lastFlow != time) { flow = 0; loss = 0; lastFlow = time; }
-        flow = Math.min(capacity(), flow + amount);
+        if (amount > capacity() - flow) throw new IllegalStateException("Cable transfer limit exceeded");
+        flow += amount;
         loss += dissipated;
         sync();
     }

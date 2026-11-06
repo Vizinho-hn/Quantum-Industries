@@ -197,5 +197,6 @@
   "message.quantumindustries.brazier.status": "Fuel: %s ticks | Heat: %s | Progress: %s",
   "block.quantumindustries.piezo_switch": "Piezoelectric Transducer",
   "block.quantumindustries.load_relay": "Load Relay",
-  "message.quantumindustries.relay.status": "Relay %s | %s FE buffered"
+  "message.quantumindustries.relay.status": "Relay %s | %s FE buffered",
+  "gui.quantumindustries.wire.operation": "Wire Drawing: 1 copper/gold sheet → 4 wires, using hand crank or 60 FE."
 }

@@ -197,5 +197,6 @@
   "message.quantumindustries.brazier.status": "Carvão: %s ticks | Calor: %s | Aquecimento: %s",
   "block.quantumindustries.piezo_switch": "Transdutor Piezoelétrico",
   "block.quantumindustries.load_relay": "Relé de Carga",
-  "message.quantumindustries.relay.status": "Relé %s | %s FE no buffer"
+  "message.quantumindustries.relay.status": "Relé %s | %s FE no buffer",
+  "gui.quantumindustries.wire.operation": "Trefiladora: 1 chapa de cobre/ouro → 4 fios, com manivela ou 60 FE."
 }
