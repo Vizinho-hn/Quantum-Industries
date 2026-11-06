@@ -22,6 +22,10 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 
 ## Fase 2 — Primeira indústria
 
+- [ ] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (branch independente em implementação).
+- [ ] Moinho de Pedra, Prensa Mecânica de Fuso, Guincho de Mineração e Bomba Mecânica.
+- [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
+
 - [x] Implementar as 13 pesquisas da Era I, com conformação manual, chapas e componentes mecânicos e elétricos.
 - [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.

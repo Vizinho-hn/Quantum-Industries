@@ -8,6 +8,15 @@ Quantum Industries pretende levar o jogador de processos industriais básicos at
 
 ## Visão do projeto
 
+As cinco eras seguem a progressão: **Engenharia Mecânica e Ciência Empírica**,
+**Revolução Elétrica**, **Ondas Eletromagnéticas e Tecnologia Moderna**,
+**Engenharia Quântica** e **Inteligência Artificial e Automação Autônoma**.
+O Dínamo Manual encerra a Era I e prepara a passagem para a eletricidade.
+
+Em desenvolvimento na branch `feat/era1-mechanical-foundation`: uma oficina
+mecânica com serraria, transmissão por eixos e roda-d'água, independente de FE.
+[Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
+
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
 
 Pilares:
