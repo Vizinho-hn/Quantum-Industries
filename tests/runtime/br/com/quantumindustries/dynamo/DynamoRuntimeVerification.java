@@ -11,6 +11,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import br.com.quantumindustries.recipe.ResearchCraftingAccess;
 import br.com.quantumindustries.research.ResearchCatalog;
+import br.com.quantumindustries.assay.AssayCatalog;
+import br.com.quantumindustries.assay.AssayProfile;
+import br.com.quantumindustries.research.ResearchEvidenceVerification;
 import br.com.quantumindustries.research.ResearchReportItem;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.research.WorldResearchData;
@@ -79,6 +82,7 @@ public final class DynamoRuntimeVerification {
             check(crank.getCount() == 1, "duplicate installation cannot consume a crank");
             block.useWithoutItem(level, player, hit());
             check(dynamo.energy() == 0, "unknown dynamo design prevents generation");
+            ResearchEvidenceVerification.run(level);
             verifyProgression();
             block.useWithoutItem(level, player, hit());
             check(dynamo.energy() == 12 && !dynamo.turn(), "one turn supplies 12 FE and starts cooldown");
@@ -108,7 +112,15 @@ public final class DynamoRuntimeVerification {
         level.setBlock(bench, ModBlocks.RESEARCH_TABLE_TIER_1.get().defaultBlockState(), 3);
         var entity = (ResearchTableBlockEntity) level.getBlockEntity(bench);
         var menu = (ResearchTableMenu) entity.createMenu(1, player.getInventory(), player);
+        player.containerMenu = menu;
         var research = WorldResearchData.get(level);
+        var profile = AssayProfile.of(player);
+        profile.complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.INSPECTION);
+        profile.complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.MECHANICAL);
+        profile.complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.HEATING);
+        profile.complete(AssayCatalog.Material.IRON, AssayCatalog.Method.INSPECTION);
+        profile.complete(AssayCatalog.Material.IRON, AssayCatalog.Method.MECHANICAL);
+        profile.complete(AssayCatalog.Material.COAL, AssayCatalog.Method.INSPECTION);
         var coilKey = recipeKey(ModItems.COPPER_COIL.get());
         ModRecipeBook.sync(player);
         check(player.getRecipeBook().contains(recipeKey(ModItems.SCIENTIFIC_ANALYZER_TIER_1.get())),
@@ -120,7 +132,12 @@ public final class DynamoRuntimeVerification {
         check(!craft(ModItems.MANUAL_DYNAMO.get()).matches(dynamoGrid, level), "automation cannot craft dynamo");
 
         int eraOne = 0;
+        var order = new java.util.ArrayList<Integer>();
+        order.add(ResearchCatalog.indexOf("material_observation"));
         for (int id = 0; id < ResearchCatalog.STUDIES.size(); id++) {
+            if (!order.contains(id)) order.add(id);
+        }
+        for (int id : order) {
             var study = ResearchCatalog.STUDIES.get(id);
             if (study.era() != 1) continue;
             check(!menu.clickMenuButton(player, id), "missing costs: " + study.key());
@@ -152,6 +169,7 @@ public final class DynamoRuntimeVerification {
                 verifyBookPlacement(craftingTable, other, player, preview);
             }
         }
+        player.containerMenu = menu;
         verifyResearchTransfer(menu, other);
         verifyResearchCommands(craftingTable, other);
         verifyCraftingMenu(craftingTable, coreGrid, core);
@@ -214,12 +232,19 @@ public final class DynamoRuntimeVerification {
         wireReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
         check(!wireReport.isEmpty() && !research.knows(recipient, wire), "report checks prerequisites");
 
+        check(research.learn(recipient, "material_observation"), "recipient completes initial observation");
         ItemStack conductivityReport = takeReport(conductivity);
         recipient.setItemInHand(InteractionHand.MAIN_HAND, conductivityReport);
         conductivityReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
-        check(conductivityReport.isEmpty() && research.knows(recipient, conductivity), "report teaches its study");
+        check(!conductivityReport.isEmpty() && !research.knows(recipient, conductivity), "report requires scientific evidence");
+        AssayProfile.of(recipient).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.INSPECTION);
+        conductivityReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
+        check(conductivityReport.isEmpty() && research.knows(recipient, conductivity), "report teaches its study with evidence");
 
         recipient.setItemInHand(InteractionHand.MAIN_HAND, wireReport);
+        wireReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
+        check(!wireReport.isEmpty() && !research.knows(recipient, wire), "wire report requires mechanical evidence");
+        AssayProfile.of(recipient).complete(AssayCatalog.Material.COPPER, AssayCatalog.Method.MECHANICAL);
         wireReport.getItem().use(level, recipient, InteractionHand.MAIN_HAND);
         check(wireReport.isEmpty() && research.knows(recipient, wire)
                 && recipient.getRecipeBook().contains(recipeKey(ModItems.COPPER_WIRE.get())), "report unlocks craft in book");

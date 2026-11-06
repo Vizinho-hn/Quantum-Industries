@@ -1,7 +1,7 @@
 // Opt-in integration harness: never included in a normal mod build.
 allprojects {
     afterEvaluate {
-        sourceSets.main.java.srcDir('tests/runtime')
+        sourceSets.main.java.srcDir('tests')
         neoForge.runs.server {
             gameDirectory = file('build/assay-verification/world')
             systemProperty 'quantumindustries.verifyAssay', 'true'
