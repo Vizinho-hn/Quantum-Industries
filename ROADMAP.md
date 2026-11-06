@@ -23,7 +23,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
 - [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
-- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.
+- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.\n- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
 
 ## Fase 2 — Primeira indústria
 
@@ -39,7 +39,10 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
-- [ ] Expandir a Era II com cabos dedicados de distribuição e novas máquinas de processamento.
+- [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.
+- [x] Criar dutos hidráulicos nativos NeoForge, bomba peristáltica manual/FE e cuba de decantação 8.000 mB.
+- [ ] Criar fluido registrado de eletrólito refinado e integrar como insumo opcional ao Acumulador sem invalidar receitas anteriores.
+- [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.
 
 ## Fase 3 — Química e materiais
 - [ ] Reações e processos químicos.

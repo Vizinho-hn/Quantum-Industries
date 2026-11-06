@@ -95,6 +95,32 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 [Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 
+### Distribuição elétrica inicial da Era II
+
+Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.
+
+### Trefiladora de bancada
+
+Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre e ouro), o jogador constrói a trefiladora. Uma chapa de cobre ou ouro rende 4 fios do respectivo metal. O equipamento funciona manualmente com a Manivela na mão ou alimentado por FE, consumindo 60 FE por operação automatizada. A metalurgia permite obter chapas de ouro nos mesmos processos usados com ferro e cobre.
+
+### Recozimento térmico
+
+A Forja de Recozimento recebe carvão e um lingote de ferro/cobre, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo. Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
+
+### Instrumentação da Era II
+
+O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos.
+
+O **Relé de Carga** acompanha um acumulador galvânico diretamente adjacente. Abaixo de 10% ele interrompe o fornecimento a máquinas; acima de 80% emite sinal de redstone de intensidade 15. O relé armazena até 96 FE para encaminhamento, sem geração própria.
+
+### Pneumática, hidráulica e decantação (protótipo Era II)
+
+A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o classificador gravitacional. Coloque o ejetor apontado do baú/fornalha/prensa para um tubo; sopre com **Fole Manual** ou use **Manivela** (1 item, Shift = até 1 pilha) ou forneça **10 FE por pulso** (modo automático com 1 item). Os tubos guardam pacotes individuais por segmento e exibem os itens viajando dentro do vidro. Os tubos descarregam em baús, fornalhas ou na entrada da prensa. Um classificador pode encaminhar itens em linha reta ou para a direita, com peneira alternável por clique com barras de ferro; as categorias são discretas (pós vs lingotes), não densidade contínua. Os modelos 3D são protótipos voxel com texturas vanilla e podem ser refinados no Blockbench.
+
+A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
+
+A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 lápis-lazúli + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado) e **1 Sedimento de Pigmento**. Este é um processo químico inicial de abstração de gameplay: ainda **não** registra um fluido novo de eletrólito nem modifica o craft antigo do Acumulador. O concentrado foi criado para uma receita ou reprocessamento futuro, preservando a progressão já salva.
+
 ## Imagens do protótipo
 
 ![Bancada com amostra e ferramentas armazenadas](docs/design/bancada-de-ensaio/images/bancada-ferro.png)
@@ -120,7 +146,7 @@ Os insumos guardados permanecem no bloco. Outro jogador pode usar o relatório
 com o botão direito para aprender a pesquisa se já tiver os conhecimentos
 anteriores e as evidências científicas exigidas.
 
-Em multiplayer, o servidor valida pesquisas, operações e receitas para cada
+Para compartilhar as quatro observações de um material, conclua os ensaios 4/4, segure uma pena na mão principal e uma amostra do material na mão secundária, leve um papel no inventário e clique com o botão direito no Analisador Científico. Isso gera uma Ficha de Observação, que outro jogador pode consumir para adquirir somente aquelas quatro descobertas, sem desbloquear pesquisas automaticamente.\n\nEm multiplayer, o servidor valida pesquisas, operações e receitas para cada
 jogador, inclusive quando a bancada é compartilhada.
 
 ### Comandos administrativos

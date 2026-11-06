@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/bellows_ejector",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/bellows_ejector",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/bellows_ejector",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/bellows_ejector",
+      "y": 90
+    }
+  }
+}

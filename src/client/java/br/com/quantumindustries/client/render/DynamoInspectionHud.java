@@ -2,6 +2,7 @@ package br.com.quantumindustries.client.render;
 
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
+import br.com.quantumindustries.fluid.FluidInspectable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -29,8 +30,10 @@ public final class DynamoInspectionHud {
         if (player == null || minecraft.level == null || minecraft.screen != null || minecraft.options.hideGui
                 || !player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get())) return;
         if (!(player.pick(6.0, partialTick, false) instanceof BlockHitResult hit)
-                || hit.getType() != HitResult.Type.BLOCK
-                || !(minecraft.level.getBlockEntity(hit.getBlockPos()) instanceof EnergyInspectable target)) return;
+                || hit.getType() != HitResult.Type.BLOCK) return;
+        var blockEntity=minecraft.level.getBlockEntity(hit.getBlockPos());
+        if(blockEntity instanceof FluidInspectable fluid){drawFluid(g,minecraft,fluid);return;}
+        if(!(blockEntity instanceof EnergyInspectable target))return;
         int energy = target.energy(), max = Math.max(1, target.capacity());
         int percent = energy * 100 / max;
         Component detail = target.inspectDetail();
@@ -48,4 +51,16 @@ public final class DynamoInspectionHud {
         g.fill(14, barTop, 156, barTop + 6, 0xFF45382F);
         if (energy > 0) g.fill(14, barTop, 14 + 142 * energy / max, barTop + 6, color);
     }
+    private static void drawFluid(GuiGraphicsExtractor g,Minecraft minecraft,FluidInspectable fluid){
+        int amount=fluid.storedFluid(),capacity=Math.max(1,fluid.fluidCapacity());
+        g.fill(7,7,165,75,0xFFB37B55);
+        g.fill(8,8,164,74,0xE8201C19);
+        g.text(minecraft.font,fluid.fluidTitle(),14,13,0xFFF4DCB9,false);
+        g.text(minecraft.font,Component.translatable("gui.quantumindustries.fluid.amount",amount,capacity),
+                14,27,0xFFF4EEE6,false);
+        g.text(minecraft.font,fluid.fluidDetail(),14,42,0xFFAEC6AD,false);
+        g.fill(14,60,156,66,0xFF45382F);
+        if(amount>0)g.fill(14,60,14+142*amount/capacity,66,0xFF6AA6D9);
+    }
 }
+

@@ -14,12 +14,15 @@ public final class FormingMaterials {
 
     public static Metal find(ItemStack stack) {
         for (Metal metal : Metals.ALL) if (stack.is(metal.ingot())) return metal;
+        if (stack.is(ModItems.HEATED_IRON_INGOT.get())) return Metals.ALL.get(0);
+        if (stack.is(ModItems.HEATED_COPPER_INGOT.get())) return Metals.ALL.get(1);
         return null;
     }
 
     private static final class Metals {
         private static final List<Metal> ALL = List.of(
                 new Metal("iron", Items.IRON_INGOT, ModItems.IRON_SHEET),
-                new Metal("copper", Items.COPPER_INGOT, ModItems.COPPER_SHEET));
+                new Metal("copper", Items.COPPER_INGOT, ModItems.COPPER_SHEET),
+                new Metal("gold", Items.GOLD_INGOT, ModItems.GOLD_SHEET));
     }
 }

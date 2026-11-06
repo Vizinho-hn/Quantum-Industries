@@ -54,6 +54,95 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("mechanical_sawmill", () -> new BlockEntityType<>(
                     br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity::new, Set.of(MECHANICAL_SAWMILL.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.CopperCableBlock> COPPER_BUSBAR =
+            BLOCKS.registerBlock("copper_busbar",
+                    props -> new br.com.quantumindustries.block.CopperCableBlock(props, false),
+                    props -> props.strength(0.8F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.CopperCableBlock> INSULATED_CONDUIT =
+            BLOCKS.registerBlock("insulated_conduit",
+                    props -> new br.com.quantumindustries.block.CopperCableBlock(props, true),
+                    props -> props.strength(0.8F).noOcclusion());
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CopperCableBlockEntity>> COPPER_CABLE_ENTITY =
+            BLOCK_ENTITIES.register("copper_cable",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
+                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.PneumaticTubeBlock> PNEUMATIC_TUBE =
+            BLOCKS.registerBlock("pneumatic_tube",br.com.quantumindustries.block.PneumaticTubeBlock::new,
+                    p->p.strength(1.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.BellowsEjectorBlock> BELLOWS_EJECTOR =
+            BLOCKS.registerBlock("bellows_ejector",br.com.quantumindustries.block.BellowsEjectorBlock::new,
+                    p->p.strength(2.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.GravitationalSorterBlock> GRAVITATIONAL_SORTER =
+            BLOCKS.registerBlock("gravitational_sorter",br.com.quantumindustries.block.GravitationalSorterBlock::new,
+                    p->p.strength(2.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity>> PNEUMATIC_TUBE_ENTITY =
+            BLOCK_ENTITIES.register("pneumatic_tube",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity::new,Set.of(PNEUMATIC_TUBE.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsEjectorBlockEntity>> BELLOWS_EJECTOR_ENTITY =
+            BLOCK_ENTITIES.register("bellows_ejector",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.BellowsEjectorBlockEntity::new,Set.of(BELLOWS_EJECTOR.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity>> GRAVITATIONAL_SORTER_ENTITY =
+            BLOCK_ENTITIES.register("gravitational_sorter",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity::new,Set.of(GRAVITATIONAL_SORTER.get()),false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.FluidPipeBlock> FLUID_PIPE =
+            BLOCKS.registerBlock("fluid_pipe",p->new br.com.quantumindustries.block.FluidPipeBlock(p,false),
+                    p->p.strength(1.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.FluidPipeBlock> GLASS_PIPE =
+            BLOCKS.registerBlock("glass_pipe",p->new br.com.quantumindustries.block.FluidPipeBlock(p,true),
+                    p->p.strength(1.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.PeristalticPumpBlock> PERISTALTIC_PUMP =
+            BLOCKS.registerBlock("peristaltic_pump",br.com.quantumindustries.block.PeristalticPumpBlock::new,
+                    p->p.strength(2.5F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.SettlingVatBlock> SETTLING_VAT =
+            BLOCKS.registerBlock("settling_vat",br.com.quantumindustries.block.SettlingVatBlock::new,
+                    p->p.strength(3.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.FluidPipeBlockEntity>> FLUID_PIPE_ENTITY =
+            BLOCK_ENTITIES.register("fluid_pipe",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.FluidPipeBlockEntity::new,
+                    Set.of(FLUID_PIPE.get(),GLASS_PIPE.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PeristalticPumpBlockEntity>> PERISTALTIC_PUMP_ENTITY =
+            BLOCK_ENTITIES.register("peristaltic_pump",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.PeristalticPumpBlockEntity::new,Set.of(PERISTALTIC_PUMP.get()),false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.SettlingVatBlockEntity>> SETTLING_VAT_ENTITY =
+            BLOCK_ENTITIES.register("settling_vat",()->new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.SettlingVatBlockEntity::new,Set.of(SETTLING_VAT.get()),false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.PiezoSwitchBlock> PIEZO_SWITCH =
+            BLOCKS.registerBlock("piezo_switch", br.com.quantumindustries.block.PiezoSwitchBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.LoadRelayBlock> LOAD_RELAY =
+            BLOCKS.registerBlock("load_relay", br.com.quantumindustries.block.LoadRelayBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.PiezoSwitchBlockEntity>> PIEZO_SWITCH_ENTITY =
+            BLOCK_ENTITIES.register("piezo_switch",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.PiezoSwitchBlockEntity::new,
+                            Set.of(PIEZO_SWITCH.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.LoadRelayBlockEntity>> LOAD_RELAY_ENTITY =
+            BLOCK_ENTITIES.register("load_relay",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.LoadRelayBlockEntity::new,
+                            Set.of(LOAD_RELAY.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.BellowsBrazierBlock> BELLOWS_BRAZIER =
+            BLOCKS.registerBlock("bellows_brazier", br.com.quantumindustries.block.BellowsBrazierBlock::new,
+                    props -> props.strength(2.4F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity>> BELLOWS_BRAZIER_ENTITY =
+            BLOCK_ENTITIES.register("bellows_brazier",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity::new,
+                            Set.of(BELLOWS_BRAZIER.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.WireDrawingBenchBlock> WIRE_DRAWING_BENCH =
+            BLOCKS.registerBlock("wire_drawing_bench",
+                    br.com.quantumindustries.block.WireDrawingBenchBlock::new,
+                    props -> props.strength(2.4F).noOcclusion());
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity>> WIRE_DRAWING_BENCH_ENTITY =
+            BLOCK_ENTITIES.register("wire_drawing_bench",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity::new,
+                            Set.of(WIRE_DRAWING_BENCH.get()), false));
+
     public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
             GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
