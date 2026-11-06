@@ -27,7 +27,8 @@ Este roadmap registra a direção do projeto. Itens são planejados, não promes
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
-- [ ] Desenvolver a progressão da Era II, incluindo rede de energia e primeiras máquinas consumidoras.
+- [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
+- [ ] Expandir a Era II com cabos dedicados de distribuição e novas máquinas de processamento.
 
 ## Fase 3 — Química e materiais
 - [ ] Reações e processos químicos.

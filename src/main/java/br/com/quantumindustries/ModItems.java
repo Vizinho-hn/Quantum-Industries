@@ -3,7 +3,6 @@ package br.com.quantumindustries;
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -37,6 +36,8 @@ public class ModItems {
     public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerSimpleItem("electromechanical_frame");
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_DYNAMO = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_DYNAMO);
+    public static final DeferredItem<BlockItem> GALVANIC_ACCUMULATOR = ITEMS.registerSimpleBlockItem(ModBlocks.GALVANIC_ACCUMULATOR);
+    public static final DeferredItem<BlockItem> ELECTROMECHANICAL_PRESS = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMECHANICAL_PRESS);
 
     public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass", Item::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit", Item::new, properties -> properties.stacksTo(1));

@@ -26,7 +26,10 @@ final class ResearchTreeView {
             Map.entry("copper_winding", new Grid(3, 128)),
             Map.entry("electrical_insulation", new Grid(3, 168)),
             Map.entry("electromechanical_structure", new Grid(5, 76)),
-            Map.entry("manual_dynamo_design", new Grid(6, 116))
+            Map.entry("manual_dynamo_design", new Grid(6, 116)),
+            Map.entry("electromagnetic_induction", new Grid(0, 76)),
+            Map.entry("galvanic_storage", new Grid(1, 36)),
+            Map.entry("electromechanical_forming", new Grid(1, 116))
     );
 
     private record Grid(int column, int y) {}

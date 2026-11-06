@@ -17,7 +17,7 @@ class PlacementAndItemTest(unittest.TestCase):
         return json.loads((ASSETS / relative).read_text(encoding="utf-8"))
 
     def test_research_analyzers_have_all_directional_models(self):
-        for name in ("scientific_analyzer", "scientific_analyzer_tier_1"):
+        for name in ("scientific_analyzer", "scientific_analyzer_tier_1", "galvanic_accumulator", "electromechanical_press"):
             variants = self.load(f"blockstates/{name}.json")["variants"]
             self.assertEqual(set(variants), {f"facing={direction}" for direction in ANGLES})
             for direction, angle in ANGLES.items():

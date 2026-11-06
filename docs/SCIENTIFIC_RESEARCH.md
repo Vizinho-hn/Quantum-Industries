@@ -22,6 +22,8 @@ Materiais, que mantém o ID `empirical_assay_bench`.
 | Estrutura Eletromecânica | Aquecimento com fole de Ferro ou de Cobre (`AnyOf`) |
 | Projeto do Dínamo | Conhecimentos anteriores |
 | Indução Eletromagnética (Era II) | Reação em frasco de Redstone e de Cobre ou Lápis-lazúli (`AnyOf`) |
+| Acumulação Galvânica (Era II) | Reação em frasco de Lápis-lazúli e de Cobre |
+| Conformação Eletromecânica (Era II) | Prensa de parafuso de Ferro e Reação em frasco de Redstone |
 
 As descobertas persistem por jogador e são consultadas sem consumo. Uma única
 descoberta mecânica do cobre atende Maleabilidade, Fabricação de Fios e Bobinagem.
