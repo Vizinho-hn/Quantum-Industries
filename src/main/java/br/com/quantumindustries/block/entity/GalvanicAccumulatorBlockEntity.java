@@ -62,6 +62,8 @@ public final class GalvanicAccumulatorBlockEntity extends BlockEntity implements
 
     public void tick() {
         if (!(level instanceof ServerLevel server) || energy() <= 0) return;
+        br.com.quantumindustries.energy.CableNetwork.transfer(server, worldPosition,
+                this::energy, this::extractEnergy, MAX_TRANSFER);
         for (Direction dir : Direction.values()) {
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(dir)) instanceof ElectromechanicalPressBlockEntity press) {

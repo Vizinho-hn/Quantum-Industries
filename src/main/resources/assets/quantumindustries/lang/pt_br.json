@@ -179,5 +179,8 @@
   "message.quantumindustries.field_notes.written": "Ficha científica registrada.",
   "message.quantumindustries.field_notes.invalid": "Esta ficha não contém observações válidas.",
   "message.quantumindustries.field_notes.known": "Você já conhece todas as observações deste material.",
-  "message.quantumindustries.field_notes.learned": "Quatro observações compartilhadas: %s"
+  "message.quantumindustries.field_notes.learned": "Quatro observações compartilhadas: %s",
+  "block.quantumindustries.copper_busbar": "Barramento de Cobre Nu",
+  "block.quantumindustries.insulated_conduit": "Conduíte Isolado",
+  "gui.quantumindustries.cable.flow": "Fluxo: %s FE/t | Perda: %s FE/t"
 }

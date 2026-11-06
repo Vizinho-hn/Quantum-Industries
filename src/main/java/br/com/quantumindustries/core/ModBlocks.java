@@ -35,6 +35,20 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MANUAL_DYNAMO = BLOCKS.registerBlock("manual_dynamo",
             br.com.quantumindustries.block.ManualDynamoBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.CopperCableBlock> COPPER_BUSBAR =
+            BLOCKS.registerBlock("copper_busbar",
+                    props -> new br.com.quantumindustries.block.CopperCableBlock(props, false),
+                    props -> props.strength(0.8F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.CopperCableBlock> INSULATED_CONDUIT =
+            BLOCKS.registerBlock("insulated_conduit",
+                    props -> new br.com.quantumindustries.block.CopperCableBlock(props, true),
+                    props -> props.strength(0.8F).noOcclusion());
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CopperCableBlockEntity>> COPPER_CABLE_ENTITY =
+            BLOCK_ENTITIES.register("copper_cable",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
+                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
+
     public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
             GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 

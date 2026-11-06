@@ -36,6 +36,8 @@ public class ModItems {
     public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerSimpleItem("electromechanical_frame");
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_DYNAMO = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_DYNAMO);
+    public static final DeferredItem<BlockItem> COPPER_BUSBAR = ITEMS.registerSimpleBlockItem(ModBlocks.COPPER_BUSBAR);
+    public static final DeferredItem<BlockItem> INSULATED_CONDUIT = ITEMS.registerSimpleBlockItem(ModBlocks.INSULATED_CONDUIT);
     public static final DeferredItem<BlockItem> GALVANIC_ACCUMULATOR = ITEMS.registerSimpleBlockItem(ModBlocks.GALVANIC_ACCUMULATOR);
     public static final DeferredItem<BlockItem> ELECTROMECHANICAL_PRESS = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMECHANICAL_PRESS);
 
