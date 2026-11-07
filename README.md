@@ -34,6 +34,23 @@ Pilares:
 4. **Era IV — Engenharia Quântica:** materiais avançados, precisão e processamento sofisticado.
 5. **Era V — Inteligência Artificial e Automação Autônoma:** planejamento e coordenação inteligente das instalações.
 
+## 🖼️ Galeria Visual de Itens e Equipamentos
+
+O Quantum Industries conta com um catálogo visual completo com ilustrações em pixel art de alta definição e modelos dos componentes e máquinas industriais.
+
+> 👉 **[Consulte o Catálogo Completo com Todos os Itens e Máquinas Detalhados (docs/ITEMS.md)](docs/ITEMS.md)**
+
+### Destaques das Eras I & II
+
+| Instrumentos Científicos | Metalurgia & Conformação | Oficina & Transmissão | Geração & Eletricidade | Hidráulica & Fluidos |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="docs/images/items/magnifying_glass.png" width="48" height="48" /><br><sub>**Lupa de Vidro**</sub> | <img src="docs/images/items/manual_hammer.png" width="48" height="48" /><br><sub>**Martelo Manual**</sub> | <img src="docs/images/blocks/mechanical_sawmill.png" width="48" height="48" /><br><sub>**Serraria Mecânica**</sub> | <img src="docs/images/blocks/manual_dynamo.png" width="48" height="48" /><br><sub>**Dínamo Manual**</sub> | <img src="docs/images/blocks/settling_vat.png" width="48" height="48" /><br><sub>**Cuba Decantação**</sub> |
+| <img src="docs/images/items/assay_flask.png" width="48" height="48" /><br><sub>**Frasco de Ensaio**</sub> | <img src="docs/images/items/iron_sheet.png" width="48" height="48" /><br><sub>**Chapa de Ferro**</sub> | <img src="docs/images/blocks/primitive_water_wheel.png" width="48" height="48" /><br><sub>**Roda-d'Água**</sub> | <img src="docs/images/blocks/galvanic_accumulator.png" width="48" height="48" /><br><sub>**Acumulador (2.4k)**</sub> | <img src="docs/images/blocks/peristaltic_pump.png" width="48" height="48" /><br><sub>**Bomba Peristáltica**</sub> |
+| <img src="docs/images/items/flame_test_kit.png" width="48" height="48" /><br><sub>**Kit de Chama**</sub> | <img src="docs/images/items/copper_coil.png" width="48" height="48" /><br><sub>**Bobina de Cobre**</sub> | <img src="docs/images/blocks/forming_bench.png" width="48" height="48" /><br><sub>**Bancada Conformação**</sub> | <img src="docs/images/blocks/electromechanical_press.png" width="48" height="48" /><br><sub>**Prensa (FE)**</sub> | <img src="docs/images/items/galvanic_electrolyte.png" width="48" height="48" /><br><sub>**Eletrólito**</sub> |
+| <img src="docs/images/items/energy_inspection_goggles.png" width="48" height="48" /><br><sub>**Óculos Inspeção**</sub> | <img src="docs/images/items/primitive_mechanical_core.png" width="48" height="48" /><br><sub>**Núcleo Mecânico**</sub> | <img src="docs/images/blocks/empirical_assay_bench.png" width="48" height="48" /><br><sub>**Analisador Materiais**</sub> | <img src="docs/images/blocks/wire_drawing_bench.png" width="48" height="48" /><br><sub>**Trefiladora**</sub> | <img src="docs/images/items/pigment_sediment.png" width="48" height="48" /><br><sub>**Sedimento**</sub> |
+
+---
+
 ## Protótipo jogável atual
 
 Comece pela Mesa de Pesquisa Tier 1 e conclua **Observação dos Materiais**.
