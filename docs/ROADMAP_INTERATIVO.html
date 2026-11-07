@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum Industries · Roadmap Interativo</title>
+<meta name="description" content="Fluxograma clicável de pesquisa, indústria e progressão do meteorito ao Quantum Computer.">
+<style>
+:root{--bg:#070d1a;--panel:#101d33;--panel2:#14233c;--line:#334862;--text:#f2f7ff;--muted:#93a9c7;--aqua:#57e4db;--sky:#65adff;--violet:#b799ff;--gold:#f4c77a;--good:#54dbab}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% -6%,#1b3555 0,transparent 38%),radial-gradient(ellipse at 0% 30%,#102b3c 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.52 system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.15;background-image:radial-gradient(#aad8ff .65px,transparent .65px);background-size:34px 34px;z-index:0}
+a{color:var(--aqua);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{position:relative;z-index:1;max-width:1340px;margin:auto;padding:32px 24px 70px}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.17em;text-transform:uppercase;color:var(--aqua)}
+.brand .orb{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#163d45;border:1px solid #3bb6aa}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.hero{border:1px solid #32506d;border-radius:24px;padding:38px 42px 33px;position:relative;overflow:hidden;background:linear-gradient(113deg,#132942,#0d1529 75%);box-shadow:0 18px 55px #0005}
+.hero:after{content:"☄";position:absolute;right:44px;top:5px;font-size:145px;opacity:.19;transform:rotate(-13deg);pointer-events:none}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+h1{font-size:clamp(30px,4vw,57px);line-height:1.1;letter-spacing:-.045em;margin:13px 0;max-width:790px}h1 span{color:var(--aqua)}
+.hero p{max-width:755px;color:#bbcee3;margin:0 0 18px;font-size:15px}
+.tags{display:flex;gap:9px;flex-wrap:wrap}.tag{border:1px solid #3e5972;background:#162c42;color:#bcd7ec;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.kpi{border:1px solid #304a64;border-radius:16px;background:#102038cc;padding:15px 18px;min-width:0}.kpi b{display:block;font-size:28px;font-weight:750;font-variant-numeric:tabular-nums}.kpi span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.11em;font-weight:750}
+.progress-track{height:11px;border-radius:99px;background:#28384e;overflow:hidden;margin-top:18px}.progress-track i{display:block;height:100%;background:linear-gradient(90deg,#32d0bc,#82a8ff);width:0%;transition:width .25s}
+.tools{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:24px 0 9px;padding:11px 0;background:linear-gradient(var(--bg) 78%,transparent)}
+button,.file-label,input[type=search]{font:inherit;border-radius:10px;border:1px solid #38536f;background:#14233b;color:var(--text)}
+button,.file-label{padding:10px 13px;cursor:pointer;font-weight:700;font-size:12px;transition:background .2s,transform .2s}
+button:hover,.file-label:hover{background:#1d3652;transform:translateY(-1px)}button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+button.primary{background:#1b615d;border-color:#53c9b9;color:#d7fffa}button.danger{color:#f3a2a9}
+input[type=search]{padding:10px 12px;min-width:190px;flex:1}input[type=file]{display:none}
+.hint{color:var(--muted);font-size:12px;margin:0 0 18px}
+.section-title{margin:27px 0 3px;font-size:22px;letter-spacing:-.02em}
+.section-sub{margin:0 0 24px;color:var(--muted);font-size:13px}
+.flow-shell{position:relative;min-height:500px}
+#edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.flow{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(8,auto);column-gap:24px;row-gap:86px;align-items:start}
+.node{position:relative;z-index:1;background:linear-gradient(160deg,#142944,#101b31);border:1px solid #34506b;border-radius:18px;padding:0;box-shadow:0 14px 28px #0003;min-width:0;transition:border-color .2s,box-shadow .2s}
+.node:hover{border-color:#79b5d7;box-shadow:0 12px 30px #0b253e}.node.complete{border-color:#3fc89d;background:linear-gradient(160deg,#113e40,#102735)}.node.active{box-shadow:0 0 0 2px #5cdae555}
+.node-head{padding:15px 17px 14px;cursor:pointer;display:block;list-style:none}.node-head::-webkit-details-marker{display:none}
+.node-top{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.stage{color:var(--aqua);font-size:10px;letter-spacing:.12em;font-weight:850;text-transform:uppercase}.stage.prototype{color:var(--gold)}
+.node-icon{font-size:23px;flex:0 0 auto}
+.node h3{font-size:18px;letter-spacing:-.025em;line-height:1.2;margin:9px 0 5px}.node p{margin:0;color:#9cb2cf;font-size:12px;line-height:1.45;min-height:34px}
+.node-stats{display:flex;align-items:center;gap:10px;margin-top:15px}.mini-track{height:6px;background:#2c4159;border-radius:20px;overflow:hidden;flex:1}.mini-track i{display:block;height:100%;background:var(--aqua);transition:width .25s}.node.complete .mini-track i{background:var(--good)}
+.node-stats small{white-space:nowrap;color:#a8c6d9;font-size:11px;font-variant-numeric:tabular-nums}
+.node-body{border-top:1px solid #30495f;padding:13px 14px 16px}
+.task{display:flex;align-items:flex-start;gap:9px;margin:0 0 10px;font-size:12px;cursor:pointer;color:#e0edfc;line-height:1.4}.task:last-child{margin-bottom:0}.task input{accent-color:#4bdfbf;flex:0 0 auto;margin-top:1px;width:16px;height:16px;cursor:pointer}.task.done span{text-decoration:line-through;color:#879aaf}.task.hidden{display:none}
+.node-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px;padding-top:11px;border-top:1px dashed #344960}
+.node-actions button{padding:6px 9px;font-size:11px}.node-actions span{font-size:10px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:15px;font-size:12px;color:var(--muted);padding:16px 0;border-bottom:1px solid #223954}
+.legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#65adff}.legend .dot.gold{background:var(--gold)}.legend .dot.green{background:var(--good)}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.note{border:1px solid #304963;border-radius:16px;padding:22px;background:#101c31}.note h3{margin:0 0 6px}.note p{font-size:13px;color:var(--muted);margin:0}
+.footer{text-align:center;margin-top:34px;color:#829ab7;font-size:12px}
+#toast{position:fixed;bottom:26px;right:25px;background:#164941;color:#d4fff3;border:1px solid #51bea9;border-radius:12px;padding:12px 16px;box-shadow:0 9px 30px #0007;opacity:0;pointer-events:none;transform:translateY(12px);transition:.25s;z-index:100}#toast.on{opacity:1;transform:translateY(0)}
+@media(max-width:990px){.flow{column-gap:14px;row-gap:65px}.node h3{font-size:16px}.node-head{padding:12px}.hero{padding:30px 25px}}
+@media(max-width:730px){.wrap{padding:18px 14px 35px}.hero{padding:25px 19px}.hero:after{font-size:75px;right:8px}.kpis{gap:7px}.kpi{padding:10px}.kpi b{font-size:21px}.kpi span{font-size:9px}.flow{display:flex;flex-direction:column;gap:23px}.node{width:100%}#edges{display:none}.node:not(:last-child):after{content:"↓";position:absolute;bottom:-25px;left:50%;color:#63d7d2;font-size:18px}.tools{top:0}.notes{grid-template-columns:1fr}input[type=search]{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="topline">
+  <div class="brand"><span class="orb">⚛</span> Quantum Industries <span style="color:#6989a6">/ Roadmap</span></div>
+  <nav class="links" aria-label="Documentação">
+    <a href="./ROADMAP_QUANTUM.md">Roadmap Markdown</a>
+    <a href="./GDD_QUANTUM_INDUSTRIES.md">GDD completo</a>
+    <a href="https://github.com/Vizinho-hn/Quantum-Industries/issues/25" target="_blank" rel="noopener">Issue #25 ↗</a>
+  </nav>
+</header>
+<section class="hero">
+  <div class="kicker">✦ Do impacto de um meteorito ao domínio da matéria</div>
+  <h1>Da primeira descoberta ao <span>Quantum Computer.</span></h1>
+  <p>Fluxograma de implementação com dependências reais, etapas expansíveis e checklist clicável. Marque as tarefas conforme são verificadas; os dados são guardados neste navegador e podem ser exportados.</p>
+  <div class="tags"><span class="tag">5 eras oficiais</span><span class="tag">Prólogo: cofre e manual</span><span class="tag">Termodinâmica e atmosfera</span><span class="tag">Matéria programável</span></div>
+  <div class="kpis">
+    <div class="kpi"><b id="done-total">0</b><span>Tarefas concluídas</span></div>
+    <div class="kpi"><b id="all-total">0</b><span>Total de tarefas</span></div>
+    <div class="kpi"><b id="percentage">0%</b><span>Progresso geral</span></div>
+  </div>
+  <div class="progress-track" aria-label="Progresso total"><i id="progress-bar"></i></div>
+</section>
+<div class="tools" role="toolbar" aria-label="Ferramentas do roadmap">
+  <input type="search" id="search" placeholder="Pesquisar etapa ou tarefa…" aria-label="Pesquisar tarefas">
+  <button id="only-pending">◯ Só pendentes</button>
+  <button id="expand-all">Expandir tudo</button>
+  <button class="primary" id="export">↓ Exportar progresso</button>
+  <label class="file-label" for="import">↑ Importar</label><input type="file" id="import" accept="application/json,.json">
+  <button class="danger" id="reset">Reiniciar</button>
+</div>
+<p class="hint">Clique em uma etapa para abrir os objetivos. Caixas marcadas persistem somente neste navegador; exporte para preservar ou compartilhar seu progresso. Este painel não escreve automaticamente no GitHub.</p>
+<div class="legend"><span><i class="dot"></i> Planejado</span><span><i class="dot gold"></i> Já existe como protótipo (verificar)</span><span><i class="dot green"></i> Etapa marcada como concluída</span><span>Setas = dependências principais</span></div>
+<h2 class="section-title">Mapa de progressão</h2>
+<p class="section-sub">Caminho central: Era I → Era II → conhecimento de química, térmica e materiais → Banco Atômico → automação. Ramos convergem quando suas dependências são atendidas.</p>
+<div class="flow-shell" id="flow-shell">
+<svg id="edges" aria-hidden="true"></svg>
+<div class="flow" id="flow"></div>
+</div>
+<section class="notes">
+  <div class="note"><h3>🔬 A descoberta desbloqueia a tecnologia</h3><p>Um teste negativo pode ser útil sem identificar o mineral. O MK2 e o MK3 observam propriedades adicionais, preservando experimentos e descobertas anteriores.</p></div>
+  <div class="note"><h3>⚛️ Matérias-primas, não itens mágicos</h3><p>O Banco Atômico representa estoques separados por elemento. O Quantum Computer coordena requests e as máquinas fabricam componentes complexos; não existe EMC universal.</p></div>
+</section>
+<footer class="footer">Quantum Industries · documentação de design · painel local sem conta, sem servidor e sem rastreamento</footer>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  'use strict';
+  var STORE='quantum-industries-roadmap-v1';
+  var stages=[
+    {id:'meteor',title:'Prólogo — Meteorito',tag:'INÍCIO DO MUNDO',icon:'☄️',hint:'Cratera, Cofre de Origem e Manual de Campo.',row:1,col:2,tasks:['Cena de meteoro uma vez por mundo','Encontrar terreno seguro sem destruir construções','Criar a estrutura da cratera','Criar Cofre de Origem com loot individual','Manual de Campo e objetivos iniciais','Salvar progresso do tutorial por jogador','Recuperação de livro perdido e suporte a mundos antigos']},
+    {id:'era1',title:'Era I — Ciência Empírica',tag:'PROTÓTIPO EXISTENTE',icon:'🔎',proto:true,hint:'Observação, ensaios, oficina e dínamo.',row:2,col:2,tasks:['Validar Mesa de Pesquisa Tier 1','Validar 40 ensaios da bancada existente','Teste de resultados negativos e inconclusivos','Integrar livro à árvore e receitas','Validar serraria, engrenagens e transmissão','Validar roda-d’água e Dínamo Manual','Testar saves antigos e multiplayer']},
+    {id:'era2',title:'Era II — Eletricidade',tag:'PROTÓTIPO PARCIAL',icon:'⚡',proto:true,hint:'Geração, condutores, acumuladores e máquinas.',row:3,col:2,tasks:['Validar geração elétrica e acumulação','Validar barramentos e conduítes','Validar prensa eletromecânica','Instrumentação e medições elétricas','Padronizar custos FE e fontes elétricas','Testar rede e persistência']},
+    {id:'resource',title:'Minérios e Metalurgia',tag:'LINHA TRANSVERSAL',icon:'⛏️',hint:'Estanho, zinco, bronze, latão e ácidos.',row:4,col:1,tasks:['Auditar recursos sem fonte em survival','Cassiterita e refino de estanho','Esfalerita e refino de zinco','Produção de bronze com cobre e estanho','Produção de latão com cobre e zinco','Reagentes e HCl diluído onde apropriado','Testar ciclos de crafting e balanceamento']},
+    {id:'thermo',title:'Termodinâmica',tag:'ERA III',icon:'🔥',hint:'Calor, gases, compressão, refrigeração.',row:4,col:2,tasks:['Experimento de calor e equilíbrio térmico','Primeira lei e trabalho em gases','Pressão × volume × temperatura','Construir compressor e trocador','Pesquisar ciclos de refrigeração','Desbloquear Engenharia Criogênica','Reusar tecnologia em motores e reatores']},
+    {id:'mk2',title:'Material Analyser MK2',tag:'ERA III → IV',icon:'🔬',hint:'Laser, espectroscopia e novas propriedades.',row:4,col:3,tasks:['Definir métodos e limites de detecção','Criar bancada instrumental MK2','Implementar espectroscopia de minerais','Identificar quartzo sem confundir teste ácido','Desbloqueios por evidência e propriedade','Persistência individual sem romper MK1']},
+    {id:'atmos',title:'Coletor Atmosférico',tag:'LINHA DE GASES',icon:'🌫️',hint:'Misturas diferentes em cada dimensão.',row:5,col:1,tasks:['Criar perfil atmosférico por dimensão','Definir Overworld inspirado na Terra','Definir Nether/End como atmosfera fictícia','Capturar mistura bruta em tanque','Balancear consumo energético dimensional','Erros claros em dimensões sem atmosfera','Compatibilidade com perfis de datapacks']},
+    {id:'cryo',title:'Separação Criogênica',tag:'ERA III / PROCESSAMENTO',icon:'❄️',hint:'Filtração → compressão → frio → separação.',row:5,col:2,tasks:['Purificador de gases e filtros','Compressor e sistema de refrigeração','Pesquisa de Engenharia Criogênica exigida','Coluna de destilação criogênica','Tanques de N₂, O₂ e gases separados','Pureza, vazão, energia e anti-duplicação','Dissociação molecular somente em era tardia']},
+    {id:'mk3',title:'Material Analyser MK3',tag:'ERA IV',icon:'🧬',hint:'Composição, estrutura e blueprints de matéria.',row:5,col:3,tasks:['Identificar composição química elementar','Modelar proporções de cada elemento','Distinguir moléculas, cristais e ligas','Análise estrutural e nível de pureza','Persistir blueprints de matérias-primas','Testar grafite e diamante como estruturas diferentes']},
+    {id:'bank',title:'Banco Atômico',tag:'ERA IV → V',icon:'⚛️',hint:'Reservas por elemento, sem EMC universal.',row:6,col:2,tasks:['Modelo de unidades escaladas e conservação','Registrar saldos por elemento (C, Fe, O…)','Sistema de entrada via decompositor','Transações e reservas server-side','Armazenamento por rede e segurança','Blueprint necessário para reconstrução','Verificar que ciclos não criem matéria']},
+    {id:'assemble',title:'Matter Assembler',tag:'ERA IV → V',icon:'🏭',hint:'Fabricação de matérias-primas e ligas por máquinas.',row:7,col:2,tasks:['Decomposer e rendimentos por processo','Reconstruir uma matéria-prima conhecida','Consumir energia e impor velocidade','Distinguir matéria-prima de item complexo','Conectar montador a fundição de ligas','Teste em survival: bronze → engrenagem']},
+    {id:'quantum',title:'Quantum Computer',tag:'ERA V / ENDGAME',icon:'🖥️',hint:'Requests, planejamento e rede industrial.',row:8,col:2,tasks:['Ler estoque físico e Banco Atômico','Ler pesquisas, blueprints e receitas','Receber requests de itens e quantidades','Planejar subreceitas e dependências','Reservar ingredientes e energia com segurança','Acionar máquinas e acompanhar jobs','Retomar jobs após restart / unload','Integrar coletores e reposição automática','Testar multicrafting e anti-duplicação']}
+  ];
+  var links=[['meteor','era1'],['era1','era2'],['era2','resource'],['era2','thermo'],['era2','mk2'],['resource','atmos'],['thermo','cryo'],['atmos','cryo'],['mk2','mk3'],['resource','bank'],['cryo','bank'],['mk3','bank'],['bank','assemble'],['assemble','quantum']];
+  var saved={};try{saved=JSON.parse(localStorage.getItem(STORE)||'{}')||{};}catch(e){}
+  var checked=saved.checked||{};var pendingOnly=false;var expandedAll=false;
+  function el(id){return document.getElementById(id);}
+  function save(){try{localStorage.setItem(STORE,JSON.stringify({version:1,checked:checked,updatedAt:new Date().toISOString()}));}catch(e){notice('O navegador não permitiu salvar. Exporte o progresso.');}}
+  function safeText(s){return String(s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+  function taskId(stage,i){return stage.id+'-'+i;}
+  function count(stage){return stage.tasks.filter(function(t,i){return !!checked[taskId(stage,i)];}).length;}
+  function makeNode(stage){
+    var d=document.createElement('details');d.className='node';d.id='node-'+stage.id;d.style.gridColumn=stage.col;d.style.gridRow=stage.row;
+    var tag=stage.proto?'stage prototype':'stage';
+    var h='<summary class="node-head"><div class="node-top"><span class="'+tag+'">'+safeText(stage.tag)+'</span><span class="node-icon" aria-hidden="true">'+stage.icon+'</span></div><h3>'+safeText(stage.title)+'</h3><p>'+safeText(stage.hint)+'</p><div class="node-stats"><div class="mini-track"><i class="stage-progress"></i></div><small class="stage-count"></small></div></summary>';
+    h+='<div class="node-body"><div class="task-list">';
+    stage.tasks.forEach(function(t,i){h+='<label class="task" data-text="'+safeText(t.toLowerCase())+'"><input type="checkbox" data-task="'+taskId(stage,i)+'"><span>'+safeText(t)+'</span></label>';});
+    h+='</div><div class="node-actions"><button type="button" class="mark-stage">Marcar etapa toda</button><span>'+stage.tasks.length+' tarefas</span></div></div>';
+    d.innerHTML=h;
+    d.addEventListener('toggle',drawEdges);
+    d.querySelectorAll('input[data-task]').forEach(function(inp){inp.checked=!!checked[inp.dataset.task];inp.addEventListener('change',function(){checked[inp.dataset.task]=inp.checked;save();update();});});
+    d.querySelector('.mark-stage').addEventListener('click',function(){var complete=count(stage)===stage.tasks.length;stage.tasks.forEach(function(t,i){checked[taskId(stage,i)]=!complete;});save();update();notice(complete?'Etapa desmarcada.':'Etapa marcada.');});
+    return d;
+  }
+  function update(){
+    var total=0,done=0;
+    stages.forEach(function(s){
+      var node=el('node-'+s.id);var d=count(s);total+=s.tasks.length;done+=d;
+      node.classList.toggle('complete',d===s.tasks.length);
+      node.querySelector('.stage-progress').style.width=Math.round(100*d/s.tasks.length)+'%';
+      node.querySelector('.stage-count').textContent=d+'/'+s.tasks.length;
+      s.tasks.forEach(function(t,i){var input=node.querySelector('input[data-task="'+taskId(s,i)+'"]');input.checked=!!checked[taskId(s,i)];input.closest('.task').classList.toggle('done',input.checked);});
+      node.querySelector('.mark-stage').textContent=d===s.tasks.length?'Desmarcar toda a etapa':'Marcar etapa toda';
+    });
+    el('done-total').textContent=done;el('all-total').textContent=total;el('percentage').textContent=Math.round(done*100/total)+'%';el('progress-bar').style.width=100*done/total+'%';
+    applyFilters();requestAnimationFrame(drawEdges);
+  }
+  function applyFilters(){
+    var query=el('search').value.toLowerCase().trim();
+    stages.forEach(function(s){
+      var node=el('node-'+s.id);
+      var stageMatches=s.title.toLowerCase().includes(query)||s.hint.toLowerCase().includes(query)||s.tag.toLowerCase().includes(query);
+      var relevant=0;
+      node.querySelectorAll('.task').forEach(function(task){
+        var yes=(!pendingOnly||!task.querySelector('input').checked)&&(!query||stageMatches||task.dataset.text.includes(query));
+        task.classList.toggle('hidden',!yes);if(yes)relevant++;
+      });
+      var matches=!query||stageMatches||relevant>0;
+      node.style.display=matches?'':'none';
+      if(query&&relevant>0)node.open=true;
+    });
+    requestAnimationFrame(drawEdges);
+  }
+  function drawEdges(){
+    var svg=el('edges');var shell=el('flow-shell');
+    if(window.innerWidth<=730){svg.innerHTML='';return;}
+    var box=shell.getBoundingClientRect();var w=box.width,h=box.height;svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    var html='<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#537b9c"></path></marker></defs>';
+    links.forEach(function(pair){
+      var a=el('node-'+pair[0]),b=el('node-'+pair[1]);if(!a||!b||a.style.display==='none'||b.style.display==='none')return;
+      var ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+      var x1=ra.left+ra.width/2-box.left,y1=ra.bottom-box.top+3,x2=rb.left+rb.width/2-box.left,y2=rb.top-box.top-9;
+      var dy=Math.max(28,Math.abs(y2-y1)*.56);
+      var color=a.classList.contains('complete')?'#35b99d':'#557e9f';
+      html+='<path d="M'+x1+' '+y1+' C'+x1+' '+(y1+dy)+' '+x2+' '+(y2-dy)+' '+x2+' '+y2+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-opacity=".88" marker-end="url(#arrow)"></path>';
+    });svg.innerHTML=html;
+  }
+  var toastTimer;function notice(s){var t=el('toast');t.textContent=s;t.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('on');},2600);}
+  stages.forEach(function(s){el('flow').appendChild(makeNode(s));});
+  el('search').addEventListener('input',applyFilters);
+  el('only-pending').addEventListener('click',function(){pendingOnly=!pendingOnly;this.textContent=pendingOnly?'● Só pendentes':'◯ Só pendentes';applyFilters();});
+  el('expand-all').addEventListener('click',function(){expandedAll=!expandedAll;document.querySelectorAll('.node').forEach(function(d){d.open=expandedAll;});this.textContent=expandedAll?'Recolher tudo':'Expandir tudo';requestAnimationFrame(drawEdges);});
+  el('export').addEventListener('click',function(){
+    var out=JSON.stringify({format:'quantum-industries-roadmap',version:1,date:new Date().toISOString(),checked:checked},null,2);
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([out],{type:'application/json'}));a.download='quantum-roadmap-progresso.json';a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},1000);notice('Progresso exportado!');
+  });
+  el('import').addEventListener('change',function(){
+    var file=this.files[0];if(!file)return;var reader=new FileReader();
+    reader.onload=function(){try{var data=JSON.parse(String(reader.result));if(data.format!=='quantum-industries-roadmap'||data.version!==1||typeof data.checked!=='object'||!data.checked||Array.isArray(data.checked))throw new Error('Formato incompatível');checked={};Object.keys(data.checked).forEach(function(k){if(/^[a-z0-9-]+$/.test(k)&&data.checked[k]===true)checked[k]=true;});save();update();notice('Progresso importado!');}catch(e){notice('Arquivo inválido ou incompatível.');}};
+    reader.readAsText(file);this.value='';
+  });
+  el('reset').addEventListener('click',function(){if(!confirm('Apagar TODAS as marcações de progresso deste navegador?'))return;checked={};save();update();notice('Progresso reiniciado.');});
+  window.addEventListener('resize',drawEdges);
+  if(typeof ResizeObserver!=='undefined'){new ResizeObserver(drawEdges).observe(el('flow'));} 
+  update();
+})();
+</script>
+</body>
+</html>
