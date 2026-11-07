@@ -35,6 +35,14 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MANUAL_DYNAMO = BLOCKS.registerBlock("manual_dynamo",
             br.com.quantumindustries.block.ManualDynamoBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.ManualGrainMillBlock> MANUAL_GRAIN_MILL =
+            BLOCKS.registerBlock("manual_grain_mill", br.com.quantumindustries.block.ManualGrainMillBlock::new,
+                    properties -> properties.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ManualGrainMillBlockEntity>> MANUAL_GRAIN_MILL_ENTITY =
+            BLOCK_ENTITIES.register("manual_grain_mill", () -> new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.ManualGrainMillBlockEntity::new,
+                    Set.of(MANUAL_GRAIN_MILL.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.MechanicalSawmillBlock> MECHANICAL_SAWMILL =
             BLOCKS.registerBlock("mechanical_sawmill", br.com.quantumindustries.block.MechanicalSawmillBlock::new,
                     properties -> properties.strength(2.5F).noOcclusion());
