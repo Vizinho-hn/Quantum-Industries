@@ -133,6 +133,91 @@ flowchart LR
 
 **Não confundir** `Material Analyser MK1/MK2/MK3` com as **Mesas de Pesquisa Tier 1/Tier 2** existentes.
 
+## 5A. Ciência Aplicada ao Cotidiano — progressão com escala proporcional
+
+**Princípio de design aprovado:** nem toda pesquisa precisa desbloquear algo grandioso. A ciência também serve para fazer pão melhor, reduzir desperdícios, melhorar ferramentas e poupar trabalho. **O custo de descobrir uma tecnologia deve ser proporcional ao benefício dela**, sem burocracia repetitiva.
+
+### 5A.1 Três escalas de invenções
+
+| Escala | Exemplos | Esforço científico desejado | Resultado |
+|---|---|---|---|
+| **Cotidiana** | Moedor de trigo, pão melhorado, forno mais eficiente, recipientes, filtros simples | 0–1 investigação curta + materiais comuns; sem árvore exclusiva de várias pesquisas | Qualidade de vida, rendimento, alimento, conveniência |
+| **Industrial** | Moedor elétrico, óptica de precisão, compressores, motores, refrigeração | Várias descobertas já úteis em outras cadeias + equipamento específico | Novos processos ou automação |
+| **Transformadora** | MK3, Banco Atômico, montagem programável, Quantum Computer | Múltiplas disciplinas, infraestrutura e experimentos significativos | Nova categoria de tecnologia |
+
+- **Não transformar cada receita em um nó** na árvore científica. Variações de produtos podem aparecer como receitas derivadas de **uma capacidade** já aprendida.
+- Descobertas comuns não precisam levar a uma invenção impressionante; algumas servem exclusivamente à agricultura, alimentação, construção ou conforto.
+- Repetir um processo conhecido é produção industrial normal, não um experimento que deva ser refeito por item.
+
+### 5A.2 Primeira cadeia cotidiana: do trigo ao pão
+
+**Exemplo proposto (não implementado):**
+
+```mermaid
+flowchart LR
+  W["🌾 Trigo"] --> M["⚙️ Moedor Manual"]
+  M --> F["Farinha"]
+  F --> B["Massa / receita culinária"]
+  B --> O["🔥 Forno"]
+  O --> P["🍞 Pão melhorado"]
+  M -. "pesquisa de eletrificação" .-> EM["⚡ Moedor Elétrico"]
+  EM --> F
+```
+
+- O **Moedor Manual** deve ter uma pesquisa simples sobre moagem/granulometria ou ser liberado por uma descoberta inicial já existente, exigindo ingredientes comuns, sem inventar muitas dependências.
+- A **Farinha** é um intermediário aproveitável em culinária; o **Pão melhorado** pode oferecer melhor saturação ou maior rendimento que o pão vanilla, **após balanceamento** para evitar criar alimento superior gratuito.
+- Evolução natural: moedor manual → versão elétrica com mesma função e mais produção/conveniência; não exigir uma segunda descoberta de que “trigo moído vira farinha”.
+- A moagem de minérios pode reutilizar o **conhecimento geral sobre redução de partículas**, mas exige ferramenta, peças e receitas industriais apropriadas; não presumir que uma máquina alimentar deve triturar minérios metálicos.
+- **Critério de aceite:** jogador consegue produzir o pão usando ferramentas de começo de jogo, com no máximo uma descoberta curta, sem bloquear o progresso científico principal.
+
+### 5A.3 Experimentos enxutos com variáveis controladas
+
+- **Básico:** escolher amostra + método, observar o resultado.
+- **Intermediário:** alterar **uma variável relevante** (temperatura, pressão, concentração ou tempo) e comparar 2–3 condições com feedback visível.
+- **Avançado:** combinar um conjunto pequeno de instrumentos e condições; oferecer modos recomendados e um modo livre opcional para curiosos.
+- Evitar sliders sem consequência, dezenas de repetições e RNG sem explicação. A descoberta ocorre uma vez por jogador; automatizar o processo depois.
+- Resultados negativos e inconclusivos ficam no caderno, mas **não** abrem conhecimentos que o teste não mediu.
+- **Métricas de UX sugeridas:** número de ações por descoberta, testes abandonados, tempo até fabricar primeiro objeto útil, proporção de experimentos repetidos sem ganho.
+
+### 5A.4 Óptica e vidraria — avanço útil e reaproveitável
+
+- Trabalhar vidro → lente/prisma → lupa/instrumentos ópticos → componentes do MK2.
+- Cada objeto novo deve oferecer uma função observável: ampliar detalhes, focalizar luz, detectar assinatura espectral ou calibrar um equipamento.
+- Não criar uma árvore independente com dezenas de nós só para fabricar uma lente; compartilhar pesquisas de materiais, geometria e instrumentação já existentes.
+- Materiais/resistências para vidraria de laboratório podem avançar conforme a química, sem simular perigos reais em detalhes operacionais.
+
+### 5A.5 Projetos Científicos leves (inspiração em Dr. Stone)
+
+Um **Projeto Científico** é uma camada de objetivos que **consulta** a árvore de pesquisas existente; não deve duplicar a árvore, conceder conhecimento gratuitamente nem exigir um novo sistema complexo de progressão.
+
+- Definição por dados: `ProjectDefinition {id, title, requirements[], milestoneOutputs[], optionalHints[]}`.
+- Na primeira versão, um projeto é apenas uma **visão agregada** de requisitos já disponíveis, com marcação automática quando pesquisas/receitas/eventos atuais forem validados no servidor.
+- Exemplos: **Primeira Padaria Mecanizada** (moedor + farinha + pão), **Primeira Rede de Comunicação** (energia + bobinas + sinais), **Decifrar o Sinal do Meteorito** (receptor + registros instrumentais).
+- Projetos **não são obrigatórios para cada invenção**. Usar para iniciativas médias/grandes e para guiar o jogador perdido.
+- Como evolução futura, projetos podem registrar protótipos, mas o MVP só precisa de lista contextual e progresso vinculado às pesquisas atuais.
+- Sem recompensas duplicadas por pesquisar o mesmo princípio via dois projetos.
+
+### 5A.6 Rede de Descobertas com divulgação progressiva
+
+- A rede é um **grafo interno de evidências, conceitos e aplicações**; a UI **não** mostra todos os nós e arestas.
+- No caderno, a descoberta exibe apenas: **o que foi observado**, **uma aplicação disponível**, **até 1–2 aplicações futuras relevantes**, e **onde aprender mais**.
+- Mostrar outras aplicações sob pedido do jogador (`Ver usos relacionados`), busca, filtros por área e páginas temáticas — não um enorme mapa com 200 nós bloqueados.
+- Reutilizar conhecimento quando fizer sentido: **moagem** conecta padaria e britagem, **resfriamento** conecta refrigeração e criogenia, sem prometer que toda pesquisa desbloqueia dez coisas extraordinárias.
+- Não colocar avisos/tutoriais repetidos para cada nova receita: destaque automático apenas para mudanças que afetam objetivos atuais ou missões escolhidas.
+
+### 5A.7 Amarração narrativa: o meteorito continua relevante
+
+O **Cofre de Origem** e o sinal misterioso podem oferecer um arco opcional de longo prazo: observar no MK1 → estudar propriedades no MK2 → caracterizar parte da composição no MK3 → investigar mais profundamente com o Quantum Computer. Cada retorno fornece uma pista ou uma nova pergunta, **sem transformar o cofre em fonte de desbloqueios mágicos**. O mistério não impede o jogador de construir uma padaria ou uma oficina e aproveitar o cotidiano do Minecraft.
+
+### Aceite desta diretriz
+
+- [ ] Primeiro exemplo de descoberta cotidiana: **moedor manual, farinha e pão melhorado**; versão elétrica como melhoria futura.
+- [ ] Um experimento intermediário pode ser concluído com **2–3 comparações relevantes**, sem tentativas repetitivas obrigatórias.
+- [ ] Um Projeto Científico reaproveita **pesquisas já existentes**, sem duplicar progresso e sem segunda árvore complexa.
+- [ ] Uma descoberta mostra poucas aplicações contextuais na UI; ligações adicionais somente sob demanda.
+- [ ] Linha de vidraria/óptica apresenta usos reais antes de entrar no MK2.
+- [ ] O mistério do meteorito cresce por evidência e continua opcional no loop cotidiano.
+
 ## 6. Cinco eras e linhas transversais
 
 ### Era I — Mecânica
