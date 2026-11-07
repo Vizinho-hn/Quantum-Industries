@@ -36,6 +36,11 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico, preservando os IDs e a migração.
 - [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
+- [x] Tratar **eras como agrupamentos**, não bloqueios globais: abas com pesquisas podem ser abertas, com pré-requisitos de cada estudo preservados.
+- [x] Desacoplar os ramos de Hidrostática, Pressão Pneumática, Recozimento Térmico e Trefilação de pesquisas elétricas que não são necessárias ao processo.
+- [ ] Testar em cliente/servidor o acesso paralelo aos ramos e a persistência dos saves, sem liberar por engano receitas protegidas.
+- [ ] Evoluir com **invenções opcionais de rendimento** (Moedor Manual → Farinha → Pão melhorado, moedor elétrico depois), sem torná-las pré-requisito para a próxima era.
+- [ ] Adicionar interface contextual para diferenciar **descoberta fundamental**, **aplicação opcional** e **melhoria de rendimento**, sem tornar a árvore visualmente pesada.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
