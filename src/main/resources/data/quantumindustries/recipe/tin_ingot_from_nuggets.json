@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget",
+    "quantumindustries:tin_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:tin_ingot",
+    "count": 1
+  }
+}

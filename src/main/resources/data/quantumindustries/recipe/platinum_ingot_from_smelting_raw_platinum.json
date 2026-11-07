@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "quantumindustries:raw_platinum",
+  "result": {
+    "id": "quantumindustries:platinum_ingot",
+    "count": 1
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

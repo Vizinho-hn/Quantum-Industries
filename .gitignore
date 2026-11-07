@@ -46,4 +46,10 @@ __pycache__/
 ### Local developer logs and tooling ###
 .codex/
 logs/
+jogar.sh
+
+### Design reference caches ###
+design/emendatus_assets/
+design/vanilla_textures/
+
 

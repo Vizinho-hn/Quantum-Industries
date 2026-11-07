@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget",
+    "quantumindustries:platinum_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:platinum_ingot",
+    "count": 1
+  }
+}

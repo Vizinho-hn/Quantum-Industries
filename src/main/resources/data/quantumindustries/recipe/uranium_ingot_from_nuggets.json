@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget",
+    "quantumindustries:uranium_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:uranium_ingot",
+    "count": 1
+  }
+}

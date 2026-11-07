@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": "quantumindustries:raw_osmium",
+  "result": {
+    "id": "quantumindustries:osmium_ingot",
+    "count": 1
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

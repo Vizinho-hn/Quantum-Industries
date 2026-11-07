@@ -68,7 +68,22 @@ Bancadas e blocos mecânicos de rotação e corte que operam independentemente d
 | <img src="images/blocks/mechanical_sawmill.png" width="56" height="56" /> | **Serraria Mecânica**<br>`quantumindustries:mechanical_sawmill` | Lâmina circular dentada acionada por eixo inferior ou manivela manual. | Corta 1 tora em 6 tábuas em 5 segundos (rendimento 50% superior ao corte manual). |
 | <img src="images/blocks/primitive_water_wheel.png" width="56" height="56" /> | **Roda-d’Água Primitiva**<br>`quantumindustries:primitive_water_wheel` | Roda de pás em madeira acionada pelo fluxo tangencial de água corrente. | Gera potência cinética contínua (UM) transmitida por linhas alinhadas de eixos. |
 | <img src="images/blocks/mechanical_shaft_block.png" width="56" height="56" /> | **Eixo de Transmissão (Bloco)**<br>`quantumindustries:mechanical_shaft_block` | Eixo rotativo encapsulado em mancais de madeira com buchas lubrificadas. | Transmite torque e potência mecânica entre máquinas sem perdas no alinhamento. |
+| <img src="images/blocks/manual_grain_mill.png" width="56" height="56" /> | **Moedor Manual de Grãos**<br>`quantumindustries:manual_grain_mill` | Moinho de pedra com rotor superior de atrito e funil de alimentação para cereais. | Mó 1 trigo em 1 farinha a cada 4 giros manuais (Shift + clique para colher saída). |
 | <img src="images/items/hand_crank.png" width="48" height="48" /> | **Manivela de Partida Manual**<br>`quantumindustries:hand_crank` | Braço de alavanca com empunhadura para torque muscular direto. | Instale na serraria ou no dínamo para operação mecânica inicial em sobrevivência. |
+
+---
+
+### 🌾 Processamento de Alimentos e Cadeia do Trigo (Era I)
+
+Produtos do beneficiamento agrícola artesanal que otimizam o rendimento calórico do trigo em relação ao pão padrão.
+
+| Visual | Item & ID | Processamento / Origem | Nutrição & Efeito |
+| :---: | :--- | :--- | :--- |
+| <img src="images/items/flour.png" width="48" height="48" /> | **Farinha de Trigo**<br>`quantumindustries:flour` | Grão de trigo finamente moído entre as pedras do Moedor Manual. | Base para sova de massas; misture 2 farinhas + 1 balde d'água para produzir massa crua. |
+| <img src="images/items/bread_dough.png" width="48" height="48" /> | **Massa de Pão Crua**<br>`quantumindustries:bread_dough` | Massa hidratada e sovada pronta para fermentação e cocção em forno. | Asse em qualquer fornalha ou defumador para assar o Pão Rústico artesanal. |
+| <img src="images/items/rustic_bread.png" width="48" height="48" /> | **Pão Rústico Artesanal**<br>`quantumindustries:rustic_bread` | Pão colonial de crosta crocante e miolo aerado assado na lenha. | Nutrição: 5 pontos (2.5 coxas). Saturação: 0.6F (superior ao pão vanilla). |
+
+---
 
 ---
 

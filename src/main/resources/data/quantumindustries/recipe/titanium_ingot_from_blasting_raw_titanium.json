@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": "quantumindustries:raw_titanium",
+  "result": {
+    "id": "quantumindustries:titanium_ingot",
+    "count": 1
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

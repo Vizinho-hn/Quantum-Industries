@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget",
+    "quantumindustries:tungsten_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:tungsten_ingot",
+    "count": 1
+  }
+}

@@ -51,6 +51,14 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.BRASS_WEIGHTS.get());
                     output.accept(ModItems.MANUAL_BELLOWS.get());
                     output.accept(ModItems.ASSAY_FLASK.get());
+
+                    // --- RECURSOS E MINERAIS EXPANDIDOS ---
+                    for (var ore : ModItems.STONE_ORE_ITEMS.values()) output.accept(ore.get());
+                    for (var ore : ModItems.DEEPSLATE_ORE_ITEMS.values()) output.accept(ore.get());
+                    for (var raw : ModItems.RAW_MATERIALS.values()) output.accept(raw.get());
+                    for (var ingot : ModItems.INGOTS.values()) output.accept(ingot.get());
+                    for (var nugget : ModItems.NUGGETS.values()) output.accept(nugget.get());
+                    for (var chem : ModItems.CHEMICAL_PRODUCTS.values()) output.accept(chem.get());
                 })
                 .build());
     }

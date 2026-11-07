@@ -46,6 +46,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Evoluir com **invenções opcionais de rendimento** (Moedor Manual → Farinha → Pão melhorado, moedor elétrico depois), sem torná-las pré-requisito para a próxima era.
 - [ ] Adicionar interface contextual para diferenciar **descoberta fundamental**, **aplicação opcional** e **melhoria de rendimento**, sem tornar a árvore visualmente pesada.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
+- [x] Expansão mineralógica e geológica: 18 minerais reais (36 blocos Stone/Deepslate, brutos, lingotes, pepitas e pós químicos) com geração no Overworld (Worldgen) e Common Tags `#c:*`.
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
 - [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.

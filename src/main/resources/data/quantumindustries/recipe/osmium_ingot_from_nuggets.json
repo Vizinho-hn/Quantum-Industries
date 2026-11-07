@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget",
+    "quantumindustries:osmium_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:osmium_ingot",
+    "count": 1
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "quantumindustries:cassiterite_ore",
+    "quantumindustries:bauxite_ore",
+    "quantumindustries:halite_ore",
+    "quantumindustries:sphalerite_ore",
+    "quantumindustries:galena_ore",
+    "quantumindustries:pentlandite_ore",
+    "quantumindustries:sulfur_ore",
+    "quantumindustries:apatite_ore",
+    "quantumindustries:graphite_ore",
+    "quantumindustries:silver_ore",
+    "quantumindustries:fluorite_ore",
+    "quantumindustries:cinnabar_ore",
+    "quantumindustries:cobaltite_ore",
+    "quantumindustries:rutile_ore",
+    "quantumindustries:wolframite_ore",
+    "quantumindustries:uraninite_ore",
+    "quantumindustries:osmiridium_ore",
+    "quantumindustries:sperrylite_ore"
+  ],
+  "step": "underground_ores"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget",
+    "quantumindustries:aluminum_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:aluminum_ingot",
+    "count": 1
+  }
+}

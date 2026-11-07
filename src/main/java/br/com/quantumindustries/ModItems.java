@@ -172,6 +172,46 @@ public class ModItems {
                     java.util.List.of("§7Trem de Engrenagens: §dCinemática Sincronizada", "§8Módulo de automação e controle da Primeira Era Industrial."),
                     properties));
 
+    public static final java.util.Map<String, DeferredItem<BlockItem>> STONE_ORE_ITEMS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<BlockItem>> DEEPSLATE_ORE_ITEMS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> RAW_MATERIALS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> INGOTS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> NUGGETS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> CHEMICAL_PRODUCTS = new java.util.LinkedHashMap<>();
+
+    static {
+        for (var mineral : br.com.quantumindustries.material.MineralCatalog.MINERALS) {
+            STONE_ORE_ITEMS.put(mineral.id(), ITEMS.registerSimpleBlockItem(ModBlocks.STONE_ORES.get(mineral.id())));
+            DEEPSLATE_ORE_ITEMS.put(mineral.id(), ITEMS.registerSimpleBlockItem(ModBlocks.DEEPSLATE_ORES.get(mineral.id())));
+
+            if (mineral.category() == br.com.quantumindustries.material.MineralCatalog.Category.METAL) {
+                RAW_MATERIALS.put(mineral.productName(), ITEMS.registerItem(mineral.rawItemId(),
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                                "§6⛏️ " + mineral.mineralNamePt() + " Bruta",
+                                java.util.List.of("§7Composição: §f" + mineral.formula(), "§8Minério bruto pronto para britagem, flotação ou refino."),
+                                props)));
+
+                INGOTS.put(mineral.productName(), ITEMS.registerItem(mineral.ingotItemId(),
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                                "§f🔩 Lingote de " + mineral.productNamePt(),
+                                java.util.List.of("§7Pureza Metalúrgica: §f99.2%", "§8Produto de fundição de alto teor para manufatura e ligas."),
+                                props)));
+
+                NUGGETS.put(mineral.productName(), ITEMS.registerItem(mineral.nuggetItemId(),
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                                "§7✨ Pepita de " + mineral.productNamePt(),
+                                java.util.List.of("§7Fração de Lingote: §f1/9", "§8Unidade fracionária para pesagem e estequiometria fina."),
+                                props)));
+            } else {
+                CHEMICAL_PRODUCTS.put(mineral.id(), ITEMS.registerItem(mineral.productItemId(),
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                                "§b🧪 " + mineral.productNamePt(),
+                                java.util.List.of("§7Fórmula: §f" + mineral.formula(), "§8Composto de grau reagente para reações químicas e industriais."),
+                                props)));
+            }
+        }
+    }
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
         ModBlocks.register(eventBus);

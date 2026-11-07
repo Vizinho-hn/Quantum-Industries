@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:nickel_ingot"
+  ],
+  "result": {
+    "id": "quantumindustries:nickel_nugget",
+    "count": 9
+  }
+}

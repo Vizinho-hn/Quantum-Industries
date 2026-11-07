@@ -173,6 +173,18 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("electromechanical_press",
                     () -> new BlockEntityType<>(ElectromechanicalPressBlockEntity::new, Set.of(ELECTROMECHANICAL_PRESS.get()), false));
 
+    public static final java.util.Map<String, DeferredBlock<br.com.quantumindustries.block.QuantumOreBlock>> STONE_ORES = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredBlock<br.com.quantumindustries.block.QuantumOreBlock>> DEEPSLATE_ORES = new java.util.LinkedHashMap<>();
+
+    static {
+        for (var mineral : br.com.quantumindustries.material.MineralCatalog.MINERALS) {
+            STONE_ORES.put(mineral.id(), BLOCKS.registerBlock(mineral.stoneOreId(),
+                    props -> br.com.quantumindustries.block.QuantumOreBlock.createStone(mineral, props)));
+            DEEPSLATE_ORES.put(mineral.id(), BLOCKS.registerBlock(mineral.deepslateOreId(),
+                    props -> br.com.quantumindustries.block.QuantumOreBlock.createDeepslate(mineral, props)));
+        }
+    }
+
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
         BLOCK_ENTITIES.register(eventBus);

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "quantumindustries:raw_tungsten",
+  "result": {
+    "id": "quantumindustries:tungsten_ingot",
+    "count": 1
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}
