@@ -85,6 +85,48 @@ O evento abre o mundo sem entregar magicamente todas as respostas.
 - [ ] Preparar infraestrutura de alimentação para química, aquecimento e máquinas instrumentais.
 - [ ] Definir padronização de consumo por operação para futuras fábricas e balanceamento.
 
+## 2A. Linha transversal — Ciência Aplicada ao Cotidiano (Dr. Stone como inspiração)
+
+**Regra de esforço proporcional:** invenção cotidiana = investigação curta ou conhecimento já obtido; invenção industrial = vários processos; ruptura tecnológica = pesquisa extensa e infraestrutura. O jogador deve poder fabricar algo útil sem completar dezenas de nós ou testes repetidos. **Nem toda descoberta precisa ter aplicações grandiosas.**
+
+### Pequenas melhorias reais de gameplay
+
+- [ ] Criar pesquisa enxuta **Moagem de Grãos** (ou aproveitar conhecimento existente; não criar nó redundante).
+- [ ] **Moedor Manual** de início de jogo, alimentado por trabalho mecânico.
+- [ ] **Farinha** como ingrediente culinário e **Pão Melhorado** com ganho de saturação ou rendimento balanceado.
+- [ ] Fazer **Moedor Elétrico** apenas como evolução de velocidade/automação, sem redescobrir moagem.
+- [ ] Permitir que a ciência de redução de partículas também beneficie processamento de minérios, mas exigir equipamentos adequados à matéria-prima.
+- [ ] Criar lista de pequenas melhorias adicionais **somente se houver benefício concreto** (fornos, recipientes, filtros).
+
+### Óptica e vidraria
+
+- [ ] Vidro → lentes/prismas/vidraria → instrumentos científicos.
+- [ ] Integrar óptica inicial às lupas, depois caracterização instrumental no MK2.
+- [ ] Manter material, precisão e aplicações como requisitos; evitar uma árvore enorme exclusiva de lentes.
+
+### Experimentos com variáveis controladas, sem burocracia
+
+- [ ] Nível básico: escolher material e método.
+- [ ] Nível intermediário: variar **um parâmetro**, comparar 2–3 condições com observações claras.
+- [ ] Nível avançado: poucas variáveis relevantes, com modo guiado e exploração opcional.
+- [ ] Descobertas únicas por jogador; fabricação repetida ocorre pelas máquinas sem refazer experimento.
+- [ ] Testar tempo médio de descoberta, clareza e desistências para evitar sistemas massivos.
+
+### Projetos Científicos — apresentação sobre a árvore existente
+
+- [ ] Prototipar um painel que **agrupa pesquisas e receitas existentes**, sem criar outra árvore.
+- [ ] Projeto cotidiano opcional: **Primeira Padaria Mecanizada**.
+- [ ] Projeto de maior duração: **Primeira Rede de Comunicação**.
+- [ ] Projeto narrativo opcional: **Decifrar o Sinal do Meteorito**, revisitado com MK1/MK2/MK3/Quantum Computer.
+- [ ] Reusar eventos e dados persistidos, verificando tudo no servidor; nunca duplicar desbloqueios.
+
+### Rede de Descobertas legível
+
+- [ ] Usar relações entre propriedades e aplicações como estrutura interna, **não um grafo gigantesco na tela**.
+- [ ] Caderno mostra observação, uso atual e no máximo 1–2 possibilidades relevantes.
+- [ ] Usos adicionais por clique, filtros e busca; mostrar informação conforme o jogador avança.
+- [ ] Algumas descobertas só trazem conforto, rendimento ou conveniência — isso é um resultado válido.
+
 ## 3. Linha transversal — recursos, química e metalurgia
 
 - [ ] Auditar receitas: dependências sem fonte de obtenção e itens sem propósito.
@@ -168,6 +210,7 @@ flowchart LR
 
 | Marco | Valor demonstrável | Depende de |
 |---|---|---|
+| MC — Ciência cotidiana | Moedor manual → farinha → pão melhorado; óptica e experimentos compactos | M1, materiais básicos |
 | M0 — Prólogo vertical | Cratera + cofre + livro com primeiro tutorial | persistência, bloco, loot individual |
 | M1 — Era I íntegra | Primeiro experimento → dínamo, sem quebra de saves | base atual, testes |
 | M2 — Recursos reais | Estanho, zinco, bronze e latão obtíveis | geradores, receitas, máquinas |
