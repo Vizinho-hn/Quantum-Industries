@@ -11,7 +11,16 @@ Quantum Industries pretende levar o jogador de processos industriais básicos at
 As cinco eras seguem a progressão: **Engenharia Mecânica e Ciência Empírica**,
 **Revolução Elétrica**, **Ondas Eletromagnéticas e Tecnologia Moderna**,
 **Engenharia Quântica** e **Inteligência Artificial e Automação Autônoma**.
-O Dínamo Manual encerra a Era I e prepara a passagem para a eletricidade.
+O Dínamo Manual encerra o **arco de geração elétrica** da Era I, mas **não** é uma barreira geral para consultar ou avançar em todos os ramos da Era II. As eras agrupam pesquisas por tema; **o servidor só exige os pré-requisitos e evidências de cada estudo**. É possível desenvolver hidráulica, pneumática, recozimento ou trefilação em paralelo, se houver os conhecimentos específicos. O dínamo continua sendo necessário para pesquisar **Indução Eletromagnética**, que sustenta as máquinas elétricas.
+
+### Pesquisas independentes e melhorias de rendimento
+
+- **Ramos fundamentais:** habilitam uma técnica realmente necessária à máquina pretendida, não a passagem global de era.
+- **Ramos opcionais de utilidade:** podem oferecer mais produção, menos desperdício, transporte de itens/fluidos ou conforto (ex.: roda-d'água, recozimento, trefilação e, futuramente, moagem de trigo e panificação).
+- **Ramos de eletricidade:** preservam a cadeia própria de geração → indução → acumulação → proteção; continuam exigindo seus conhecimentos e evidências.
+- **Pesquisa não concluída:** um estudo de outra era pode ficar visível e bloqueado por dependência específica, sem que a era inteira esteja inacessível.
+- **Compatibilidade:** nada foi apagado do progresso dos jogadores e nenhuma receita bypassa o desbloqueio validado no servidor.
+
 
 Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
 e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
@@ -101,7 +110,7 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
   fabricação para ver também as receitas para as quais faltam materiais.
 - Produza as chapas na Bancada de Conformação com o martelo. Estrutura
   Eletromecânica libera a estrutura e o Núcleo Mecânico Primitivo, ambos em
-  3D. Projeto do Dínamo libera o dínamo e dá acesso à Era II. Indução
+  3D. Projeto do Dínamo libera o dínamo e habilita a linha elétrica baseada em Indução. Indução
   Eletromagnética é um estudo da Era II.
 - Fabrique a manivela separadamente, instale-a e gire. O dínamo armazena até
   240 FE, gera 12 FE por giro, aceita um giro a cada 10 ticks e transfere energia
