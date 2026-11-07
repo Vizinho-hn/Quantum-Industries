@@ -42,3 +42,8 @@ repo/
 ### Python test artifacts ###
 __pycache__/
 *.py[cod]
+
+### Local developer logs and tooling ###
+.codex/
+logs/
+
