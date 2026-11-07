@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    "quantumindustries:flour",
+    "quantumindustries:flour",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "id": "quantumindustries:bread_dough",
+    "count": 1
+  }
+}
