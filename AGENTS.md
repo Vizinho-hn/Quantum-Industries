@@ -28,11 +28,10 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Ao mudar itens, blocos ou interfaces, confira registros, recursos, modelos, traduções PT-BR/EN-US e receitas pertinentes.
 - Não inclua credenciais, arquivos locais, caches Gradle, mundos de teste ou saídas de build no commit.
 - Não altere licença nem redistribua assets de terceiros sem autorização.
-- A cada implementação ou atualização do mod, revise o README.md e o ROADMAP.md no mesmo PR. Registre o que foi entregue e mantenha o trabalho pendente identificado.
+- Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
 ## Verificação proporcional ao risco
-- Testes de contratos e recursos: `python3 -m unittest discover -s tests -v`.
-- Compilação: `./gradlew build` (requer JDK 25).
+- Verificações da CI: `python3 -m unittest discover -s tests -p 'test_*.py' -v`, `bash ./gradlew --no-daemon verifyLegacyResearch`, `bash tools/verify-mechanical.sh` e `bash ./gradlew --no-daemon build` (requer JDK 25).
 - Integração de bancada em servidor isolado: `./tools/verify-assay.sh`.
 - Preview visual da bancada (Linux, Xvfb e cache configurados): `./tools/preview-assay.sh`.
 - Execução manual: `./gradlew runClient`; servidor: `./gradlew runServer`.
