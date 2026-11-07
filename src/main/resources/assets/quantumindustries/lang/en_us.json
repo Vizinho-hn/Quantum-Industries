@@ -231,5 +231,11 @@
   "message.quantumindustries.pump.research": "Research Peristaltic Mechanics first.",
   "message.quantumindustries.pump.blocked": "Input empty or output blocked.",
   "message.quantumindustries.pump.status": "Flow: %s mB/t | Buffer: %s FE",
-  "gui.quantumindustries.fluid.amount": "Fluid: %s/%s mB"
+  "gui.quantumindustries.fluid.amount": "Fluid: %s/%s mB",
+  "block.quantumindustries.manual_grain_mill": "Manual Grain Mill",
+  "item.quantumindustries.flour": "Wheat Flour",
+  "item.quantumindustries.bread_dough": "Bread Dough",
+  "item.quantumindustries.rustic_bread": "Rustic Bread",
+  "gui.quantumindustries.grain_mill.help": "Insert wheat. Empty-hand click to grind; sneak-click to retrieve items.",
+  "gui.quantumindustries.grain_mill.status": "Wheat: %1$d | Flour: %2$d | Grinding: %3$d/%4$d"
 }
