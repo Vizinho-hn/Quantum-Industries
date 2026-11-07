@@ -231,5 +231,11 @@
   "message.quantumindustries.pump.research": "Pesquise Mecânica Peristáltica primeiro.",
   "message.quantumindustries.pump.blocked": "Entrada vazia ou saída bloqueada.",
   "message.quantumindustries.pump.status": "Vazão: %s mB/t | Buffer: %s FE",
-  "gui.quantumindustries.fluid.amount": "Fluido: %s/%s mB"
+  "gui.quantumindustries.fluid.amount": "Fluido: %s/%s mB",
+  "block.quantumindustries.manual_grain_mill": "Moedor Manual de Grãos",
+  "item.quantumindustries.flour": "Farinha de Trigo",
+  "item.quantumindustries.bread_dough": "Massa de Pão",
+  "item.quantumindustries.rustic_bread": "Pão Rústico",
+  "gui.quantumindustries.grain_mill.help": "Coloque trigo para moer. Clique sem item para girar; agache e clique para retirar.",
+  "gui.quantumindustries.grain_mill.status": "Trigo: %1$d | Farinha: %2$d | Moagem: %3$d/%4$d"
 }
