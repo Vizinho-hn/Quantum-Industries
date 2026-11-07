@@ -28,13 +28,13 @@ public final class ResearchCatalog {
         new Study("basic_magnetism", "Magnetismo", "Após inspecionar o ferro, investigue magnetismo com uma bússola.", "Conhecimento de magnetismo", Items.COMPASS, 1, List.of("material_observation"), List.of(new Cost(Items.COMPASS, 1, "bússola")), List.of(new ResearchEvidence.Assay(Material.IRON, Method.INSPECTION))),
         new Study("copper_winding", "Bobinagem", "Enrole um condutor sobre um suporte.", "Bobina de cobre", Items.COPPER_INGOT, 1, List.of("copper_wire"), List.of(new Cost(Items.STICK, 1, "graveto"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL))),
         new Study("electromechanical_structure", "Estrutura Eletromecânica", "Integre suportes, eixos e engrenagens após verificar a resposta térmica.", "Estrutura Eletromecânica e Núcleo Mecânico Primitivo", Items.IRON_INGOT, 1, List.of("metal_sheets", "mechanical_transmission", "basic_magnetism", "copper_winding"), List.of(new Cost(Items.IRON_INGOT, 1, "lingote de ferro")), List.of(new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.IRON, Method.HEATING), new ResearchEvidence.Assay(Material.COPPER, Method.HEATING))))),
-        new Study("manual_dynamo_design", "Projeto do Dínamo", "Conclua a Era I e aplique movimento manual à geração.", "Dínamo Manual e acesso à Era II", Items.BOOK, 1, List.of("electrical_insulation", "electromechanical_structure"), List.of(new Cost(Items.PAPER, 1, "papel")), List.of()),
+        new Study("manual_dynamo_design", "Projeto do Dínamo", "Conclua a Era I e aplique movimento manual à geração.", "Dínamo Manual e início da geração elétrica", Items.BOOK, 1, List.of("electrical_insulation", "electromechanical_structure"), List.of(new Cost(Items.PAPER, 1, "papel")), List.of()),
         new Study("electromagnetic_induction", "Indução Eletromagnética", "Estude a conversão de movimento em eletricidade e reatividade condutora.", "Fundamentos para acumuladores e máquinas elétricas", Items.REDSTONE, 2, List.of("manual_dynamo_design"), List.of(new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.IRON_INGOT, 1, "lingote de ferro")), List.of(new ResearchEvidence.Assay(Material.REDSTONE, Method.REACTION), new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.COPPER, Method.REACTION), new ResearchEvidence.Assay(Material.LAPIS, Method.REACTION))))),
         new Study("galvanic_storage", "Acumulação Galvânica", "Combine placas de cobre e eletrólito azul de lápis-lazúli para estocar energia.", "Acumulador Galvânico (2.400 FE)", Items.LAPIS_LAZULI, 2, List.of("electromagnetic_induction"), List.of(new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre"), new Cost(Items.LAPIS_LAZULI, 2, "lápis-lazúli"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.Assay(Material.LAPIS, Method.REACTION), new ResearchEvidence.Assay(Material.COPPER, Method.REACTION))),
         new Study("fluid_hydrostatics", "Hidrostática e Vasos Comunicantes",
                 "Investigue pressão estática, gravidade e transporte em recipientes conectados.",
                 "Dutos de cobre, visores de vidro e cuba de decantação", Items.WATER_BUCKET,
-                2, List.of("electromagnetic_induction"),
+                2, List.of("metal_sheets"),
                 List.of(new Cost(Items.COPPER_INGOT,2,"lingotes de cobre"),
                         new Cost(Items.GLASS,2,"vidros")),
                 List.of(new ResearchEvidence.AnyOf(List.of(
@@ -43,7 +43,7 @@ public final class ResearchCatalog {
         new Study("pneumatic_transport", "Pressão Pneumática",
                 "Converta impulsos do fole em movimentação controlada de itens.",
                 "Tubo pneumático, ejetor mecânico e classificador gravitacional",
-                Items.GLASS,2,List.of("thermal_annealing","mechanical_transmission"),
+                Items.GLASS,2,List.of("mechanical_transmission","metal_sheets"),
                 List.of(new Cost(Items.COPPER_INGOT,2,"lingotes de cobre"),new Cost(Items.PAPER,1,"papel")),
                 List.of(new ResearchEvidence.Assay(Material.COAL,Method.HEATING),
                         new ResearchEvidence.Assay(Material.QUARTZ,Method.INSPECTION))),
@@ -71,7 +71,7 @@ public final class ResearchCatalog {
         new Study("thermal_annealing", "Recozimento Térmico",
                 "Estude a influência do aquecimento sobre a conformação de metais.",
                 "Forja de Recozimento e lingotes aquecidos",
-                Items.COAL, 2, List.of("manual_dynamo_design", "metal_sheets"),
+                Items.COAL, 2, List.of("metal_sheets"),
                 List.of(new Cost(Items.COAL, 2, "carvão"), new Cost(Items.QUARTZ, 1, "quartzo")),
                 List.of(new ResearchEvidence.Assay(Material.COAL, Method.HEATING),
                         new ResearchEvidence.AnyOf(List.of(new ResearchEvidence.Assay(Material.IRON, Method.HEATING),
@@ -79,7 +79,7 @@ public final class ResearchCatalog {
         new Study("wire_drawing", "Trefilação de Fios",
                 "Estude matrizes de tração e a ductilidade do cobre e do ouro.",
                 "Trefiladora de bancada, fios de ouro e quatro fios por chapa",
-                Items.GOLD_INGOT, 2, List.of("electromagnetic_induction", "metal_sheets"),
+                Items.GOLD_INGOT, 2, List.of("electromechanical_structure", "metal_sheets"),
                 List.of(new Cost(Items.GOLD_INGOT, 1, "lingote de ouro"),
                         new Cost(Items.COPPER_INGOT, 1, "lingote de cobre")),
                 List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL),
@@ -131,6 +131,11 @@ public final class ResearchCatalog {
         for (String dependency : study.prerequisites()) validate(dependency, visited, visiting);
         visiting.remove(key);
         visited.add(key);
+    }
+
+    /** An era groups studies for presentation, but does not grant or block knowledge. */
+    public static boolean hasStudiesInEra(int era) {
+        return STUDIES.stream().anyMatch(study -> study.era() == era);
     }
 
     public static Identifier identifier(String value) {
