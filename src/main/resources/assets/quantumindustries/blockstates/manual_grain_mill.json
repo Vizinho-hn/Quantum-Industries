@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/manual_grain_mill"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/manual_grain_mill",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/manual_grain_mill",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/manual_grain_mill",
+      "y": 270
+    }
+  }
+}
