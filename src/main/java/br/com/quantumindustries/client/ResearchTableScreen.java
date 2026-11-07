@@ -322,7 +322,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 text(g, ERAS[i], 0, 0, MUTED);
                 g.pose().popMatrix();
             }
-            if (i > 1 || i == 1 && !complete(ResearchCatalog.indexOf("manual_dynamo_design"))) theme.lock(g, x + 59, 106);
+            if (!ResearchCatalog.hasStudiesInEra(i + 1)) theme.lock(g, x + 59, 106);
         }
     }
 
@@ -601,7 +601,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                         int start = 153 + index * 81;
                         if (x < start || x >= start + 79) continue;
                         int next = index + 1;
-                        if (next == 1 || next == 2 && complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
+                        if (ResearchCatalog.hasStudiesInEra(next)) {
                             era = next;
                             tree.setEra(era);
                             for (int study = 0; study < ENTRIES.length; study++) {
