@@ -112,6 +112,10 @@ public final class FoundationRecipe extends ShapedRecipe {
         var coil = ModItems.COPPER_COIL.get();
         var insulated = ModItems.INSULATED_COPPER_WIRE.get();
         return List.of(
+            new Pattern("material_observation", ModItems.MANUAL_GRAIN_MILL, 1, 3,
+                plank, Items.COBBLESTONE, plank,
+                plank, Items.IRON_INGOT, plank,
+                plank, Items.STONE, plank),
             new Pattern("material_observation", ModItems.EMPIRICAL_ASSAY_BENCH, 1, 3,
                 iron, nugget, iron, plank, plank, plank, Items.OAK_LOG, null, Items.OAK_LOG),
             new Pattern("copper_wire", ModItems.COPPER_WIRE, 6, 3, Items.COPPER_INGOT, Items.COPPER_INGOT, Items.COPPER_INGOT),

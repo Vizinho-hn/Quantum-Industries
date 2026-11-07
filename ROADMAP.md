@@ -31,6 +31,10 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Receitas JSON de processamento, sincronização nativa e prévias automáticas no caderno.
 - [x] Testes automatizados da cadeia em survival com suprimentos preparados, reinício real, carga compartilhada, inventários e chunks.
 - [ ] Moinho de Pedra, Prensa Mecânica de Fuso, Guincho de Mineração e Bomba Mecânica.
+- [ ] **Era I — ciência do cotidiano (PR de protótipo):** validar Moedor Manual de Grãos, farinha, massa e Pão Rústico em survival; modelo 3D provisório e ícones temporários.
+- [ ] Testar processo manual (4 giros), 2 trigos + água → pão, devolução de balde, drops no break, save/reload, som/UI e interação multiplayer.
+- [ ] Próxima expansão opcional: fermento/cultura-mãe reutilizável, Pão Fermentado com maior saturação e Moedor Elétrico como upgrade; sem travar novas eras.
+- [ ] Refinar visual no Blockbench e criar sprites 32×32 originais antes de declarar asset final.
 - [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
 
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico, preservando os IDs e a migração.

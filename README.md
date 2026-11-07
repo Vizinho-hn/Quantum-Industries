@@ -121,6 +121,16 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 [Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 
+### Moagem manual e panificação (Era I — implementação proposta neste PR)
+
+A primeira cadeia de **Ciência Aplicada ao Cotidiano** é opcional: não constitui pré-requisito para a Era II nem altera a receita vanilla de pão.
+
+- **Moedor Manual de Grãos**: receita ligada a `Observação dos Materiais` (usa madeira, pedra e ferro). Coloque trigo com clique direito; com a mão vazia clique para girar **quatro vezes** (intervalo mínimo de seis ticks). Segure a manivela do mod para girar da mesma forma; agache e clique sem item para retirar a farinha ou recuperar trigo ainda não moído. A máquina tem slots internos de entrada/saída persistentes e devolve os conteúdos ao ser quebrada.
+- **Rendimento**: 1 trigo → 1 farinha; 2 farinhas + 1 balde de água → 1 massa (o balde deve retornar pelo comportamento vanilla de crafting); 1 massa assada na fornalha → 1 **Pão Rústico**.
+- **Benefício**: 2 trigos por pão, em vez dos 3 da receita vanilla, mantendo **5 pontos de fome e saturação vanilla-equivalente**. O custo extra é a moagem, a água e o combustível do forno.
+- **Sprites provisórios**: o moedor usa geometria voxel em madeira/pedra/ferro; os ícones de farinha, massa e pão referenciam texturas vanilla até os sprites finais em 32×32.
+- **Pendente antes do merge**: validação de compilação, interação no cliente, balde retornado pela receita, drops, saves e multiplayer. Fermento e pão de alta saturação serão uma próxima expansão.
+
 ### Distribuição elétrica inicial da Era II
 
 Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.

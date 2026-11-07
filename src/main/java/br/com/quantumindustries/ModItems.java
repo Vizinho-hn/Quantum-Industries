@@ -81,6 +81,13 @@ public class ModItems {
                     java.util.List.of("§7Liga: §3Aço-Carbono Estrutural", "§8Gabinete modular para montagem de maquinários industriais."),
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
+    public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
+    public static final DeferredItem<Item> FLOUR = ITEMS.registerSimpleItem("flour");
+    public static final DeferredItem<Item> BREAD_DOUGH = ITEMS.registerSimpleItem("bread_dough");
+    public static final DeferredItem<Item> RUSTIC_BREAD = ITEMS.registerItem("rustic_bread", Item::new,
+            properties -> properties.food(new net.minecraft.world.food.FoodProperties.Builder()
+                    .nutrition(5).saturationModifier(0.6F).build()));
+
     public static final DeferredItem<BlockItem> MECHANICAL_SAWMILL = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_SAWMILL);
     public static final DeferredItem<BlockItem> MECHANICAL_SHAFT_BLOCK = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_SHAFT_BLOCK);
     public static final DeferredItem<BlockItem> PRIMITIVE_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.PRIMITIVE_WATER_WHEEL);
