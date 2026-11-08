@@ -1,25 +1,18 @@
 package br.com.quantumindustries.client.render;
 
-import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
+import br.com.quantumindustries.client.model.ManualDynamoModel;
 import br.com.quantumindustries.core.ModBlocks;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.renderer.GeoBlockRenderer;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.RenderPassInfo;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,50 +20,85 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 @EventBusSubscriber(modid = "quantumindustries", value = Dist.CLIENT)
-public final class ManualDynamoRenderer implements BlockEntityRenderer<ManualDynamoBlockEntity, ManualDynamoRenderer.State> {
-    private final ItemModelResolver models;
-    private ItemStack crank;
+public final class ManualDynamoRenderer extends GeoBlockRenderer<ManualDynamoBlockEntity, ManualDynamoRenderer.State> {
 
     public ManualDynamoRenderer(BlockEntityRendererProvider.Context context) {
-        models = context.itemModelResolver();
+        super(context, new ManualDynamoModel());
     }
 
-    public static final class State extends BlockEntityRenderState {
-        final ItemStackRenderState crank = new ItemStackRenderState();
-        Direction facing = Direction.NORTH;
-        float angle;
-    }
+    public static final class State extends BlockEntityRenderState implements GeoRenderState {
+        boolean installed;
+        private static final java.lang.invoke.MethodHandle SUPER_GET_DATA_MAP;
+        private static final java.lang.reflect.Field DATA_FIELD;
 
-    @SubscribeEvent public static void register(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), ManualDynamoRenderer::new);
-    }
-
-    @Override public State createRenderState() { return new State(); }
-
-    @Override public void extractRenderState(ManualDynamoBlockEntity dynamo, State state, float partialTick,
-            Vec3 camera, ModelFeatureRenderer.CrumblingOverlay overlay) {
-        BlockEntityRenderer.super.extractRenderState(dynamo, state, partialTick, camera, overlay);
-        state.crank.clear();
-        if (!dynamo.installed() || dynamo.getLevel() == null) return;
-        state.facing = dynamo.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float elapsed = dynamo.getLevel().getGameTime() - dynamo.lastTurn() + partialTick;
-        state.angle = 360 * Math.clamp(elapsed / ManualDynamoBlockEntity.TURN_TICKS, 0f, 1f);
-        if (crank == null) {
-            crank = new ItemStack(ModItems.HAND_CRANK.get());
-            crank.set(DataComponents.ITEM_MODEL,
-                    Identifier.fromNamespaceAndPath("quantumindustries", "dynamo_crank_installed"));
+        static {
+            java.lang.invoke.MethodHandle mh = null;
+            java.lang.reflect.Field f = null;
+            try {
+                mh = java.lang.invoke.MethodHandles.lookup().findSpecial(
+                    BlockEntityRenderState.class,
+                    "getDataMap",
+                    java.lang.invoke.MethodType.methodType(Map.class),
+                    State.class
+                );
+            } catch (Throwable ignored) {
+            }
+            try {
+                for (java.lang.reflect.Field field : BlockEntityRenderState.class.getDeclaredFields()) {
+                    if (field.getName().contains("data") && Map.class.isAssignableFrom(field.getType())) {
+                        field.setAccessible(true);
+                        f = field;
+                        break;
+                    }
+                }
+            } catch (Throwable ignored) {
+            }
+            SUPER_GET_DATA_MAP = mh;
+            DATA_FIELD = f;
         }
-        models.updateForTopItem(state.crank, crank, ItemDisplayContext.FIXED, dynamo.getLevel(), null, 0);
+
+        private Map<DataTicket<?>, Object> fallback;
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public Map<DataTicket<?>, Object> getDataMap() {
+            if (SUPER_GET_DATA_MAP != null) {
+                try {
+                    return (Map<DataTicket<?>, Object>) SUPER_GET_DATA_MAP.invoke(this);
+                } catch (Throwable ignored) {
+                }
+            }
+            if (DATA_FIELD != null) {
+                try {
+                    return (Map<DataTicket<?>, Object>) DATA_FIELD.get(this);
+                } catch (Throwable ignored) {
+                }
+            }
+            if (fallback == null) fallback = new HashMap<>();
+            return fallback;
+        }
     }
 
-    @Override public void submit(State state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
-        if (state.crank.isEmpty()) return;
-        pose.pushPose();
-        pose.translate(.5f, 0, .5f);
-        pose.mulPose(Axis.YP.rotationDegrees(180 - state.facing.toYRot()));
-        pose.translate(6.95f / 16, 8.6f / 16, 0);
-        pose.mulPose(Axis.XP.rotationDegrees(state.angle));
-        state.crank.submit(pose, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-        pose.popPose();
+    @Override
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(ManualDynamoBlockEntity dynamo, State state, float partialTick,
+            Vec3 camera, ModelFeatureRenderer.CrumblingOverlay overlay) {
+        super.extractRenderState(dynamo, state, partialTick, camera, overlay);
+        state.installed = dynamo.installed();
+    }
+
+    @Override
+    public void adjustModelBonesForRender(RenderPassInfo<State> renderPass, com.geckolib.renderer.base.BoneSnapshots snapshots) {
+        super.adjustModelBonesForRender(renderPass, snapshots);
+        snapshots.ifPresent("crank", b -> b.skipRender(!renderPass.renderState().installed));
+    }
+
+    @SubscribeEvent
+    public static void register(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), ManualDynamoRenderer::new);
     }
 }

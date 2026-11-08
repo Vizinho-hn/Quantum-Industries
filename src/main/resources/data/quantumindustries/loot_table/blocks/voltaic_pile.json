@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "quantumindustries:galvanic_accumulator"
+          "name": "quantumindustries:voltaic_pile"
         }
       ],
       "conditions": [

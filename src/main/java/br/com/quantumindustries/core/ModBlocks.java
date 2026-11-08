@@ -1,10 +1,12 @@
 package br.com.quantumindustries.core;
 
 import br.com.quantumindustries.block.ElectromechanicalPressBlock;
-import br.com.quantumindustries.block.GalvanicAccumulatorBlock;
+import br.com.quantumindustries.block.VoltaicPileBlock;
+import br.com.quantumindustries.block.LeadAcidAccumulatorBlock;
 import br.com.quantumindustries.block.ResearchTableBlock;
 import br.com.quantumindustries.block.entity.ElectromechanicalPressBlockEntity;
-import br.com.quantumindustries.block.entity.GalvanicAccumulatorBlockEntity;
+import br.com.quantumindustries.block.entity.VoltaicPileBlockEntity;
+import br.com.quantumindustries.block.entity.LeadAcidAccumulatorBlockEntity;
 import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -151,8 +153,8 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity::new,
                             Set.of(WIRE_DRAWING_BENCH.get()), false));
 
-    public static final DeferredBlock<GalvanicAccumulatorBlock> GALVANIC_ACCUMULATOR = BLOCKS.registerBlock("galvanic_accumulator",
-            GalvanicAccumulatorBlock::new, properties -> properties.strength(2.5F).noOcclusion());
+    public static final DeferredBlock<VoltaicPileBlock> VOLTAIC_PILE = BLOCKS.registerBlock("voltaic_pile",
+            VoltaicPileBlock::new, properties -> properties.strength(2.5F).noOcclusion());
 
     public static final DeferredBlock<ElectromechanicalPressBlock> ELECTROMECHANICAL_PRESS = BLOCKS.registerBlock("electromechanical_press",
             ElectromechanicalPressBlock::new, properties -> properties.strength(3.0F).noOcclusion());
@@ -165,9 +167,16 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("manual_dynamo",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ManualDynamoBlockEntity::new, Set.of(MANUAL_DYNAMO.get()), false));
 
-    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<GalvanicAccumulatorBlockEntity>> GALVANIC_ACCUMULATOR_ENTITY =
-            BLOCK_ENTITIES.register("galvanic_accumulator",
-                    () -> new BlockEntityType<>(GalvanicAccumulatorBlockEntity::new, Set.of(GALVANIC_ACCUMULATOR.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<VoltaicPileBlockEntity>> VOLTAIC_PILE_ENTITY =
+            BLOCK_ENTITIES.register("voltaic_pile",
+                    () -> new BlockEntityType<>(VoltaicPileBlockEntity::new, Set.of(VOLTAIC_PILE.get()), false));
+
+    // Era II - Lead-Acid Accumulator (rechargeable FE storage)
+    public static final DeferredBlock<LeadAcidAccumulatorBlock> LEAD_ACID_ACCUMULATOR = BLOCKS.registerBlock("lead_acid_accumulator",
+            LeadAcidAccumulatorBlock::new, properties -> properties.strength(3.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<LeadAcidAccumulatorBlockEntity>> LEAD_ACID_ACCUMULATOR_ENTITY =
+            BLOCK_ENTITIES.register("lead_acid_accumulator",
+                    () -> new BlockEntityType<>(LeadAcidAccumulatorBlockEntity::new, Set.of(LEAD_ACID_ACCUMULATOR.get()), false));
 
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectromechanicalPressBlockEntity>> ELECTROMECHANICAL_PRESS_ENTITY =
             BLOCK_ENTITIES.register("electromechanical_press",

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/lead_acid_accumulator"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/lead_acid_accumulator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/lead_acid_accumulator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/lead_acid_accumulator",
+      "y": 270
+    }
+  }
+}

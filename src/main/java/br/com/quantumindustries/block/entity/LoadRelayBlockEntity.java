@@ -57,7 +57,7 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
         if (!(level instanceof ServerLevel server)) return;
         boolean foundBattery = false, allowed = true, alarm = false;
         for (Direction direction : Direction.values()) {
-            if (!(server.getBlockEntity(worldPosition.relative(direction)) instanceof GalvanicAccumulatorBlockEntity accumulator)) continue;
+            if (!(server.getBlockEntity(worldPosition.relative(direction)) instanceof VoltaicPileBlockEntity accumulator)) continue;
             foundBattery = true;
             int percent = accumulator.energy()*100 / Math.max(1,accumulator.capacity());
             if (percent < 10) allowed = false;

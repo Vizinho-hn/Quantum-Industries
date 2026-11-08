@@ -15,4 +15,8 @@ public interface EnergyInspectable {
     default Component inspectDetail() {
         return null;
     }
+
+    default int extractEnergy(int maxExtract) {
+        return 0;
+    }
 }

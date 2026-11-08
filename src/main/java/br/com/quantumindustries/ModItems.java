@@ -75,6 +75,23 @@ public class ModItems {
                     java.util.List.of("§7Densidade de Espiras: §6Alta Concentração", "§8Induz campos magnéticos para geração e conversão de energia."),
                     properties));
 
+    // Era II - Lead-Acid Accumulator components
+    public static final DeferredItem<Item> LEAD_SHEET = ITEMS.registerItem("lead_sheet",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§7⬜ Chapa de Chumbo",
+                    java.util.List.of("§7Pureza: §f99.9%", "§8Eletrodo negativo para acumuladores chumbo-ácido."),
+                    properties));
+    public static final DeferredItem<Item> SULFURIC_ACID = ITEMS.registerItem("sulfuric_acid",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§6☠️ Ácido Sulfúrico Concentrado",
+                    java.util.List.of("§7Densidade: §e1.84 g/cm³", "§8Eletrólito para acumuladores. Manuseie com EPI."),
+                    properties));
+    public static final DeferredItem<Item> EBONITE_ROD = ITEMS.registerItem("ebonite_rod",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§0🟤 Haste de Ebonite (Borracha Dura)",
+                    java.util.List.of("§7Isolante elétrico e químico", "§8Separador de placas e vedação de acumuladores."),
+                    properties));
+
     public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerItem("electromechanical_frame",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
                     "§3🏗️ Chassi Eletromecânico Estrutural",
@@ -94,7 +111,8 @@ public class ModItems {
     public static final DeferredItem<BlockItem> MANUAL_DYNAMO = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_DYNAMO);
     public static final DeferredItem<BlockItem> COPPER_BUSBAR = ITEMS.registerSimpleBlockItem(ModBlocks.COPPER_BUSBAR);
     public static final DeferredItem<BlockItem> INSULATED_CONDUIT = ITEMS.registerSimpleBlockItem(ModBlocks.INSULATED_CONDUIT);
-    public static final DeferredItem<BlockItem> GALVANIC_ACCUMULATOR = ITEMS.registerSimpleBlockItem(ModBlocks.GALVANIC_ACCUMULATOR);
+    public static final DeferredItem<BlockItem> VOLTAIC_PILE = ITEMS.registerSimpleBlockItem(ModBlocks.VOLTAIC_PILE);
+    public static final DeferredItem<BlockItem> LEAD_ACID_ACCUMULATOR = ITEMS.registerSimpleBlockItem(ModBlocks.LEAD_ACID_ACCUMULATOR);
     public static final DeferredItem<BlockItem> ELECTROMECHANICAL_PRESS = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMECHANICAL_PRESS);
 
     public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass",

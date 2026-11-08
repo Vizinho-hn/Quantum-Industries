@@ -36,7 +36,7 @@ public final class ManualDynamoBlock extends BaseEntityBlock {
     }
 
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(ManualDynamoBlock::new); }
-    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.INVISIBLE; }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ManualDynamoBlockEntity(pos, state);
     }

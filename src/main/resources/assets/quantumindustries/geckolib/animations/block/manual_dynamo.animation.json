@@ -1,0 +1,60 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "cranking": {
+      "loop": true,
+      "animation_length": 0.4,
+      "bones": {
+        "rotor": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                0,
+                0,
+                0
+              ]
+            },
+            "0.2": {
+              "vector": [
+                -180,
+                0,
+                0
+              ]
+            },
+            "0.4": {
+              "vector": [
+                -360,
+                0,
+                0
+              ]
+            }
+          }
+        }
+      }
+    },
+    "idle": {
+      "loop": true,
+      "animation_length": 1,
+      "bones": {
+        "rotor": {
+          "rotation": {
+            "0.0": {
+              "vector": [
+                0,
+                0,
+                0
+              ]
+            },
+            "1.0": {
+              "vector": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

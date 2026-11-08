@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "quantumindustries:block/manual_dynamo"
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": "gui",
+        "model": {
+          "type": "minecraft:model",
+          "model": "quantumindustries:item/manual_dynamo_gui"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "quantumindustries:item/manual_dynamo_in_hand"
+    }
   }
 }

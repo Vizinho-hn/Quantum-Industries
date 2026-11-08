@@ -17,20 +17,20 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Era II ionic battery tank (2,400 FE) using copper plates and lapis lazuli electrolyte suspension. */
-public final class GalvanicAccumulatorBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyInspectable {
     public static final int CAPACITY = 2400;
     public static final int MAX_TRANSFER = 48;
 
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_TRANSFER, MAX_TRANSFER);
 
-    public GalvanicAccumulatorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlocks.GALVANIC_ACCUMULATOR_ENTITY.get(), pos, state);
+    public VoltaicPileBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlocks.VOLTAIC_PILE_ENTITY.get(), pos, state);
     }
 
     @Override public int energy() { return (int) battery.getAmountAsLong(); }
     @Override public int capacity() { return CAPACITY; }
     @Override public Component inspectTitle() {
-        return Component.translatable("block.quantumindustries.galvanic_accumulator");
+        return Component.translatable("block.quantumindustries.voltaic_pile");
     }
 
     @Override public int receiveEnergy(int maxReceive) {

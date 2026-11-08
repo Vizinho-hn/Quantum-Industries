@@ -15,17 +15,25 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import com.geckolib.animatable.GeoBlockEntity;
+import com.geckolib.animatable.instance.AnimatableInstanceCache;
+import com.geckolib.animatable.manager.AnimatableManager;
+import com.geckolib.animation.AnimationController;
+import com.geckolib.animation.RawAnimation;
+import com.geckolib.util.GeckoLibUtil;
 
-public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable, GeoBlockEntity {
     public static final int CAPACITY = 240;
     public static final int PER_TURN = 12;
     public static final int MAX_EXTRACT = 24;
-    public static final int TURN_TICKS = 10;
+    public static final int TURN_TICKS = 8;
+    public static final int TURNING_GRACE_TICKS = 5;
 
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, PER_TURN, MAX_EXTRACT);
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean installed;
     private boolean refundable;
-    private long lastTurn = -TURN_TICKS;
+    private long lastTurn = -(TURN_TICKS + TURNING_GRACE_TICKS);
 
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
@@ -39,6 +47,25 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     public boolean installed() { return installed; }
     public long lastTurn() { return lastTurn; }
+    public boolean isTurning() {
+        if (level == null) return false;
+        return (level.getGameTime() - lastTurn) < (TURN_TICKS + TURNING_GRACE_TICKS);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<ManualDynamoBlockEntity>("crank_controller", 0, test -> {
+            if (this.isTurning()) {
+                return test.setAndContinue(RawAnimation.begin().thenLoop("cranking"));
+            }
+            return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
+        }));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
 
     public boolean install(boolean paid) {
         if (!(level instanceof ServerLevel) || installed) return false;
@@ -115,7 +142,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         battery.set(Math.clamp(input.getIntOr("stored_fe", 0), 0, CAPACITY));
         installed = input.getBooleanOr("crank_installed", false);
         refundable = installed && input.getBooleanOr("crank_refundable", false);
-        lastTurn = input.getLongOr("last_turn", -TURN_TICKS);
+        lastTurn = input.getLongOr("last_turn", -(TURN_TICKS + TURNING_GRACE_TICKS));
     }
 
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {

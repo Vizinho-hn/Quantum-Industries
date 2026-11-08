@@ -1,11 +1,7 @@
 {
-  "parent": "minecraft:block/block",
   "textures": {
-    "wood": "minecraft:block/dark_oak_planks",
-    "stone": "minecraft:block/stone",
-    "iron": "minecraft:block/iron_block",
-    "grain": "minecraft:block/hay_block",
-    "particle": "minecraft:block/dark_oak_planks"
+    "atlas": "quantumindustries:block/manual_grain_mill_atlas",
+    "particle": "quantumindustries:block/manual_grain_mill_atlas"
   },
   "elements": [
     {
@@ -22,22 +18,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ],
+          "texture": "#atlas"
         }
       }
     },
@@ -55,22 +87,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     },
@@ -88,27 +156,63 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
-      "name": "rear-left post",
+      "name": "back-left post",
       "from": [
         1,
         2,
@@ -121,27 +225,63 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
-      "name": "rear-right post",
+      "name": "back-right post",
       "from": [
         13,
         2,
@@ -154,420 +294,423 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            2,
+            2,
+            10
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
-      "name": "lower millstone",
+      "name": "hopper",
       "from": [
         3,
-        4,
+        2,
         3
       ],
       "to": [
         13,
-        6,
+        8,
         13
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            26,
+            6
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            26,
+            6
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            26,
+            6
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            26,
+            6
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            10,
+            10
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#stone"
+          "uv": [
+            16,
+            0,
+            10,
+            10
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
-      "name": "upper millstone",
+      "name": "grindstone",
       "from": [
         4,
+        8,
+        4
+      ],
+      "to": [
+        12,
+        10,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            40,
+            2
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            40,
+            2
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            40,
+            2
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            40,
+            2
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            8,
+            8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            8,
+            8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "crank",
+      "from": [
+        13,
+        4,
+        7
+      ],
+      "to": [
+        15,
         6,
-        4
-      ],
-      "to": [
-        12,
-        8,
-        12
-      ],
-      "faces": {
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "down": {
-          "texture": "#stone"
-        }
-      }
-    },
-    {
-      "name": "hopper base",
-      "from": [
-        5,
-        8,
-        5
-      ],
-      "to": [
-        11,
-        9,
-        11
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "hopper rim north",
-      "from": [
-        4,
-        10,
-        4
-      ],
-      "to": [
-        12,
-        12,
-        5
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "hopper rim south",
-      "from": [
-        4,
-        10,
-        11
-      ],
-      "to": [
-        12,
-        12,
-        12
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "hopper rim east",
-      "from": [
-        11,
-        10,
-        5
-      ],
-      "to": [
-        12,
-        12,
-        11
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "hopper rim west",
-      "from": [
-        4,
-        10,
-        5
-      ],
-      "to": [
-        5,
-        12,
-        11
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "grain in hopper",
-      "from": [
-        5,
-        9,
-        5
-      ],
-      "to": [
-        11,
-        10,
-        11
-      ],
-      "faces": {
-        "north": {
-          "texture": "#grain"
-        },
-        "south": {
-          "texture": "#grain"
-        },
-        "east": {
-          "texture": "#grain"
-        },
-        "west": {
-          "texture": "#grain"
-        },
-        "up": {
-          "texture": "#grain"
-        },
-        "down": {
-          "texture": "#grain"
-        }
-      }
-    },
-    {
-      "name": "crank axle",
-      "from": [
-        12,
-        7,
-        7
-      ],
-      "to": [
-        16,
-        8,
         9
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            32,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
-      "name": "crank arm",
+      "name": "grain_output",
       "from": [
-        14,
-        7,
-        7
-      ],
-      "to": [
-        16,
-        11,
-        9
-      ],
-      "faces": {
-        "north": {
-          "texture": "#iron"
-        },
-        "south": {
-          "texture": "#iron"
-        },
-        "east": {
-          "texture": "#iron"
-        },
-        "west": {
-          "texture": "#iron"
-        },
-        "up": {
-          "texture": "#iron"
-        },
-        "down": {
-          "texture": "#iron"
-        }
-      }
-    },
-    {
-      "name": "crank grip",
-      "from": [
-        14,
-        10,
-        6
-      ],
-      "to": [
-        16,
-        12,
-        10
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "name": "output tray",
-      "from": [
-        4,
-        2,
-        1
-      ],
-      "to": [
-        12,
         3,
-        5
+        8,
+        13
+      ],
+      "to": [
+        5,
+        10,
+        15
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            50,
+            2
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            50,
+            2
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            48,
+            0,
+            2,
+            2
+          ],
+          "texture": "#atlas"
         }
       }
     }
-  ]
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    }
+  }
 }

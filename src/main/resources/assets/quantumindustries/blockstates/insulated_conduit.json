@@ -1,7 +1,164 @@
 {
   "variants": {
-    "": {
-      "model": "quantumindustries:block/insulated_conduit"
+    "facing=east,shape=straight": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 0
+    },
+    "shape=straight,facing=east": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 0
+    },
+    "facing=east,shape=elbow": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 0
+    },
+    "shape=elbow,facing=east": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 0
+    },
+    "facing=east,shape=tee": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 0
+    },
+    "shape=tee,facing=east": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 0
+    },
+    "facing=east,shape=cross": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 0
+    },
+    "shape=cross,facing=east": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 0
+    },
+    "facing=east,shape=machine": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 0
+    },
+    "shape=machine,facing=east": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 0
+    },
+    "facing=south,shape=straight": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 90
+    },
+    "shape=straight,facing=south": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 90
+    },
+    "facing=south,shape=elbow": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 90
+    },
+    "shape=elbow,facing=south": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 90
+    },
+    "facing=south,shape=tee": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 90
+    },
+    "shape=tee,facing=south": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 90
+    },
+    "facing=south,shape=cross": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 90
+    },
+    "shape=cross,facing=south": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 90
+    },
+    "facing=south,shape=machine": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 90
+    },
+    "shape=machine,facing=south": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 90
+    },
+    "facing=west,shape=straight": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 0
+    },
+    "shape=straight,facing=west": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 0
+    },
+    "facing=west,shape=elbow": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 180
+    },
+    "shape=elbow,facing=west": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 180
+    },
+    "facing=west,shape=tee": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 180
+    },
+    "shape=tee,facing=west": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 180
+    },
+    "facing=west,shape=cross": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 180
+    },
+    "shape=cross,facing=west": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 180
+    },
+    "facing=west,shape=machine": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 180
+    },
+    "shape=machine,facing=west": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 180
+    },
+    "facing=north,shape=straight": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 90
+    },
+    "shape=straight,facing=north": {
+      "model": "quantumindustries:block/insulated_conduit",
+      "y": 90
+    },
+    "facing=north,shape=elbow": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 270
+    },
+    "shape=elbow,facing=north": {
+      "model": "quantumindustries:block/insulated_conduit_elbow",
+      "y": 270
+    },
+    "facing=north,shape=tee": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 270
+    },
+    "shape=tee,facing=north": {
+      "model": "quantumindustries:block/insulated_conduit_tee",
+      "y": 270
+    },
+    "facing=north,shape=cross": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 270
+    },
+    "shape=cross,facing=north": {
+      "model": "quantumindustries:block/insulated_conduit_cross",
+      "y": 270
+    },
+    "facing=north,shape=machine": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 270
+    },
+    "shape=machine,facing=north": {
+      "model": "quantumindustries:block/insulated_conduit_machine",
+      "y": 270
     }
   }
 }

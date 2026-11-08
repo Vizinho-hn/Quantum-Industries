@@ -1,8 +1,7 @@
 {
   "textures": {
-    "material": "minecraft:block/quartz_block",
-    "accent": "minecraft:block/copper_block",
-    "particle": "minecraft:block/quartz_block"
+    "atlas": "quantumindustries:block/piezo_switch_atlas",
+    "particle": "quantumindustries:block/piezo_switch_atlas"
   },
   "elements": [
     {
@@ -18,22 +17,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            2
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#material"
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ],
+          "texture": "#atlas"
         }
       }
     },
@@ -50,24 +85,147 @@
       ],
       "faces": {
         "north": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            26,
+            1
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            26,
+            1
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            10,
+            1
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            10,
+            1
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            10,
+            10
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#accent"
+          "uv": [
+            16,
+            0,
+            10,
+            10
+          ],
+          "texture": "#atlas"
         }
       }
     }
-  ]
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    }
+  }
 }

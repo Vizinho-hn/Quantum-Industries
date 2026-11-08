@@ -160,9 +160,9 @@
   "item.quantumindustries.empirical_assay_bench": "Material Analyzer",
   "gui.quantumindustries.research.evidence.assay": "%s of %s",
   "gui.quantumindustries.research.evidence.or": " or ",
-  "block.quantumindustries.galvanic_accumulator": "Galvanic Accumulator",
-  "item.quantumindustries.galvanic_accumulator": "Galvanic Accumulator",
-  "block.quantumindustries.galvanic_accumulator.status": "Galvanic Charge: %s / %s FE (%s%%)",
+  "block.quantumindustries.voltaic_pile": "Voltaic Pile",
+  "item.quantumindustries.voltaic_pile": "Voltaic Pile",
+  "block.quantumindustries.voltaic_pile.status": "Voltaic Charge: %s / %s FE (%s%%)",
   "block.quantumindustries.electromechanical_press": "Electromechanical Press",
   "item.quantumindustries.electromechanical_press": "Electromechanical Press",
   "block.quantumindustries.electromechanical_press.research": "Requires Electromechanical Forming (Era II).",
@@ -351,5 +351,13 @@
   "item.quantumindustries.graphite_ore": "Graphite Ore",
   "block.quantumindustries.deepslate_graphite_ore": "Deepslate Graphite Ore",
   "item.quantumindustries.deepslate_graphite_ore": "Deepslate Graphite Ore",
-  "item.quantumindustries.graphite_dust": "Graphite Dust"
+  "item.quantumindustries.graphite_dust": "Graphite Dust",
+
+  "block.quantumindustries.lead_acid_accumulator": "Lead-Acid Accumulator",
+  "item.quantumindustries.lead_acid_accumulator": "Lead-Acid Accumulator",
+  "block.quantumindustries.lead_acid_accumulator.status": "Lead-Acid Charge: %s / %s FE (%s%%)",
+  "block.quantumindustries.lead_acid_accumulator.chat_status": "Charge: %s / %s FE (%s%%)",
+  "item.quantumindustries.lead_sheet": "Lead Sheet",
+  "item.quantumindustries.sulfuric_acid": "Sulfuric Acid",
+  "item.quantumindustries.ebonite_rod": "Ebonite Rod"
 }

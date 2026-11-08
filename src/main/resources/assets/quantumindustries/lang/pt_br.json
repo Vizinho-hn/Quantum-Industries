@@ -160,9 +160,9 @@
   "item.quantumindustries.empirical_assay_bench": "Analisador de Materiais",
   "gui.quantumindustries.research.evidence.assay": "%s de %s",
   "gui.quantumindustries.research.evidence.or": " ou ",
-  "block.quantumindustries.galvanic_accumulator": "Acumulador Galvânico",
-  "item.quantumindustries.galvanic_accumulator": "Acumulador Galvânico",
-  "block.quantumindustries.galvanic_accumulator.status": "Carga Galvânica: %s / %s FE (%s%%)",
+  "block.quantumindustries.voltaic_pile": "Pilha de Volta",
+  "item.quantumindustries.voltaic_pile": "Pilha de Volta",
+  "block.quantumindustries.voltaic_pile.status": "Carga Voltaica: %s / %s FE (%s%%)",
   "block.quantumindustries.electromechanical_press": "Prensa Eletromecânica",
   "item.quantumindustries.electromechanical_press": "Prensa Eletromecânica",
   "block.quantumindustries.electromechanical_press.research": "Pré-requisito: Conformação Eletromecânica (Era II).",
@@ -351,5 +351,13 @@
   "item.quantumindustries.graphite_ore": "Minério de Grafite",
   "block.quantumindustries.deepslate_graphite_ore": "Minério de Grafite em Ardósia Profunda",
   "item.quantumindustries.deepslate_graphite_ore": "Minério de Grafite em Ardósia Profunda",
-  "item.quantumindustries.graphite_dust": "Pó de Grafite"
+  "item.quantumindustries.graphite_dust": "Pó de Grafite",
+
+  "block.quantumindustries.lead_acid_accumulator": "Acumulador Chumbo-Ácido",
+  "item.quantumindustries.lead_acid_accumulator": "Acumulador Chumbo-Ácido",
+  "block.quantumindustries.lead_acid_accumulator.status": "Carga Chumbo-Ácido: %s / %s FE (%s%%)",
+  "block.quantumindustries.lead_acid_accumulator.chat_status": "Carga: %s / %s FE (%s%%)",
+  "item.quantumindustries.lead_sheet": "Chapa de Chumbo",
+  "item.quantumindustries.sulfuric_acid": "Ácido Sulfúrico",
+  "item.quantumindustries.ebonite_rod": "Haste de Ebonite"
 }

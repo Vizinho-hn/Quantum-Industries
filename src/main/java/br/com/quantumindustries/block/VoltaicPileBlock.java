@@ -1,6 +1,6 @@
 package br.com.quantumindustries.block;
 
-import br.com.quantumindustries.block.entity.GalvanicAccumulatorBlockEntity;
+import br.com.quantumindustries.block.entity.VoltaicPileBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -22,21 +22,21 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 
-public final class GalvanicAccumulatorBlock extends BaseEntityBlock {
-    public GalvanicAccumulatorBlock(Properties properties) {
+public final class VoltaicPileBlock extends BaseEntityBlock {
+    public VoltaicPileBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(GalvanicAccumulatorBlock::new); }
+    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(VoltaicPileBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new GalvanicAccumulatorBlockEntity(pos, state);
+        return new VoltaicPileBlockEntity(pos, state);
     }
 
     @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null : createTickerHelper(type, ModBlocks.GALVANIC_ACCUMULATOR_ENTITY.get(), (l, p, s, b) -> b.tick());
+        return level.isClientSide() ? null : createTickerHelper(type, ModBlocks.VOLTAIC_PILE_ENTITY.get(), (l, p, s, b) -> b.tick());
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -50,11 +50,11 @@ public final class GalvanicAccumulatorBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hit) {
         if (player instanceof ServerPlayer serverPlayer
-                && level.getBlockEntity(pos) instanceof GalvanicAccumulatorBlockEntity accumulator) {
+                && level.getBlockEntity(pos) instanceof VoltaicPileBlockEntity accumulator) {
             int energy = accumulator.energy();
-            int cap = GalvanicAccumulatorBlockEntity.CAPACITY;
+            int cap = VoltaicPileBlockEntity.CAPACITY;
             serverPlayer.sendOverlayMessage(Component.translatable(
-                    "block.quantumindustries.galvanic_accumulator.status", energy, cap, energy * 100 / cap));
+                    "block.quantumindustries.voltaic_pile.status", energy, cap, energy * 100 / cap));
         }
         return InteractionResult.SUCCESS;
     }
