@@ -10,6 +10,12 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Recursos em `src/main/resources` e `src/generated/resources`.
 - Consulte `README.md` e `ROADMAP.md` para o estado atual do jogo e `docs/design/bancada-de-ensaio/README.md` para as regras da Bancada de Ensaio Empírico.
 
+## Architecture navigation (Graphify)
+- When the Graphify CLI is available, query the shared map with `graphify query "<specific question>" --graph graphify-out/graph.json`; also consult `graphify-out/GRAPH_REPORT.md`.
+- If the CLI is unavailable, inspect the report and graph JSON as navigation aids, then verify the relevant source files.
+- The map covers `src`; paths in query results are relative to `src/`. The 126 image assets were excluded from semantic extraction.
+- Treat graph links, clusters, and hubs as navigation clues, not authority. Verify relevant conclusions in source; the report records dangling edges, self-loops, collapsed relationships, and incomplete semantic token accounting.
+
 ## Antes de alterar código
 1. Leia somente os arquivos relevantes à tarefa; comece por `README.md`, `CONTRIBUTING.md`, `ROADMAP.md` e a documentação específica quando necessário. Não varra o repositório inteiro sem motivo.
 2. Verifique o estado do Git (`git status --short`) e preserve alterações de outras pessoas. Não sobrescreva trabalho alheio.
