@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 14 pesquisas, inclui a oficina mecânica e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico (2.400 FE) e Prensa Eletromecânica.
+> **Status:** protótipo jogável em desenvolvimento, com pesquisa científica, oficina mecânica, moagem e sistemas elétricos já presentes no código da `main`. A Era I conta com 14 pesquisas e chega ao Dínamo Manual. Na Era II há geração e distribuição por FE, Acumulador Galvânico (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, instrumentação e aplicações industriais. A existência das implementações no repositório não implica que todas as interações já tenham sido validadas em jogo.
 
 ## Visão do projeto
 
@@ -16,15 +16,15 @@ O Dínamo Manual encerra o **arco de geração elétrica** da Era I, mas **não*
 ### Pesquisas independentes e melhorias de rendimento
 
 - **Ramos fundamentais:** habilitam uma técnica realmente necessária à máquina pretendida, não a passagem global de era.
-- **Ramos opcionais de utilidade:** podem oferecer mais produção, menos desperdício, transporte de itens/fluidos ou conforto (ex.: roda-d'água, recozimento, trefilação e, futuramente, moagem de trigo e panificação).
+- **Ramos opcionais de utilidade:** podem oferecer mais produção, menos desperdício, transporte de itens/fluidos ou conforto (ex.: roda-d'água, recozimento, trefilação, moagem de trigo e panificação).
 - **Ramos de eletricidade:** preservam a cadeia própria de geração → indução → acumulação → proteção; continuam exigindo seus conhecimentos e evidências.
 - **Pesquisa não concluída:** um estudo de outra era pode ficar visível e bloqueado por dependência específica, sem que a era inteira esteja inacessível.
 - **Compatibilidade:** nada foi apagado do progresso dos jogadores e nenhuma receita bypassa o desbloqueio validado no servidor.
 
 
-Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
-e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
-[Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
+A oficina mecânica já está presente na `main`, com serraria mecânica, transmissão por eixos
+e roda-d'água, independentemente de FE.
+[Arquitetura, funcionamento e verificações da oficina](docs/ERA1_MECHANICAL.md).
 
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
 
@@ -112,28 +112,47 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
   Eletromecânica libera a estrutura e o Núcleo Mecânico Primitivo, ambos em
   3D. Projeto do Dínamo libera o dínamo e habilita a linha elétrica baseada em Indução. Indução
   Eletromagnética é um estudo da Era II.
-- Fabrique a manivela separadamente, instale-a e gire. O dínamo armazena até
-  240 FE, gera 12 FE por giro, aceita um giro a cada 10 ticks e transfere energia
-  para blocos elétricos adjacentes. Na Era II, o **Acumulador Galvânico** estoca
-  até 2.400 FE e alimenta a **Prensa Eletromecânica**, que prensa lingotes em
-  chapas consumindo 60 FE por ciclo sem gastar martelos. Os Óculos de Inspeção
-  Energética exibem a carga e o estado ao mirar em qualquer bloco elétrico.
+- Fabrique a manivela separadamente, instale-a e gire. O **Dínamo Manual** armazena até
+  **240 FE**, produz **12 FE por giro**, respeita um intervalo mínimo de **8 ticks**
+  entre giros aceitos e pode fornecer até **24 FE por tick**. Ele transfere energia
+  diretamente a máquinas adjacentes ou por cabos. O **Acumulador Galvânico**
+  armazena **2.400 FE** e o **Acumulador de Chumbo-Ácido**, **50.000 FE**.
+  A **Prensa Eletromecânica** converte lingotes em chapas com consumo normal de
+  **60 FE em 20 ticks**, sem desgaste de martelo; metal aquecido por recozimento
+  reduz o ciclo para 10 ticks e 30 FE. Os **Óculos de Inspeção Energética**
+  exibem leituras de carga, estado e fluxo nos blocos elétricos compatíveis.
 
 [Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 
-### Moagem manual e panificação (Era I — implementação proposta neste PR)
+### Moagem manual e panificação (Era I — código presente na `main`)
 
 A primeira cadeia de **Ciência Aplicada ao Cotidiano** é opcional: não constitui pré-requisito para a Era II nem altera a receita vanilla de pão.
 
 - **Moedor Manual de Grãos**: receita ligada a `Observação dos Materiais` (usa madeira, pedra e ferro). Coloque trigo com clique direito; com a mão vazia clique para girar **quatro vezes** (intervalo mínimo de seis ticks). Segure a manivela do mod para girar da mesma forma; agache e clique sem item para retirar a farinha ou recuperar trigo ainda não moído. A máquina tem slots internos de entrada/saída persistentes e devolve os conteúdos ao ser quebrada.
 - **Rendimento**: 1 trigo → 1 farinha; 2 farinhas + 1 balde de água → 1 massa (o balde deve retornar pelo comportamento vanilla de crafting); 1 massa assada na fornalha → 1 **Pão Rústico**.
 - **Benefício**: 2 trigos por pão, em vez dos 3 da receita vanilla, mantendo **5 pontos de fome e saturação vanilla-equivalente**. O custo extra é a moagem, a água e o combustível do forno.
-- **Sprites provisórios**: o moedor usa geometria voxel em madeira/pedra/ferro; os ícones de farinha, massa e pão referenciam texturas vanilla até os sprites finais em 32×32.
-- **Pendente antes do merge**: validação de compilação, interação no cliente, balde retornado pela receita, drops, saves e multiplayer. Fermento e pão de alta saturação serão uma próxima expansão.
+- **Recursos visuais**: o repositório já inclui textura própria para o Moedor Manual de Grãos e arquivos de textura e modelo dos itens farinha, massa e pão rústico. O acabamento visual ainda pode ser refinado.
+- **Validação e próximos passos**: a presença desses arquivos na `main` não comprova todas as interações em execução. Convém manter testes de compilação, receitas (inclusive retorno do balde), drops, persistência e multiplayer. Fermento e pão de alta saturação permanecem como expansão futura.
 
-### Distribuição elétrica inicial da Era II
+### Energia elétrica e distribuição na Era II
 
-Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.
+A infraestrutura elétrica já tem **fontes geradoras, acumuladores, consumidores e rede de cabos** no código. Os valores abaixo refletem as constantes das implementações atuais:
+
+| Componente | Capacidade / operação | Transferência ou consumo |
+| --- | --- | --- |
+| **Dínamo Manual** | Buffer de 240 FE; 12 FE por giro; intervalo mínimo de 8 ticks | Até 24 FE/t de saída |
+| **Acumulador Galvânico** (`VoltaicPileBlockEntity`) | 2.400 FE | Até 48 FE/t na entrada e saída |
+| **Acumulador de Chumbo-Ácido** (`LeadAcidAccumulatorBlockEntity`) | 50.000 FE | Até 256 FE/t na entrada e saída |
+| **Transdutor Piezoelétrico** | 40 FE por impacto válido; buffer de 200 FE | Até 40 FE/t de saída |
+| **Prensa Eletromecânica** | Buffer de 480 FE | 3 FE/t por 20 ticks (60 FE por operação normal) |
+| **Barramento de Cobre Nu** | Condutor, sem armazenamento permanente | Até 32 FE/t por segmento; perda de 1 FE a cada 4 segmentos nus da rota |
+| **Conduíte Isolado** | Condutor, sem armazenamento permanente | Até 64 FE/t por segmento; sem perda própria |
+
+A classe [`CableNetwork`](src/main/java/br/com/quantumindustries/energy/CableNetwork.java) percorre a rede por busca em largura (**BFS**), respeita os trechos carregados e limita a busca a **128 nós de cabo**. A transferência considera o limite do emissor, dos cabos e do receptor, extrai energia de uma fonte real e desconta as perdas na rota. Os cabos não geram nem armazenam FE; a leitura de fluxo é transitória e pode ser consultada com os Óculos de Inspeção Energética. Barramentos nus energizados podem causar dano leve a entidades sem botas.
+
+Além disso, o **Relé de Carga** trabalha com o Acumulador Galvânico adjacente: abaixo de 10% bloqueia o envio para máquinas compatíveis; a partir de 80% emite sinal de redstone, e mantém um buffer próprio de 96 FE. Fontes como o dínamo e os acumuladores também conseguem alimentar consumidores adjacentes, sem cabo intermediário.
+
+> **Escopo:** este quadro documenta o comportamento previsto pelo código da `main`, não um certificado de testes end-to-end em todos os cenários de sobrevivência e multiplayer.
 
 ### Trefiladora de bancada
 
