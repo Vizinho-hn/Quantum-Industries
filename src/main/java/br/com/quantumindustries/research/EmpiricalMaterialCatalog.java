@@ -1,5 +1,6 @@
 package br.com.quantumindustries.research;
 
+import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.assay.AssayCatalog;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -9,46 +10,56 @@ import net.minecraft.world.item.Items;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /** Central catalog for the Era 0 notebook stamps and material-specific empirical results. */
 public enum EmpiricalMaterialCatalog {
-    COPPER(0, AssayCatalog.Material.COPPER, "Cobre", Items.COPPER_INGOT, Items.RAW_COPPER,
+    COPPER(0, AssayCatalog.Material.COPPER, "Cobre", () -> Items.COPPER_INGOT, () -> Items.RAW_COPPER,
             "Metal Avermelhado", "Dúctil (8.96 g/cm³)", "Chama Verde (1085°C)", "Solução Azulada", "Condutor Galvânico",
             Identifier.fromNamespaceAndPath("quantumindustries", "electrical_conductivity")),
-    IRON(1, AssayCatalog.Material.IRON, "Ferro", Items.IRON_INGOT, Items.RAW_IRON,
+    IRON(1, AssayCatalog.Material.IRON, "Ferro", () -> Items.IRON_INGOT, () -> Items.RAW_IRON,
             "Grão Cinza-Metálico", "Rígido (7.87 g/cm³)", "Fusão Alta (1538°C)", "Oxidação Ocre", "Ferromagnético",
             Identifier.fromNamespaceAndPath("quantumindustries", "ferromagnetism")),
-    COAL(2, AssayCatalog.Material.COAL, "Carvão", Items.COAL, Items.CHARCOAL,
+    COAL(2, AssayCatalog.Material.COAL, "Carvão", () -> Items.COAL, () -> Items.CHARCOAL,
             "Sólido Poroso", "Quebradiço (1.35 g/cm³)", "Combustível (Ignição)", "Suspensão Escura", "Semi-Isolante",
             Identifier.fromNamespaceAndPath("quantumindustries", "solid_combustion")),
-    GOLD(3, AssayCatalog.Material.GOLD, "Ouro", Items.GOLD_INGOT, Items.RAW_GOLD,
+    GOLD(3, AssayCatalog.Material.GOLD, "Ouro", () -> Items.GOLD_INGOT, () -> Items.RAW_GOLD,
             "Brilho Metálico Puro", "Ultra-Maleável (19.3 g/cm³)", "Inerte (1064°C)", "Inerte em Reagente", "Condutor Nobre",
             Identifier.fromNamespaceAndPath("quantumindustries", "noble_conductivity")),
-    REDSTONE(4, AssayCatalog.Material.REDSTONE, "Redstone", Items.REDSTONE, Items.REDSTONE,
+    REDSTONE(4, AssayCatalog.Material.REDSTONE, "Redstone", () -> Items.REDSTONE, () -> Items.REDSTONE,
             "Pó Cristalino Rubro", "Granular (Piezoativo)", "Termo-Luminescente", "Suspensão Rubra Ativa", "Pulso Ressonante",
             Identifier.fromNamespaceAndPath("quantumindustries", "redstone_resonance")),
-    QUARTZ(5, AssayCatalog.Material.QUARTZ, "Quartzo", Items.QUARTZ, Items.QUARTZ,
+    QUARTZ(5, AssayCatalog.Material.QUARTZ, "Quartzo", () -> Items.QUARTZ, () -> Items.QUARTZ,
             "Prisma Translúcido", "Duro / Fratura (2.65 g/cm³)", "Refratário (1670°C)", "Cristal Insolúvel", "Dielétrico Piezo",
             Identifier.fromNamespaceAndPath("quantumindustries", "piezoelectricity")),
-    LAPIS(6, AssayCatalog.Material.LAPIS, "Lápis-Lazúli", Items.LAPIS_LAZULI, Items.LAPIS_LAZULI,
+    LAPIS(6, AssayCatalog.Material.LAPIS, "Lápis-Lazúli", () -> Items.LAPIS_LAZULI, () -> Items.LAPIS_LAZULI,
             "Grão Azul com Inclusões", "Poroso (2.40 g/cm³)", "Calcinação Azul", "Pigmento Azul Solúvel", "Capacitivo Iônico",
             Identifier.fromNamespaceAndPath("quantumindustries", "ionic_storage")),
-    AMETHYST(7, AssayCatalog.Material.AMETHYST, "Ametista", Items.AMETHYST_SHARD, Items.AMETHYST_SHARD,
+    AMETHYST(7, AssayCatalog.Material.AMETHYST, "Ametista", () -> Items.AMETHYST_SHARD, () -> Items.AMETHYST_SHARD,
             "Faces Violetas", "Clivagem Cristalina", "Descoloração (450°C)", "Cristal Estável", "Harmônico Acústico",
             Identifier.fromNamespaceAndPath("quantumindustries", "harmonic_lattice")),
-    DIAMOND(8, AssayCatalog.Material.DIAMOND, "Diamante", Items.DIAMOND, Items.DIAMOND,
+    DIAMOND(8, AssayCatalog.Material.DIAMOND, "Diamante", () -> Items.DIAMOND, () -> Items.DIAMOND,
             "Rede Cristalina Limpa", "Dureza Máxima (3.51 g/cm³)", "Condutor Térmico Puro", "Impermeável a Ácidos", "Ímã de Campo (Fictício)",
             Identifier.fromNamespaceAndPath("quantumindustries", "diamond_structure")),
-    EMERALD(9, AssayCatalog.Material.EMERALD, "Esmeralda", Items.EMERALD, Items.EMERALD,
+    EMERALD(9, AssayCatalog.Material.EMERALD, "Esmeralda", () -> Items.EMERALD, () -> Items.EMERALD,
             "Cristal Verde Vítreo", "Cristalino / Fratura (2.72 g/cm³)", "Cromático Verde", "Superfície Vítrea Inerte", "Ressonante Verdoso",
-            Identifier.fromNamespaceAndPath("quantumindustries", "verdant_lattice"));
+            Identifier.fromNamespaceAndPath("quantumindustries", "verdant_lattice")),
+    TIN(10, AssayCatalog.Material.TIN, "Estanho", () -> ModItems.INGOTS.get("tin").get(), () -> ModItems.RAW_MATERIALS.get("tin").get(),
+            "Metal Branco-Prateado", "Macio / Estalo (7.31 g/cm³)", "Fusão Baixa (232°C)", "Efervescência Lenta", "Condutor Leve",
+            Identifier.fromNamespaceAndPath("quantumindustries", "tin_alloying")),
+    ZINC(11, AssayCatalog.Material.ZINC, "Zinco", () -> ModItems.INGOTS.get("zinc").get(), () -> ModItems.RAW_MATERIALS.get("zinc").get(),
+            "Metal Cinza-Azulado", "Laminar a Quente (7.14 g/cm³)", "Chama Branco-Esverdeada", "Efervescência Ácida", "Anodo de Sacrifício",
+            Identifier.fromNamespaceAndPath("quantumindustries", "zinc_galvanism")),
+    LEAD(12, AssayCatalog.Material.LEAD, "Chumbo", () -> ModItems.INGOTS.get("lead").get(), () -> ModItems.RAW_MATERIALS.get("lead").get(),
+            "Metal Cinza-Chumbo Fosco", "Pesado e Macio (11.34 g/cm³)", "Fusão Rápida (327°C)", "Passivação Sulfática", "Placa de Acumulador",
+            Identifier.fromNamespaceAndPath("quantumindustries", "lead_electrochemistry"));
 
     private final int index;
     private final AssayCatalog.Material material;
     private final String displayName;
-    private final Item primaryItem;
-    private final Item rawItem;
+    private final Supplier<Item> primaryItem;
+    private final Supplier<Item> rawItem;
     private final String inspection;
     private final String mechanical;
     private final String heating;
@@ -56,7 +67,7 @@ public enum EmpiricalMaterialCatalog {
     private final String galvanic;
     private final Identifier discoveryId;
 
-    EmpiricalMaterialCatalog(int index, AssayCatalog.Material material, String displayName, Item primaryItem, Item rawItem,
+    EmpiricalMaterialCatalog(int index, AssayCatalog.Material material, String displayName, Supplier<Item> primaryItem, Supplier<Item> rawItem,
                             String inspection, String mechanical, String heating, String reaction, String galvanic,
                             Identifier discoveryId) {
         this.index = index;
@@ -80,8 +91,8 @@ public enum EmpiricalMaterialCatalog {
     public String displayName() { return displayName; }
     public String translationKey() { return material.translationKey(); }
     public String observationKey(AssayCatalog.Method method) { return material.observationKey(method); }
-    public ItemStack sampleStack() { return new ItemStack(primaryItem); }
-    public ItemStack rawStack() { return new ItemStack(rawItem); }
+    public ItemStack sampleStack() { return new ItemStack(primaryItem.get()); }
+    public ItemStack rawStack() { return new ItemStack(rawItem.get()); }
     public String inspectionStamp() { return inspection; }
     public String mechanicalStamp() { return mechanical; }
     public String heatingStamp() { return heating; }

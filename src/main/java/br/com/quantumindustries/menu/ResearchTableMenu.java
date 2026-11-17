@@ -127,6 +127,7 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         }
         if (!ResearchCatalog.valid(id)) return false;
         var study = ResearchCatalog.STUDIES.get(id);
+        if (isTierOne() && study.era() > 1) return false;
         if (!research.canLearn(player, study.id())) return false;
         Cost[] costs = study.costs().stream()
                 .map(cost -> new Cost(cost.item(), cost.amount())).toArray(Cost[]::new);

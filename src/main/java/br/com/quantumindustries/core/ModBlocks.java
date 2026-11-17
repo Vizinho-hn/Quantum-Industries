@@ -9,7 +9,9 @@ import br.com.quantumindustries.block.entity.VoltaicPileBlockEntity;
 import br.com.quantumindustries.block.entity.LeadAcidAccumulatorBlockEntity;
 import br.com.quantumindustries.block.entity.ResearchTableBlockEntity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.bus.api.IEventBus;
@@ -20,6 +22,14 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
     public static final DeferredBlock<br.com.quantumindustries.block.EmpiricalAssayBenchBlock> EMPIRICAL_ASSAY_BENCH = BLOCKS.registerBlock("empirical_assay_bench", br.com.quantumindustries.block.EmpiricalAssayBenchBlock::new, p -> p.strength(2.5F).noOcclusion());
+
+    public static final DeferredBlock<br.com.quantumindustries.block.QuantumVaultBlock> QUANTUM_VAULT =
+            BLOCKS.registerBlock("quantum_vault", br.com.quantumindustries.block.QuantumVaultBlock::new,
+                    properties -> properties.mapColor(MapColor.COLOR_CYAN).strength(4.0F, 6.0F).sound(SoundType.NETHERITE_BLOCK).lightLevel(s -> 5).noOcclusion());
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.QuantumVaultBlockEntity>> QUANTUM_VAULT_ENTITY =
+            BLOCK_ENTITIES.register("quantum_vault",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.QuantumVaultBlockEntity::new, Set.of(QUANTUM_VAULT.get()), false));
 
     public static final DeferredBlock<ResearchTableBlock> RESEARCH_TABLE = BLOCKS.registerBlock("scientific_analyzer",
             ResearchTableBlock::new, properties -> properties.strength(2.5F).requiresCorrectToolForDrops().noOcclusion());
@@ -155,6 +165,8 @@ public class ModBlocks {
 
     public static final DeferredBlock<VoltaicPileBlock> VOLTAIC_PILE = BLOCKS.registerBlock("voltaic_pile",
             VoltaicPileBlock::new, properties -> properties.strength(2.5F).noOcclusion());
+    public static final DeferredBlock<LeadAcidAccumulatorBlock> LEAD_ACID_ACCUMULATOR = BLOCKS.registerBlock("lead_acid_accumulator",
+            LeadAcidAccumulatorBlock::new, properties -> properties.strength(3.0F).noOcclusion());
 
     public static final DeferredBlock<ElectromechanicalPressBlock> ELECTROMECHANICAL_PRESS = BLOCKS.registerBlock("electromechanical_press",
             ElectromechanicalPressBlock::new, properties -> properties.strength(3.0F).noOcclusion());
@@ -170,10 +182,6 @@ public class ModBlocks {
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<VoltaicPileBlockEntity>> VOLTAIC_PILE_ENTITY =
             BLOCK_ENTITIES.register("voltaic_pile",
                     () -> new BlockEntityType<>(VoltaicPileBlockEntity::new, Set.of(VOLTAIC_PILE.get()), false));
-
-    // Era II - Lead-Acid Accumulator (rechargeable FE storage)
-    public static final DeferredBlock<LeadAcidAccumulatorBlock> LEAD_ACID_ACCUMULATOR = BLOCKS.registerBlock("lead_acid_accumulator",
-            LeadAcidAccumulatorBlock::new, properties -> properties.strength(3.0F).noOcclusion());
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<LeadAcidAccumulatorBlockEntity>> LEAD_ACID_ACCUMULATOR_ENTITY =
             BLOCK_ENTITIES.register("lead_acid_accumulator",
                     () -> new BlockEntityType<>(LeadAcidAccumulatorBlockEntity::new, Set.of(LEAD_ACID_ACCUMULATOR.get()), false));
@@ -181,6 +189,30 @@ public class ModBlocks {
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectromechanicalPressBlockEntity>> ELECTROMECHANICAL_PRESS_ENTITY =
             BLOCK_ENTITIES.register("electromechanical_press",
                     () -> new BlockEntityType<>(ElectromechanicalPressBlockEntity::new, Set.of(ELECTROMECHANICAL_PRESS.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.BellowsAlloyKilnBlock> BELLOWS_ALLOY_KILN =
+            BLOCKS.registerBlock("bellows_alloy_kiln", br.com.quantumindustries.block.BellowsAlloyKilnBlock::new,
+                    props -> props.strength(2.6F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsAlloyKilnBlockEntity>> BELLOWS_ALLOY_KILN_ENTITY =
+            BLOCK_ENTITIES.register("bellows_alloy_kiln",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsAlloyKilnBlockEntity::new,
+                            Set.of(BELLOWS_ALLOY_KILN.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricAlloySmelterBlock> ELECTRIC_ALLOY_SMELTER =
+            BLOCKS.registerBlock("electric_alloy_smelter", br.com.quantumindustries.block.ElectricAlloySmelterBlock::new,
+                    props -> props.strength(3.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity>> ELECTRIC_ALLOY_SMELTER_ENTITY =
+            BLOCK_ENTITIES.register("electric_alloy_smelter",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity::new,
+                            Set.of(ELECTRIC_ALLOY_SMELTER.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.JawCrusherBlock> JAW_CRUSHER =
+            BLOCKS.registerBlock("jaw_crusher", br.com.quantumindustries.block.JawCrusherBlock::new,
+                    props -> props.strength(2.8F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.JawCrusherBlockEntity>> JAW_CRUSHER_ENTITY =
+            BLOCK_ENTITIES.register("jaw_crusher",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.JawCrusherBlockEntity::new,
+                            Set.of(JAW_CRUSHER.get()), false));
 
     public static final java.util.Map<String, DeferredBlock<br.com.quantumindustries.block.QuantumOreBlock>> STONE_ORES = new java.util.LinkedHashMap<>();
     public static final java.util.Map<String, DeferredBlock<br.com.quantumindustries.block.QuantumOreBlock>> DEEPSLATE_ORES = new java.util.LinkedHashMap<>();

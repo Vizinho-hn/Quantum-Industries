@@ -46,10 +46,20 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         if (inserted > 0) changed();
         return inserted;
     }
-    private ItemStack resultFor(ItemStack item) {
+    public static boolean isDrawableSheet(ItemStack item) {
+        return !resultForSheet(item).isEmpty();
+    }
+    public static ItemStack resultForSheet(ItemStack item) {
         if (item.is(ModItems.COPPER_SHEET.get())) return new ItemStack(ModItems.COPPER_WIRE.get(), 4);
         if (item.is(ModItems.GOLD_SHEET.get())) return new ItemStack(ModItems.GOLD_WIRE.get(), 4);
+        if (ModItems.ALLOY_SHEETS.containsKey("electrum") && item.is(ModItems.ALLOY_SHEETS.get("electrum").get()))
+            return new ItemStack(ModItems.ELECTRUM_WIRE.get(), 4);
+        if (ModItems.ALLOY_SHEETS.containsKey("constantan") && item.is(ModItems.ALLOY_SHEETS.get("constantan").get()))
+            return new ItemStack(ModItems.CONSTANTAN_WIRE.get(), 4);
         return ItemStack.EMPTY;
+    }
+    private ItemStack resultFor(ItemStack item) {
+        return resultForSheet(item);
     }
     private boolean canRun() {
         ItemStack result = resultFor(input);

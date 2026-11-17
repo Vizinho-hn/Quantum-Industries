@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget",
+    "quantumindustries:brass_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:brass_ingot",
+    "count": 1
+  }
+}

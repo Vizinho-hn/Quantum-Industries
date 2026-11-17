@@ -31,13 +31,22 @@ public final class BellowsBrazierBlockEntity extends BlockEntity {
     }
     public boolean insert(ItemStack stack) {
         if (!(level instanceof ServerLevel) || !output.isEmpty()) return false;
-        if (stack.is(Items.COAL) && fuel <= FUEL_PER_COAL * 4) {
+        if ((stack.is(Items.COAL) || stack.is(Items.CHARCOAL)) && fuel <= FUEL_PER_COAL * 4) {
             fuel += FUEL_PER_COAL;
             stack.shrink(1);
             changed();
             return true;
         }
-        if (!input.isEmpty() || !(stack.is(Items.IRON_INGOT) || stack.is(Items.COPPER_INGOT))) return false;
+        if (br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
+                && stack.is(br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.get("fluorite").get())
+                && fuel <= FUEL_PER_COAL * 4) {
+            fuel += FUEL_PER_COAL / 2;
+            heat = Math.min(HEAT_PER_PUFF * 3, heat + HEAT_PER_PUFF + 50);
+            stack.shrink(1);
+            changed();
+            return true;
+        }
+        if (!input.isEmpty() || !HeatTreatment.canHeat(stack)) return false;
         input = stack.copyWithCount(1);
         stack.shrink(1);
         changed();

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "ingredient": "quantumindustries:nickel_dust",
+  "result": {
+    "id": "quantumindustries:nickel_ingot",
+    "count": 1
+  }
+}

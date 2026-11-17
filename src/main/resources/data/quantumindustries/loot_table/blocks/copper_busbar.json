@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "quantumindustries:copper_busbar"
+          "name": "quantumindustries:copper_wire"
         }
       ],
       "conditions": [

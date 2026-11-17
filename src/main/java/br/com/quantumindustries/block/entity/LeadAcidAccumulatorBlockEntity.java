@@ -83,7 +83,8 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity
-                            || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity)) {
+                            || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity
+                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity)) {
                 int available = Math.min(TRANSFER_RATE, energy());
                 int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);

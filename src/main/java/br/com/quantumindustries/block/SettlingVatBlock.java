@@ -39,7 +39,7 @@ public final class SettlingVatBlock extends BaseEntityBlock {
             op.sendOverlayMessage(Component.translatable("message.quantumindustries.vat.research"));
             return InteractionResult.SUCCESS;
         }
-        if(stack.is(Items.LAPIS_LAZULI)||stack.is(Items.GLASS_BOTTLE)){
+        if(SettlingVatBlockEntity.isReagentItem(stack)||stack.is(Items.GLASS_BOTTLE)){
             if(server.getBlockEntity(pos) instanceof SettlingVatBlockEntity vat)vat.addIngredient(stack);
             return InteractionResult.SUCCESS;
         }

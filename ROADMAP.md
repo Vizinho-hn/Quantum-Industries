@@ -15,7 +15,7 @@ V — Inteligência Artificial e Automação Autônoma.
 
 ## Fase 1 — Núcleo de pesquisa
 
-- [x] Implementar a Bancada de Ensaio Empírico com dez materiais, quatro métodos e 40 descobertas individualizadas.
+- [x] Implementar a Bancada de Ensaio Empírico expandida para treze materiais (incluindo Estanho, Zinco e Chumbo), quatro métodos e 52 descobertas individualizadas.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
 - [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
@@ -37,7 +37,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Refinar visual no Blockbench e criar sprites 32×32 originais antes de declarar asset final.
 - [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
 
-- [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico, preservando os IDs e a migração.
+- [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.
 - [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
 - [x] Tratar **eras como agrupamentos**, não bloqueios globais: abas com pesquisas podem ser abertas, com pré-requisitos de cada estudo preservados.
@@ -47,15 +47,20 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Adicionar interface contextual para diferenciar **descoberta fundamental**, **aplicação opcional** e **melhoria de rendimento**, sem tornar a árvore visualmente pesada.
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [x] Expansão mineralógica e geológica: 18 minerais reais (36 blocos Stone/Deepslate, brutos, lingotes, pepitas e pós químicos) com geração no Overworld (Worldgen) e Common Tags `#c:*`.
+- [x] Implementar Forno de Ligas a Fole (Era I — Bronze e Latão) e Fundidora de Ligas Elétrica / Alloy Smelter (Era II — Bronze, Latão, Invar, Electrum, Constantan e Aço), além da cadeia chumbo-ácido para o Acumulador Galvânico.
+- [x] Implementar Britador de Mandíbulas (`jaw_crusher` — Manivela ou FE) com duplicação de minérios brutos em pós purificados (1 bruto → 2 pós), moagem mecanizada de trigo (1 trigo → 2 farinhas) e trituração de carvão em grafite.
+- [x] Integrar minerais químicos reais: Fluorita como fluxo metalúrgico no Forno a Fole/Braseiro, Sal Gema (Halita) na Cuba de Decantação para produzir Ácido Clorídrico Diluído, Grafite em Tijolos Refratários e Apatita + Enxofre em Fertilizante Fosfatado.
+- [x] Expandir Trefiladora (`electrum_wire`, `constantan_wire`, `constantan_coil`) e Recozimento Térmico (`heated_bronze_ingot`, `heated_brass_ingot`, `heated_steel_ingot`).
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
 - [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.
-- [x] Criar dutos hidráulicos nativos NeoForge, bomba peristáltica manual/FE e cuba de decantação 8.000 mB.
-- [ ] Criar fluido registrado de eletrólito refinado e integrar como insumo opcional ao Acumulador sem invalidar receitas anteriores.
+- [x] Criar dutos hidráulicos nativos NeoForge, bomba peristáltica manual/FE e cuba de decantação 8.000 mB (com suporte a Pó de Enxofre, Lápis-Lazúli e Sal Gema).
+- [ ] Criar fluido registrado de eletrólito refinado e integrar como insumo líquido ao Acumulador sem invalidar receitas anteriores.
 - [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.
 
 ## Fase 3 — Química e materiais
-- [ ] Reações e processos químicos.
+- [x] Primeiros reagentes e processos químicos aplicados (Ácido Clorídrico Diluído por decantação salina, Fluxo de Fluorita, Fertilizante Fosfatado e Tijolo Refratário de Grafite).
+- [ ] Reações e processos químicos de múltiplas etapas (lixiviação ácida avançada e eletrólise).
 - [ ] Separação, purificação e análise de substâncias.
 - [ ] Propriedades físicas e químicas com unidades e escalas definidas.
 - [ ] Síntese e materiais industriais avançados.

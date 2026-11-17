@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:steel_ingot"
+  ],
+  "result": {
+    "id": "quantumindustries:steel_nugget",
+    "count": 9
+  }
+}

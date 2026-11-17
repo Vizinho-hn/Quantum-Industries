@@ -85,7 +85,7 @@ public final class EmpiricalAssayBenchScreen extends AbstractContainerScreen<Emp
             if(known&&menu.selectedMethod()==method)rect(g,289,y-1,80,9,0x22345C3B);
             small(g,Component.literal(known?"✓ ":"□ ").append(tr("short."+method.id())),291,y,78,known?0xFF345C3B:INK);
         }
-        small(g,Component.literal(menu.discoveries()+"/4 · "+menu.totalDiscoveries()+"/40"),310,133,42,INK);
+        small(g,Component.literal(menu.discoveries()+"/4 · "+menu.totalDiscoveries()+"/"+(AssayCatalog.MATERIAL_COUNT*AssayCatalog.METHOD_COUNT)),310,133,42,INK);
 
         small(g,status(),285,185,85,LIGHT);
         small(g,tr("world_hint"),285,202,85,MUTED);

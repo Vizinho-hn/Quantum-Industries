@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:diamond_pickaxe",
+    "minecraft:netherite_pickaxe",
+    "quantumindustries:quantum_vault"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget",
+    "quantumindustries:constantan_nugget"
+  ],
+  "result": {
+    "id": "quantumindustries:constantan_ingot",
+    "count": 1
+  }
+}

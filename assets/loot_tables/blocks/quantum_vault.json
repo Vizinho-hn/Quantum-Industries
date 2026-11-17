@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:quartz"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "quantumindustries:quantum_vault"
+        }
+      ]
+    }
+  ]
+}

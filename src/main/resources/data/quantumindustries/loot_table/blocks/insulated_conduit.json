@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "quantumindustries:insulated_conduit"
+          "name": "quantumindustries:insulated_copper_wire"
         }
       ],
       "conditions": [

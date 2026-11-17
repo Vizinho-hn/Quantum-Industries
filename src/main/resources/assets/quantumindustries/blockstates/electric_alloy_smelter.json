@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/electric_alloy_smelter"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/electric_alloy_smelter",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/electric_alloy_smelter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/electric_alloy_smelter",
+      "y": 270
+    }
+  }
+}

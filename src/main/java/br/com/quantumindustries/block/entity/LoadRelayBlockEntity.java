@@ -72,12 +72,16 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
         if (!enabled || energy() <= 0) return;
         CableNetwork.transfer(server, worldPosition, this::energy, this::extractEnergy, TRANSFER,
                 target -> target instanceof ElectromechanicalPressBlockEntity
-                        || target instanceof WireDrawingBenchBlockEntity);
+                        || target instanceof WireDrawingBenchBlockEntity
+                        || target instanceof ElectricAlloySmelterBlockEntity
+                        || target instanceof JawCrusherBlockEntity);
         for (Direction direction : Direction.values()) {
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity
-                        || target instanceof WireDrawingBenchBlockEntity)) {
+                        || target instanceof WireDrawingBenchBlockEntity
+                        || target instanceof ElectricAlloySmelterBlockEntity
+                        || target instanceof JawCrusherBlockEntity)) {
                 int accepted = target.receiveEnergy(Math.min(TRANSFER, energy()));
                 if (accepted > 0) extractEnergy(accepted);
             }

@@ -121,6 +121,7 @@ public final class DynamoRuntimeVerification {
         profile.complete(AssayCatalog.Material.IRON, AssayCatalog.Method.INSPECTION);
         profile.complete(AssayCatalog.Material.IRON, AssayCatalog.Method.MECHANICAL);
         profile.complete(AssayCatalog.Material.COAL, AssayCatalog.Method.INSPECTION);
+        profile.complete(AssayCatalog.Material.TIN, AssayCatalog.Method.HEATING);
         var coilKey = recipeKey(ModItems.COPPER_COIL.get());
         ModRecipeBook.sync(player);
         check(player.getRecipeBook().contains(recipeKey(ModItems.SCIENTIFIC_ANALYZER_TIER_1.get())),
@@ -156,7 +157,7 @@ public final class DynamoRuntimeVerification {
         check(player.getRecipeBook().contains(recipeKey(core)), "research adds the core to the book");
         check(player.getRecipeBook().contains(recipeKey(ModItems.MANUAL_DYNAMO.get())),
                 "research adds the dynamo to the book without induction");
-        check(eraOne == 14 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
+        check(eraOne == 16 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
         verifyCraft(player, coreGrid, core, true);
         verifyCraft(player, dynamoGrid, ModItems.MANUAL_DYNAMO.get(), true);
         var other = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "DynamoGuest"));

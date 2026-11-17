@@ -1,6 +1,7 @@
 package br.com.quantumindustries.core;
 
 import br.com.quantumindustries.menu.MaterialAnalyzerMenu;
+import br.com.quantumindustries.menu.QuantumGuidebookMenu;
 import br.com.quantumindustries.menu.ResearchTableMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
@@ -16,6 +17,9 @@ public class ModMenuTypes {
 
     public static final net.neoforged.neoforge.registries.DeferredHolder<MenuType<?>, MenuType<MaterialAnalyzerMenu>> MATERIAL_ANALYZER_MENU =
             MENU_TYPES.register("material_analyzer_menu", () -> IMenuTypeExtension.create((windowId, inv, data) -> new MaterialAnalyzerMenu(windowId, inv)));
+
+    public static final net.neoforged.neoforge.registries.DeferredHolder<MenuType<?>, MenuType<QuantumGuidebookMenu>> QUANTUM_GUIDEBOOK_MENU =
+            MENU_TYPES.register("quantum_guidebook_menu", () -> IMenuTypeExtension.create((windowId, inv, data) -> new QuantumGuidebookMenu(windowId, inv)));
 
     public static void register(IEventBus eventBus) {
         MENU_TYPES.register(eventBus);

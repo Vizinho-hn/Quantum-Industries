@@ -20,7 +20,8 @@ public final class WorldResearchData extends SavedData {
             Codec.unboundedMap(Codec.STRING, Codec.INT).optionalFieldOf("players", Map.of())
                     .forGetter(data -> data.legacyPlayers),
             Codec.unboundedMap(Codec.STRING, Codec.STRING.listOf()).optionalFieldOf("completed_research", Map.of())
-                    .forGetter(WorldResearchData::encodeProgress)
+                    .forGetter(WorldResearchData::encodeProgress),
+            Codec.BOOL.optionalFieldOf("vault_spawned", false).forGetter(WorldResearchData::isVaultSpawned)
     ).apply(instance, WorldResearchData::new));
 
     public static final SavedDataType<WorldResearchData> TYPE = new SavedDataType<>(
@@ -31,13 +32,20 @@ public final class WorldResearchData extends SavedData {
     private final Map<String, Integer> legacyPlayers;
     private final boolean conductivity;
     private final boolean copperWire;
+    private boolean vaultSpawned;
 
-    public WorldResearchData() { this(false, false, Map.of(), Map.of()); }
+    public WorldResearchData() { this(false, false, Map.of(), Map.of(), false); }
 
     private WorldResearchData(boolean conductivity, boolean copperWire, Map<String, Integer> legacy,
                               Map<String, List<String>> progress) {
+        this(conductivity, copperWire, legacy, progress, false);
+    }
+
+    private WorldResearchData(boolean conductivity, boolean copperWire, Map<String, Integer> legacy,
+                              Map<String, List<String>> progress, boolean vaultSpawned) {
         this.conductivity = conductivity;
         this.copperWire = copperWire;
+        this.vaultSpawned = vaultSpawned;
         // Retain the original bits, including any unrecognized ones, for compatibility.
         this.legacyPlayers = Map.copyOf(legacy);
         boolean[] needsRewrite = {false};
@@ -151,6 +159,10 @@ public final class WorldResearchData extends SavedData {
     public boolean evidenceSatisfied(Player player, ResearchCatalog.Study study) {
         return study.evidence().stream().allMatch(evidence -> evidence.satisfied(player));
     }
+
+    public boolean isVaultSpawned() { return vaultSpawned; }
+
+    public void markVaultSpawned() { this.vaultSpawned = true; setDirty(); }
 
     public static WorldResearchData get(ServerLevel level) {
         return level.getServer().getDataStorage().computeIfAbsent(TYPE);

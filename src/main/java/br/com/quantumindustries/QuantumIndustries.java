@@ -29,6 +29,7 @@ public class QuantumIndustries {
         modEventBus.addListener(br.com.quantumindustries.fluid.ModFluidCapabilities::register);
         NeoForge.EVENT_BUS.addListener(ResearchCommands::register);
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(br.com.quantumindustries.world.VaultImpactSpawner.class);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

@@ -11,16 +11,18 @@ public final class ClientMenus {
     private ClientMenus() {}
     @SubscribeEvent
     public static void registerRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(br.com.quantumindustries.core.ModBlocks.EMPIRICAL_ASSAY_ENTITY.get(),br.com.quantumindustries.client.renderer.EmpiricalAssayRenderer::new);
+        event.registerBlockEntityRenderer(br.com.quantumindustries.core.ModBlocks.EMPIRICAL_ASSAY_ENTITY.get(), br.com.quantumindustries.client.renderer.EmpiricalAssayRenderer::new);
+        event.registerBlockEntityRenderer(br.com.quantumindustries.core.ModBlocks.QUANTUM_VAULT_ENTITY.get(), br.com.quantumindustries.client.renderer.QuantumVaultRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerPictures(net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent event) {
-        event.register(br.com.quantumindustries.client.assay.AssayPictureState.class,br.com.quantumindustries.client.assay.AssayPictureRenderer::new);
+        event.register(br.com.quantumindustries.client.assay.AssayPictureState.class, br.com.quantumindustries.client.assay.AssayPictureRenderer::new);
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.RESEARCH_TABLE_MENU.get(), ResearchTableScreen::new);
         event.register(ModMenuTypes.EMPIRICAL_ASSAY_MENU.get(), br.com.quantumindustries.client.gui.EmpiricalAssayBenchScreen::new);
+        event.register(ModMenuTypes.QUANTUM_GUIDEBOOK_MENU.get(), QuantumGuidebookScreen::new);
     }
 }

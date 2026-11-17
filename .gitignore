@@ -58,3 +58,9 @@ design/vanilla_textures/
 !/graphify-out/GRAPH_REPORT.md
 /src/graphify-out/
 
+### Web Preview / Node ###
+node_modules/
+dist/
+.env
+
+

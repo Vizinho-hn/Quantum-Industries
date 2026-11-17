@@ -197,7 +197,9 @@ public final class CopperCableBlock extends BaseEntityBlock {
                 || nBlock instanceof LoadRelayBlock
                 || nBlock instanceof WireDrawingBenchBlock
                 || nBlock instanceof PeristalticPumpBlock
-                || nBlock instanceof BellowsEjectorBlock) {
+                || nBlock instanceof BellowsEjectorBlock
+                || nBlock instanceof ElectricAlloySmelterBlock
+                || nBlock instanceof JawCrusherBlock) {
             return true;
         }
         return level.getBlockEntity(nPos) instanceof EnergyInspectable;
@@ -207,6 +209,11 @@ public final class CopperCableBlock extends BaseEntityBlock {
         return MapCodec.unit(() -> new CopperCableBlock(Properties.of().strength(0.8F).noOcclusion(), insulated));
     }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    @Override protected net.minecraft.world.item.ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return new net.minecraft.world.item.ItemStack(insulated
+                ? br.com.quantumindustries.ModItems.INSULATED_COPPER_WIRE.get()
+                : br.com.quantumindustries.ModItems.COPPER_WIRE.get());
+    }
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return BOX_SHAPE;
     }

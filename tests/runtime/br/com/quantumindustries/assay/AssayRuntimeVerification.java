@@ -67,7 +67,7 @@ public final class AssayRuntimeVerification {
             }
             check(menu.discoveries()==4,"four results per material");check(AssayProfile.of(author).reserved()==null,"research reserve cleared after fourth result");
         }
-        check(menu.totalDiscoveries()==40,"all forty discoveries");check(AssayProfile.of(other).mask(Material.COPPER)==0,"authors independent");
+        check(menu.totalDiscoveries()==AssayCatalog.MATERIAL_COUNT*AssayCatalog.METHOD_COUNT,"all fifty-two discoveries");check(AssayProfile.of(other).mask(Material.COPPER)==0,"authors independent");
         // Stable-key migration: never call an old galvanic result a chemical reaction.
         var legacy=player(level);legacy.getPersistentData().putInt("quantum_empirical_copper",3);
         var profile=AssayProfile.of(legacy);check(profile.knows(Material.COPPER,Method.MECHANICAL),"legacy press");check(profile.knows(Material.COPPER,Method.HEATING),"legacy heat");check(!profile.knows(Material.COPPER,Method.REACTION),"legacy galvanic is not chemistry");check(!profile.knows(Material.COPPER,Method.INSPECTION),"inspection requires new observation");

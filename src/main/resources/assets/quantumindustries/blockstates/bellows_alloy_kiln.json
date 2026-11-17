@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/bellows_alloy_kiln"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/bellows_alloy_kiln",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/bellows_alloy_kiln",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/bellows_alloy_kiln",
+      "y": 270
+    }
+  }
+}

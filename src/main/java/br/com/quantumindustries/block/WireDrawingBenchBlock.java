@@ -50,7 +50,7 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!(stack.is(ModItems.COPPER_SHEET.get()) || stack.is(ModItems.GOLD_SHEET.get())
+        if (!(WireDrawingBenchBlockEntity.isDrawableSheet(stack)
                 || stack.is(ModItems.HAND_CRANK.get()))) return InteractionResult.TRY_WITH_EMPTY_HAND;
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer op)) return InteractionResult.SUCCESS;
         if (!WorldResearchData.get(server).knows(op, "wire_drawing")) {

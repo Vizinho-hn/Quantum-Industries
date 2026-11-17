@@ -37,7 +37,10 @@ public final class BellowsBrazierBlock extends BaseEntityBlock {
     }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!(stack.is(Items.COAL) || stack.is(Items.IRON_INGOT) || stack.is(Items.COPPER_INGOT)
+        boolean isFlux = ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
+                && stack.is(ModItems.CHEMICAL_PRODUCTS.get("fluorite").get());
+        if (!(stack.is(Items.COAL) || stack.is(Items.CHARCOAL) || isFlux
+                || br.com.quantumindustries.material.HeatTreatment.canHeat(stack)
                 || stack.is(ModItems.MANUAL_BELLOWS.get()))) return InteractionResult.TRY_WITH_EMPTY_HAND;
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer op)) return InteractionResult.SUCCESS;
         if (!WorldResearchData.get(server).knows(op, "thermal_annealing")) {

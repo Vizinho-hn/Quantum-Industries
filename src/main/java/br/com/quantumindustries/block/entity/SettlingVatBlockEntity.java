@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -29,7 +30,7 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
             SettlingVatBlockEntity.this.changed();
         }
     };
-    private int lapis,bottles,progress;
+    private int lapis,halite,bottles,progress;
     private ItemStack concentrate=ItemStack.EMPTY,sediment=ItemStack.EMPTY;
     public SettlingVatBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.SETTLING_VAT_ENTITY.get(),pos,state);}
     public FluidStacksResourceHandler tank(){return tank;}
@@ -37,11 +38,19 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     @Override public int fluidCapacity(){return CAPACITY;}
     @Override public Component fluidTitle(){return Component.translatable("block.quantumindustries.settling_vat");}
     @Override public Component fluidDetail(){
-        return Component.translatable("message.quantumindustries.vat.status",storedFluid(),CAPACITY,lapis,bottles,progress);
+        return Component.translatable("message.quantumindustries.vat.status",storedFluid(),CAPACITY,lapis+halite,bottles,progress);
+    }
+    public static boolean isReagentItem(ItemStack stack){
+        return stack.is(Items.LAPIS_LAZULI)
+                ||(ModItems.CHEMICAL_PRODUCTS.containsKey("sulfur")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get()))
+                ||(ModItems.CHEMICAL_PRODUCTS.containsKey("halite")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("halite").get()));
     }
     public boolean addIngredient(ItemStack stack){
         if(!(level instanceof ServerLevel))return false;
-        if(stack.is(Items.LAPIS_LAZULI)&&lapis<64){lapis++;stack.shrink(1);changed();return true;}
+        boolean isGalvanicReagent=stack.is(Items.LAPIS_LAZULI)||(ModItems.CHEMICAL_PRODUCTS.containsKey("sulfur")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get()));
+        boolean isHaliteReagent=ModItems.CHEMICAL_PRODUCTS.containsKey("halite")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("halite").get());
+        if(isGalvanicReagent&&halite==0&&lapis<64){lapis++;stack.shrink(1);changed();return true;}
+        if(isHaliteReagent&&lapis==0&&halite<64){halite++;stack.shrink(1);changed();return true;}
         if(stack.is(Items.GLASS_BOTTLE)&&bottles<64){bottles++;stack.shrink(1);changed();return true;}
         return false;
     }
@@ -53,9 +62,10 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     }
     public void tick(){
         if(!(level instanceof ServerLevel))return;
-        boolean ready=lapis>0&&bottles>0&&storedFluid()>=RECIPE_WATER
+        Item expectedConcentrate=halite>0?ModItems.HYDROCHLORIC_ACID.get():ModItems.GALVANIC_ELECTROLYTE.get();
+        boolean ready=(lapis>0||halite>0)&&bottles>0&&storedFluid()>=RECIPE_WATER
                 &&tank.getResource(0).is(Fluids.WATER)
-                &&(concentrate.isEmpty()||concentrate.getCount()<64)
+                &&(concentrate.isEmpty()||(concentrate.is(expectedConcentrate)&&concentrate.getCount()<64))
                 &&(sediment.isEmpty()||sediment.getCount()<64);
         if(!ready)return;
         if(++progress<WORK_TICKS){if(progress%20==0)changed();return;}
@@ -64,8 +74,10 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
             if(taken!=RECIPE_WATER){progress=0;return;}
             tx.commit();
         }
-        lapis--;bottles--;progress=0;
-        if(concentrate.isEmpty())concentrate=new ItemStack(ModItems.GALVANIC_ELECTROLYTE.get());
+        if(halite>0)halite--;
+        else lapis--;
+        bottles--;progress=0;
+        if(concentrate.isEmpty())concentrate=new ItemStack(expectedConcentrate);
         else concentrate.grow(1);
         if(sediment.isEmpty())sediment=new ItemStack(ModItems.PIGMENT_SEDIMENT.get());
         else sediment.grow(1);
@@ -73,13 +85,14 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     }
     private void changed(){setChanged();if(level!=null)level.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);}
     @Override protected void saveAdditional(ValueOutput out){
-        super.saveAdditional(out);tank.serialize(out);out.putInt("lapis",lapis);
+        super.saveAdditional(out);tank.serialize(out);out.putInt("lapis",lapis);out.putInt("halite",halite);
         out.putInt("bottles",bottles);out.putInt("progress",progress);
         if(!concentrate.isEmpty())out.store("concentrate",ItemStack.CODEC,concentrate);
         if(!sediment.isEmpty())out.store("sediment",ItemStack.CODEC,sediment);
     }
     @Override protected void loadAdditional(ValueInput in){
         super.loadAdditional(in);tank.deserialize(in);lapis=Math.clamp(in.getIntOr("lapis",0),0,64);
+        halite=Math.clamp(in.getIntOr("halite",0),0,64);
         bottles=Math.clamp(in.getIntOr("bottles",0),0,64);
         progress=Math.clamp(in.getIntOr("progress",0),0,WORK_TICKS);
         concentrate=in.read("concentrate",ItemStack.CODEC).orElse(ItemStack.EMPTY);
@@ -89,10 +102,12 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
         super.preRemoveSideEffects(pos,state);
         if(!(level instanceof ServerLevel server))return;
         if(lapis>0)Block.popResource(server,pos,new ItemStack(Items.LAPIS_LAZULI,lapis));
+        if(halite>0&&ModItems.CHEMICAL_PRODUCTS.containsKey("halite"))
+            Block.popResource(server,pos,new ItemStack(ModItems.CHEMICAL_PRODUCTS.get("halite").get(),halite));
         if(bottles>0)Block.popResource(server,pos,new ItemStack(Items.GLASS_BOTTLE,bottles));
         if(!concentrate.isEmpty())Block.popResource(server,pos,concentrate.copy());
         if(!sediment.isEmpty())Block.popResource(server,pos,sediment.copy());
-        lapis=bottles=0;concentrate=sediment=ItemStack.EMPTY;
+        lapis=halite=bottles=0;concentrate=sediment=ItemStack.EMPTY;
         // Fluid contents are intentionally not materialized as item drops.
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider r){return saveCustomOnly(r);}

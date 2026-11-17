@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento, com pesquisa científica, oficina mecânica, moagem e sistemas elétricos já presentes no código da `main`. A Era I conta com 14 pesquisas e chega ao Dínamo Manual. Na Era II há geração e distribuição por FE, Acumulador Galvânico (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, instrumentação e aplicações industriais. A existência das implementações no repositório não implica que todas as interações já tenham sido validadas em jogo.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico chumbo-ácido (2.400 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
 
 ## Visão do projeto
 
@@ -16,15 +16,15 @@ O Dínamo Manual encerra o **arco de geração elétrica** da Era I, mas **não*
 ### Pesquisas independentes e melhorias de rendimento
 
 - **Ramos fundamentais:** habilitam uma técnica realmente necessária à máquina pretendida, não a passagem global de era.
-- **Ramos opcionais de utilidade:** podem oferecer mais produção, menos desperdício, transporte de itens/fluidos ou conforto (ex.: roda-d'água, recozimento, trefilação, moagem de trigo e panificação).
+- **Ramos opcionais de utilidade:** podem oferecer mais produção, menos desperdício, transporte de itens/fluidos ou conforto (ex.: roda-d'água, recozimento, trefilação e, futuramente, moagem de trigo e panificação).
 - **Ramos de eletricidade:** preservam a cadeia própria de geração → indução → acumulação → proteção; continuam exigindo seus conhecimentos e evidências.
 - **Pesquisa não concluída:** um estudo de outra era pode ficar visível e bloqueado por dependência específica, sem que a era inteira esteja inacessível.
 - **Compatibilidade:** nada foi apagado do progresso dos jogadores e nenhuma receita bypassa o desbloqueio validado no servidor.
 
 
-A oficina mecânica já está presente na `main`, com serraria mecânica, transmissão por eixos
-e roda-d'água, independentemente de FE.
-[Arquitetura, funcionamento e verificações da oficina](docs/ERA1_MECHANICAL.md).
+Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
+e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
+[Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
 
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
 
@@ -66,12 +66,13 @@ Comece pela Mesa de Pesquisa Tier 1 e conclua **Observação dos Materiais**.
 Essa é a entrada da Era I e libera o **Analisador de Materiais**, que reutiliza
 o bloco da Bancada de Ensaio Empírico.
 
-O analisador permite investigar dez materiais e quatro métodos, totalizando
-**40 descobertas individuais**. Inspeção usa a lupa, aquecimento usa o fole
-manual e carvão, reação usa o frasco de ensaio e o método mecânico usa a
-prensa. Cada ensaio dura 10 segundos. O equipamento continua trabalhando
-quando a interface é fechada. As ferramentas e os resultados pertencem ao
-sistema persistente da bancada e do jogador.
+O analisador permite investigar **treze materiais** (cobre, ferro, ouro, carvão,
+diamante, quartzo, redstone, lápis-lazúli, esmeralda, ametista, **estanho, zinco
+e chumbo**) e quatro métodos, totalizando **52 descobertas individuais**.
+Inspeção usa a lupa, aquecimento usa o fole manual e carvão, reação usa o frasco
+de ensaio e o método mecânico usa a prensa. Cada ensaio dura 10 segundos. O
+equipamento continua trabalhando quando a interface é fechada. As ferramentas e
+os resultados pertencem ao sistema persistente da bancada e do jogador.
 
 Os quatro métodos empíricos (inspeção, aquecimento, reação e prensa mecânica)
 fornecem evidências científicas diretas e alternativas (`AnyOf`) para destravar
@@ -112,55 +113,56 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
   Eletromecânica libera a estrutura e o Núcleo Mecânico Primitivo, ambos em
   3D. Projeto do Dínamo libera o dínamo e habilita a linha elétrica baseada em Indução. Indução
   Eletromagnética é um estudo da Era II.
-- Fabrique a manivela separadamente, instale-a e gire. O **Dínamo Manual** armazena até
-  **240 FE**, produz **12 FE por giro**, respeita um intervalo mínimo de **8 ticks**
-  entre giros aceitos e pode fornecer até **24 FE por tick**. Ele transfere energia
-  diretamente a máquinas adjacentes ou por cabos. O **Acumulador Galvânico**
-  armazena **2.400 FE** e o **Acumulador de Chumbo-Ácido**, **50.000 FE**.
-  A **Prensa Eletromecânica** converte lingotes em chapas com consumo normal de
-  **60 FE em 20 ticks**, sem desgaste de martelo; metal aquecido por recozimento
-  reduz o ciclo para 10 ticks e 30 FE. Os **Óculos de Inspeção Energética**
-  exibem leituras de carga, estado e fluxo nos blocos elétricos compatíveis.
+- Fabrique a manivela separadamente, instale-a e gire. O dínamo armazena até
+  240 FE, gera 12 FE por giro, aceita um giro a cada 10 ticks e transfere energia
+  para blocos elétricos adjacentes. Na Era II, o **Acumulador Galvânico** (bateria chumbo-ácido construída com **Chapas de Chumbo**, **Chapa de Cobre** e **Concentrado de Eletrólito Galvânico**) estoca
+  até 2.400 FE e alimenta a **Prensa Eletromecânica**, que prensa lingotes em
+  chapas consumindo 60 FE por ciclo sem gastar martelos. Os Óculos de Inspeção
+  Energética exibem a carga e o estado ao mirar em qualquer bloco elétrico.
 
 [Roteiro de sobrevivência e detalhes do dínamo](docs/MANUAL_DYNAMO.md)
 
-### Moagem manual e panificação (Era I — código presente na `main`)
+### Fundição de Ligas (Era I & Era II)
+
+- **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado pela pesquisa **Metalurgia de Ligas** (após testar aquecimento de Cobre e Estanho ou Zinco). Consome carvão/carvão vegetal (ou **Fluorita** como fluxo redutor de escória) e sopros de **Fole Manual** para fundir ligas de baixa temperatura: **Bronze** (`3 Cobre + 1 Estanho → 4 Bronze`) e **Latão** (`2 Cobre + 1 Zinco → 3 Latão`). Também libera a **Engrenagem de Bronze**.
+- **Fundidora de Ligas Elétrica (`electric_alloy_smelter` — Era II):** liberada pela pesquisa **Fundição Eletrotérmica de Ligas**. Opera com energia elétrica (capacidade de 600 FE, consumo de 4 FE/t) e funde tanto as ligas da Era I quanto ligas refratárias e de precisão da Era II: **Invar** (`2 Ferro + 1 Níquel → 3 Invar`), **Electrum** (`1 Ouro + 1 Prata → 2 Electrum`), **Constantan** (`1 Cobre + 1 Níquel → 2 Constantan`) e **Aço** (`1 Ferro + 1 Pó de Grafite → 1 Aço`).
+- **Chapas de Novos Metais e Ligas:** Chumbo, Estanho, Zinco e todas as seis ligas podem ser prensados em chapas na Bancada de Conformação Manual ou na Prensa Eletromecânica, com suporte a Common Tags (`#c:ingots/*`, `#c:nuggets/*`, `#c:plates/*`). Tanto o Forno a Fole quanto a Fundidora Elétrica aceitam **Lingotes** ou **Pós Minerais Purificados (`*_dust`)**.
+
+### Beneficiamento Mineral 2× e Britador de Mandíbulas (`jaw_crusher`)
+
+- Liberado pela pesquisa **Beneficiamento e Cominuição Mineral** (`mineral_beneficiation` — Era I), o **Britador de Mandíbulas** é uma máquina híbrida: opera manualmente na Era I com **3 giros da Manivela** ou automaticamente na Era II consumindo **60 FE** (3 FE/t por 20 ticks, buffer de 240 FE).
+- **Duplicação de Minérios (1 Bruto → 2 Pós):** tritura `raw_copper`, `raw_iron`, `raw_gold`, `raw_tin`, `raw_zinc`, `raw_lead`, `raw_nickel` e `raw_silver` em **2× Pós Purificados (`*_dust`)**. Cada pó pode ser fundido 1:1 em lingote na fornalha/alto-forno, usado diretamente nos fornos de liga ou analisado na Bancada de Ensaio Empírico.
+- **Moagem Mecanizada e Carvão:** também mói **1 Trigo → 2 Farinhas** (dobrando o rendimento do Moedor Manual) e tritura **1 Carvão → 2 Pós de Grafite**.
+
+### Química Mineral Aplicada (Fluorita, Halita, Grafite e Apatita)
+
+- A pesquisa **Reagentes Ácidos e Química Mineral** (`chemical_leaching` — Era II) e o beneficiamento mineral dão função prática aos minerais não-metálicos do mod:
+  - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando ácido clorídrico engarrafado e sedimento mineral.
+  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** pode ser inserida no **Forno de Ligas a Fole** e no **Braseiro de Fole**, reduzindo o ponto de fusão da escória (+600 ticks de combustível e +150 de calor imediato).
+  - **Grafite (`graphite_dust`) → Tijolo Refratário (`refractory_brick`):** usado na construção da Fundidora de Ligas Elétrica e como núcleo isolante da **Bobina Térmica de Constantan**.
+  - **Apatita (`apatite_gem`) + Enxofre (`sulfur_dust`) → Fertilizante Fosfatado (`phosphate_fertilizer`):** fertilizante químico de alta eficiência que acelera o crescimento de plantações ao clicar com o botão direito.
+
+### Moagem manual e panificação (Era I — implementação proposta neste PR)
 
 A primeira cadeia de **Ciência Aplicada ao Cotidiano** é opcional: não constitui pré-requisito para a Era II nem altera a receita vanilla de pão.
 
 - **Moedor Manual de Grãos**: receita ligada a `Observação dos Materiais` (usa madeira, pedra e ferro). Coloque trigo com clique direito; com a mão vazia clique para girar **quatro vezes** (intervalo mínimo de seis ticks). Segure a manivela do mod para girar da mesma forma; agache e clique sem item para retirar a farinha ou recuperar trigo ainda não moído. A máquina tem slots internos de entrada/saída persistentes e devolve os conteúdos ao ser quebrada.
 - **Rendimento**: 1 trigo → 1 farinha; 2 farinhas + 1 balde de água → 1 massa (o balde deve retornar pelo comportamento vanilla de crafting); 1 massa assada na fornalha → 1 **Pão Rústico**.
 - **Benefício**: 2 trigos por pão, em vez dos 3 da receita vanilla, mantendo **5 pontos de fome e saturação vanilla-equivalente**. O custo extra é a moagem, a água e o combustível do forno.
-- **Recursos visuais**: o repositório já inclui textura própria para o Moedor Manual de Grãos e arquivos de textura e modelo dos itens farinha, massa e pão rústico. O acabamento visual ainda pode ser refinado.
-- **Validação e próximos passos**: a presença desses arquivos na `main` não comprova todas as interações em execução. Convém manter testes de compilação, receitas (inclusive retorno do balde), drops, persistência e multiplayer. Fermento e pão de alta saturação permanecem como expansão futura.
+- **Sprites provisórios**: o moedor usa geometria voxel em madeira/pedra/ferro; os ícones de farinha, massa e pão referenciam texturas vanilla até os sprites finais em 32×32.
+- **Pendente antes do merge**: validação de compilação, interação no cliente, balde retornado pela receita, drops, saves e multiplayer. Fermento e pão de alta saturação serão uma próxima expansão.
 
-### Energia elétrica e distribuição na Era II
+### Distribuição elétrica inicial da Era II
 
-A infraestrutura elétrica já tem **fontes geradoras, acumuladores, consumidores e rede de cabos** no código. Os valores abaixo refletem as constantes das implementações atuais:
-
-| Componente | Capacidade / operação | Transferência ou consumo |
-| --- | --- | --- |
-| **Dínamo Manual** | Buffer de 240 FE; 12 FE por giro; intervalo mínimo de 8 ticks | Até 24 FE/t de saída |
-| **Acumulador Galvânico** (`VoltaicPileBlockEntity`) | 2.400 FE | Até 48 FE/t na entrada e saída |
-| **Acumulador de Chumbo-Ácido** (`LeadAcidAccumulatorBlockEntity`) | 50.000 FE | Até 256 FE/t na entrada e saída |
-| **Transdutor Piezoelétrico** | 40 FE por impacto válido; buffer de 200 FE | Até 40 FE/t de saída |
-| **Prensa Eletromecânica** | Buffer de 480 FE | 3 FE/t por 20 ticks (60 FE por operação normal) |
-| **Barramento de Cobre Nu** | Condutor, sem armazenamento permanente | Até 32 FE/t por segmento; perda de 1 FE a cada 4 segmentos nus da rota |
-| **Conduíte Isolado** | Condutor, sem armazenamento permanente | Até 64 FE/t por segmento; sem perda própria |
-
-A classe [`CableNetwork`](src/main/java/br/com/quantumindustries/energy/CableNetwork.java) percorre a rede por busca em largura (**BFS**), respeita os trechos carregados e limita a busca a **128 nós de cabo**. A transferência considera o limite do emissor, dos cabos e do receptor, extrai energia de uma fonte real e desconta as perdas na rota. Os cabos não geram nem armazenam FE; a leitura de fluxo é transitória e pode ser consultada com os Óculos de Inspeção Energética. Barramentos nus energizados podem causar dano leve a entidades sem botas.
-
-Além disso, o **Relé de Carga** trabalha com o Acumulador Galvânico adjacente: abaixo de 10% bloqueia o envio para máquinas compatíveis; a partir de 80% emite sinal de redstone, e mantém um buffer próprio de 96 FE. Fontes como o dínamo e os acumuladores também conseguem alimentar consumidores adjacentes, sem cabo intermediário.
-
-> **Escopo:** este quadro documenta o comportamento previsto pelo código da `main`, não um certificado de testes end-to-end em todos os cenários de sobrevivência e multiplayer.
+Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.
 
 ### Trefiladora de bancada
 
-Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre e ouro), o jogador constrói a trefiladora. Uma chapa de cobre ou ouro rende 4 fios do respectivo metal. O equipamento funciona manualmente com a Manivela na mão ou alimentado por FE, consumindo 60 FE por operação automatizada. A metalurgia permite obter chapas de ouro nos mesmos processos usados com ferro e cobre.
+Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre e ouro), o jogador constrói a trefiladora. Uma chapa de **cobre, ouro, electrum ou constantan** rende 4 fios do respectivo metal (`copper_wire`, `gold_wire`, `electrum_wire`, `constantan_wire`). O equipamento funciona manualmente com a Manivela na mão ou alimentado por FE, consumindo 60 FE por operação automatizada. Fios de Constantan e Tijolos Refratários permitem fabricar a **Bobina Térmica de Constantan (`constantan_coil`)**, utilizada no aquecimento resistivo da Fundidora de Ligas Elétrica.
 
 ### Recozimento térmico
 
-A Forja de Recozimento recebe carvão e um lingote de ferro/cobre, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo. Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
+A Forja de Recozimento recebe carvão (ou Fluorita como fluxo térmico) e um lingote de **ferro, cobre, bronze, latão ou aço**, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo (`heated_*_ingot`). Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
 
 ### Instrumentação da Era II
 
@@ -174,7 +176,7 @@ A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o
 
 A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
 
-A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 lápis-lazúli + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado) e **1 Sedimento de Pigmento**. Este é um processo químico inicial de abstração de gameplay: ainda **não** registra um fluido novo de eletrólito nem modifica o craft antigo do Acumulador. O concentrado foi criado para uma receita ou reprocessamento futuro, preservando a progressão já salva.
+A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
 
 ## Imagens do protótipo
 

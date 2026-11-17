@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "quantumindustries:block/quantum_vault"
+    },
+    "open=true": {
+      "model": "quantumindustries:block/quantum_vault"
+    }
+  }
+}

@@ -8,7 +8,7 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/'src/main/resources/assets/quantumindustries'
 PREFIX='gui.quantumindustries.assay.'
-MATERIALS='copper iron gold coal diamond quartz redstone lapis emerald amethyst'.split()
+MATERIALS='copper iron gold coal diamond quartz redstone lapis emerald amethyst tin zinc lead'.split()
 METHODS='inspection heating reaction mechanical'.split()
 
 class AssayResourcesTest(unittest.TestCase):

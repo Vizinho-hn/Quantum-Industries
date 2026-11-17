@@ -131,6 +131,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         if (notebook != menu.isTierOne()) {
             notebook = menu.isTierOne();
             theme = new ResearchTheme(notebook);
+            if (notebook && era != 1) {
+                era = 1;
+                tree.setEra(1);
+            }
         }
         int x = (int) Math.floor((mouseX - originX()) / scale());
         int y = (int) Math.floor((mouseY - originY()) / scale());
@@ -150,10 +154,18 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             theme.frame(g, 146, 67, 421, 260, LINE, DARK, DARK);
             sidebar(g, states);
             if (tab == 0) {
-                text(g, "ÁRVORE DE PESQUISA — Era " + ERA_NUMERALS[era - 1] + ": " + ERAS[era - 1],
-                        155, 77, TEXT);
                 reportButton(g, 475, 71, 77, "Centralizar", true);
-                eras(g);
+                if (!notebook) {
+                    text(g, "ÁRVORE DE PESQUISA — Era " + ERA_NUMERALS[era - 1] + ": " + ERAS[era - 1],
+                            155, 77, TEXT);
+                    eras(g);
+                } else {
+                    text(g, "ÁRVORE DE PESQUISA — Era I: Fundamentos", 155, 77, TEXT);
+                    theme.frame(g, 153, 104, 406, 30, LINE, PANEL, DARK);
+                    text(g, "CADERNO DE CAMPO — ERA I (FUNDAMENTOS)", 163, 110, TEXT);
+                    text(g, "Oficina artesanal. Conclua a Era I para construir o Analisador Tier 2.", 163, 121, MUTED);
+                    theme.lock(g, 538, 111);
+                }
                 tree.draw(theme, g, font, states, selected, hover, this::icon, era);
                 selectedDetails(g);
             } else if (tab == 2) {
@@ -250,10 +262,12 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.fill(g,24, 23, 31, 30, CYAN);
         theme.fill(g,24, 12, 31, 19, GOLD);
         text(g, "QUANTUM INDUSTRIES", 39, 9, MUTED);
-        text(g, notebook ? "Caderno de pesquisas" : "Research Bench", 39, 21, TEXT);
+        text(g, notebook ? "Caderno de pesquisas" : "Estação Científica", 39, 21, TEXT);
         var analyzer = notebook ? ModItems.SCIENTIFIC_ANALYZER_TIER_1 : ModItems.SCIENTIFIC_ANALYZER;
-        if (notebook) theme.frame(g, 214, 9, 218, 21, LINE, 0xFF145368, PANEL);
-        text(g, new ItemStack(analyzer.get()).getHoverName().getString(), 228, 16, TEXT);
+        theme.frame(g, 214, 9, 218, 21, LINE, 0xFF145368, PANEL);
+        String analyzerTitle = new ItemStack(analyzer.get()).getHoverName().getString();
+        int titleX = 214 + Math.max(8, (218 - font.width(analyzerTitle)) / 2);
+        text(g, analyzerTitle, titleX, 16, TEXT);
         for (int i = 0; i < TABS.length; i++) {
             int x = 9 + i * 140;
             theme.frame(g, x, 39, 136, 23, i == tab ? CYAN : LINE, i == tab ? 0xFF145368 : PANEL, DARK);
@@ -596,7 +610,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                     tree.reset();
                     return true;
                 }
-                if (y >= 104 && y < 134) {
+                if (y >= 104 && y < 134 && !notebook) {
                     for (int index = 0; index < ERAS.length; index++) {
                         int start = 153 + index * 81;
                         if (x < start || x >= start + 79) continue;

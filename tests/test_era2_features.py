@@ -14,11 +14,24 @@ JAVA = ROOT / "src/main/java/br/com/quantumindustries"
 BLOCKS = (
     "copper_busbar", "insulated_conduit", "wire_drawing_bench",
     "bellows_brazier", "piezo_switch", "load_relay",
+    "bellows_alloy_kiln", "electric_alloy_smelter", "jaw_crusher",
 )
 ITEMS = ("empirical_field_notes", "heated_iron_ingot",
-         "heated_copper_ingot", "gold_sheet", "gold_wire")
+         "heated_copper_ingot", "heated_bronze_ingot", "heated_brass_ingot", "heated_steel_ingot",
+         "gold_sheet", "gold_wire", "electrum_wire", "constantan_wire", "constantan_coil",
+         "hydrochloric_acid", "refractory_brick", "phosphate_fertilizer",
+         "lead_sheet", "tin_sheet", "zinc_sheet", "bronze_gear",
+         "copper_dust", "iron_dust", "gold_dust", "tin_dust",
+         "zinc_dust", "lead_dust", "nickel_dust", "silver_dust",
+         "bronze_ingot", "bronze_nugget", "bronze_sheet",
+         "brass_ingot", "brass_nugget", "brass_sheet",
+         "invar_ingot", "invar_nugget", "invar_sheet",
+         "electrum_ingot", "electrum_nugget", "electrum_sheet",
+         "constantan_ingot", "constantan_nugget", "constantan_sheet",
+         "steel_ingot", "steel_nugget", "steel_sheet")
 RESEARCH = ("wire_drawing", "thermal_annealing", "piezoelectricity",
-            "load_protection")
+            "load_protection", "alloy_metallurgy", "electric_alloy_smelting",
+            "mineral_beneficiation", "chemical_leaching")
 
 
 class Era2Contracts(unittest.TestCase):
@@ -42,7 +55,8 @@ class Era2Contracts(unittest.TestCase):
             labels = json.loads((ASSETS / "lang" / f"{language}.json").read_text(encoding="utf-8"))
             for name in BLOCKS:
                 self.assertIn(f"block.quantumindustries.{name}", labels)
-            self.assertIn("item.quantumindustries.empirical_field_notes", labels)
+            for name in ITEMS:
+                self.assertIn(f"item.quantumindustries.{name}", labels)
 
     def test_research_and_crafts_are_bound(self):
         research = (JAVA / "research/ResearchCatalog.java").read_text(encoding="utf-8")
@@ -62,6 +76,42 @@ class Era2Contracts(unittest.TestCase):
         profile = (JAVA / "assay/AssayProfile.java").read_text(encoding="utf-8")
         self.assertIn("COMPLETE_MASK", profile)
 
+    def test_alloy_smelters_and_lead_battery_chain(self):
+        assay = (JAVA / "assay/AssayCatalog.java").read_text(encoding="utf-8")
+        self.assertIn("MATERIAL_COUNT=13", assay)
+        for mat in ("TIN", "ZINC", "LEAD"):
+            self.assertIn(mat, assay)
+        alloys = (JAVA / "material/AlloyCatalog.java").read_text(encoding="utf-8")
+        for alloy in ("bronze", "brass", "invar", "electrum", "constantan", "steel"):
+            self.assertIn(f'"{alloy}"', alloys)
+        kiln_block = (JAVA / "block/BellowsAlloyKilnBlock.java").read_text(encoding="utf-8")
+        self.assertIn('"alloy_metallurgy"', kiln_block)
+        smelter_block = (JAVA / "block/ElectricAlloySmelterBlock.java").read_text(encoding="utf-8")
+        self.assertIn('"electric_alloy_smelting"', smelter_block)
+        smelter_entity = (JAVA / "block/entity/ElectricAlloySmelterBlockEntity.java").read_text(encoding="utf-8")
+        self.assertIn("EnergyInspectable", smelter_entity)
+        vat = (JAVA / "block/entity/SettlingVatBlockEntity.java").read_text(encoding="utf-8")
+        self.assertIn('CHEMICAL_PRODUCTS.get("sulfur")', vat)
+        patterns = (JAVA / "recipe/FoundationRecipe.java").read_text(encoding="utf-8")
+        self.assertIn("ModItems.LEAD_SHEET.get()", patterns)
+        self.assertIn("ModItems.GALVANIC_ELECTROLYTE.get()", patterns)
+
+    def test_jaw_crusher_beneficiation_and_applied_chemistry(self):
+        crusher_block = (JAVA / "block/JawCrusherBlock.java").read_text(encoding="utf-8")
+        self.assertIn('"mineral_beneficiation"', crusher_block)
+        crusher_entity = (JAVA / "block/entity/JawCrusherBlockEntity.java").read_text(encoding="utf-8")
+        self.assertIn("EnergyInspectable", crusher_entity)
+        crushing = (JAVA / "material/CrushingCatalog.java").read_text(encoding="utf-8")
+        for metal in ("copper", "iron", "gold", "tin", "zinc", "lead", "nickel", "silver"):
+            self.assertIn(f'"{metal}"', crushing)
+        vat = (JAVA / "block/entity/SettlingVatBlockEntity.java").read_text(encoding="utf-8")
+        self.assertIn("HYDROCHLORIC_ACID", vat)
+        self.assertIn('CHEMICAL_PRODUCTS.get("halite")', vat)
+        wire_bench = (JAVA / "block/entity/WireDrawingBenchBlockEntity.java").read_text(encoding="utf-8")
+        self.assertIn("ELECTRUM_WIRE", wire_bench)
+        self.assertIn("CONSTANTAN_WIRE", wire_bench)
+
 
 if __name__ == "__main__":
     unittest.main()
+

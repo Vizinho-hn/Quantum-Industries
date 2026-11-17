@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "quantumindustries:quantum_vault",
+    "minecraft:cobblestone",
+    "minecraft:deepslate",
+    "minecraft:stone",
+    "minecraft:cobblestone",
+    "minecraft:stone_bricks",
+    "minecraft:andesite",
+    "minecraft:diorite",
+    "minecraft:granite"
+  ]
+}

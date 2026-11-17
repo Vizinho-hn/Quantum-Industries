@@ -55,6 +55,9 @@ class IndependentEraPathsTest(unittest.TestCase):
             "pneumatic_transport",
             "thermal_annealing",
             "wire_drawing",
+            "alloy_metallurgy",
+            "mineral_beneficiation",
+            "chemical_leaching",
         )
         for key in optional_tracks:
             with self.subTest(study=key):

@@ -1,0 +1,6 @@
+{
+  "parent": "block/quartz",
+  "textures": {
+    "all": "block/quartz"
+  }
+}

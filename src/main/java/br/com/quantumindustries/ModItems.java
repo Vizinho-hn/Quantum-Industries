@@ -17,6 +17,10 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem(ModBlocks.RESEARCH_TABLE_TIER_1);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER = ITEMS.registerSimpleBlockItem(RESEARCH_TABLE);
     public static final DeferredItem<BlockItem> EMPIRICAL_ASSAY_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.EMPIRICAL_ASSAY_BENCH);
+    public static final DeferredItem<BlockItem> QUANTUM_VAULT = ITEMS.registerSimpleBlockItem(ModBlocks.QUANTUM_VAULT);
+
+    public static final DeferredItem<Item> QUANTUM_GUIDEBOOK = ITEMS.registerItem("quantum_guidebook",
+            br.com.quantumindustries.item.QuantumGuidebookItem::new, properties -> properties.stacksTo(1));
 
     // Ferramenta de teste (Sonda)
     public static final DeferredItem<Item> TEST_PROBES = ITEMS.registerItem("test_probes",
@@ -28,7 +32,8 @@ public class ModItems {
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
                     "§6⚡ Condutor de Cobre Puro",
                     java.util.List.of("§7Condutividade: §e98% IACS", "§8Utilizado em fiações de baixa impedância e bobinagens."),
-                    properties));
+                    properties,
+                    () -> ModItems.COPPER_BUSBAR.get()));
 
     public static final DeferredItem<Item> MANUAL_HAMMER = ITEMS.registerItem("manual_hammer",
             br.com.quantumindustries.item.ManualHammerItem::new, properties -> properties.durability(128));
@@ -67,7 +72,8 @@ public class ModItems {
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
                     "§9🛡️ Condutor de Cobre Isolado",
                     java.util.List.of("§7Isolação: §9Dielétrico Polimérico", "§8Impede fuga de corrente e curto-circuito entre fases."),
-                    properties));
+                    properties,
+                    () -> ModItems.INSULATED_CONDUIT.get()));
 
     public static final DeferredItem<Item> COPPER_COIL = ITEMS.registerItem("copper_coil",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
@@ -190,6 +196,76 @@ public class ModItems {
                     java.util.List.of("§7Trem de Engrenagens: §dCinemática Sincronizada", "§8Módulo de automação e controle da Primeira Era Industrial."),
                     properties));
 
+    public static final DeferredItem<BlockItem> BELLOWS_ALLOY_KILN = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_ALLOY_KILN);
+    public static final DeferredItem<BlockItem> ELECTRIC_ALLOY_SMELTER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_ALLOY_SMELTER);
+    public static final DeferredItem<BlockItem> JAW_CRUSHER = ITEMS.registerSimpleBlockItem(ModBlocks.JAW_CRUSHER);
+
+    public static final DeferredItem<Item> HEATED_BRONZE_INGOT = ITEMS.registerItem("heated_bronze_ingot",
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Bronze (Cu₃Sn)", 760, properties),
+            properties -> properties.stacksTo(16));
+    public static final DeferredItem<Item> HEATED_BRASS_INGOT = ITEMS.registerItem("heated_brass_ingot",
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Latão (Cu₃Zn)", 740, properties),
+            properties -> properties.stacksTo(16));
+    public static final DeferredItem<Item> HEATED_STEEL_INGOT = ITEMS.registerItem("heated_steel_ingot",
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Aço Carbono (Fe-C)", 1050, properties),
+            properties -> properties.stacksTo(16));
+
+    public static final DeferredItem<Item> ELECTRUM_WIRE = ITEMS.registerItem("electrum_wire",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§e⚡ Condutor de Electrum (AuAg)",
+                    java.util.List.of("§7Condutividade: §e104% IACS (Baixa Perda)", "§8Fio nobre de ouro-prata para instrumentação e malhas de precisão."),
+                    properties));
+
+    public static final DeferredItem<Item> CONSTANTAN_WIRE = ITEMS.registerItem("constantan_wire",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§c⚡ Condutor de Constantan (CuNi)",
+                    java.util.List.of("§7Resistividade Estável: §c0.49 µΩ·m", "§8Elemento resistivo padrão para resistores, shunts e pirômetros."),
+                    properties));
+
+    public static final DeferredItem<Item> CONSTANTAN_COIL = ITEMS.registerItem("constantan_coil",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§c🌀 Bobina Resistiva de Constantan",
+                    java.util.List.of("§7Dissipação Térmica / Carga Elétrica", "§8Bobina não indutiva para relés térmicos e aquecedores elétricos."),
+                    properties));
+
+    public static final DeferredItem<Item> HYDROCHLORIC_ACID = ITEMS.registerItem("hydrochloric_acid",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§a🧪 Ácido Clorídrico (Muriático)",
+                    java.util.List.of("§7Concentração: §a37% HCl", "§8Agente de decapagem ácida e síntese de sais e fertilizantes."),
+                    properties));
+
+    public static final DeferredItem<Item> REFRACTORY_BRICK = ITEMS.registerItem("refractory_brick",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§6🧱 Tijolo Refratário Aluminoso",
+                    java.util.List.of("§7Resistência Térmica: §6Até 1650°C", "§8Isolamento térmico para fornos de alta temperatura e metalurgia."),
+                    properties));
+
+    public static final DeferredItem<Item> PHOSPHATE_FERTILIZER = ITEMS.registerItem("phosphate_fertilizer",
+            br.com.quantumindustries.item.PhosphateFertilizerItem::new);
+
+    public static final DeferredItem<Item> TIN_SHEET = ITEMS.registerItem("tin_sheet",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§b🛡️ Chapa de Estanho Macio",
+                    java.util.List.of("§7Espessura: §b1.5 mm", "§8Lata maleável e resistente à corrosão para embalagens e folheados."),
+                    properties));
+
+    public static final DeferredItem<Item> ZINC_SHEET = ITEMS.registerItem("zinc_sheet",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§3🛡️ Chapa de Zinco Galvanizada",
+                    java.util.List.of("§7Proteção Catódica: §3Ânodo de Sacrifício", "§8Revestimento protetor para componentes ferrosos e baterias."),
+                    properties));
+
+    public static final DeferredItem<Item> BRONZE_GEAR = ITEMS.registerItem("bronze_gear",
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                    "§6⚙️ Engrenagem de Bronze de Baixo Atrito",
+                    java.util.List.of("§7Dureza e Tenacidade: §6Bronze Cu-Sn", "§8Mancais mecânicos e transmissões resistentes a choques pesados."),
+                    properties));
+
+    public static final java.util.Map<String, DeferredItem<Item>> METAL_DUSTS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> ALLOY_INGOTS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> ALLOY_NUGGETS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, DeferredItem<Item>> ALLOY_SHEETS = new java.util.LinkedHashMap<>();
+
     public static final java.util.Map<String, DeferredItem<BlockItem>> STONE_ORE_ITEMS = new java.util.LinkedHashMap<>();
     public static final java.util.Map<String, DeferredItem<BlockItem>> DEEPSLATE_ORE_ITEMS = new java.util.LinkedHashMap<>();
     public static final java.util.Map<String, DeferredItem<Item>> RAW_MATERIALS = new java.util.LinkedHashMap<>();
@@ -198,6 +274,32 @@ public class ModItems {
     public static final java.util.Map<String, DeferredItem<Item>> CHEMICAL_PRODUCTS = new java.util.LinkedHashMap<>();
 
     static {
+        for (var dust : br.com.quantumindustries.material.CrushingCatalog.METAL_DUSTS) {
+            METAL_DUSTS.put(dust.id(), ITEMS.registerItem(dust.dustId(),
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                            "§e✨ Pó de " + dust.namePt() + " Beneficiado",
+                            java.util.List.of("§7Granulometria: §fMalha 200 (" + dust.formula() + ")", "§8Pó metálico purificado pronto para fundição direta ou mistura de ligas."),
+                            props)));
+        }
+
+        for (var alloy : br.com.quantumindustries.material.AlloyCatalog.ALLOYS) {
+            ALLOY_INGOTS.put(alloy.id(), ITEMS.registerItem(alloy.ingotId(),
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                            "§6🔩 Lingote de " + alloy.namePt(),
+                            java.util.List.of("§7Estequiometria: §f" + alloy.formula(), "§8" + alloy.descriptionPt()),
+                            props)));
+            ALLOY_NUGGETS.put(alloy.id(), ITEMS.registerItem(alloy.nuggetId(),
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                            "§e✨ Pepita de " + alloy.namePt(),
+                            java.util.List.of("§7Fração de Liga: §f1/9 (" + alloy.formula() + ")", "§8Porção fracionária de liga metalúrgica."),
+                            props)));
+            ALLOY_SHEETS.put(alloy.id(), ITEMS.registerItem(alloy.sheetId(),
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
+                            "§6🛡️ Chapa de " + alloy.namePt(),
+                            java.util.List.of("§7Liga Conformada: §f" + alloy.formula(), "§8Chapa laminada para estruturas e instrumentos industriais."),
+                            props)));
+        }
+
         for (var mineral : br.com.quantumindustries.material.MineralCatalog.MINERALS) {
             STONE_ORE_ITEMS.put(mineral.id(), ITEMS.registerSimpleBlockItem(ModBlocks.STONE_ORES.get(mineral.id())));
             DEEPSLATE_ORE_ITEMS.put(mineral.id(), ITEMS.registerSimpleBlockItem(ModBlocks.DEEPSLATE_ORES.get(mineral.id())));

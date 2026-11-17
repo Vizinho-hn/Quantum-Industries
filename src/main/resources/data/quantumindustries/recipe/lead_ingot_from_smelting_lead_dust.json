@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "ingredient": "quantumindustries:lead_dust",
+  "result": {
+    "id": "quantumindustries:lead_ingot",
+    "count": 1
+  }
+}
