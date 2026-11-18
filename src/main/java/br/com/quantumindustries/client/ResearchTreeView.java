@@ -49,8 +49,8 @@ final class ResearchTreeView {
     private record Node(int id, int x, int y) {}
 
     enum State {
-        HIDDEN("Oculta", LINE), BLOCKED("Bloqueada", LINE), WAITING("Faltam materiais", GOLD),
-        READY("Disponível", CYAN), EVIDENCE("Falta evidência", GOLD), DONE("Concluída", GREEN);
+        HIDDEN("gui.quantumindustries.research.state.hidden", LINE), BLOCKED("gui.quantumindustries.research.state.blocked", LINE), WAITING("gui.quantumindustries.research.state.waiting", GOLD),
+        READY("gui.quantumindustries.research.state.ready", CYAN), EVIDENCE("gui.quantumindustries.research.state.evidence", GOLD), DONE("gui.quantumindustries.research.state.done", GREEN);
 
         final String label;
         final int color;
@@ -156,9 +156,9 @@ final class ResearchTreeView {
                 } else {
                     g.fakeItem(icon.apply(node.id), node.x + 5, node.y + 8);
                 }
-                String name = ResearchCatalog.STUDIES.get(node.id).name();
+                String name = net.minecraft.network.chat.Component.translatable(ResearchCatalog.STUDIES.get(node.id).name()).getString();
                 theme.text(g, font, font.plainSubstrByWidth(name, 92), node.x + 24, node.y + 6, TEXT, false);
-                theme.text(g, font, state.label, node.x + 24, node.y + 19, state.color, false);
+                theme.text(g, font, net.minecraft.network.chat.Component.translatable(state.label).getString(), node.x + 24, node.y + 19, state.color, false);
             }
         } finally {
             g.pose().popMatrix();

@@ -23,8 +23,8 @@ public final class ResearchReportItem extends Item {
         CompoundTag tag = new CompoundTag();
         tag.putString("quantum_research_id", study.id().toString());
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-        stack.set(DataComponents.CUSTOM_NAME, Component.literal(
-                "Relatório: " + study.name()));
+        stack.set(DataComponents.CUSTOM_NAME, Component.translatable(
+                "item.quantumindustries.research_report.named", Component.translatable(study.name())));
         return stack;
     }
 
@@ -37,16 +37,16 @@ public final class ResearchReportItem extends Item {
                 .orElseGet(() -> LegacyResearch.key(tag.getIntOr("quantum_research", -1)));
         var id = ResearchCatalog.identifier(storedId);
         WorldResearchData research = WorldResearchData.get(server);
-        if (ResearchCatalog.find(id) == null) return message(player, "Este relatório está em branco.");
-        if (research.knows(player, id)) return message(player, "Você já conhece essa pesquisa.");
-        if (!research.learn(player, id)) return message(player, "Faltam pesquisas prévias ou evidências científicas. Consulte o Analisador Científico.");
+        if (ResearchCatalog.find(id) == null) return message(player, "message.quantumindustries.report.blank");
+        if (research.knows(player, id)) return message(player, "message.quantumindustries.report.known");
+        if (!research.learn(player, id)) return message(player, "message.quantumindustries.report.requirements");
         stack.shrink(1);
-        return message(player, "Pesquisa aprendida.");
+        return message(player, "message.quantumindustries.report.learned");
     }
 
     private static InteractionResult message(Player player, String text) {
         if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
-            serverPlayer.sendOverlayMessage(Component.literal(text));
+            serverPlayer.sendOverlayMessage(Component.translatable(text));
         }
         return InteractionResult.SUCCESS;
     }

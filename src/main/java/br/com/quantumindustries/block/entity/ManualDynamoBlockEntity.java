@@ -114,6 +114,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         br.com.quantumindustries.energy.CableNetwork.transfer(server, worldPosition,
                 this::energy, this::extractEnergy, MAX_EXTRACT);
         for (Direction dir : Direction.values()) {
+            if (!br.com.quantumindustries.energy.EnergyPorts.connects(getBlockState(), dir)) continue;
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && !(target instanceof ManualDynamoBlockEntity)) {

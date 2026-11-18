@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SG",
+    "GS"
+  ],
+  "key": {
+    "S": "quantumindustries:sulfur_dust",
+    "G": "quantumindustries:graphite_dust"
+  },
+  "result": {
+    "id": "quantumindustries:ebonite_rod",
+    "count": 2
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "quantumindustries:cinnabar_dust",
+  "result": {
+    "id": "minecraft:redstone",
+    "count": 2
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

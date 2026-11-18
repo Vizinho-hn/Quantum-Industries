@@ -1,0 +1,7 @@
+{
+  "parent": "quantumindustries:block/copper_busbar_side",
+  "textures": {
+    "0": "quantumindustries:block/insulated_conduit",
+    "particle": "quantumindustries:block/insulated_conduit"
+  }
+}

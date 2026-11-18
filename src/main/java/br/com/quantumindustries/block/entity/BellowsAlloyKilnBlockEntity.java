@@ -94,6 +94,16 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity {
         return true;
     }
 
+    public ItemStack output() { return output; }
+
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     public ItemStack take(boolean includeInputs) {
         if (!(level instanceof ServerLevel)) return ItemStack.EMPTY;
         if (!output.isEmpty()) {

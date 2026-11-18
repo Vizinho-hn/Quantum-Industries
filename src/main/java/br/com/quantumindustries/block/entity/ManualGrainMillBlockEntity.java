@@ -53,6 +53,16 @@ public final class ManualGrainMillBlockEntity extends BlockEntity {
         return true;
     }
 
+    public ItemStack output() { return output; }
+
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     /** Sneak-click takes all flour, or returns unused grain if flour is empty. */
     public ItemStack take() {
         if (!(level instanceof ServerLevel)) return ItemStack.EMPTY;

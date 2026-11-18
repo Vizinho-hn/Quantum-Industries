@@ -25,7 +25,7 @@ public final class FormingBenchBlock extends Block {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hit) {
         if (player instanceof ServerPlayer server) {
-            server.sendOverlayMessage(Component.literal("Martelo na mão principal e lingote na outra. Bata 3 vezes."));
+            server.sendOverlayMessage(Component.translatable("message.quantumindustries.forming.help"));
         }
         return InteractionResult.SUCCESS;
     }
@@ -41,8 +41,8 @@ public final class FormingBenchBlock extends Block {
         ItemStack metal = player.getOffhandItem();
         var material = FormingMaterials.find(metal);
         if (material == null || !WorldResearchData.get(serverLevel).knows(player, "metal_sheets")) {
-            server.sendOverlayMessage(Component.literal(material == null ? "Segure ferro ou cobre na mão secundária."
-                    : "Pesquise Chapas Metálicas antes de martelar."));
+            server.sendOverlayMessage(Component.translatable(material == null ? "message.quantumindustries.forming.metal"
+                    : "message.quantumindustries.forming.research"));
             return InteractionResult.SUCCESS;
         }
         if (player.getCooldowns().isOnCooldown(hammer)) return InteractionResult.SUCCESS;
@@ -65,8 +65,8 @@ public final class FormingBenchBlock extends Block {
             player.getInventory().placeItemBackInInventory(sheet);
         }
         hammer.hurtAndBreak(1, player, hand);
-        server.sendOverlayMessage(Component.literal(strikes >= required ? "Chapa pronta."
-                : "Conformação: " + strikes + " / " + required + " golpes"));
+        server.sendOverlayMessage(strikes >= required ? Component.translatable("message.quantumindustries.forming.ready")
+                : Component.translatable("message.quantumindustries.forming.progress", strikes, required));
         return InteractionResult.SUCCESS;
     }
 }

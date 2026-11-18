@@ -1,137 +1,1336 @@
 {
+  "parent": "minecraft:block/block",
   "textures": {
-    "base": "minecraft:block/Smooth_stone",
-    "stone": "minecraft:block/cobblestone",
-    "iron": "minecraft:block/iron_block",
-    "hopper": "minecraft:block/cauldron_inner",
-    "particle": "minecraft:block/iron_block"
+    "atlas": "quantumindustries:block/era1_artisan_machines",
+    "particle": "quantumindustries:block/era1_artisan_machines"
   },
-  "elements": [
-    {
-      "from": [
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
         0,
         0,
         0
       ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "name": "Oak Skid West",
+      "from": [
+        2.0,
+        0.0,
+        1.0
+      ],
       "to": [
-        16,
-        5,
-        16
+        4.2,
+        1.8,
+        15.0
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            3.75
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            3.75
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Oak Skid East",
       "from": [
-        1,
-        5,
-        1
+        11.8,
+        0.0,
+        1.0
       ],
       "to": [
-        15,
-        13,
-        15
+        14.0,
+        1.8,
+        15.0
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#stone"
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#hopper"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            3.75
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            3.75
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Iron Bedplate",
       "from": [
-        2,
-        13,
-        2
+        2.6,
+        1.7,
+        1.4
       ],
       "to": [
-        6,
-        16,
-        14
+        13.4,
+        3.1,
+        14.6
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            4.25,
+            4.25,
+            7.0,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            4.25,
+            4.25,
+            7.0,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#hopper"
+          "uv": [
+            4.25,
+            4.25,
+            7.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#iron"
+          "uv": [
+            4.25,
+            4.25,
+            7.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            4.25,
+            4.25,
+            7.0,
+            7.5
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            4.25,
+            4.25,
+            7.0,
+            7.5
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Cheek Wall West",
       "from": [
-        10,
-        13,
-        2
+        3.0,
+        3.0,
+        1.8
       ],
       "to": [
-        14,
-        16,
-        14
+        4.6,
+        12.8,
+        14.2
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            0.25,
+            11.375,
+            2.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#hopper"
+          "uv": [
+            8.25,
+            0.25,
+            11.375,
+            2.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            3.375
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            3.375
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Cheek Wall East",
+      "from": [
+        11.4,
+        3.0,
+        1.8
+      ],
+      "to": [
+        13.0,
+        12.8,
+        14.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.375,
+            2.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.375,
+            2.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            3.375
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            3.375
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Fixed Jaw Backing",
+      "from": [
+        4.5,
+        4.0,
+        10.6
+      ],
+      "to": [
+        11.5,
+        13.6,
+        13.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            6.625
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            6.625
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            4.25,
+            5.0,
+            6.625
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            4.25,
+            5.0,
+            6.625
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            5.0
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Fixed Jaw Plate",
+      "from": [
+        4.7,
+        4.8,
+        9.2
+      ],
+      "to": [
+        11.3,
+        13.0,
+        10.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Swing Jaw Backing",
+      "from": [
+        4.5,
+        4.4,
+        3.4
+      ],
+      "to": [
+        11.5,
+        12.4,
+        5.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            10.0,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            10.0,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            2.25
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            10.0,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            10.0,
+            0.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Swing Jaw Plate",
+      "from": [
+        4.7,
+        5.2,
+        5.5
+      ],
+      "to": [
+        11.3,
+        12.0,
+        6.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            2.0
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            2.0
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            2.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            2.0
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Eccentric Pitman Toggle",
+      "from": [
+        5.4,
+        5.8,
+        2.0
+      ],
+      "to": [
+        10.6,
+        8.8,
+        3.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            4.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Hopper Rim North",
+      "from": [
+        3.2,
+        12.7,
+        1.6
+      ],
+      "to": [
+        12.8,
+        15.6,
+        3.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Hopper Rim South",
+      "from": [
+        3.2,
+        12.7,
+        12.4
+      ],
+      "to": [
+        12.8,
+        15.6,
+        14.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.0
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            10.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Discharge Chute",
+      "from": [
+        5.2,
+        2.9,
+        0.2
+      ],
+      "to": [
+        10.8,
+        4.6,
+        4.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            1.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            1.625,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            1.25,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            1.25,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            1.625,
+            5.25
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            1.625,
+            5.25
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Bearing West",
+      "from": [
+        1.8,
+        5.4,
+        5.4
+      ],
+      "to": [
+        3.1,
+        10.6,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Bearing East",
+      "from": [
+        12.9,
+        5.4,
+        5.4
+      ],
+      "to": [
+        14.2,
+        10.6,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            13.5,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.5
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Flywheel Hub",
+      "from": [
+        0.4,
+        6.2,
+        6.2
+      ],
+      "to": [
+        1.9,
+        9.8,
+        9.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            13.125,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            13.125,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            12.75,
+            5.125
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Flywheel Disc",
+      "from": [
+        0.8,
+        3.2,
+        3.2
+      ],
+      "to": [
+        1.6,
+        12.8,
+        12.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            12.25,
+            4.75,
+            14.625
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            12.25,
+            4.75,
+            14.625
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.0,
+            12.0,
+            8.0,
+            16.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.0,
+            12.0,
+            8.0,
+            16.0
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            12.25,
+            4.75,
+            14.625
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            12.25,
+            4.75,
+            14.625
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Drive Tenon East",
+      "from": [
+        14.1,
+        6.0,
+        6.0
+      ],
+      "to": [
+        16.0,
+        10.0,
+        10.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            1.25
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            1.25
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.0,
+            12.0,
+            16.0,
+            16.0
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            1.25,
+            1.25
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            1.25
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            1.25
+          ],
+          "texture": "#atlas"
         }
       }
     }

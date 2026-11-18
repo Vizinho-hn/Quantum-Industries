@@ -1,5 +1,7 @@
 package br.com.quantumindustries;
 
+import net.minecraft.network.chat.Component;
+
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -29,9 +31,8 @@ public class ModItems {
     // Dados de pesquisa (output da bancada)
     public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerItem("research_data", br.com.quantumindustries.research.ResearchReportItem::new);
     public static final DeferredItem<Item> COPPER_WIRE = ITEMS.registerItem("copper_wire",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6⚡ Condutor de Cobre Puro",
-                    java.util.List.of("§7Condutividade: §e98% IACS", "§8Utilizado em fiações de baixa impedância e bobinagens."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.copper_wire.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.copper_wire.spec_0"), Component.translatable("tooltip.quantumindustries.copper_wire.spec_1")),
                     properties,
                     () -> ModItems.COPPER_BUSBAR.get()));
 
@@ -39,69 +40,58 @@ public class ModItems {
             br.com.quantumindustries.item.ManualHammerItem::new, properties -> properties.durability(128));
 
     public static final DeferredItem<Item> IRON_SHEET = ITEMS.registerItem("iron_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§f🛡️ Chapa de Ferro Calandrada",
-                    java.util.List.of("§7Espessura: §f3.2 mm (Conformação a Frio)", "§8Resistência estrutural para carcaças e blindagens."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.iron_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.iron_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.iron_sheet.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> COPPER_SHEET = ITEMS.registerItem("copper_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6🛡️ Chapa de Cobre Laminada",
-                    java.util.List.of("§7Propriedade: §6Alta Dissipação Térmica", "§8Placas condutoras para acumuladores e trocadores de calor."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.copper_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.copper_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.copper_sheet.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> IRON_GEAR = ITEMS.registerItem("iron_gear",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§f⚙️ Engrenagem de Transmissão Mecânica",
-                    java.util.List.of("§7Módulo Dentado: §f2.5 Reforçado", "§8Transmite torque de rotação com baixo atrito mecânico."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.iron_gear.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.iron_gear.spec_0"), Component.translatable("tooltip.quantumindustries.iron_gear.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> MECHANICAL_SHAFT = ITEMS.registerItem("mechanical_shaft",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§f🔩 Eixo de Transmissão Retificado",
-                    java.util.List.of("§7Tolerância de Torque: §f600 Nm", "§8Transfere trabalho mecânico entre dínamos e polias."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mechanical_shaft.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mechanical_shaft.spec_0"), Component.translatable("tooltip.quantumindustries.mechanical_shaft.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> HAND_CRANK = ITEMS.registerItem("hand_crank",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§f🔄 Manivela de Partida Manual",
-                    java.util.List.of("§7Acionamento: §fCinético Muscular", "§8Gera torque inicial para máquinas e dínamos em repouso."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.hand_crank.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.hand_crank.spec_0"), Component.translatable("tooltip.quantumindustries.hand_crank.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> INSULATED_COPPER_WIRE = ITEMS.registerItem("insulated_copper_wire",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§9🛡️ Condutor de Cobre Isolado",
-                    java.util.List.of("§7Isolação: §9Dielétrico Polimérico", "§8Impede fuga de corrente e curto-circuito entre fases."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.insulated_copper_wire.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.insulated_copper_wire.spec_0"), Component.translatable("tooltip.quantumindustries.insulated_copper_wire.spec_1")),
                     properties,
                     () -> ModItems.INSULATED_CONDUIT.get()));
 
     public static final DeferredItem<Item> COPPER_COIL = ITEMS.registerItem("copper_coil",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6🌀 Bobina de Indução Eletromagnética",
-                    java.util.List.of("§7Densidade de Espiras: §6Alta Concentração", "§8Induz campos magnéticos para geração e conversão de energia."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.copper_coil.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.copper_coil.spec_0"), Component.translatable("tooltip.quantumindustries.copper_coil.spec_1")),
                     properties));
 
     // Era II - Lead-Acid Accumulator components
     public static final DeferredItem<Item> LEAD_SHEET = ITEMS.registerItem("lead_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§7⬜ Chapa de Chumbo",
-                    java.util.List.of("§7Pureza: §f99.9%", "§8Eletrodo negativo para acumuladores chumbo-ácido."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.lead_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.lead_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.lead_sheet.spec_1")),
                     properties));
     public static final DeferredItem<Item> SULFURIC_ACID = ITEMS.registerItem("sulfuric_acid",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6☠️ Ácido Sulfúrico Concentrado",
-                    java.util.List.of("§7Densidade: §e1.84 g/cm³", "§8Eletrólito para acumuladores. Manuseie com EPI."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.sulfuric_acid.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.sulfuric_acid.spec_0"), Component.translatable("tooltip.quantumindustries.sulfuric_acid.spec_1")),
                     properties));
     public static final DeferredItem<Item> EBONITE_ROD = ITEMS.registerItem("ebonite_rod",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§0🟤 Haste de Ebonite (Borracha Dura)",
-                    java.util.List.of("§7Isolante elétrico e químico", "§8Separador de placas e vedação de acumuladores."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.ebonite_rod.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.ebonite_rod.spec_0"), Component.translatable("tooltip.quantumindustries.ebonite_rod.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> ELECTROMECHANICAL_FRAME = ITEMS.registerItem("electromechanical_frame",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§3🏗️ Chassi Eletromecânico Estrutural",
-                    java.util.List.of("§7Liga: §3Aço-Carbono Estrutural", "§8Gabinete modular para montagem de maquinários industriais."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.electromechanical_frame.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.electromechanical_frame.spec_0"), Component.translatable("tooltip.quantumindustries.electromechanical_frame.spec_1")),
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
@@ -122,19 +112,29 @@ public class ModItems {
     public static final DeferredItem<BlockItem> ELECTROMECHANICAL_PRESS = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMECHANICAL_PRESS);
 
     public static final DeferredItem<Item> MAGNIFYING_GLASS = ITEMS.registerItem("magnifying_glass",
-            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem("Morfologia Óptica", "Revela micro-fraturas e cristalografia de ligas metálicas.", properties),
+            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem(Component.translatable("tooltip.quantumindustries.magnifying_glass.title"),
+                    Component.translatable("tooltip.quantumindustries.magnifying_glass.description"),
+                    properties),
             properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> FLAME_TEST_KIT = ITEMS.registerItem("flame_test_kit",
-            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem("Espectro de Chama", "Identifica emissões atômicas características por combustão controlada.", properties),
+            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem(Component.translatable("tooltip.quantumindustries.flame_test_kit.title"),
+                    Component.translatable("tooltip.quantumindustries.flame_test_kit.description"),
+                    properties),
             properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> MANUAL_BELLOWS = ITEMS.registerItem("manual_bellows",
-            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem("Ventilação Forçada", "Aumenta oxigenação e potencial térmico de ensaios pirométricos.", properties),
+            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem(Component.translatable("tooltip.quantumindustries.manual_bellows.title"),
+                    Component.translatable("tooltip.quantumindustries.manual_bellows.description"),
+                    properties),
             properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> ASSAY_FLASK = ITEMS.registerItem("assay_flask",
-            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem("Reação Química", "Frasco de borossilicato graduado para dissolução em solventes ácidos.", properties),
+            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem(Component.translatable("tooltip.quantumindustries.assay_flask.title"),
+                    Component.translatable("tooltip.quantumindustries.assay_flask.description"),
+                    properties),
             properties -> properties.stacksTo(1));
     public static final DeferredItem<Item> BRASS_WEIGHTS = ITEMS.registerItem("brass_weights",
-            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem("Gravimetria", "Pesos padrão de latão usinado para calibração gravimétrica de densidade.", properties),
+            properties -> new br.com.quantumindustries.item.ScientificInstrumentItem(Component.translatable("tooltip.quantumindustries.brass_weights.title"),
+                    Component.translatable("tooltip.quantumindustries.brass_weights.description"),
+                    properties),
             properties -> properties.stacksTo(1));
 
     public static final DeferredItem<Item> ENERGY_INSPECTION_GOGGLES = ITEMS.registerItem(
@@ -144,10 +144,14 @@ public class ModItems {
                     net.minecraft.world.item.equipment.Equippable.builder(net.minecraft.world.entity.EquipmentSlot.HEAD).build()));
 
     public static final DeferredItem<Item> HEATED_IRON_INGOT = ITEMS.registerItem("heated_iron_ingot",
-            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Ferro Carbono", 980, properties),
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem(Component.translatable("tooltip.quantumindustries.heated_iron_ingot.title"),
+                    980,
+                    properties),
             properties -> properties.stacksTo(16));
     public static final DeferredItem<Item> HEATED_COPPER_INGOT = ITEMS.registerItem("heated_copper_ingot",
-            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Cobre Eletrolítico", 850, properties),
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem(Component.translatable("tooltip.quantumindustries.heated_copper_ingot.title"),
+                    850,
+                    properties),
             properties -> properties.stacksTo(16));
     public static final DeferredItem<BlockItem> PNEUMATIC_TUBE = ITEMS.registerSimpleBlockItem(ModBlocks.PNEUMATIC_TUBE);
     public static final DeferredItem<BlockItem> BELLOWS_EJECTOR = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_EJECTOR);
@@ -157,15 +161,13 @@ public class ModItems {
     public static final DeferredItem<BlockItem> PERISTALTIC_PUMP = ITEMS.registerSimpleBlockItem(ModBlocks.PERISTALTIC_PUMP);
     public static final DeferredItem<BlockItem> SETTLING_VAT = ITEMS.registerSimpleBlockItem(ModBlocks.SETTLING_VAT);
     public static final DeferredItem<Item> GALVANIC_ELECTROLYTE = ITEMS.registerItem("galvanic_electrolyte",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§a🧪 Eletrólito Galvânico Ativo",
-                    java.util.List.of("§7Composição: §aSolução Iônica Condutora", "§8Fluido transportador de carga para células galvânicas."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.spec_0"), Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> PIGMENT_SEDIMENT = ITEMS.registerItem("pigment_sediment",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§d🧱 Sedimento Mineral Decantado",
-                    java.util.List.of("§7Origem: §dDecantação em Tanque", "§8Precursor purificado para sínteses químicas e reagentes."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.pigment_sediment.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.pigment_sediment.spec_0"), Component.translatable("tooltip.quantumindustries.pigment_sediment.spec_1")),
                     properties));
 
     public static final DeferredItem<BlockItem> PIEZO_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.PIEZO_SWITCH);
@@ -174,15 +176,13 @@ public class ModItems {
     public static final DeferredItem<BlockItem> BELLOWS_BRAZIER = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_BRAZIER);
 
     public static final DeferredItem<Item> GOLD_SHEET = ITEMS.registerItem("gold_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§e✨ Chapa de Ouro Nobre",
-                    java.util.List.of("§7Propriedade: §eResistência Total à Corrosão", "§8Superfície de contato quântico e instrumentação analítica."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.gold_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.gold_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.gold_sheet.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> GOLD_WIRE = ITEMS.registerItem("gold_wire",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§e✨ Filamento de Ouro Puro",
-                    java.util.List.of("§7Propriedade: §eMicro-Condutância Linear", "§8Fiações de altíssima precisão para circuitos quânticos."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.gold_wire.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.gold_wire.spec_0"), Component.translatable("tooltip.quantumindustries.gold_wire.spec_1")),
                     properties));
     public static final DeferredItem<BlockItem> WIRE_DRAWING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.WIRE_DRAWING_BENCH);
 
@@ -191,9 +191,8 @@ public class ModItems {
                     properties -> properties.stacksTo(1));
 
     public static final DeferredItem<Item> PRIMITIVE_MECHANICAL_CORE = ITEMS.registerItem("primitive_mechanical_core",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§d⚙️ Núcleo Mecânico Primitivo",
-                    java.util.List.of("§7Trem de Engrenagens: §dCinemática Sincronizada", "§8Módulo de automação e controle da Primeira Era Industrial."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.primitive_mechanical_core.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.primitive_mechanical_core.spec_0"), Component.translatable("tooltip.quantumindustries.primitive_mechanical_core.spec_1")),
                     properties));
 
     public static final DeferredItem<BlockItem> BELLOWS_ALLOY_KILN = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_ALLOY_KILN);
@@ -201,64 +200,62 @@ public class ModItems {
     public static final DeferredItem<BlockItem> JAW_CRUSHER = ITEMS.registerSimpleBlockItem(ModBlocks.JAW_CRUSHER);
 
     public static final DeferredItem<Item> HEATED_BRONZE_INGOT = ITEMS.registerItem("heated_bronze_ingot",
-            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Bronze (Cu₃Sn)", 760, properties),
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem(Component.translatable("tooltip.quantumindustries.heated_bronze_ingot.title"),
+                    760,
+                    properties),
             properties -> properties.stacksTo(16));
     public static final DeferredItem<Item> HEATED_BRASS_INGOT = ITEMS.registerItem("heated_brass_ingot",
-            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Latão (Cu₃Zn)", 740, properties),
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem(Component.translatable("tooltip.quantumindustries.heated_brass_ingot.title"),
+                    740,
+                    properties),
             properties -> properties.stacksTo(16));
     public static final DeferredItem<Item> HEATED_STEEL_INGOT = ITEMS.registerItem("heated_steel_ingot",
-            properties -> new br.com.quantumindustries.item.HeatedIngotItem("Aço Carbono (Fe-C)", 1050, properties),
+            properties -> new br.com.quantumindustries.item.HeatedIngotItem(Component.translatable("tooltip.quantumindustries.heated_steel_ingot.title"),
+                    1050,
+                    properties),
             properties -> properties.stacksTo(16));
 
     public static final DeferredItem<Item> ELECTRUM_WIRE = ITEMS.registerItem("electrum_wire",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§e⚡ Condutor de Electrum (AuAg)",
-                    java.util.List.of("§7Condutividade: §e104% IACS (Baixa Perda)", "§8Fio nobre de ouro-prata para instrumentação e malhas de precisão."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.electrum_wire.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.electrum_wire.spec_0"), Component.translatable("tooltip.quantumindustries.electrum_wire.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> CONSTANTAN_WIRE = ITEMS.registerItem("constantan_wire",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§c⚡ Condutor de Constantan (CuNi)",
-                    java.util.List.of("§7Resistividade Estável: §c0.49 µΩ·m", "§8Elemento resistivo padrão para resistores, shunts e pirômetros."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.constantan_wire.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.constantan_wire.spec_0"), Component.translatable("tooltip.quantumindustries.constantan_wire.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> CONSTANTAN_COIL = ITEMS.registerItem("constantan_coil",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§c🌀 Bobina Resistiva de Constantan",
-                    java.util.List.of("§7Dissipação Térmica / Carga Elétrica", "§8Bobina não indutiva para relés térmicos e aquecedores elétricos."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.constantan_coil.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.constantan_coil.spec_0"), Component.translatable("tooltip.quantumindustries.constantan_coil.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> HYDROCHLORIC_ACID = ITEMS.registerItem("hydrochloric_acid",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§a🧪 Ácido Clorídrico (Muriático)",
-                    java.util.List.of("§7Concentração: §a37% HCl", "§8Agente de decapagem ácida e síntese de sais e fertilizantes."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.hydrochloric_acid.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.hydrochloric_acid.spec_0"), Component.translatable("tooltip.quantumindustries.hydrochloric_acid.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> REFRACTORY_BRICK = ITEMS.registerItem("refractory_brick",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6🧱 Tijolo Refratário Aluminoso",
-                    java.util.List.of("§7Resistência Térmica: §6Até 1650°C", "§8Isolamento térmico para fornos de alta temperatura e metalurgia."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.refractory_brick.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.refractory_brick.spec_0"), Component.translatable("tooltip.quantumindustries.refractory_brick.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> PHOSPHATE_FERTILIZER = ITEMS.registerItem("phosphate_fertilizer",
             br.com.quantumindustries.item.PhosphateFertilizerItem::new);
 
     public static final DeferredItem<Item> TIN_SHEET = ITEMS.registerItem("tin_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§b🛡️ Chapa de Estanho Macio",
-                    java.util.List.of("§7Espessura: §b1.5 mm", "§8Lata maleável e resistente à corrosão para embalagens e folheados."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.tin_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.tin_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.tin_sheet.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> ZINC_SHEET = ITEMS.registerItem("zinc_sheet",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§3🛡️ Chapa de Zinco Galvanizada",
-                    java.util.List.of("§7Proteção Catódica: §3Ânodo de Sacrifício", "§8Revestimento protetor para componentes ferrosos e baterias."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.zinc_sheet.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.zinc_sheet.spec_0"), Component.translatable("tooltip.quantumindustries.zinc_sheet.spec_1")),
                     properties));
 
     public static final DeferredItem<Item> BRONZE_GEAR = ITEMS.registerItem("bronze_gear",
-            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                    "§6⚙️ Engrenagem de Bronze de Baixo Atrito",
-                    java.util.List.of("§7Dureza e Tenacidade: §6Bronze Cu-Sn", "§8Mancais mecânicos e transmissões resistentes a choques pesados."),
+            properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.bronze_gear.title"),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.bronze_gear.spec_0"), Component.translatable("tooltip.quantumindustries.bronze_gear.spec_1")),
                     properties));
 
     public static final java.util.Map<String, DeferredItem<Item>> METAL_DUSTS = new java.util.LinkedHashMap<>();
@@ -276,28 +273,24 @@ public class ModItems {
     static {
         for (var dust : br.com.quantumindustries.material.CrushingCatalog.METAL_DUSTS) {
             METAL_DUSTS.put(dust.id(), ITEMS.registerItem(dust.dustId(),
-                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                            "§e✨ Pó de " + dust.namePt() + " Beneficiado",
-                            java.util.List.of("§7Granulometria: §fMalha 200 (" + dust.formula() + ")", "§8Pó metálico purificado pronto para fundição direta ou mistura de ligas."),
-                            props)));
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mineral_dust.title", Component.translatable("material.quantumindustries.metal." + dust.id() + ".name")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mineral_dust.spec_0", dust.formula()), Component.translatable("tooltip.quantumindustries.mineral_dust.spec_1")),
+                    props)));
         }
 
         for (var alloy : br.com.quantumindustries.material.AlloyCatalog.ALLOYS) {
             ALLOY_INGOTS.put(alloy.id(), ITEMS.registerItem(alloy.ingotId(),
-                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                            "§6🔩 Lingote de " + alloy.namePt(),
-                            java.util.List.of("§7Estequiometria: §f" + alloy.formula(), "§8" + alloy.descriptionPt()),
-                            props)));
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.alloy_ingot.title", Component.translatable("material.quantumindustries.alloy." + alloy.id() + ".name")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.alloy_ingot.spec_0", alloy.formula()), Component.translatable("tooltip.quantumindustries.alloy_ingot.spec_1", Component.translatable("material.quantumindustries.alloy." + alloy.id() + ".description"))),
+                    props)));
             ALLOY_NUGGETS.put(alloy.id(), ITEMS.registerItem(alloy.nuggetId(),
-                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                            "§e✨ Pepita de " + alloy.namePt(),
-                            java.util.List.of("§7Fração de Liga: §f1/9 (" + alloy.formula() + ")", "§8Porção fracionária de liga metalúrgica."),
-                            props)));
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.alloy_nugget.title", Component.translatable("material.quantumindustries.alloy." + alloy.id() + ".name")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.alloy_nugget.spec_0", alloy.formula()), Component.translatable("tooltip.quantumindustries.alloy_nugget.spec_1")),
+                    props)));
             ALLOY_SHEETS.put(alloy.id(), ITEMS.registerItem(alloy.sheetId(),
-                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                            "§6🛡️ Chapa de " + alloy.namePt(),
-                            java.util.List.of("§7Liga Conformada: §f" + alloy.formula(), "§8Chapa laminada para estruturas e instrumentos industriais."),
-                            props)));
+                    props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.alloy_sheet.title", Component.translatable("material.quantumindustries.alloy." + alloy.id() + ".name")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.alloy_sheet.spec_0", alloy.formula()), Component.translatable("tooltip.quantumindustries.alloy_sheet.spec_1")),
+                    props)));
         }
 
         for (var mineral : br.com.quantumindustries.material.MineralCatalog.MINERALS) {
@@ -306,28 +299,24 @@ public class ModItems {
 
             if (mineral.category() == br.com.quantumindustries.material.MineralCatalog.Category.METAL) {
                 RAW_MATERIALS.put(mineral.productName(), ITEMS.registerItem(mineral.rawItemId(),
-                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                                "§6⛏️ " + mineral.mineralNamePt() + " Bruta",
-                                java.util.List.of("§7Composição: §f" + mineral.formula(), "§8Minério bruto pronto para britagem, flotação ou refino."),
-                                props)));
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mineral_raw.title", Component.translatable("material.quantumindustries.mineral." + mineral.id() + ".name")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mineral_raw.spec_0", mineral.formula()), Component.translatable("tooltip.quantumindustries.mineral_raw.spec_1")),
+                    props)));
 
                 INGOTS.put(mineral.productName(), ITEMS.registerItem(mineral.ingotItemId(),
-                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                                "§f🔩 Lingote de " + mineral.productNamePt(),
-                                java.util.List.of("§7Pureza Metalúrgica: §f99.2%", "§8Produto de fundição de alto teor para manufatura e ligas."),
-                                props)));
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mineral_ingot.title", Component.translatable("material.quantumindustries.mineral." + mineral.id() + ".product")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mineral_ingot.spec_0"), Component.translatable("tooltip.quantumindustries.mineral_ingot.spec_1")),
+                    props)));
 
                 NUGGETS.put(mineral.productName(), ITEMS.registerItem(mineral.nuggetItemId(),
-                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                                "§7✨ Pepita de " + mineral.productNamePt(),
-                                java.util.List.of("§7Fração de Lingote: §f1/9", "§8Unidade fracionária para pesagem e estequiometria fina."),
-                                props)));
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mineral_nugget.title", Component.translatable("material.quantumindustries.mineral." + mineral.id() + ".product")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mineral_nugget.spec_0"), Component.translatable("tooltip.quantumindustries.mineral_nugget.spec_1")),
+                    props)));
             } else {
                 CHEMICAL_PRODUCTS.put(mineral.id(), ITEMS.registerItem(mineral.productItemId(),
-                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(
-                                "§b🧪 " + mineral.productNamePt(),
-                                java.util.List.of("§7Fórmula: §f" + mineral.formula(), "§8Composto de grau reagente para reações químicas e industriais."),
-                                props)));
+                        props -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.mineral_chemical.title", Component.translatable("material.quantumindustries.mineral." + mineral.id() + ".product")),
+                    java.util.List.of(Component.translatable("tooltip.quantumindustries.mineral_chemical.spec_0", mineral.formula()), Component.translatable("tooltip.quantumindustries.mineral_chemical.spec_1")),
+                    props)));
             }
         }
     }

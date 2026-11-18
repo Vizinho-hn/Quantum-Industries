@@ -80,12 +80,14 @@ public final class MechanicalSawmillBlockEntity extends RotationalBlockEntity {
         return recipe == null ? 0 : recipe.mechanicalLoad();
     }
 
+    @Override protected boolean isCutting() { return rotating() && !input.isEmpty(); }
+
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        var net = br.com.quantumindustries.mechanical.MechanicalNetwork.state(server, worldPosition);
         var recipe = availableProcess();
-        boolean powered = recipe != null && br.com.quantumindustries.mechanical.MechanicalNetwork.state(server, worldPosition).powered();
-        setRotating(powered);
-        if (!powered) return;
+        setMotion(net.powered(), net.spinDirection());
+        if (recipe == null || !net.powered()) return;
         var holder = MechanicalProcesses.find(server, input);
         String current = holder.id().identifier().toString();
         if (!current.equals(processId)) { processId = current; progress = 0; }
@@ -95,7 +97,7 @@ public final class MechanicalSawmillBlockEntity extends RotationalBlockEntity {
             input.shrink(1);
             if (output.isEmpty()) output = result; else output.grow(result.getCount());
             progress = 0;
-            if (input.isEmpty()) { operator = processId = ""; setRotating(false); }
+            if (input.isEmpty()) { operator = processId = ""; }
             changed();
         } else {
             setChanged();

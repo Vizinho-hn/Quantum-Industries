@@ -29,14 +29,29 @@ public final class MechanicalShaftBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
     }
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(MechanicalShaftBlock::new); }
-    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.INVISIBLE; }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.AXIS); }
     @Override public BlockState getStateForPlacement(BlockPlaceContext context) { return defaultBlockState().setValue(BlockStateProperties.AXIS, context.getClickedFace().getAxis()); }
+    public static boolean isGrounded(net.minecraft.world.level.BlockGetter level, BlockPos pos, Direction.Axis axis) {
+        if (level == null || axis == Direction.Axis.Y) return false;
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+        if (below.getBlock() instanceof MechanicalShaftBlock) return false;
+        VoxelShape shape = below.getCollisionShape(level, belowPos);
+        return !shape.isEmpty() && shape.max(Direction.Axis.Y) >= 0.9375;
+    }
+
     @Override protected VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context) {
-        return switch (state.getValue(BlockStateProperties.AXIS)) {
-            case X -> Block.box(0,4,4,16,12,12);
-            case Y -> Block.box(4,0,4,12,16,12);
-            case Z -> Block.box(4,4,0,12,12,16);
+        Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
+        boolean grounded = isGrounded(level, pos, axis);
+        return switch (axis) {
+            case X -> grounded
+                    ? Shapes.or(Block.box(0, 4, 4, 16, 12, 12), Block.box(5.2, 0, 4.4, 10.8, 5.2, 11.6))
+                    : Block.box(0, 4, 4, 16, 12, 12);
+            case Y -> Block.box(4, 0, 4, 12, 16, 12);
+            case Z -> grounded
+                    ? Shapes.or(Block.box(4, 4, 0, 12, 12, 16), Block.box(4.4, 0, 5.2, 11.6, 5.2, 10.8))
+                    : Block.box(4, 4, 0, 12, 12, 16);
         };
     }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new MechanicalShaftBlockEntity(pos, state); }

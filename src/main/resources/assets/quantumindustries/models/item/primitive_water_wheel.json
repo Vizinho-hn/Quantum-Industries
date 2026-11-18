@@ -55,970 +55,2384 @@
         0.5,
         0.5
       ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
     }
   },
   "elements": [
     {
-      "name": "Suporte",
+      "name": "Foot North",
       "from": [
-        6,
-        0,
-        1
+        3.4,
+        0.0,
+        0.3
       ],
       "to": [
-        10,
-        10,
-        4
+        12.6,
+        1.2,
+        3.2
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            7.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            7.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            5.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            5.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Suporte",
+      "name": "Foot South",
       "from": [
-        6,
-        0,
-        12
+        3.4,
+        0.0,
+        12.8
       ],
       "to": [
-        10,
-        10,
-        15
+        12.6,
+        1.2,
+        15.7
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            7.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            7.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            5.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            4.25,
+            4.25,
+            5.75,
+            4.75
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Eixo hidraulico",
+      "name": "Stanchion NW",
       "from": [
-        7,
-        7,
-        0
+        4.5,
+        1.1,
+        0.7
       ],
       "to": [
-        9,
-        9,
-        16
+        6.4,
+        9.6,
+        2.7
       ],
       "faces": {
         "north": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            12,
-            0,
-            16,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Stanchion NE",
       "from": [
-        4,
-        14,
-        6
+        9.6,
+        1.1,
+        0.7
       ],
       "to": [
-        12,
-        16,
-        10
+        11.5,
+        9.6,
+        2.7
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Stanchion SW",
       "from": [
-        4,
-        0,
-        6
+        4.5,
+        1.1,
+        13.3
       ],
       "to": [
-        12,
-        2,
-        10
+        6.4,
+        9.6,
+        15.3
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Stanchion SE",
       "from": [
-        0,
-        4,
-        6
+        9.6,
+        1.1,
+        13.3
       ],
       "to": [
-        2,
-        12,
-        10
+        11.5,
+        9.6,
+        15.3
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            2.25
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.25,
+            0.25,
+            0.75,
+            0.75
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Bearing North",
       "from": [
-        14,
-        4,
-        6
+        5.4,
+        5.4,
+        0.5
       ],
       "to": [
-        16,
-        12,
-        10
+        10.6,
+        10.6,
+        3.0
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.0,
+            12.0,
+            6.0,
+            14.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.0,
+            12.0,
+            6.0,
+            14.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Bearing South",
       "from": [
-        2,
-        2,
-        6
+        5.4,
+        5.4,
+        13.0
       ],
       "to": [
-        4,
-        4,
-        10
+        10.6,
+        10.6,
+        15.5
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            8.0,
+            0.0,
+            12.0,
+            4.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.0,
+            12.0,
+            6.0,
+            14.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            0.0,
+            12.0,
+            6.0,
+            14.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Axle Tenon North",
       "from": [
-        12,
-        2,
-        6
+        6.0,
+        6.0,
+        0.0
       ],
       "to": [
-        14,
-        4,
-        10
+        10.0,
+        10.0,
+        2.8
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            8.0,
+            16.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            8.0,
+            16.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            2.0,
+            9.0,
+            5.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            2.0,
+            9.0,
+            5.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Axle Tenon South",
       "from": [
-        2,
-        12,
-        6
+        6.0,
+        6.0,
+        13.2
       ],
       "to": [
-        4,
-        14,
-        10
+        10.0,
+        10.0,
+        16.0
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            8.0,
+            16.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            8.0,
+            16.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            2.0,
+            9.0,
+            5.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            2.0,
+            9.0,
+            5.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Aro de madeira",
+      "name": "Bronze Bushing North",
       "from": [
-        12,
-        12,
-        6
+        5.25,
+        5.25,
+        2.6
       ],
       "to": [
-        14,
-        14,
-        10
+        10.75,
+        10.75,
+        4.1
       ],
       "faces": {
         "north": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            12.0,
+            14.75,
+            14.75
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            12.0,
+            14.75,
+            14.75
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            14.75,
+            12.0,
+            16.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            14.75,
+            12.0,
+            16.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            14.75,
+            14.75,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            4,
-            0,
-            8,
-            8
+            12.0,
+            14.75,
+            14.75,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Raio horizontal",
+      "name": "Bronze Bushing South",
       "from": [
-        1,
-        7,
-        7
+        5.25,
+        5.25,
+        11.9
       ],
       "to": [
-        15,
-        9,
-        9
+        10.75,
+        10.75,
+        13.4
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            12.0,
+            12.0,
+            14.75,
+            14.75
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            12.0,
+            12.0,
+            14.75,
+            14.75
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            14.75,
+            12.0,
+            16.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            14.75,
+            12.0,
+            16.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            12.0,
+            14.75,
+            14.75,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            12.0,
+            14.75,
+            14.75,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Raio vertical",
+      "name": "Wheel Drum Hub",
       "from": [
-        7,
-        1,
-        7
+        4.8,
+        4.8,
+        4.0
       ],
       "to": [
-        9,
-        15,
-        9
+        11.2,
+        11.2,
+        12.0
       ],
       "faces": {
         "north": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            1.0,
+            9.0,
+            4.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            1.0,
+            9.0,
+            4.0,
+            11.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            8.0,
+            8.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            0.0,
+            8.0,
+            8.0,
+            12.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            8.0,
+            8.0,
+            12.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            0,
-            0,
-            4,
-            8
+            8.0,
+            8.0,
+            12.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Cubo de ferro",
+      "name": "Hub Iron Clamp",
       "from": [
-        6,
-        6,
+        4.5,
+        4.5,
+        6.6
+      ],
+      "to": [
+        11.5,
+        11.5,
+        9.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.0,
+            0.0,
+            12.0,
+            4.0
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            8.0,
+            0.0,
+            12.0,
+            4.0
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            6.0,
+            12.0,
+            8.0,
+            16.0
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            6.0,
+            12.0,
+            8.0,
+            16.0
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.0,
+            12.0,
+            6.0,
+            14.0
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.0,
+            12.0,
+            6.0,
+            14.0
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Spoke Top",
+      "from": [
+        7.2,
+        11.1,
+        7.0
+      ],
+      "to": [
+        8.8,
+        13.2,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Spoke Bottom",
+      "from": [
+        7.2,
+        2.8,
+        7.0
+      ],
+      "to": [
+        8.8,
+        4.9,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Spoke West",
+      "from": [
+        2.8,
+        7.2,
+        7.0
+      ],
+      "to": [
+        4.9,
+        8.8,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Spoke East",
+      "from": [
+        11.1,
+        7.2,
+        7.0
+      ],
+      "to": [
+        13.2,
+        8.8,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim Top",
+      "from": [
+        4.4,
+        13.0,
         5.5
       ],
       "to": [
-        10,
-        10,
+        11.6,
+        14.5,
         10.5
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            6.0,
+            0.75
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            6.0,
+            0.75
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            5.5,
+            0.75
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            5.5,
+            0.75
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            6.0,
+            1.5
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.25,
+            0.25,
+            6.0,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim Bottom",
+      "from": [
+        4.4,
+        1.5,
+        5.5
+      ],
+      "to": [
+        11.6,
+        3.0,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            6.0,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            6.0,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            6.0,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            6.0,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim West",
+      "from": [
+        1.5,
+        4.4,
+        5.5
+      ],
+      "to": [
+        3.0,
+        11.6,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim East",
+      "from": [
+        13.0,
+        4.4,
+        5.5
+      ],
+      "to": [
+        14.5,
+        11.6,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            2.0
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim NW",
+      "from": [
+        2.7,
+        11.3,
+        5.6
+      ],
+      "to": [
+        4.7,
+        13.3,
+        10.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim NE",
+      "from": [
+        11.3,
+        11.3,
+        5.6
+      ],
+      "to": [
+        13.3,
+        13.3,
+        10.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim SW",
+      "from": [
+        2.7,
+        2.7,
+        5.6
+      ],
+      "to": [
+        4.7,
+        4.7,
+        10.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Rim SE",
+      "from": [
+        11.3,
+        2.7,
+        5.6
+      ],
+      "to": [
+        13.3,
+        4.7,
+        10.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            5.5,
+            0.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            4.75,
+            1.5
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle N",
+      "from": [
+        7.2,
+        14.4,
+        5.1
+      ],
+      "to": [
+        8.8,
+        16.0,
+        10.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle S",
+      "from": [
+        7.2,
+        0.0,
+        5.1
+      ],
+      "to": [
+        8.8,
+        1.6,
+        10.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle W",
+      "from": [
+        0.0,
+        7.2,
+        5.1
+      ],
+      "to": [
+        1.6,
+        8.8,
+        10.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle E",
+      "from": [
+        14.4,
+        7.2,
+        5.1
+      ],
+      "to": [
+        16.0,
+        8.8,
+        10.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            1.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            0.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle NW",
+      "from": [
+        1.6,
+        12.8,
+        5.25
+      ],
+      "to": [
+        3.2,
+        14.4,
+        10.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle NE",
+      "from": [
+        12.8,
+        12.8,
+        5.25
+      ],
+      "to": [
+        14.4,
+        14.4,
+        10.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle SW",
+      "from": [
+        1.6,
+        1.6,
+        5.25
+      ],
+      "to": [
+        3.2,
+        3.2,
+        10.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        }
+      }
+    },
+    {
+      "name": "Paddle SE",
+      "from": [
+        12.8,
+        1.6,
+        5.25
+      ],
+      "to": [
+        14.4,
+        3.2,
+        10.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#workshop"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
+          ],
+          "texture": "#workshop"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            8.75,
+            5.75
           ],
           "texture": "#workshop"
         }

@@ -18,7 +18,7 @@ import static br.com.quantumindustries.client.ResearchTheme.*;
 public final class QuantumGuidebookScreen extends AbstractContainerScreen<QuantumGuidebookMenu> {
     private static final int W = 540, H = 372;
     private static final int ROWS_PER_PAGE = 8;
-    private static final String[] FILTER_LABELS = {"Todos", "Início", "Era I", "Era II"};
+    private final String[] FILTER_LABELS = {tr("gui.quantumindustries.text.all"), tr("gui.quantumindustries.guidebook.filter.intro"), tr("gui.quantumindustries.text.era_i"), tr("gui.quantumindustries.text.era_ii")};
 
     private final ResearchTheme theme = new ResearchTheme(false);
     private int eraFilter = -1; // -1 = All, 0 = Intro, 1 = Era I, 2 = Era II
@@ -28,6 +28,8 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
     public QuantumGuidebookScreen(QuantumGuidebookMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, W, H);
     }
+
+    private static String tr(String key, Object... args) { return Component.translatable(key, args).getString(); }
 
     private float scale() { return Math.min((width - 8f) / W, (height - 8f) / H); }
     private float originX() { return (width - W * scale()) / 2f; }
@@ -72,10 +74,10 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
             // Header
             theme.frame(g, 4, 4, W - 8, 32, LINE, PANEL, DARK);
             g.fakeItem(new ItemStack(ModItems.QUANTUM_GUIDEBOOK.get()), 12, 12);
-            text(g, "CÓDICE QUANTUM INDUSTRIES", 34, 10, CYAN);
-            text(g, "Manual Técnico de Máquinas & Operação (Sem Receitas)", 34, 22, MUTED);
+            text(g, tr("gui.quantumindustries.text.quantum_industries_codex"), 34, 10, CYAN);
+            text(g, tr("gui.quantumindustries.text.machine_operation_manual_no_recipes"), 34, 22, MUTED);
 
-            String progressLabel = "Decodificados: " + unlockedCount + " / " + GuidebookCatalog.chapters().size();
+            String progressLabel = tr("gui.quantumindustries.text.decoded") + unlockedCount + " / " + GuidebookCatalog.chapters().size();
             text(g, progressLabel, W - 16 - font.width(progressLabel), 16, GREEN);
 
             // Filter tabs
@@ -89,7 +91,7 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
 
             // Left sidebar (Chapter list)
             theme.frame(g, 6, 64, 184, 300, LINE, PANEL, DARK);
-            text(g, "ÍNDICE DE MÁQUINAS", 16, 73, MUTED);
+            text(g, tr("gui.quantumindustries.text.machine_index"), 16, 73, MUTED);
             theme.fill(g, 14, 84, 182, 85, LINE);
 
             int start = listPage * ROWS_PER_PAGE;
@@ -104,11 +106,11 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
                 theme.frame(g, 12, ry, 172, 26, selected ? CYAN : LINE, selected ? 0xFF145368 : DARK, DARK);
                 if (unlocked) {
                     g.fakeItem(ch.icon().get(), 16, ry + 5);
-                    clipped(g, ch.title(), 36, ry + 9, 142, selected ? CYAN : TEXT);
+                    clipped(g, tr(ch.title()), 36, ry + 9, 142, selected ? CYAN : TEXT);
                 } else {
                     theme.lock(g, 19, ry + 7);
                     text(g, "????", 36, ry + 9, GOLD);
-                    text(g, "[Criptografado]", 74, ry + 9, MUTED);
+                    text(g, tr("gui.quantumindustries.text.encrypted"), 74, ry + 9, MUTED);
                 }
             }
 
@@ -137,14 +139,14 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
     private void renderUnlockedChapter(GuiGraphicsExtractor g, Chapter chapter) {
         theme.frame(g, 204, 72, 322, 42, LINE, PANEL, DARK);
         g.fakeItem(chapter.icon().get(), 212, 83);
-        clipped(g, chapter.title(), 234, 79, 284, CYAN);
-        clipped(g, chapter.subtitle(), 234, 92, 284, MUTED);
-        String eraTag = chapter.era() == 0 ? "INTRODUÇÃO" : "ERA " + (chapter.era() == 1 ? "I" : "II") + " — DESBLOQUEADO";
+        clipped(g, tr(chapter.title()), 234, 79, 284, CYAN);
+        clipped(g, tr(chapter.subtitle()), 234, 92, 284, MUTED);
+        String eraTag = chapter.era() == 0 ? tr("gui.quantumindustries.text.introduction") : tr("gui.quantumindustries.guidebook.era_unlocked", chapter.era() == 1 ? "I" : "II");
         text(g, eraTag, 234, 103, GREEN);
 
         int y = 124;
         for (String paragraph : chapter.paragraphs()) {
-            List<FormattedCharSequence> lines = font.split(Component.literal(paragraph), 310);
+            List<FormattedCharSequence> lines = font.split(Component.translatable(paragraph), 310);
             for (FormattedCharSequence line : lines) {
                 if (y > 272) break;
                 g.text(font, line, 208, y, TEXT, false);
@@ -155,8 +157,8 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
 
         // Practical operation box at bottom
         theme.frame(g, 204, 284, 322, 72, CYAN, PANEL, DARK);
-        text(g, "COMO OPERAR NA PRÁTICA", 214, 292, GOLD);
-        List<FormattedCharSequence> opLines = font.split(Component.literal(chapter.operationSummary()), 302);
+        text(g, tr("gui.quantumindustries.text.how_to_operate"), 214, 292, GOLD);
+        List<FormattedCharSequence> opLines = font.split(Component.literal(tr(chapter.operationSummary())), 302);
         int oy = 306;
         for (FormattedCharSequence line : opLines) {
             if (oy > 344) break;
@@ -168,8 +170,8 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
     private void renderLockedChapter(GuiGraphicsExtractor g, Chapter chapter) {
         theme.frame(g, 204, 72, 322, 42, LINE, PANEL, DARK);
         theme.lock(g, 216, 86);
-        text(g, "REGISTRO CRIPTOGRAFADO — ????", 236, 81, GOLD);
-        text(g, "Dados bloqueados pelo protocolo de segurança do Vault", 236, 95, MUTED);
+        text(g, tr("gui.quantumindustries.text.encrypted_record"), 236, 81, GOLD);
+        text(g, tr("gui.quantumindustries.text.data_locked_by_the_vault_security_protocol"), 236, 95, MUTED);
 
         String[] scrambled = {
             "???? ???????? ?????? ???? ???????????? ??????",
@@ -189,18 +191,18 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
         }
 
         var study = ResearchCatalog.find(chapter.studyKey());
-        String studyHint = study != null ? study.name() : "????";
+        String studyHint = study != null ? tr(study.name()) : "????";
 
         theme.frame(g, 204, 260, 322, 96, GOLD, PANEL, DARK);
-        text(g, "COMO DESBLOQUEAR ESTE CAPÍTULO", 214, 270, GOLD);
-        String msg = "Você ainda não compreende a ciência por trás desta máquina. Construa e utilize a Mesa de Pesquisa e conclua o estudo correspondente para decodificar as instruções completas de operação.";
+        text(g, tr("gui.quantumindustries.text.how_to_unlock_this_chapter"), 214, 270, GOLD);
+        String msg = tr("gui.quantumindustries.text.you_have_not_yet_learned_the_science_behind_this_machine_build_and_use_the_research_table_and_complete_the_corresponding_study_to_decode_its_full_operating_instructions");
         List<FormattedCharSequence> lines = font.split(Component.literal(msg), 302);
         int hy = 285;
         for (FormattedCharSequence line : lines) {
             g.text(font, line, 214, hy, TEXT, false);
             hy += 11;
         }
-        clipped(g, "Estudo necessário na Mesa: " + studyHint + " (Era " + (chapter.era() == 1 ? "I" : "II") + ")", 214, 338, 302, CYAN);
+        clipped(g, tr("gui.quantumindustries.guidebook.required_study", studyHint, chapter.era() == 1 ? "I" : "II"), 214, 338, 302, CYAN);
     }
 
     @Override

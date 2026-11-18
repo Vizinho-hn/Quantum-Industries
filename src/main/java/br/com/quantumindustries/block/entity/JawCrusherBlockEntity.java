@@ -81,6 +81,14 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     public ItemStack output() { return output; }
     public int progress() { return progress; }
 
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     private boolean canRun() {
         ItemStack result = CrushingCatalog.resultFor(input);
         return !result.isEmpty() && (output.isEmpty()

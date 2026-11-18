@@ -63,6 +63,13 @@ public final class CrushingCatalog {
         if (input.is(Items.COAL) && ModItems.CHEMICAL_PRODUCTS.containsKey("graphite")) {
             return new ItemStack(ModItems.CHEMICAL_PRODUCTS.get("graphite").get(), 2);
         }
+        for (String metalId : List.of("aluminum", "uranium", "osmium", "platinum", "tungsten", "titanium", "cobalt")) {
+            var raw = ModItems.RAW_MATERIALS.get(metalId);
+            var nugget = ModItems.NUGGETS.get(metalId);
+            if (raw != null && nugget != null && input.is(raw.get())) {
+                return new ItemStack(nugget.get(), 18);
+            }
+        }
         return ItemStack.EMPTY;
     }
 

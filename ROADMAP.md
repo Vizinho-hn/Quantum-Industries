@@ -17,6 +17,7 @@ V — Inteligência Artificial e Automação Autônoma.
 
 - [x] Implementar a Bancada de Ensaio Empírico expandida para treze materiais (incluindo Estanho, Zinco e Chumbo), quatro métodos e 52 descobertas individualizadas.
 - [x] Implementar Analisadores Científicos Tier 1 e Tier 2, árvore, caderno, receitas e relatórios.
+- [x] Localizar códice, caderno, pesquisas, relatórios e descrições dos itens em PT-BR/EN-US, acompanhando o idioma do jogo.
 - [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
 - [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.
@@ -53,7 +54,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Expandir Trefiladora (`electrum_wire`, `constantan_wire`, `constantan_coil`) e Recozimento Térmico (`heated_bronze_ingot`, `heated_brass_ingot`, `heated_steel_ingot`).
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
-- [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.
+- [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho; conexões, modelos e hitboxes nas seis direções, incluindo pilhas verticais.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.
 - [x] Criar dutos hidráulicos nativos NeoForge, bomba peristáltica manual/FE e cuba de decantação 8.000 mB (com suporte a Pó de Enxofre, Lápis-Lazúli e Sal Gema).
 - [ ] Criar fluido registrado de eletrólito refinado e integrar como insumo líquido ao Acumulador sem invalidar receitas anteriores.
 - [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.

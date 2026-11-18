@@ -1,24 +1,21 @@
 package br.com.quantumindustries.client.render;
 
+import br.com.quantumindustries.block.MechanicalShaftBlock;
+import br.com.quantumindustries.block.entity.MechanicalShaftBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.geckolib.constant.dataticket.DataTicket;
+import com.geckolib.model.GeoModel;
+import com.geckolib.renderer.GeoBlockRenderer;
+import com.geckolib.renderer.base.BoneSnapshots;
+import com.geckolib.renderer.base.GeoRenderState;
+import com.geckolib.renderer.base.RenderPassInfo;
 import com.mojang.math.Axis;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.blockentity.*;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -29,82 +26,161 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-/** Rotates actual voxel geometry; static frames remain in the baked block model. */
+/** GeckoLib renderer for Era I rotational machinery with world-axis phase lock. */
 @EventBusSubscriber(modid = "quantumindustries", value = Dist.CLIENT)
-public final class MechanicalRenderer<T extends RotationalBlockEntity> implements BlockEntityRenderer<T, MechanicalRenderer.State> {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("quantumindustries", "textures/block/mechanical_workshop.png");
-    private record Box(float[] from, float[] to, int material, String group) {}
-    private static final Map<String, List<Box>> PARTS = load();
-    public MechanicalRenderer(BlockEntityRendererProvider.Context context) {}
-    public static final class State extends BlockEntityRenderState {
-        String model;
-        float angle, facing;
-        Direction.Axis axle = Direction.Axis.Z;
+public final class MechanicalRenderer<T extends RotationalBlockEntity> extends GeoBlockRenderer<T, MechanicalRenderer.State> {
+
+    private static final class MechanicalGeoModel<M extends RotationalBlockEntity> extends GeoModel<M> {
+        private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("quantumindustries", "textures/block/mechanical_workshop.png");
+        private final Identifier modelId;
+        private final Identifier animId;
+
+        private MechanicalGeoModel(String path) {
+            this.modelId = Identifier.fromNamespaceAndPath("quantumindustries", "block/" + path);
+            this.animId = Identifier.fromNamespaceAndPath("quantumindustries", "block/" + path);
+        }
+
+        @Override public Identifier getModelResource(GeoRenderState state) { return modelId; }
+        @Override public Identifier getTextureResource(GeoRenderState state) { return TEXTURE; }
+        @Override public Identifier getAnimationResource(M animatable) { return animId; }
+    }
+
+    public static final class State extends BlockEntityRenderState implements GeoRenderState {
+        String model = "";
+        float angle;
         boolean crank;
+        boolean grounded = true;
+        Direction facing = Direction.NORTH;
+        Direction.Axis axle = Direction.Axis.Z;
+
+        private static final java.lang.invoke.MethodHandle SUPER_GET_DATA_MAP;
+        private static final java.lang.reflect.Field DATA_FIELD;
+
+        static {
+            java.lang.invoke.MethodHandle mh = null;
+            java.lang.reflect.Field f = null;
+            try {
+                mh = java.lang.invoke.MethodHandles.lookup().findSpecial(
+                        BlockEntityRenderState.class,
+                        "getDataMap",
+                        java.lang.invoke.MethodType.methodType(Map.class),
+                        State.class
+                );
+            } catch (Throwable ignored) {}
+            try {
+                for (java.lang.reflect.Field field : BlockEntityRenderState.class.getDeclaredFields()) {
+                    if (field.getName().contains("data") && Map.class.isAssignableFrom(field.getType())) {
+                        field.setAccessible(true);
+                        f = field;
+                        break;
+                    }
+                }
+            } catch (Throwable ignored) {}
+            SUPER_GET_DATA_MAP = mh;
+            DATA_FIELD = f;
+        }
+
+        private Map<DataTicket<?>, Object> fallback;
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public Map<DataTicket<?>, Object> getDataMap() {
+            if (SUPER_GET_DATA_MAP != null) {
+                try {
+                    return (Map<DataTicket<?>, Object>) SUPER_GET_DATA_MAP.invoke(this);
+                } catch (Throwable ignored) {}
+            }
+            if (DATA_FIELD != null) {
+                try {
+                    return (Map<DataTicket<?>, Object>) DATA_FIELD.get(this);
+                } catch (Throwable ignored) {}
+            }
+            if (fallback == null) fallback = new HashMap<>();
+            return fallback;
+        }
     }
-    @SubscribeEvent public static void register(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(), MechanicalRenderer::new);
-        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(), MechanicalRenderer::new);
-        event.registerBlockEntityRenderer(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(), MechanicalRenderer::new);
+
+    public MechanicalRenderer(BlockEntityRendererProvider.Context context, String modelPath) {
+        super(context, new MechanicalGeoModel<>(modelPath));
     }
-    @Override public State createRenderState() { return new State(); }
-    @Override public void extractRenderState(T entity, State state, float partial, Vec3 camera, ModelFeatureRenderer.CrumblingOverlay overlay) {
-        BlockEntityRenderer.super.extractRenderState(entity, state, partial, camera, overlay);
+
+    @SubscribeEvent
+    public static void register(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(),
+                ctx -> new MechanicalRenderer<>(ctx, "mechanical_sawmill"));
+        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(),
+                ctx -> new MechanicalRenderer<>(ctx, "mechanical_shaft_block"));
+        event.registerBlockEntityRenderer(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(),
+                ctx -> new MechanicalRenderer<>(ctx, "primitive_water_wheel"));
+    }
+
+    @Override
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    protected Direction getBlockStateDirection(T entity) {
+        if (entity instanceof MechanicalShaftBlockEntity) {
+            return switch (entity.axle()) {
+                case X -> Direction.WEST;
+                case Y -> Direction.UP;
+                case Z -> Direction.NORTH;
+            };
+        }
+        return super.getBlockStateDirection(entity);
+    }
+
+    @Override
+    public void adjustRenderPose(RenderPassInfo<State> renderPass) {
+        State state = renderPass.renderState();
+        if (state.model.equals("mechanical_shaft_block") && state.axle == Direction.Axis.Y) {
+            // Rotate vertical shafts around the block center (0.5, 0.5, 0.5) after preRenderPass's (0.5, 0, 0.5) shift.
+            var pose = renderPass.poseStack();
+            pose.translate(0.0, 0.5, 0.0);
+            pose.mulPose(Axis.XP.rotationDegrees(90.0f));
+            pose.translate(0.0, -0.5, 0.0);
+            return;
+        }
+        super.adjustRenderPose(renderPass);
+    }
+
+    @Override
+    public void extractRenderState(T entity, State state, float partial, Vec3 camera, ModelFeatureRenderer.CrumblingOverlay overlay) {
+        super.extractRenderState(entity, state, partial, camera, overlay);
         state.model = BuiltInRegistries.BLOCK.getKey(entity.getBlockState().getBlock()).getPath();
-        state.angle = entity.getLevel() == null ? 0 : entity.rotation(entity.getLevel().getGameTime() + partial);
+        state.angle = entity.getLevel() == null ? 0f : entity.rotation(entity.getLevel().getGameTime() + partial);
         state.crank = entity.installed();
         state.axle = entity.axle();
-        state.facing = entity.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)
-                ? 180 - entity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() : 0;
+        state.grounded = !(entity instanceof MechanicalShaftBlockEntity)
+                || MechanicalShaftBlock.isGrounded(entity.getLevel(), entity.getBlockPos(), state.axle);
+        if (entity.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+            state.facing = entity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+        } else {
+            state.facing = switch (state.axle) {
+                case X -> Direction.WEST;
+                case Y -> Direction.UP;
+                case Z -> Direction.NORTH;
+            };
+        }
     }
-    @Override public void submit(State state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
-        var boxes = PARTS.getOrDefault(state.model, List.of());
-        pose.pushPose();
-        pose.translate(.5, .5, .5);
+
+    @Override
+    public void adjustModelBonesForRender(RenderPassInfo<State> renderPass, BoneSnapshots snapshots) {
+        super.adjustModelBonesForRender(renderPass, snapshots);
+        State state = renderPass.renderState();
+        snapshots.ifPresent("crank", b -> b.skipRender(!state.crank));
         if (state.model.equals("mechanical_shaft_block")) {
-            if (state.axle == Direction.Axis.X) pose.mulPose(Axis.YP.rotationDegrees(90));
-            if (state.axle == Direction.Axis.Y) pose.mulPose(Axis.XP.rotationDegrees(90));
-        } else pose.mulPose(Axis.YP.rotationDegrees(state.facing));
-        pose.mulPose((state.model.equals("mechanical_sawmill") ? Axis.XP : Axis.ZP).rotationDegrees(state.angle));
-        pose.translate(-.5, -.5, -.5);
-        collector.submitCustomGeometry(pose, RenderTypes.entityCutout(TEXTURE), (p, vertices) -> {
-            PoseStack stack = new PoseStack();
-            stack.last().pose().set(p.pose()); stack.last().normal().set(p.normal());
-            for (Box box : boxes) {
-                if (box.group().equals("rotor") || state.crank && box.group().equals("crank")) cuboid(stack, vertices, box, state.lightCoords);
-            }
-        });
-        pose.popPose();
-    }
-    private static Map<String, List<Box>> load() {
-        try (var stream = MechanicalRenderer.class.getResourceAsStream("/assets/quantumindustries/mechanical/parts.json")) {
-            if (stream == null) throw new IllegalStateException("Missing mechanical model parts");
-            var root = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).getAsJsonObject();
-            Map<String, List<Box>> parts = new HashMap<>();
-            root.entrySet().forEach(entry -> {
-                List<Box> boxes = new ArrayList<>();
-                for (var element : entry.getValue().getAsJsonArray()) {
-                    var b = element.getAsJsonObject();
-                    boxes.add(new Box(vector(b.getAsJsonArray("from")), vector(b.getAsJsonArray("to")), b.get("material").getAsInt(), b.get("group").getAsString()));
-                }
-                parts.put(entry.getKey(), List.copyOf(boxes));
-            });
-            return Map.copyOf(parts);
-        } catch (java.io.IOException error) { throw new IllegalStateException(error); }
-    }
-    private static float[] vector(JsonArray a) { return new float[]{a.get(0).getAsFloat()/16, a.get(1).getAsFloat()/16, a.get(2).getAsFloat()/16}; }
-    private static final int[][] FACES = {{0,1,3,2},{5,4,6,7},{4,0,2,6},{1,5,7,3},{2,3,7,6},{4,5,1,0}};
-    private static final float[][] NORMALS = {{0,0,-1},{0,0,1},{-1,0,0},{1,0,0},{0,1,0},{0,-1,0}};
-    private static void cuboid(PoseStack pose, VertexConsumer out, Box box, int light) {
-        var f = box.from(); var t = box.to();
-        float[][] v = {{f[0],f[1],f[2]},{t[0],f[1],f[2]},{f[0],t[1],f[2]},{t[0],t[1],f[2]},
-                {f[0],f[1],t[2]},{t[0],f[1],t[2]},{f[0],t[1],t[2]},{t[0],t[1],t[2]}};
-        float u = (box.material()%4)/4f, w = (box.material()/4)/2f;
-        for (int face=0; face<6; face++) for (int i=0; i<4; i++) {
-            var p = v[FACES[face][i]];var n = NORMALS[face];
-            out.addVertex(pose.last(),p[0],p[1],p[2]).setColor(0xFFFFFFFF)
-                    .setUv(u+(i==1||i==2?.249f:.001f),w+(i>=2?.001f:.499f))
-                    .setOverlay(655360).setLight(light).setNormal(pose.last(),n[0],n[1],n[2]);
+            snapshots.ifPresent("base", b -> b.skipRender(!state.grounded));
+        }
+        if (state.model.equals("mechanical_sawmill")) {
+            float axisSign = (state.facing == Direction.NORTH || state.facing == Direction.EAST) ? 1f : -1f;
+            float rad = (float) Math.toRadians(state.angle * axisSign);
+            snapshots.ifPresent("rotor", b -> b.setRotX(rad));
+        } else {
+            float axisSign = (state.facing == Direction.NORTH || state.facing == Direction.WEST || state.facing == Direction.DOWN) ? 1f : -1f;
+            float rad = (float) Math.toRadians(state.angle * axisSign);
+            snapshots.ifPresent("rotor", b -> b.setRotZ(rad));
         }
     }
 }

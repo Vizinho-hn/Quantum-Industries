@@ -63,7 +63,14 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
     public void tick() {
         if (!(level instanceof ServerLevel server) || energy() <= 0) return;
         br.com.quantumindustries.energy.CableNetwork.transfer(server, worldPosition,
-                this::energy, this::extractEnergy, MAX_TRANSFER);
+                this::energy, this::extractEnergy, MAX_TRANSFER,
+                target -> target instanceof ElectromechanicalPressBlockEntity
+                        || target instanceof WireDrawingBenchBlockEntity
+                        || target instanceof LoadRelayBlockEntity
+                        || target instanceof BellowsEjectorBlockEntity
+                        || target instanceof PeristalticPumpBlockEntity
+                        || target instanceof ElectricAlloySmelterBlockEntity
+                        || target instanceof JawCrusherBlockEntity);
         for (Direction dir : Direction.values()) {
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target

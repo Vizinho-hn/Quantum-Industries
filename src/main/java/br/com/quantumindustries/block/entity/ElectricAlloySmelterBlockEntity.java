@@ -96,6 +96,16 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         return false;
     }
 
+    public ItemStack output() { return output; }
+
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
+
     public ItemStack extractResult(boolean allowInput) {
         if (!(level instanceof ServerLevel)) return ItemStack.EMPTY;
         if (!output.isEmpty()) {
@@ -141,10 +151,15 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
             }
             return;
         }
-        if (energy() < ENERGY_PER_TICK) return;
-        try (var transaction = Transaction.openRoot()) {
-            if (battery.extract(ENERGY_PER_TICK, transaction) < ENERGY_PER_TICK) return;
-            transaction.commit();
+        int prevTarget = progress * recipe.totalFe() / recipe.workTicks();
+        int nextTarget = (progress + 1) * recipe.totalFe() / recipe.workTicks();
+        int stepFe = Math.max(0, nextTarget - prevTarget);
+        if (energy() < stepFe) return;
+        if (stepFe > 0) {
+            try (var transaction = Transaction.openRoot()) {
+                if (battery.extract(stepFe, transaction) < stepFe) return;
+                transaction.commit();
+            }
         }
         progress++;
         if (progress % 20 == 0) {

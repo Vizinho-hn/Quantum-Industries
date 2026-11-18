@@ -1,0 +1,9 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/localization-runtime')
+        neoForge.runs.server {
+            gameDirectory = file('build/localization-verification/world')
+            systemProperty 'quantumindustries.verifyLocalization', 'true'
+        }
+    }
+}

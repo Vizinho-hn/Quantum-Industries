@@ -40,8 +40,8 @@ class VaultAndGuidebookTest(unittest.TestCase):
         self.assertIn('"material_observation"', catalog)
         self.assertIn('"electric_alloy_smelting"', catalog)
         self.assertIn("????", screen)
-        self.assertIn("REGISTRO CRIPTOGRAFADO", screen)
-        self.assertIn("COMO OPERAR NA PRÁTICA", screen)
+        self.assertIn("gui.quantumindustries.text.encrypted_record", screen)
+        self.assertIn("gui.quantumindustries.text.how_to_operate", screen)
         self.assertIn("isVaultSpawned", spawner)
         self.assertIn("markVaultSpawned", spawner)
 

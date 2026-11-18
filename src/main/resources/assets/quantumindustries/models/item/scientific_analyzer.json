@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "quantumindustries:item/scientific_analyzer"
-  }
+  "parent": "quantumindustries:block/research_table"
 }

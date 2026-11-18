@@ -55,556 +55,383 @@
         0.5,
         0.5
       ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
     }
   },
   "elements": [
     {
-      "name": "Mancal inferior",
+      "name": "Pedestal Footplate",
       "from": [
-        4,
-        4,
-        1
+        4.4,
+        0.0,
+        5.2
       ],
       "to": [
-        12,
-        6,
-        4
+        11.6,
+        1.1,
+        10.8
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.0,
+            4.0,
+            8.0,
+            5.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.0,
+            4.0,
+            8.0,
+            5.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.0,
+            4.0,
+            8.0,
+            5.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            4.0,
+            4.0,
+            8.0,
+            5.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Mancal superior",
+      "name": "Pedestal Stanchion",
       "from": [
-        4,
-        10,
-        1
+        5.7,
+        1.0,
+        6.2
       ],
       "to": [
-        12,
-        12,
-        4
+        10.3,
+        3.4,
+        9.8
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            0.0,
+            3.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            0.0,
+            3.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            0.0,
+            3.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            0.0,
+            3.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            9.0,
+            10.0,
+            11.0,
+            13.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Mancal lateral",
+      "name": "Pedestal Bearing Block",
       "from": [
-        4,
-        6,
-        1
+        5.2,
+        3.3,
+        5.8
       ],
       "to": [
-        6,
-        10,
-        4
+        10.8,
+        4.7,
+        10.2
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.5
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.5
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.5
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.5
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Mancal lateral",
+      "name": "Pedestal Saddle West",
       "from": [
-        10,
-        6,
-        1
+        4.75,
+        4.1,
+        6.1
       ],
       "to": [
-        12,
-        10,
-        4
+        5.55,
+        5.2,
+        9.9
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }
       }
     },
     {
-      "name": "Mancal inferior",
+      "name": "Pedestal Saddle East",
       "from": [
-        4,
-        4,
-        12
+        10.45,
+        4.1,
+        6.1
       ],
       "to": [
-        12,
-        6,
-        15
+        11.25,
+        5.2,
+        9.9
       ],
       "faces": {
         "north": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "south": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "east": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "west": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            8.0,
+            0.0,
+            12.0,
+            2.0
           ],
           "texture": "#workshop"
         },
         "up": {
           "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         },
         "down": {
           "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Mancal superior",
-      "from": [
-        4,
-        10,
-        12
-      ],
-      "to": [
-        12,
-        12,
-        15
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Mancal lateral",
-      "from": [
-        4,
-        6,
-        12
-      ],
-      "to": [
-        6,
-        10,
-        15
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Mancal lateral",
-      "from": [
-        10,
-        6,
-        12
-      ],
-      "to": [
-        12,
-        10,
-        15
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8,
-            0,
-            12,
-            8
+            0.0,
+            14.0,
+            6.0,
+            16.0
           ],
           "texture": "#workshop"
         }

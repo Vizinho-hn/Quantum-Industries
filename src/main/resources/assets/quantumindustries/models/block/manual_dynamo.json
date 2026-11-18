@@ -2,7 +2,8 @@
 	"format_version": "26.3",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "quantumindustries:block/dynamo_materials"
+		"1": "quantumindustries:block/dynamo_materials",
+		"particle": "quantumindustries:block/dynamo_materials"
 	},
 	"elements": [
 		{

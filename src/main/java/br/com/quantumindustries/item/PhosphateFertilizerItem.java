@@ -46,9 +46,9 @@ public final class PhosphateFertilizerItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
                                 Consumer<Component> tooltipOutput, TooltipFlag tooltipFlag) {
-        tooltipOutput.accept(Component.literal("§a🌱 Superfosfato Mineral Agrícola"));
-        tooltipOutput.accept(Component.literal("§7Síntese: §fCa(H₂PO₄)₂ + CaSO₄ (Apatita + Enxofre)"));
-        tooltipOutput.accept(Component.literal("§8Clique direito nas lavouras para acelerar o crescimento vegetal."));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.phosphatefertilizer.line_0"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.phosphatefertilizer.line_1"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.phosphatefertilizer.line_2"));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipOutput, tooltipFlag);
     }
 }

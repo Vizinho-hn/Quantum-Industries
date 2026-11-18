@@ -44,6 +44,20 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Comece com o teste mais específico. Execute verificações amplas quando o impacto justificar; testes de cliente/preview são mais caros e podem abrir processos gráficos.
 - Nunca afirme que compilou, testou ou verificou visualmente se não executou o procedimento. Relate impedimentos de ambiente.
 
+### Inspeção visual e QA in-game autônomo (MCP + Harness sem interação humana)
+1. **`minecraft-live` MCP sem clique manual ("MCP Take Over"):**
+   - `build.gradle` (`runs.client`) e `Jogar.sh` já passam `-Dmcp.remote_control=true` e `-Dmcp.background_input=true` (`MC_MCP_REMOTE_CONTROL=true`, `MC_MCP_BACKGROUND_INPUT=true`). Isso libera `enter_control_mode`, `screenshot`, `get_screen_buttons`, `enumerate_widgets`, `click_button_index`, `click` e `set_view_angle` na porta `19132` sem o usuário precisar clicar em *MCP Take Over* no menu de pausa.
+   - **Limitações do bridge `minecraft-mcp-26.1.2-neoforge-v0.4.28.jar` no MC 26.1.2:** `execute_command`, `open_chat` e `press_key` falham por reflection (`performCommand` vs `performPrefixedCommand`), e `get_player_info` quebra o JSON em locale `pt_BR` por vírgula decimal (`String.format("%.1f")`).
+2. **Harness autônomo de QA in-game (`tests/qa-preview.init.gradle`):**
+   - Sobe o cliente NeoForge, entra direto no mundo isolado `build/qa-preview/saves/MachinesQA` (`--quickPlaySingleplayer MachinesQA`), instancia e testa as máquinas no servidor, move a câmera por estágios, captura screenshots nativas e fecha o cliente sozinho:
+     ```bash
+     ./gradlew --no-daemon --max-workers=2 --init-script tests/qa-preview.init.gradle runClient --console=plain > /tmp/quantum-qa-preview.log 2>&1
+     ```
+   - Fontes de QA ficam em `tests/qa-preview/br/com/quantumindustries/qa/MachinesQaSetup.java` e `MachinesQaClient.java` (fora do JAR de produção).
+   - Saídas para inspeção direta pelo agente: `build/qa-preview/qa-report.txt`, screenshots em `build/qa-preview/screenshots/` (`01-machines-overview.png` a `06-mechanical-era1-closeup.png`) e log completo em `/tmp/quantum-qa-preview.log`.
+3. **Blockbench MCP autônomo (`http://127.0.0.1:8787`):**
+   - Se o Blockbench estiver fechado, inicie em background com `DISPLAY=:0 /mnt/dados/apps/blockbench/squashfs-root/AppRun` e aguarde ~4s para usar `get_status`, `new_project`, `import_texture`, `add_cubes`, `check_model`, `screenshot_views`, `save_project` e `export_model`.
+
 ## Economia de contexto e franquia do Codex
 - Primeiro responda internamente: quais arquivos e invariantes a tarefa afeta? Abra apenas esses caminhos.
 - Prefira buscas direcionadas (`rg` com caminho ou padrão específico) a dumps completos de código, logs e diretórios.

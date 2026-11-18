@@ -5,6 +5,8 @@ cd -- "$(dirname -- "$(readlink -f -- "$0")")"
 project_dir="$PWD"
 run_dir="$project_dir/run"
 export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/java-25-openjdk-amd64}"
+export MC_MCP_REMOTE_CONTROL="${MC_MCP_REMOTE_CONTROL:-true}"
+export MC_MCP_BACKGROUND_INPUT="${MC_MCP_BACKGROUND_INPUT:-true}"
 if [[ ! -x "$JAVA_HOME/bin/java" ]]; then
     echo 'JDK 25 não encontrado. Configure JAVA_HOME para sua instalação do Java 25.' >&2
     exit 1

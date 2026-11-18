@@ -26,6 +26,16 @@ public final class BellowsBrazierBlockEntity extends BlockEntity {
     public BellowsBrazierBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BELLOWS_BRAZIER_ENTITY.get(), pos, state);
     }
+    public boolean hasOutput() { return !output.isEmpty(); }
+    public boolean hasInput() { return !input.isEmpty(); }
+    public ItemStack output() { return output; }
+    public ItemStack extractOutput(int maximum) {
+        if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
+        ItemStack result = output.split(Math.min(maximum, output.getCount()));
+        if (output.isEmpty()) output = ItemStack.EMPTY;
+        changed();
+        return result;
+    }
     public Component status() {
         return Component.translatable("message.quantumindustries.brazier.status", fuel, heat, progress);
     }

@@ -11,10 +11,10 @@ import java.util.function.Consumer;
  * Empirical scientific instrument for the 4-step material assay workbench.
  */
 public class ScientificInstrumentItem extends Item {
-    private final String assayPhase;
-    private final String description;
+    private final Component assayPhase;
+    private final Component description;
 
-    public ScientificInstrumentItem(String assayPhase, String description, Properties properties) {
+    public ScientificInstrumentItem(Component assayPhase, Component description, Properties properties) {
         super(properties);
         this.assayPhase = assayPhase;
         this.description = description;
@@ -22,10 +22,10 @@ public class ScientificInstrumentItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipOutput, TooltipFlag tooltipFlag) {
-        tooltipOutput.accept(Component.literal("§d🔬 Instrumento de Ensaio Empírico"));
-        tooltipOutput.accept(Component.literal("§7Fase do Ensaio: §b" + this.assayPhase));
-        tooltipOutput.accept(Component.literal("§7" + this.description));
-        tooltipOutput.accept(Component.literal("§8Utilizado nos slots de instrumentos da Bancada de Ensaio."));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.instrument.header"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.instrument.phase", this.assayPhase));
+        tooltipOutput.accept(this.description);
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.instrument.usage"));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipOutput, tooltipFlag);
     }
 }

@@ -72,7 +72,7 @@ public class QuantumVaultBlock extends BaseEntityBlock {
                 level.setBlock(pos, state.setValue(OPEN, true), Block.UPDATE_ALL);
                 level.playSound(null, pos, SoundEvents.RESPAWN_ANCHOR_CHARGE, SoundSource.BLOCKS, 0.6f, 1.3f);
                 if (player instanceof ServerPlayer op) {
-                    op.sendOverlayMessage(Component.literal("§bQuantum Vault: §f" + be.storedCount() + "× " + be.storedItem().getHoverName().getString()));
+                    op.sendOverlayMessage(Component.translatable("message.quantumindustries.vault.stored", be.storedCount(), be.storedItem().getHoverName()));
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -97,7 +97,7 @@ public class QuantumVaultBlock extends BaseEntityBlock {
                                                Player player, QuantumVaultBlockEntity be) {
         if (be.storedCount() <= 0) {
             if (player instanceof ServerPlayer op) {
-                op.sendOverlayMessage(Component.literal("§7Quantum Vault vazio — clique com um item para armazenar e projetar no holograma."));
+                op.sendOverlayMessage(Component.translatable("message.quantumindustries.vault.empty"));
             }
             return InteractionResult.SUCCESS;
         }
@@ -112,10 +112,10 @@ public class QuantumVaultBlock extends BaseEntityBlock {
                 if (wasGuidebook) {
                     op.sendOverlayMessage(Component.translatable("message.quantumindustries.vault_opened"));
                 } else {
-                    String remaining = be.storedCount() > 0
-                            ? " (Restam: " + be.storedCount() + ")"
-                            : " (Vault esvaziado)";
-                    op.sendOverlayMessage(Component.literal("§aRetirado: §f" + extracted.getCount() + "× " + extracted.getHoverName().getString() + remaining));
+                    Component remaining = be.storedCount() > 0
+                            ? Component.translatable("message.quantumindustries.vault.remaining", be.storedCount())
+                            : Component.translatable("message.quantumindustries.vault.emptied");
+                    op.sendOverlayMessage(Component.translatable("message.quantumindustries.vault.withdrawn", extracted.getCount(), extracted.getHoverName(), remaining));
                 }
             }
         }

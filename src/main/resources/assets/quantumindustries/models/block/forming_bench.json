@@ -1,233 +1,1198 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "minecraft:block/spruce_planks",
-    "wood": "minecraft:block/spruce_planks",
-    "iron": "minecraft:block/iron_block",
-    "copper": "minecraft:block/copper_block"
+    "atlas": "quantumindustries:block/era1_artisan_machines",
+    "particle": "quantumindustries:block/era1_artisan_machines"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
   },
   "elements": [
     {
+      "name": "Leg NW",
       "from": [
-        1,
-        0,
-        1
+        1.0,
+        0.0,
+        1.0
       ],
       "to": [
-        4,
-        12,
-        4
+        3.8,
+        8.6,
+        3.8
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Leg NE",
       "from": [
-        12,
-        0,
-        1
+        12.2,
+        0.0,
+        1.0
       ],
       "to": [
-        15,
-        12,
-        4
+        15.0,
+        8.6,
+        3.8
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Leg SW",
       "from": [
-        1,
-        0,
-        12
+        1.0,
+        0.0,
+        12.2
       ],
       "to": [
-        4,
-        12,
-        15
+        3.8,
+        8.6,
+        15.0
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Leg SE",
       "from": [
-        12,
-        0,
-        12
+        12.2,
+        0.0,
+        12.2
       ],
       "to": [
-        15,
-        12,
-        15
+        15.0,
+        8.6,
+        15.0
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            14.375
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            8.25,
+            12.25,
+            9.0,
+            13.0
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Cross Rail North",
       "from": [
-        0,
-        10,
-        0
+        3.6,
+        2.0,
+        1.4
       ],
       "to": [
-        16,
-        13,
-        16
+        12.4,
+        3.2,
+        3.0
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#wood"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Cross Rail South",
       "from": [
-        2,
-        13,
-        2
+        3.6,
+        2.0,
+        13.0
       ],
       "to": [
-        14,
-        15,
-        14
+        12.4,
+        3.2,
+        14.6
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            0.75,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            0.25,
+            0.25,
+            2.5,
+            0.75
+          ],
+          "texture": "#atlas"
         }
       }
     },
     {
+      "name": "Lower Tool Shelf",
       "from": [
-        5,
-        15,
-        4
+        1.6,
+        3.1,
+        1.6
       ],
       "to": [
-        11,
-        16,
-        11
+        14.4,
+        4.1,
+        14.4
       ],
       "faces": {
         "north": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            4.25,
+            11.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "south": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            4.25,
+            11.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "east": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            4.25,
+            11.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "west": {
-          "texture": "#iron"
+          "uv": [
+            8.25,
+            4.25,
+            11.5,
+            4.75
+          ],
+          "texture": "#atlas"
         },
         "up": {
-          "texture": "#iron"
+          "uv": [
+            8.0,
+            4.0,
+            12.0,
+            8.0
+          ],
+          "texture": "#atlas"
         },
         "down": {
-          "texture": "#iron"
+          "uv": [
+            8.0,
+            4.0,
+            12.0,
+            8.0
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Table Apron",
+      "from": [
+        1.3,
+        6.9,
+        1.3
+      ],
+      "to": [
+        14.7,
+        8.7,
+        14.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.0,
+            0.0,
+            12.0,
+            4.0
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.0,
+            0.0,
+            12.0,
+            4.0
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Tabletop",
+      "from": [
+        0.2,
+        8.5,
+        0.2
+      ],
+      "to": [
+        15.8,
+        10.6,
+        15.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.0,
+            0.0,
+            8.0,
+            4.0
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.0,
+            0.0,
+            8.0,
+            4.0
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Tool Rail",
+      "from": [
+        2.0,
+        7.6,
+        0.6
+      ],
+      "to": [
+        14.0,
+        8.4,
+        1.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            8.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Anvil Base",
+      "from": [
+        3.4,
+        10.5,
+        4.5
+      ],
+      "to": [
+        10.8,
+        11.7,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            4.25,
+            6.125,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            4.25,
+            6.125,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            4.25,
+            6.0,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            4.25,
+            6.125,
+            6.0
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            4.25,
+            6.125,
+            6.0
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Anvil Waist",
+      "from": [
+        4.5,
+        11.6,
+        5.4
+      ],
+      "to": [
+        9.8,
+        13.3,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            9.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            9.625,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            9.5,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            9.5,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            9.625,
+            1.5
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            9.625,
+            1.5
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Anvil Face",
+      "from": [
+        3.0,
+        13.2,
+        4.8
+      ],
+      "to": [
+        11.2,
+        14.9,
+        11.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            0.25,
+            14.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            0.25,
+            14.25,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            0.25,
+            13.875,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            14.25,
+            1.875
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            0.25,
+            14.25,
+            1.875
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Anvil Horn",
+      "from": [
+        0.9,
+        13.4,
+        6.2
+      ],
+      "to": [
+        3.1,
+        14.6,
+        9.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            0.25,
+            13.125,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            0.25,
+            13.125,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            1.125
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            1.125
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Anvil Heel",
+      "from": [
+        11.1,
+        13.5,
+        5.6
+      ],
+      "to": [
+        12.9,
+        14.8,
+        10.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            0.25,
+            13.5,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            0.25,
+            13.5,
+            0.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            1.5
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            0.25,
+            12.75,
+            1.5
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "Swage Die Block",
+      "from": [
+        11.8,
+        10.5,
+        2.2
+      ],
+      "to": [
+        14.8,
+        12.6,
+        5.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            13.0,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            13.0,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            13.125,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            13.125,
+            4.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            13.0,
+            5.125
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            13.0,
+            5.125
+          ],
+          "texture": "#atlas"
         }
       }
     }

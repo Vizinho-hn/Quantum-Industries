@@ -1,5 +1,6 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.block.CopperCableBlock;
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +22,15 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
 
     public CopperCableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.COPPER_CABLE_ENTITY.get(), pos, state);
+    }
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) {
+            // Rebuild connections for saved cables, including the old facing/shape format.
+            BlockState state = getBlockState();
+            BlockState connected = CopperCableBlock.computeState(server, worldPosition, state);
+            if (connected != state) server.setBlock(worldPosition, connected, Block.UPDATE_ALL);
+        }
     }
     @Override public int energy() { return flow; }
     @Override public int capacity() { return getBlockState().is(ModBlocks.COPPER_BUSBAR.get()) ? 32 : 64; }

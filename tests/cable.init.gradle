@@ -1,0 +1,10 @@
+// Isolated cable integration harness, excluded from normal builds.
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/cable-runtime')
+        neoForge.runs.server {
+            gameDirectory = file('build/cable-verification/world')
+            systemProperty 'quantumindustries.verifyCables', 'true'
+        }
+    }
+}

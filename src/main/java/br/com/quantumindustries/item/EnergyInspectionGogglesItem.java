@@ -17,10 +17,10 @@ public class EnergyInspectionGogglesItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipOutput, TooltipFlag tooltipFlag) {
-        tooltipOutput.accept(Component.literal("§b⚡ Inspeção Eletromecânica & Quântica"));
-        tooltipOutput.accept(Component.literal("§7Equipável na cabeça para revelar vetores de fluxo,"));
-        tooltipOutput.accept(Component.literal("§7tensão e status operacional de máquinas industriais."));
-        tooltipOutput.accept(Component.literal("§6Calibração Óptica: §eTier 1 (Empírico)"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.energyinspectiongoggles.line_0"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.energyinspectiongoggles.line_1"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.energyinspectiongoggles.line_2"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.energyinspectiongoggles.line_3"));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipOutput, tooltipFlag);
     }
 }

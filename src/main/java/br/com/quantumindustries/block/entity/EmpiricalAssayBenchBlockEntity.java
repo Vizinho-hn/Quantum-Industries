@@ -36,7 +36,9 @@ public final class EmpiricalAssayBenchBlockEntity extends BlockEntity {
     public int toolMask(){
         int mask=0;
         if(inventory.getItem(1).is(br.com.quantumindustries.ModItems.MAGNIFYING_GLASS.get()))mask|=1;
-        if(inventory.getItem(2).is(br.com.quantumindustries.ModItems.MANUAL_BELLOWS.get()))mask|=2;
+        if(inventory.getItem(2).is(br.com.quantumindustries.ModItems.MANUAL_BELLOWS.get())
+                || inventory.getItem(2).is(br.com.quantumindustries.ModItems.FLAME_TEST_KIT.get())
+                || inventory.getItem(2).is(net.minecraft.world.item.Items.FLINT_AND_STEEL)) mask|=2;
         if(inventory.getItem(3).is(br.com.quantumindustries.ModItems.ASSAY_FLASK.get()))mask|=4;
         return mask;
     }

@@ -25,7 +25,7 @@ public final class PrimitiveWaterWheelBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(PrimitiveWaterWheelBlock::new); }
-    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.INVISIBLE; }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.HORIZONTAL_FACING); }
     @Override public BlockState getStateForPlacement(BlockPlaceContext context) { return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite()); }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new PrimitiveWaterWheelBlockEntity(pos, state); }

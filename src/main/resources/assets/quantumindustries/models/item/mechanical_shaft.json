@@ -128,68 +128,68 @@
   },
   "elements": [
     {
-      "name": "shaft",
+      "name": "Tenon N",
       "from": [
-        6.6,
-        3,
-        6.6
+        6.5,
+        6.5,
+        1.0
       ],
       "to": [
-        9.4,
-        13,
-        9.4
+        9.5,
+        9.5,
+        3.6
       ],
       "faces": {
-        "up": {
+        "north": {
           "uv": [
             0.25,
-            0.25,
-            1.75,
-            1.75
+            12.25,
+            3.75,
+            15.75
           ],
           "texture": "#materials"
         },
         "south": {
           "uv": [
-            2.25,
+            8.25,
             0.25,
-            3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "west": {
-          "uv": [
-            2.25,
-            0.25,
-            3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "north": {
-          "uv": [
-            0.25,
-            2.25,
-            1.75,
+            11.75,
             3.75
           ],
           "texture": "#materials"
         },
         "east": {
           "uv": [
+            8.25,
             0.25,
-            2.25,
-            1.75,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
             3.75
           ],
           "texture": "#materials"
         },
         "down": {
           "uv": [
-            2.25,
-            2.25,
-            3.75,
+            8.25,
+            0.25,
+            11.75,
             3.75
           ],
           "texture": "#materials"
@@ -197,206 +197,68 @@
       }
     },
     {
-      "name": "bottom_collar",
+      "name": "Tenon S",
       "from": [
-        5.8,
-        2,
-        5.8
+        6.5,
+        6.5,
+        12.4
       ],
       "to": [
-        10.2,
-        3,
-        10.2
+        9.5,
+        9.5,
+        15.0
       ],
       "faces": {
-        "up": {
-          "uv": [
-            12.25,
-            4.25,
-            13.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
-        "south": {
-          "uv": [
-            14.25,
-            4.25,
-            15.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
-        "west": {
-          "uv": [
-            14.25,
-            4.25,
-            15.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
         "north": {
           "uv": [
-            12.25,
-            6.25,
-            13.75,
-            7.75
-          ],
-          "texture": "#materials"
-        },
-        "east": {
-          "uv": [
-            12.25,
-            6.25,
-            13.75,
-            7.75
-          ],
-          "texture": "#materials"
-        },
-        "down": {
-          "uv": [
-            14.25,
-            6.25,
-            15.75,
-            7.75
-          ],
-          "texture": "#materials"
-        }
-      }
-    },
-    {
-      "name": "top_collar",
-      "from": [
-        5.8,
-        13,
-        5.8
-      ],
-      "to": [
-        10.2,
-        14,
-        10.2
-      ],
-      "faces": {
-        "up": {
-          "uv": [
-            12.25,
-            4.25,
-            13.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
-        "south": {
-          "uv": [
-            14.25,
-            4.25,
-            15.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
-        "west": {
-          "uv": [
-            14.25,
-            4.25,
-            15.75,
-            5.75
-          ],
-          "texture": "#materials"
-        },
-        "north": {
-          "uv": [
-            12.25,
-            6.25,
-            13.75,
-            7.75
-          ],
-          "texture": "#materials"
-        },
-        "east": {
-          "uv": [
-            12.25,
-            6.25,
-            13.75,
-            7.75
-          ],
-          "texture": "#materials"
-        },
-        "down": {
-          "uv": [
-            14.25,
-            6.25,
-            15.75,
-            7.75
-          ],
-          "texture": "#materials"
-        }
-      }
-    },
-    {
-      "name": "lower_key",
-      "from": [
-        7,
-        0.8,
-        7
-      ],
-      "to": [
-        9,
-        2,
-        9
-      ],
-      "faces": {
-        "up": {
-          "uv": [
+            8.25,
             0.25,
-            0.25,
-            1.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "south": {
-          "uv": [
-            2.25,
-            0.25,
-            3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "west": {
-          "uv": [
-            2.25,
-            0.25,
-            3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "north": {
-          "uv": [
-            0.25,
-            2.25,
-            1.75,
+            11.75,
             3.75
           ],
           "texture": "#materials"
         },
-        "east": {
+        "south": {
           "uv": [
             0.25,
-            2.25,
-            1.75,
+            12.25,
+            3.75,
+            15.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
             3.75
           ],
           "texture": "#materials"
         },
         "down": {
           "uv": [
-            2.25,
-            2.25,
-            3.75,
+            8.25,
+            0.25,
+            11.75,
             3.75
           ],
           "texture": "#materials"
@@ -404,69 +266,345 @@
       }
     },
     {
-      "name": "upper_key",
+      "name": "Bronze Collar N",
       "from": [
-        7,
-        14,
-        7
+        5.75,
+        5.75,
+        3.4
       ],
       "to": [
-        9,
-        15.2,
-        9
+        10.25,
+        10.25,
+        4.6
       ],
       "faces": {
-        "up": {
+        "north": {
           "uv": [
             0.25,
-            0.25,
-            1.75,
-            1.75
+            4.25,
+            3.75,
+            7.75
           ],
           "texture": "#materials"
         },
         "south": {
           "uv": [
-            2.25,
             0.25,
+            4.25,
             3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "west": {
-          "uv": [
-            2.25,
-            0.25,
-            3.75,
-            1.75
-          ],
-          "texture": "#materials"
-        },
-        "north": {
-          "uv": [
-            0.25,
-            2.25,
-            1.75,
-            3.75
+            7.75
           ],
           "texture": "#materials"
         },
         "east": {
           "uv": [
             0.25,
-            2.25,
-            1.75,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "Bronze Collar S",
+      "from": [
+        5.75,
+        5.75,
+        11.4
+      ],
+      "to": [
+        10.25,
+        10.25,
+        12.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            4.25,
+            3.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "Oak Drum",
+      "from": [
+        5.4,
+        5.4,
+        4.5
+      ],
+      "to": [
+        10.6,
+        10.6,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
             3.75
           ],
           "texture": "#materials"
         },
         "down": {
           "uv": [
-            2.25,
-            2.25,
-            3.75,
+            8.25,
+            0.25,
+            11.75,
             3.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "Iron Hoop N",
+      "from": [
+        5.1,
+        5.1,
+        5.2
+      ],
+      "to": [
+        10.9,
+        10.9,
+        6.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        }
+      }
+    },
+    {
+      "name": "Iron Hoop S",
+      "from": [
+        5.1,
+        5.1,
+        9.8
+      ],
+      "to": [
+        10.9,
+        10.9,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#materials"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
           ],
           "texture": "#materials"
         }

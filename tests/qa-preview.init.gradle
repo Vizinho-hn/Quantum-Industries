@@ -1,0 +1,10 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/qa-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/qa-preview')
+            systemProperty 'quantumindustries.qaPreview', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'MachinesQA', '--width', '1280', '--height', '800'
+        }
+    }
+}

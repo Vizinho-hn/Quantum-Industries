@@ -31,8 +31,7 @@ public class TestProbesItem extends Item {
         BlockState state = level.getBlockState(pos);
 
         if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
-            String blockName = state.getBlock().getName().getString();
-            serverPlayer.sendOverlayMessage(Component.literal("§e[Sonda de Diagnóstico] §fAlvo: §b" + blockName + " §7@ (" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
+            serverPlayer.sendOverlayMessage(Component.translatable("message.quantumindustries.probe.target", state.getBlock().getName(), pos.getX(), pos.getY(), pos.getZ()));
             ItemStack stack = context.getItemInHand();
             stack.hurtAndBreak(1, serverPlayer, player.getEquipmentSlotForItem(stack));
             return InteractionResult.SUCCESS;
@@ -43,10 +42,10 @@ public class TestProbesItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipOutput, TooltipFlag tooltipFlag) {
-        tooltipOutput.accept(Component.literal("§e🔍 Sonda de Diagnóstico Quântico"));
-        tooltipOutput.accept(Component.literal("§7Clique com botão direito em máquinas ou condutores"));
-        tooltipOutput.accept(Component.literal("§7para aferir integridade estrutural e continuidade de sinal."));
-        tooltipOutput.accept(Component.literal("§8Ciclos de Teste: §f" + (stack.getMaxDamage() - stack.getDamageValue()) + "/" + stack.getMaxDamage()));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.testprobes.line_0"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.testprobes.line_1"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.testprobes.line_2"));
+        tooltipOutput.accept(Component.translatable("tooltip.quantumindustries.probe.cycles", stack.getMaxDamage() - stack.getDamageValue(), stack.getMaxDamage()));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipOutput, tooltipFlag);
     }
 }

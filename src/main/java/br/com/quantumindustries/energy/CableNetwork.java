@@ -33,6 +33,7 @@ public final class CableNetwork {
         Queue<Route> queue = new ArrayDeque<>();
         Set<BlockPos> visited = new HashSet<>();
         for (Direction direction : Direction.values()) {
+            if (!EnergyPorts.connects(level.getBlockState(source), direction)) continue;
             BlockPos next = source.relative(direction);
             if (level.hasChunkAt(next) && level.getBlockState(next).getBlock() instanceof CopperCableBlock cable) {
                 visited.add(next);
@@ -55,6 +56,7 @@ public final class CableNetwork {
                                 Math.min(path.rate(), cable.insulated() ? 64 : 32)));
                     }
                 } else if (level.getBlockEntity(next) instanceof EnergyInspectable target
+                        && EnergyPorts.connects(level.getBlockState(next), direction.getOpposite())
                         && acceptsTarget.test(target) && target.capacity() > 0 && target.energy() < target.capacity()
                         && !destinations.stream().anyMatch(route -> route.pos().equals(next))) {
                     destinations.add(new Route(next, path.cables(), path.bare(), path.rate()));

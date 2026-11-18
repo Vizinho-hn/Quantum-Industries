@@ -8,6 +8,8 @@ Quantum Industries pretende levar o jogador de processos industriais básicos at
 
 ## Visão do projeto
 
+O códice, o caderno de pesquisas, os nomes e descrições dos itens e os relatórios acompanham o idioma do Minecraft: português em `pt_br` e inglês em `en_us`. As traduções ficam em `assets/quantumindustries/lang/`. A troca de idioma é verificada com `bash tools/verify-localization.sh`, em servidor isolado.
+
 As cinco eras seguem a progressão: **Engenharia Mecânica e Ciência Empírica**,
 **Revolução Elétrica**, **Ondas Eletromagnéticas e Tecnologia Moderna**,
 **Engenharia Quântica** e **Inteligência Artificial e Automação Autônoma**.
@@ -152,9 +154,15 @@ A primeira cadeia de **Ciência Aplicada ao Cotidiano** é opcional: não consti
 - **Sprites provisórios**: o moedor usa geometria voxel em madeira/pedra/ferro; os ícones de farinha, massa e pão referenciam texturas vanilla até os sprites finais em 32×32.
 - **Pendente antes do merge**: validação de compilação, interação no cliente, balde retornado pela receita, drops, saves e multiplayer. Fermento e pão de alta saturação serão uma próxima expansão.
 
+Os tubos de vidro de fluidos e os tubos pneumáticos usam paredes translúcidas azuladas e conexões ocas de cobre. O tubo pneumático se distingue pelo reforço central e mantém a visualização dos itens em trânsito.
+
 ### Distribuição elétrica inicial da Era II
 
 Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulador até consumidores carregados por rede. O barramento admite até 32 FE/t e dissipa 1 FE por quatro segmentos nus no trajeto; o conduíte admite 64 FE/t, sem perda. A rede percorre somente chunks carregados, não cria FE e informa o fluxo nos Óculos de Inspeção. Os barramentos nus sob carga podem dar choque leve em entidades sem botas.
+
+Ambos conectam-se a cabos e máquinas adjacentes nas seis direções, inclusive diretamente acima e abaixo. Modelo e hitbox acompanham cada conexão; vizinhos diagonais não se conectam. As conexões dos cabos salvos são recalculadas ao carregar. Verificação em servidor isolado: `bash tools/verify-cables.sh`.
+
+O Dínamo Manual fornece FE somente pela porta elétrica lateral, oposta à roda/manivela. Essa face acompanha a rotação do bloco e vale tanto para cabos quanto para máquinas diretamente adjacentes. Cada giro ainda precisa ser acionado para gerar energia.
 
 ### Trefiladora de bancada
 

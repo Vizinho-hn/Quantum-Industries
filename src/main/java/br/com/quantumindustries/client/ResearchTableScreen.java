@@ -19,14 +19,16 @@ import static br.com.quantumindustries.client.ResearchTheme.*;
 import static br.com.quantumindustries.client.ResearchTreeView.State;
 
 public final class ResearchTableScreen extends AbstractContainerScreen<ResearchTableMenu> {
+    private static String tr(String key) { return Component.translatable(key).getString(); }
+
     private static final int W = 576, H = 432;
     private static final int ACTION_X = 16, ACTION_Y = 295, ACTION_W = 118, ACTION_H = 24;
-    private static final String[] TABS = {"Árvore de Pesquisa", "Base de Conhecimento", "Receitas Desbloqueadas", "Relatório de pesquisa"};
-    private static final ResearchDetailsPanel.Entry[] ENTRIES = ResearchCatalog.STUDIES.stream()
-            .map(study -> new ResearchDetailsPanel.Entry(study.name(), study.description(), study.reward(),
-                    study.costs().stream().map(cost -> cost.amount() + " " + cost.label()).toArray(String[]::new)))
+    private final String[] TABS = {tr("gui.quantumindustries.text.research_tree"), tr("gui.quantumindustries.text.knowledge_base"), tr("gui.quantumindustries.text.unlocked_recipes"), tr("gui.quantumindustries.text.research_report")};
+    private final ResearchDetailsPanel.Entry[] ENTRIES = ResearchCatalog.STUDIES.stream()
+            .map(study -> new ResearchDetailsPanel.Entry(tr(study.name()), tr(study.description()), tr(study.reward()),
+                    study.costs().stream().map(cost -> cost.amount() + " " + cost.item().getDefaultInstance().getHoverName().getString()).toArray(String[]::new)))
             .toArray(ResearchDetailsPanel.Entry[]::new);
-    private static final String[] ERAS = {"Fundamentos", "Elétrica", "Ondas / Moderna", "Quântica", "IA / Autônoma"};
+    private final String[] ERAS = {tr("gui.quantumindustries.text.foundations"), tr("gui.quantumindustries.text.electrical"), tr("gui.quantumindustries.text.waves_modern"), tr("gui.quantumindustries.text.quantum"), tr("gui.quantumindustries.text.ai_autonomous")};
     private static final String[] ERA_NUMERALS = {"I", "II", "III", "IV", "V"};
     private final ResearchTreeView tree = new ResearchTreeView();
     private int era = 1;
@@ -154,16 +156,16 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             theme.frame(g, 146, 67, 421, 260, LINE, DARK, DARK);
             sidebar(g, states);
             if (tab == 0) {
-                reportButton(g, 475, 71, 77, "Centralizar", true);
+                reportButton(g, 475, 71, 77, tr("gui.quantumindustries.text.center"), true);
                 if (!notebook) {
-                    text(g, "ÁRVORE DE PESQUISA — Era " + ERA_NUMERALS[era - 1] + ": " + ERAS[era - 1],
+                    text(g, tr("gui.quantumindustries.text.research_tree_era") + ERA_NUMERALS[era - 1] + ": " + ERAS[era - 1],
                             155, 77, TEXT);
                     eras(g);
                 } else {
-                    text(g, "ÁRVORE DE PESQUISA — Era I: Fundamentos", 155, 77, TEXT);
+                    text(g, tr("gui.quantumindustries.text.research_tree_era_i_foundations"), 155, 77, TEXT);
                     theme.frame(g, 153, 104, 406, 30, LINE, PANEL, DARK);
-                    text(g, "CADERNO DE CAMPO — ERA I (FUNDAMENTOS)", 163, 110, TEXT);
-                    text(g, "Oficina artesanal. Conclua a Era I para construir o Analisador Tier 2.", 163, 121, MUTED);
+                    text(g, tr("gui.quantumindustries.text.field_notebook_era_i_foundations"), 163, 110, TEXT);
+                    text(g, tr("gui.quantumindustries.text.handcraft_workshop_complete_era_i_to_build_the_tier_2_analyzer"), 163, 121, MUTED);
                     theme.lock(g, 538, 111);
                 }
                 tree.draw(theme, g, font, states, selected, hover, this::icon, era);
@@ -175,7 +177,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 report(g);
                 pagination(g, reportPage, pageCount(ENTRIES.length));
             } else {
-                text(g, "BASE DE CONHECIMENTO", 155, 77, CYAN);
+                text(g, tr("gui.quantumindustries.text.knowledge_base"), 155, 77, CYAN);
                 knowledgeBase(g);
             }
             footer(g, states[selected], icon(selected));
@@ -186,22 +188,22 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         if (tab == 0 && x >= 153 && x < 559 && y >= 244 && y < 321) {
             var study = ResearchCatalog.STUDIES.get(selected);
             var details = new java.util.ArrayList<Component>();
-            details.add(Component.literal(study.name()));
-            details.add(Component.literal(study.description()));
-            details.add(Component.literal("Conhecimentos anteriores"));
+            details.add(Component.literal(tr(study.name())));
+            details.add(Component.literal(tr(study.description())));
+            details.add(Component.literal(tr("gui.quantumindustries.text.prior_knowledge")));
             for (String key : study.prerequisites()) {
                 int id = ResearchCatalog.indexOf(key);
                 details.add(Component.literal((complete(id) ? "+ " : "- ") + ENTRIES[id].name()));
             }
             details.add(Component.literal(complete(selected) && !menu.evidenceReady(selected)
-                    ? "Evidências científicas. Dispensadas neste estudo já concluído." : "Evidências científicas"));
-            if (study.evidence().isEmpty()) details.add(Component.literal("Nenhuma evidência adicional."));
+                    ? tr("gui.quantumindustries.text.scientific_evidence_waived_for_this_completed_study") : tr("gui.quantumindustries.text.scientific_evidence")));
+            if (study.evidence().isEmpty()) details.add(Component.literal(tr("gui.quantumindustries.text.no_additional_evidence")));
             for (int i = 0; i < study.evidence().size(); i++) {
                 details.add(Component.literal(menu.hasEvidence(selected, i) ? "+ " : "- ")
                         .append(study.evidence().get(i).description()));
             }
-            if (!study.evidence().isEmpty()) details.add(Component.literal("Realize o ensaio no Analisador de Materiais."));
-            details.add(Component.literal("Materiais de pesquisa"));
+            if (!study.evidence().isEmpty()) details.add(Component.literal(tr("gui.quantumindustries.text.perform_the_test_at_the_material_analyzer")));
+            details.add(Component.literal(tr("gui.quantumindustries.text.research_materials")));
             for (int i = 0; i < study.costs().size(); i++) {
                 details.add(Component.literal((complete(selected) || menu.hasCost(selected, i) ? "+ " : "- ")
                         + ENTRIES[selected].costs()[i]));
@@ -213,19 +215,19 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private void selectedDetails(GuiGraphicsExtractor g) {
         theme.frame(g, 153, 244, 406, 77, LINE, PANEL, DARK);
         if (selected < 0 || ResearchCatalog.STUDIES.get(selected).era() != era) {
-            text(g, "Selecione uma pesquisa da era.", 163, 257, MUTED);
+            text(g, tr("gui.quantumindustries.text.select_a_study_from_this_era"), 163, 257, MUTED);
             return;
         }
         var entry = ENTRIES[selected];
         text(g, entry.name(), 163, 252, CYAN);
         if (complete(selected)) drawOutputs(g, outputs(selected), 548, 246);
         clipped(g, entry.description(), 163, 265, 386, TEXT);
-        clipped(g, "Desbloqueio: " + entry.reward(), 163, 278, 386, GREEN);
+        clipped(g, tr("gui.quantumindustries.text.unlocks") + entry.reward(), 163, 278, 386, GREEN);
         var study = ResearchCatalog.STUDIES.get(selected);
         var dependencies = study.prerequisites();
         int dependencyY = study.evidence().isEmpty() ? 294 : 288;
         if (!dependencies.isEmpty()) {
-            text(g, "Pré-requisitos:", 163, dependencyY, MUTED);
+            text(g, tr("gui.quantumindustries.text.prerequisites"), 163, dependencyY, MUTED);
             if (!study.evidence().isEmpty()) {
                 String names = dependencies.stream().map(key -> {
                     int id = ResearchCatalog.indexOf(key);
@@ -247,10 +249,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             int evidence = Math.min(pending, study.evidence().size() - 1);
             boolean met = menu.hasEvidence(selected, evidence);
             String evidenceLabel = complete(selected) && !menu.evidenceReady(selected)
-                    ? "Pesquisa concluída. Evidência adicional dispensada."
+                    ? tr("gui.quantumindustries.text.research_completed_additional_evidence_waived")
                     : (met ? "+ " : "- ") + study.evidence().get(evidence).description().getString();
             clipped(g, evidenceLabel, 163, 299, 386, met || complete(selected) ? GREEN : GOLD);
-            text(g, "Investigue no Analisador de Materiais. Passe o mouse para detalhes.", 163, 310, MUTED);
+            text(g, tr("gui.quantumindustries.text.investigate_at_the_material_analyzer_hover_for_details"), 163, 310, MUTED);
         }
     }
 
@@ -262,7 +264,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.fill(g,24, 23, 31, 30, CYAN);
         theme.fill(g,24, 12, 31, 19, GOLD);
         text(g, "QUANTUM INDUSTRIES", 39, 9, MUTED);
-        text(g, notebook ? "Caderno de pesquisas" : "Estação Científica", 39, 21, TEXT);
+        text(g, notebook ? tr("gui.quantumindustries.text.research_notebook") : tr("gui.quantumindustries.text.scientific_station"), 39, 21, TEXT);
         var analyzer = notebook ? ModItems.SCIENTIFIC_ANALYZER_TIER_1 : ModItems.SCIENTIFIC_ANALYZER;
         theme.frame(g, 214, 9, 218, 21, LINE, 0xFF145368, PANEL);
         String analyzerTitle = new ItemStack(analyzer.get()).getHoverName().getString();
@@ -276,10 +278,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private void sidebar(GuiGraphicsExtractor g, State[] states) {
-        text(g, "STATUS DA PESQUISA", 17, 77, MUTED);
+        text(g, tr("gui.quantumindustries.text.research_status"), 17, 77, MUTED);
         theme.fill(g,17, 89, 133, 90, LINE);
         State[] order = {State.DONE, State.READY, State.WAITING, State.HIDDEN};
-        String[] labels = {"Concluídas", "Disponíveis", "Aguardando", "Bloqueadas"};
+        String[] labels = {tr("gui.quantumindustries.text.completed"), tr("gui.quantumindustries.text.available"), tr("gui.quantumindustries.text.pending"), tr("gui.quantumindustries.text.locked")};
         for (int i = 0; i < order.length; i++) {
             int count = 0;
             for (State state : states) if (state == order[i] || order[i] == State.HIDDEN && state == State.BLOCKED
@@ -290,20 +292,20 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             text(g, Integer.toString(count), 120, y, order[i].color);
         }
         theme.fill(g,17, 163, 133, 164, LINE);
-        text(g, "PESQUISA SELECIONADA", 17, 173, MUTED);
+        text(g, tr("gui.quantumindustries.text.selected_research"), 17, 173, MUTED);
         clipped(g, ENTRIES[selected].name(), 17, 192, 115, TEXT);
         clipped(g, states[selected].label, 17, 207, 115, states[selected].color);
         theme.fill(g,17, 223, 133, 224, LINE);
-        text(g, "DESBLOQUEIO", 17, 234, MUTED);
+        text(g, tr("gui.quantumindustries.text.unlocks"), 17, 234, MUTED);
         var prerequisites = ResearchCatalog.STUDIES.get(selected).prerequisites();
         String note = states[selected] == State.BLOCKED && !prerequisites.isEmpty()
-                ? "Veja dependências abaixo" : ENTRIES[selected].reward();
+                ? tr("gui.quantumindustries.text.see_prerequisites_below") : ENTRIES[selected].reward();
         clipped(g, note, 17, 249, 115, TEXT);
         if (tab == 0) {
-            sidebarAction(g, complete(selected) ? "Concluída" : states[selected] == State.EVIDENCE ? "Falta evidência" : "Iniciar pesquisa",
+            sidebarAction(g, complete(selected) ? tr("gui.quantumindustries.text.completed") : states[selected] == State.EVIDENCE ? tr("gui.quantumindustries.text.missing_evidence") : tr("gui.quantumindustries.text.start_research"),
                     ResearchCatalog.STUDIES.get(selected).era() == era && states[selected] == State.READY);
         } else if (tab == 3) {
-            sidebarAction(g, "Escrever relatório", selectedReport >= 0 && canWrite(selectedReport));
+            sidebarAction(g, tr("gui.quantumindustries.text.write_report"), selectedReport >= 0 && canWrite(selectedReport));
         }
     }
 
@@ -327,7 +329,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         for (int i = 0; i < ERAS.length; i++) {
             int x = 153 + i * 81;
             theme.frame(g, x, 104, 79, 30, i + 1 == era ? CYAN : LINE, i + 1 == era ? 0xFF145368 : PANEL, DARK);
-            text(g, "Era " + ERA_NUMERALS[i], x + 6, 109, TEXT);
+            text(g, tr("gui.quantumindustries.text.era") + ERA_NUMERALS[i], x + 6, 109, TEXT);
             if (font.width(ERAS[i]) <= 70) {
                 text(g, ERAS[i], x + 5, 121, MUTED);
             } else {
@@ -341,29 +343,29 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private void report(GuiGraphicsExtractor g) {
-        text(g, "RELATÓRIO DE PESQUISA", 155, 77, CYAN);
-        text(g, "Guarde 1 tinta preta, 1 pena e 1 papel por relatório.", 155, 94, TEXT);
-        text(g, "Os materiais ficam na bancada quando você sai.", 155, 108, MUTED);
-        String[] names = {"Tinta preta", "Pena", "Papel"};
+        text(g, tr("gui.quantumindustries.text.research_report"), 155, 77, CYAN);
+        text(g, tr("gui.quantumindustries.text.store_one_ink_sac_one_feather_and_one_paper_per_report"), 155, 94, TEXT);
+        text(g, tr("gui.quantumindustries.text.materials_stay_in_the_bench_when_you_leave"), 155, 108, MUTED);
+        String[] names = {tr("gui.quantumindustries.text.ink_sac"), tr("gui.quantumindustries.text.feather"), tr("gui.quantumindustries.text.paper")};
         ItemStack[] icons = {new ItemStack(Items.BLACK_DYE), new ItemStack(Items.FEATHER), new ItemStack(Items.PAPER)};
         for (int i = 0; i < names.length; i++) {
             int x = 155 + i * 135;
             theme.frame(g, x, 125, 129, 75, LINE, PANEL, DARK);
             g.fakeItem(icons[i], x + 8, 132);
             text(g, names[i] + " × " + menu.supply(i), x + 29, 136, TEXT);
-            reportButton(g, x + 7, 153, 115, "Guardar", true);
-            reportButton(g, x + 7, 175, 115, "Retirar", menu.supply(i) > 0);
+            reportButton(g, x + 7, 153, 115, tr("gui.quantumindustries.text.store"), true);
+            reportButton(g, x + 7, 175, 115, tr("gui.quantumindustries.text.withdraw"), menu.supply(i) > 0);
         }
-        text(g, "SELECIONE UMA PESQUISA CONCLUÍDA", 155, 211, MUTED);
+        text(g, tr("gui.quantumindustries.text.select_a_completed_study"), 155, 211, MUTED);
         for (int id = reportPage * 2; id < Math.min(reportPage * 2 + 2, ENTRIES.length); id++) {
             int x = 155 + (id % 2) * 204;
             boolean active = selectedReport == id;
             theme.frame(g, x, 225, 193, 19, active ? CYAN : LINE,
                     active ? 0xFF145368 : PANEL, DARK);
-            text(g, state(id) == State.HIDDEN ? "Pesquisa oculta" : ENTRIES[id].name(), x + 8, 231, complete(id) ? TEXT : MUTED);
+            text(g, state(id) == State.HIDDEN ? tr("gui.quantumindustries.text.hidden_research") : ENTRIES[id].name(), x + 8, 231, complete(id) ? TEXT : MUTED);
         }
-        text(g, "Entregue o relatório a outro jogador.", 155, 265, TEXT);
-        text(g, "Botão direito para aprender. Fio de Cobre exige Condutividade.", 155, 279, MUTED);
+        text(g, tr("gui.quantumindustries.text.give_the_report_to_another_player"), 155, 265, TEXT);
+        text(g, tr("gui.quantumindustries.text.right_click_to_learn_copper_wire_requires_conductivity"), 155, 279, MUTED);
     }
 
     private boolean canWrite(int id) {
@@ -404,8 +406,8 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
 
     private void recipeGuide(GuiGraphicsExtractor g) {
         if (isFormingProcess(selected)) {
-            text(g, "Martelo na mão principal e lingote de ferro, cobre ou ouro na outra.", 165, 250, TEXT);
-            text(g, "Dê 3 golpes na bancada para produzir uma chapa.", 165, 266, MUTED);
+            text(g, tr("gui.quantumindustries.text.hold_a_hammer_in_your_main_hand_and_an_iron_copper_or_gold_ingot_in_your_offhand"), 165, 250, TEXT);
+            text(g, tr("gui.quantumindustries.text.strike_the_bench_three_times_to_produce_a_sheet"), 165, 266, MUTED);
             return;
         }
         var available = crafts(selected);
@@ -471,17 +473,17 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         for (var branch : ResearchCatalog.ERA_ONE_BRANCHES) {
             if (!branch.studies().stream().allMatch(key -> complete(ResearchCatalog.indexOf(key)))) continue;
             theme.frame(g, 155, y, 401, 63, LINE, PANEL, DARK);
-            text(g, branch.title(), 166, y + 8, GREEN);
-            knowledgeParagraph(g, branch.knowledge(), y + 21);
-            knowledgeParagraph(g, branch.application(), y + 41);
+            text(g, tr(branch.title()), 166, y + 8, GREEN);
+            knowledgeParagraph(g, tr(branch.knowledge()), y + 21);
+            knowledgeParagraph(g, tr(branch.application()), y + 41);
             y += 70;
         }
         if (complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
-            knowledgeParagraph(g, "No dínamo, o giro move um conjunto magnético interno em relação às bobinas.", y - 4);
+            knowledgeParagraph(g, tr("gui.quantumindustries.text.in_the_dynamo_rotation_moves_an_internal_magnetic_assembly_relative_to_the_coils"), y - 4);
         }
         if (y == 100) {
-            text(g, "Nenhum ramo concluído.", 165, 108, TEXT);
-            text(g, "Conclua as pesquisas de um ramo para registrar o que aprendeu.", 165, 125, MUTED);
+            text(g, tr("gui.quantumindustries.text.no_completed_branches"), 165, 108, TEXT);
+            text(g, tr("gui.quantumindustries.text.complete_a_branch_s_studies_to_record_what_you_have_learned"), 165, 125, MUTED);
         }
     }
 
@@ -511,10 +513,10 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     }
 
     private void recipeJournal(GuiGraphicsExtractor g, List<Integer> rows) {
-        text(g, "RECEITAS DESBLOQUEADAS", 155, 77, CYAN);
+        text(g, tr("gui.quantumindustries.text.unlocked_recipes"), 155, 77, CYAN);
         if (rows.isEmpty()) {
-            text(g, "Nenhuma receita desbloqueada.", 165, 108, TEXT);
-            text(g, "Conclua pesquisas de fabricação para consultar as receitas.", 165, 125, MUTED);
+            text(g, tr("gui.quantumindustries.text.no_unlocked_recipes"), 165, 108, TEXT);
+            text(g, tr("gui.quantumindustries.text.complete_manufacturing_studies_to_view_recipes"), 165, 125, MUTED);
             return;
         }
         for (int row = 0; row < rows.size(); row++) {
@@ -533,17 +535,17 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.frame(g, 9, 332, 558, 55, LINE, PANEL, DARK);
         g.fakeItem(icon, 19, 348);
         clipped(g, ENTRIES[selected].name(), 43, 345, 108, TEXT);
-        text(g, ResearchCatalog.STUDIES.get(selected).era() == 2 ? "Era II / Automação" : "Era I / Fundamentos", 43, 360, MUTED);
+        text(g, ResearchCatalog.STUDIES.get(selected).era() == 2 ? tr("gui.quantumindustries.text.era_ii_automation") : tr("gui.quantumindustries.text.era_i_foundations"), 43, 360, MUTED);
         theme.fill(g,156, 340, 157, 380, LINE);
         theme.fill(g,316, 340, 317, 380, LINE);
-        text(g, "REQUISITOS", 165, 340, MUTED);
+        text(g, tr("gui.quantumindustries.text.requirements"), 165, 340, MUTED);
         boolean[] ready = requirements(selected);
         for (int i = 0; i < ready.length; i++) {
             boolean met = state == State.DONE || ready[i];
             text(g, (met ? "+ " : "- ") + ENTRIES[selected].costs()[i],
                     165, 351 + i * 10, met ? GREEN : GOLD);
         }
-        text(g, "PROGRESSO DA PESQUISA", 327, 340, MUTED);
+        text(g, tr("gui.quantumindustries.text.research_progress"), 327, 340, MUTED);
         for (int i = 0; i < 16; i++) {
             int x = 327 + i * 10;
             theme.fill(g,x, 354, x + 8, 362, state == State.DONE ? CYAN : LINE);
@@ -553,7 +555,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         text(g, state.label, 327, 369, state.color);
 
         theme.frame(g, 4, 396, 568, 32, LINE, PANEL, DARK);
-        text(g, "INVENTÁRIO DO OPERADOR", 15, 408, MUTED);
+        text(g, tr("gui.quantumindustries.text.operator_inventory"), 15, 408, MUTED);
         for (int i = 0; i < 9; i++) {
             int x = 178 + i * 25;
             theme.frame(g, x, 401, 23, 23, LINE, DARK, DARK);

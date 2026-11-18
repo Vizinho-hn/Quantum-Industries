@@ -1,0 +1,60 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "idle": {
+      "loop": true,
+      "animation_length": 1.0,
+      "bones": {
+        "base": {
+          "position": {
+            "0.0": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    },
+    "running_cw": {
+      "loop": true,
+      "animation_length": 2.0,
+      "bones": {
+        "rotor": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "2.0": [
+              0,
+              0,
+              360
+            ]
+          }
+        }
+      }
+    },
+    "running_ccw": {
+      "loop": true,
+      "animation_length": 2.0,
+      "bones": {
+        "rotor": {
+          "rotation": {
+            "0.0": [
+              0,
+              0,
+              0
+            ],
+            "2.0": [
+              0,
+              0,
+              -360
+            ]
+          }
+        }
+      }
+    }
+  }
+}

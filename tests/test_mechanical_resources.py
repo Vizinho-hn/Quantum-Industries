@@ -41,7 +41,7 @@ class MechanicalResourcesTest(unittest.TestCase):
             self.assertEqual(len(bb['elements']), len(boxes))
             embedded = base64.b64decode(bb['textures'][0]['source'].split(',', 1)[1])
             self.assertEqual(embedded, (ASSETS/'textures/block/mechanical_workshop.png').read_bytes())
-            self.assertEqual(struct.unpack('>II', embedded[16:24]), (64, 32))
+            self.assertEqual(struct.unpack('>II', embedded[16:24]), (128, 128))
 
     def test_orientations_loot_and_item_definitions(self):
         for name in NAMES:

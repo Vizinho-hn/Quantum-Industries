@@ -13,6 +13,9 @@ public final class MechanicalShaftBlockEntity extends RotationalBlockEntity {
     public MechanicalShaftBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(), pos, state); }
     @Override public Direction.Axis axle() { return getBlockState().getValue(BlockStateProperties.AXIS); }
     public void tick() {
-        if (level instanceof ServerLevel server) setRotating(MechanicalNetwork.state(server, worldPosition).powered());
+        if (level instanceof ServerLevel server) {
+            var state = MechanicalNetwork.state(server, worldPosition);
+            setMotion(state.powered(), state.spinDirection());
+        }
     }
 }

@@ -17,15 +17,15 @@ import java.util.function.Supplier;
  * Industrial component item with technical physical properties and engineering lore.
  */
 public class ComponentMaterialItem extends Item {
-    private final String title;
-    private final List<String> technicalSpecs;
+    private final Component title;
+    private final List<Component> technicalSpecs;
     private final Supplier<? extends BlockItem> blockDelegate;
 
-    public ComponentMaterialItem(String title, List<String> technicalSpecs, Properties properties) {
+    public ComponentMaterialItem(Component title, List<Component> technicalSpecs, Properties properties) {
         this(title, technicalSpecs, properties, null);
     }
 
-    public ComponentMaterialItem(String title, List<String> technicalSpecs, Properties properties, Supplier<? extends BlockItem> blockDelegate) {
+    public ComponentMaterialItem(Component title, List<Component> technicalSpecs, Properties properties, Supplier<? extends BlockItem> blockDelegate) {
         super(properties);
         this.title = title;
         this.technicalSpecs = technicalSpecs;
@@ -42,9 +42,9 @@ public class ComponentMaterialItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipOutput, TooltipFlag tooltipFlag) {
-        tooltipOutput.accept(Component.literal(this.title));
-        for (String spec : this.technicalSpecs) {
-            tooltipOutput.accept(Component.literal(spec));
+        tooltipOutput.accept(this.title);
+        for (Component spec : this.technicalSpecs) {
+            tooltipOutput.accept(spec);
         }
         super.appendHoverText(stack, context, tooltipDisplay, tooltipOutput, tooltipFlag);
     }

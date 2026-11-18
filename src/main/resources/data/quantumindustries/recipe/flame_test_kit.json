@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " W ",
+    " F ",
+    " B "
+  ],
+  "key": {
+    "W": "quantumindustries:copper_wire",
+    "F": "minecraft:flint_and_steel",
+    "B": "minecraft:glass_bottle"
+  },
+  "result": {
+    "id": "quantumindustries:flame_test_kit",
+    "count": 1
+  }
+}

@@ -76,6 +76,8 @@ neoForge {
             client()
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'mcp.remote_control', 'true'
+            systemProperty 'mcp.background_input', 'true'
         }
 
         server {

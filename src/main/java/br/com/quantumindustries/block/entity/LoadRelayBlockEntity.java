@@ -57,7 +57,9 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
         if (!(level instanceof ServerLevel server)) return;
         boolean foundBattery = false, allowed = true, alarm = false;
         for (Direction direction : Direction.values()) {
-            if (!(server.getBlockEntity(worldPosition.relative(direction)) instanceof VoltaicPileBlockEntity accumulator)) continue;
+            var neighbor = server.getBlockEntity(worldPosition.relative(direction));
+            if (!(neighbor instanceof VoltaicPileBlockEntity || neighbor instanceof LeadAcidAccumulatorBlockEntity)) continue;
+            EnergyInspectable accumulator = (EnergyInspectable) neighbor;
             foundBattery = true;
             int percent = accumulator.energy()*100 / Math.max(1,accumulator.capacity());
             if (percent < 10) allowed = false;
@@ -74,14 +76,18 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                 target -> target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity);
+                        || target instanceof JawCrusherBlockEntity
+                        || target instanceof BellowsEjectorBlockEntity
+                        || target instanceof PeristalticPumpBlockEntity);
         for (Direction direction : Direction.values()) {
             if (energy() <= 0) break;
             if (server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity)) {
+                        || target instanceof JawCrusherBlockEntity
+                        || target instanceof BellowsEjectorBlockEntity
+                        || target instanceof PeristalticPumpBlockEntity)) {
                 int accepted = target.receiveEnergy(Math.min(TRANSFER, energy()));
                 if (accepted > 0) extractEnergy(accepted);
             }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "quantumindustries:galvanic_electrolyte",
+    "quantumindustries:sulfur_dust"
+  ],
+  "result": {
+    "id": "quantumindustries:sulfuric_acid",
+    "count": 1
+  }
+}

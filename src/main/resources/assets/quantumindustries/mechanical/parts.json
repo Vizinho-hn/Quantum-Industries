@@ -1,579 +1,729 @@
 {
-  "mechanical_sawmill": [
+  "primitive_water_wheel": [
     {
-      "name": "Perna",
+      "name": "Foot North",
       "from": [
-        1,
-        0,
-        1
+        3.4,
+        0.0,
+        0.3
       ],
       "to": [
-        4,
-        6,
-        4
+        12.6,
+        1.2,
+        3.2
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Foot South",
+      "from": [
+        3.4,
+        0.0,
+        12.8
+      ],
+      "to": [
+        12.6,
+        1.2,
+        15.7
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Stanchion NW",
+      "from": [
+        4.5,
+        1.1,
+        0.7
+      ],
+      "to": [
+        6.4,
+        9.6,
+        2.7
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Perna",
+      "name": "Stanchion NE",
       "from": [
-        1,
-        0,
-        12
+        9.6,
+        1.1,
+        0.7
       ],
       "to": [
-        4,
-        6,
-        15
+        11.5,
+        9.6,
+        2.7
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Perna",
+      "name": "Stanchion SW",
       "from": [
-        12,
-        0,
-        1
+        4.5,
+        1.1,
+        13.3
       ],
       "to": [
-        15,
-        6,
-        4
+        6.4,
+        9.6,
+        15.3
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Perna",
+      "name": "Stanchion SE",
       "from": [
-        12,
-        0,
-        12
+        9.6,
+        1.1,
+        13.3
       ],
       "to": [
-        15,
-        6,
-        15
+        11.5,
+        9.6,
+        15.3
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Prateleira",
+      "name": "Bearing North",
       "from": [
-        1,
-        1,
-        1
+        5.4,
+        5.4,
+        0.5
       ],
       "to": [
-        15,
-        2,
-        15
-      ],
-      "material": 0,
-      "group": "base"
-    },
-    {
-      "name": "Tampo dividido",
-      "from": [
-        0,
-        6,
-        0
-      ],
-      "to": [
-        7,
-        7.5,
-        16
-      ],
-      "material": 1,
-      "group": "base"
-    },
-    {
-      "name": "Tampo dividido",
-      "from": [
-        9,
-        6,
-        0
-      ],
-      "to": [
-        16,
-        7.5,
-        16
-      ],
-      "material": 1,
-      "group": "base"
-    },
-    {
-      "name": "Mancal",
-      "from": [
-        1,
-        7.5,
-        6
-      ],
-      "to": [
-        3,
-        10.5,
-        10
+        10.6,
+        10.6,
+        3.0
       ],
       "material": 2,
       "group": "base"
     },
     {
-      "name": "Mancal",
+      "name": "Bearing South",
       "from": [
-        13,
-        7.5,
-        6
+        5.4,
+        5.4,
+        13.0
       ],
       "to": [
-        15,
-        10.5,
-        10
+        10.6,
+        10.6,
+        15.5
       ],
       "material": 2,
       "group": "base"
     },
     {
-      "name": "Eixo principal",
+      "name": "Axle Tenon North",
       "from": [
-        0,
-        7.5,
-        7.5
+        6.0,
+        6.0,
+        0.0
       ],
       "to": [
-        16,
-        8.5,
-        8.5
+        10.0,
+        10.0,
+        2.8
       ],
-      "material": 3,
+      "material": 0,
       "group": "rotor"
     },
     {
-      "name": "Disco central",
+      "name": "Axle Tenon South",
       "from": [
-        7.6,
-        3,
-        3
+        6.0,
+        6.0,
+        13.2
       ],
       "to": [
-        8.4,
-        13,
-        13
+        10.0,
+        10.0,
+        16.0
       ],
-      "material": 3,
+      "material": 0,
       "group": "rotor"
     },
     {
-      "name": "Disco vertical",
+      "name": "Bronze Bushing North",
       "from": [
-        7.6,
-        1.5,
-        5
+        5.25,
+        5.25,
+        2.6
       ],
       "to": [
-        8.4,
+        10.75,
+        10.75,
+        4.1
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Bronze Bushing South",
+      "from": [
+        5.25,
+        5.25,
+        11.9
+      ],
+      "to": [
+        10.75,
+        10.75,
+        13.4
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Wheel Drum Hub",
+      "from": [
+        4.8,
+        4.8,
+        4.0
+      ],
+      "to": [
+        11.2,
+        11.2,
+        12.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Hub Iron Clamp",
+      "from": [
+        4.5,
+        4.5,
+        6.6
+      ],
+      "to": [
+        11.5,
+        11.5,
+        9.4
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Spoke Top",
+      "from": [
+        7.2,
+        11.1,
+        7.0
+      ],
+      "to": [
+        8.8,
+        13.2,
+        9.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Spoke Bottom",
+      "from": [
+        7.2,
+        2.8,
+        7.0
+      ],
+      "to": [
+        8.8,
+        4.9,
+        9.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Spoke West",
+      "from": [
+        2.8,
+        7.2,
+        7.0
+      ],
+      "to": [
+        4.9,
+        8.8,
+        9.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Spoke East",
+      "from": [
+        11.1,
+        7.2,
+        7.0
+      ],
+      "to": [
+        13.2,
+        8.8,
+        9.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Rim Top",
+      "from": [
+        4.4,
+        13.0,
+        5.5
+      ],
+      "to": [
+        11.6,
         14.5,
-        11
+        10.5
       ],
-      "material": 3,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Disco horizontal",
+      "name": "Rim Bottom",
       "from": [
-        7.6,
-        5,
-        1.5
+        4.4,
+        1.5,
+        5.5
       ],
       "to": [
-        8.4,
-        11,
-        14.5
+        11.6,
+        3.0,
+        10.5
       ],
-      "material": 3,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim West",
       "from": [
-        7.5,
-        1,
-        7
+        1.5,
+        4.4,
+        5.5
       ],
       "to": [
-        8.5,
-        2,
-        8
+        3.0,
+        11.6,
+        10.5
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim East",
       "from": [
-        7.5,
-        2,
-        4
+        13.0,
+        4.4,
+        5.5
       ],
       "to": [
-        8.5,
-        3,
-        5
+        14.5,
+        11.6,
+        10.5
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim NW",
       "from": [
-        7.5,
-        4,
-        2
+        2.7,
+        11.3,
+        5.6
       ],
       "to": [
-        8.5,
-        5,
-        3
+        4.7,
+        13.3,
+        10.4
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim NE",
       "from": [
-        7.5,
-        7,
-        1
+        11.3,
+        11.3,
+        5.6
       ],
       "to": [
-        8.5,
-        8,
-        2
+        13.3,
+        13.3,
+        10.4
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim SW",
       "from": [
-        7.5,
-        11,
-        2
+        2.7,
+        2.7,
+        5.6
       ],
       "to": [
-        8.5,
-        12,
-        3
+        4.7,
+        4.7,
+        10.4
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Rim SE",
       "from": [
-        7.5,
-        13,
-        4
+        11.3,
+        2.7,
+        5.6
       ],
       "to": [
-        8.5,
-        14,
-        5
+        13.3,
+        4.7,
+        10.4
       ],
-      "material": 2,
+      "material": 1,
       "group": "rotor"
     },
     {
-      "name": "Dente de serra",
+      "name": "Paddle N",
       "from": [
-        7.5,
-        14,
-        7
+        7.2,
+        14.4,
+        5.1
       ],
       "to": [
-        8.5,
-        15,
-        8
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Dente de serra",
-      "from": [
-        7.5,
-        13,
-        11
-      ],
-      "to": [
-        8.5,
-        14,
-        12
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Dente de serra",
-      "from": [
-        7.5,
-        11,
-        13
-      ],
-      "to": [
-        8.5,
-        12,
-        14
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Dente de serra",
-      "from": [
-        7.5,
-        7,
-        14
-      ],
-      "to": [
-        8.5,
-        8,
-        15
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Dente de serra",
-      "from": [
-        7.5,
-        4,
-        13
-      ],
-      "to": [
-        8.5,
-        5,
-        14
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Dente de serra",
-      "from": [
-        7.5,
-        2,
-        11
-      ],
-      "to": [
-        8.5,
-        3,
-        12
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Cubo da lamina",
-      "from": [
-        7.3,
-        6.5,
-        6.5
-      ],
-      "to": [
-        8.7,
-        9.5,
-        9.5
-      ],
-      "material": 2,
-      "group": "rotor"
-    },
-    {
-      "name": "Braco da manivela",
-      "from": [
-        14.8,
-        7.5,
-        7.5
-      ],
-      "to": [
-        15.4,
-        8.5,
-        12
+        8.8,
+        16.0,
+        10.9
       ],
       "material": 4,
-      "group": "crank"
+      "group": "rotor"
     },
     {
-      "name": "Punho da manivela",
+      "name": "Paddle S",
       "from": [
-        14.8,
         7.2,
-        11.3
+        0.0,
+        5.1
       ],
       "to": [
-        16,
         8.8,
-        12.5
+        1.6,
+        10.9
       ],
-      "material": 0,
-      "group": "crank"
+      "material": 4,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle W",
+      "from": [
+        0.0,
+        7.2,
+        5.1
+      ],
+      "to": [
+        1.6,
+        8.8,
+        10.9
+      ],
+      "material": 4,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle E",
+      "from": [
+        14.4,
+        7.2,
+        5.1
+      ],
+      "to": [
+        16.0,
+        8.8,
+        10.9
+      ],
+      "material": 4,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle NW",
+      "from": [
+        1.6,
+        12.8,
+        5.25
+      ],
+      "to": [
+        3.2,
+        14.4,
+        10.75
+      ],
+      "material": 6,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle NE",
+      "from": [
+        12.8,
+        12.8,
+        5.25
+      ],
+      "to": [
+        14.4,
+        14.4,
+        10.75
+      ],
+      "material": 6,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle SW",
+      "from": [
+        1.6,
+        1.6,
+        5.25
+      ],
+      "to": [
+        3.2,
+        3.2,
+        10.75
+      ],
+      "material": 6,
+      "group": "rotor"
+    },
+    {
+      "name": "Paddle SE",
+      "from": [
+        12.8,
+        1.6,
+        5.25
+      ],
+      "to": [
+        14.4,
+        3.2,
+        10.75
+      ],
+      "material": 6,
+      "group": "rotor"
     }
   ],
   "mechanical_shaft_block": [
     {
-      "name": "Mancal inferior",
+      "name": "Pedestal Footplate",
       "from": [
-        4,
-        4,
-        1
+        4.4,
+        0.0,
+        5.2
       ],
       "to": [
-        12,
-        6,
-        4
+        11.6,
+        1.1,
+        10.8
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Pedestal Stanchion",
+      "from": [
+        5.7,
+        1.0,
+        6.2
+      ],
+      "to": [
+        10.3,
+        3.4,
+        9.8
+      ],
+      "material": 0,
+      "group": "base"
+    },
+    {
+      "name": "Pedestal Bearing Block",
+      "from": [
+        5.2,
+        3.3,
+        5.8
+      ],
+      "to": [
+        10.8,
+        4.7,
+        10.2
       ],
       "material": 2,
       "group": "base"
     },
     {
-      "name": "Mancal superior",
+      "name": "Pedestal Saddle West",
       "from": [
-        4,
-        10,
-        1
+        4.75,
+        4.1,
+        6.1
       ],
       "to": [
-        12,
-        12,
-        4
+        5.55,
+        5.2,
+        9.9
       ],
-      "material": 2,
+      "material": 5,
       "group": "base"
     },
     {
-      "name": "Mancal lateral",
+      "name": "Pedestal Saddle East",
       "from": [
-        4,
-        6,
-        1
+        10.45,
+        4.1,
+        6.1
       ],
       "to": [
-        6,
-        10,
-        4
+        11.25,
+        5.2,
+        9.9
       ],
-      "material": 2,
+      "material": 5,
       "group": "base"
     },
     {
-      "name": "Mancal lateral",
+      "name": "Axle Tenon North",
       "from": [
-        10,
-        6,
-        1
+        6.0,
+        6.0,
+        0.0
       ],
       "to": [
-        12,
-        10,
-        4
+        10.0,
+        10.0,
+        2.6
       ],
-      "material": 2,
-      "group": "base"
-    },
-    {
-      "name": "Mancal inferior",
-      "from": [
-        4,
-        4,
-        12
-      ],
-      "to": [
-        12,
-        6,
-        15
-      ],
-      "material": 2,
-      "group": "base"
-    },
-    {
-      "name": "Mancal superior",
-      "from": [
-        4,
-        10,
-        12
-      ],
-      "to": [
-        12,
-        12,
-        15
-      ],
-      "material": 2,
-      "group": "base"
-    },
-    {
-      "name": "Mancal lateral",
-      "from": [
-        4,
-        6,
-        12
-      ],
-      "to": [
-        6,
-        10,
-        15
-      ],
-      "material": 2,
-      "group": "base"
-    },
-    {
-      "name": "Mancal lateral",
-      "from": [
-        10,
-        6,
-        12
-      ],
-      "to": [
-        12,
-        10,
-        15
-      ],
-      "material": 2,
-      "group": "base"
-    },
-    {
-      "name": "Eixo de transmissao",
-      "from": [
-        7,
-        7,
-        0
-      ],
-      "to": [
-        9,
-        9,
-        16
-      ],
-      "material": 3,
+      "material": 0,
       "group": "rotor"
     },
     {
-      "name": "Chaveta",
+      "name": "Axle Tenon South",
       "from": [
-        8.7,
-        7.8,
-        0
+        6.0,
+        6.0,
+        13.4
       ],
       "to": [
-        9.4,
-        8.4,
-        16
+        10.0,
+        10.0,
+        16.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Bronze Bushing North",
+      "from": [
+        5.25,
+        5.25,
+        2.5
+      ],
+      "to": [
+        10.75,
+        10.75,
+        4.0
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Bronze Bushing South",
+      "from": [
+        5.25,
+        5.25,
+        12.0
+      ],
+      "to": [
+        10.75,
+        10.75,
+        13.5
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Wooden Drum Core",
+      "from": [
+        5.0,
+        5.0,
+        3.9
+      ],
+      "to": [
+        11.0,
+        11.0,
+        12.1
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Wooden Drum Stave V",
+      "from": [
+        5.6,
+        4.6,
+        4.05
+      ],
+      "to": [
+        10.4,
+        11.4,
+        11.95
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Wooden Drum Stave H",
+      "from": [
+        4.6,
+        5.6,
+        4.15
+      ],
+      "to": [
+        11.4,
+        10.4,
+        11.85
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Wrought Iron Hoop North",
+      "from": [
+        4.5,
+        4.5,
+        4.3
+      ],
+      "to": [
+        11.5,
+        11.5,
+        5.5
       ],
       "material": 2,
       "group": "rotor"
     },
     {
-      "name": "Braco da manivela",
+      "name": "Wrought Iron Hoop South",
+      "from": [
+        4.5,
+        4.5,
+        10.5
+      ],
+      "to": [
+        11.5,
+        11.5,
+        11.7
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Crank Arm",
       "from": [
         7.5,
         7.5,
@@ -581,238 +731,613 @@
       ],
       "to": [
         8.5,
-        12,
+        12.2,
         15.4
       ],
-      "material": 4,
+      "material": 7,
       "group": "crank"
     },
     {
-      "name": "Punho da manivela",
+      "name": "Crank Handle",
       "from": [
         7.2,
-        11.2,
-        14.7
+        11.3,
+        14.6
       ],
       "to": [
         8.8,
-        12.5,
-        16
+        12.6,
+        16.0
       ],
       "material": 0,
       "group": "crank"
     }
   ],
-  "primitive_water_wheel": [
+  "mechanical_sawmill": [
     {
-      "name": "Suporte",
+      "name": "Leg NW",
       "from": [
-        6,
-        0,
-        1
+        1.0,
+        0.0,
+        1.0
       ],
       "to": [
-        10,
-        10,
-        4
+        3.8,
+        6.1,
+        3.8
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Suporte",
+      "name": "Leg SW",
       "from": [
-        6,
-        0,
-        12
+        1.0,
+        0.0,
+        12.2
       ],
       "to": [
-        10,
-        10,
-        15
+        3.8,
+        6.1,
+        15.0
       ],
       "material": 0,
       "group": "base"
     },
     {
-      "name": "Eixo hidraulico",
+      "name": "Leg NE",
       "from": [
-        7,
-        7,
-        0
+        12.2,
+        0.0,
+        1.0
       ],
       "to": [
-        9,
-        9,
-        16
+        15.0,
+        6.1,
+        3.8
+      ],
+      "material": 0,
+      "group": "base"
+    },
+    {
+      "name": "Leg SE",
+      "from": [
+        12.2,
+        0.0,
+        12.2
+      ],
+      "to": [
+        15.0,
+        6.1,
+        15.0
+      ],
+      "material": 0,
+      "group": "base"
+    },
+    {
+      "name": "Lower Shelf",
+      "from": [
+        1.6,
+        1.2,
+        1.6
+      ],
+      "to": [
+        14.4,
+        2.2,
+        14.4
+      ],
+      "material": 0,
+      "group": "base"
+    },
+    {
+      "name": "Apron North",
+      "from": [
+        1.2,
+        4.9,
+        1.2
+      ],
+      "to": [
+        14.8,
+        5.9,
+        2.2
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Apron South",
+      "from": [
+        1.2,
+        4.9,
+        13.8
+      ],
+      "to": [
+        14.8,
+        5.9,
+        14.8
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Tabletop West",
+      "from": [
+        0.15,
+        5.85,
+        0.0
+      ],
+      "to": [
+        6.8,
+        7.5,
+        16.0
+      ],
+      "material": 1,
+      "group": "base"
+    },
+    {
+      "name": "Tabletop East",
+      "from": [
+        9.2,
+        5.85,
+        0.0
+      ],
+      "to": [
+        15.85,
+        7.5,
+        16.0
+      ],
+      "material": 1,
+      "group": "base"
+    },
+    {
+      "name": "Bearing West",
+      "from": [
+        1.1,
+        5.4,
+        5.4
+      ],
+      "to": [
+        2.7,
+        10.6,
+        10.6
+      ],
+      "material": 2,
+      "group": "base"
+    },
+    {
+      "name": "Bearing East",
+      "from": [
+        13.3,
+        5.4,
+        5.4
+      ],
+      "to": [
+        14.9,
+        10.6,
+        10.6
+      ],
+      "material": 2,
+      "group": "base"
+    },
+    {
+      "name": "Guard Pillar",
+      "from": [
+        7.4,
+        7.4,
+        14.2
+      ],
+      "to": [
+        8.6,
+        15.1,
+        15.2
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Guard Hood",
+      "from": [
+        7.2,
+        15.0,
+        9.8
+      ],
+      "to": [
+        8.8,
+        16.0,
+        15.1
+      ],
+      "material": 5,
+      "group": "base"
+    },
+    {
+      "name": "Guide Rail",
+      "from": [
+        3.2,
+        7.4,
+        1.2
+      ],
+      "to": [
+        4.2,
+        8.1,
+        14.8
+      ],
+      "material": 2,
+      "group": "base"
+    },
+    {
+      "name": "Feed Carriage",
+      "from": [
+        4.3,
+        7.4,
+        4.0
+      ],
+      "to": [
+        6.4,
+        8.9,
+        11.0
+      ],
+      "material": 6,
+      "group": "base"
+    },
+    {
+      "name": "Carriage Stop",
+      "from": [
+        4.5,
+        8.8,
+        9.6
+      ],
+      "to": [
+        6.2,
+        10.1,
+        10.9
+      ],
+      "material": 4,
+      "group": "base"
+    },
+    {
+      "name": "Axle Tenon West",
+      "from": [
+        0.0,
+        6.0,
+        6.0
+      ],
+      "to": [
+        2.8,
+        10.0,
+        10.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Axle Tenon East",
+      "from": [
+        13.2,
+        6.0,
+        6.0
+      ],
+      "to": [
+        16.0,
+        10.0,
+        10.0
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Bronze Bushing West",
+      "from": [
+        2.6,
+        5.25,
+        5.25
+      ],
+      "to": [
+        4.1,
+        10.75,
+        10.75
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Bronze Bushing East",
+      "from": [
+        11.9,
+        5.25,
+        5.25
+      ],
+      "to": [
+        13.4,
+        10.75,
+        10.75
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Wooden Arbor Drum",
+      "from": [
+        4.0,
+        5.5,
+        5.5
+      ],
+      "to": [
+        12.0,
+        10.5,
+        10.5
+      ],
+      "material": 0,
+      "group": "rotor"
+    },
+    {
+      "name": "Blade Hub",
+      "from": [
+        6.9,
+        5.2,
+        5.2
+      ],
+      "to": [
+        9.1,
+        10.8,
+        10.8
+      ],
+      "material": 7,
+      "group": "rotor"
+    },
+    {
+      "name": "Blade Disc",
+      "from": [
+        7.65,
+        3.0,
+        3.0
+      ],
+      "to": [
+        8.35,
+        13.0,
+        13.0
       ],
       "material": 3,
       "group": "rotor"
     },
     {
-      "name": "Aro de madeira",
+      "name": "Blade Cross V",
       "from": [
-        4,
-        14,
-        6
+        7.6,
+        1.8,
+        5.1
       ],
       "to": [
-        12,
-        16,
-        10
+        8.4,
+        14.2,
+        10.9
       ],
-      "material": 1,
+      "material": 3,
       "group": "rotor"
     },
     {
-      "name": "Aro de madeira",
+      "name": "Blade Cross H",
       "from": [
-        4,
-        0,
-        6
+        7.56,
+        5.1,
+        1.8
       ],
       "to": [
-        12,
-        2,
-        10
+        8.44,
+        10.9,
+        14.2
       ],
-      "material": 1,
+      "material": 3,
       "group": "rotor"
     },
     {
-      "name": "Aro de madeira",
+      "name": "Tooth 0",
       "from": [
-        0,
-        4,
-        6
+        7.5,
+        0.9,
+        7.2
       ],
       "to": [
-        2,
-        12,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Aro de madeira",
-      "from": [
-        14,
-        4,
-        6
-      ],
-      "to": [
-        16,
-        12,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Aro de madeira",
-      "from": [
-        2,
-        2,
-        6
-      ],
-      "to": [
-        4,
-        4,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Aro de madeira",
-      "from": [
-        12,
-        2,
-        6
-      ],
-      "to": [
-        14,
-        4,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Aro de madeira",
-      "from": [
-        2,
-        12,
-        6
-      ],
-      "to": [
-        4,
-        14,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Aro de madeira",
-      "from": [
-        12,
-        12,
-        6
-      ],
-      "to": [
-        14,
-        14,
-        10
-      ],
-      "material": 1,
-      "group": "rotor"
-    },
-    {
-      "name": "Raio horizontal",
-      "from": [
-        1,
-        7,
-        7
-      ],
-      "to": [
-        15,
-        9,
-        9
-      ],
-      "material": 0,
-      "group": "rotor"
-    },
-    {
-      "name": "Raio vertical",
-      "from": [
-        7,
-        1,
-        7
-      ],
-      "to": [
-        9,
-        15,
-        9
-      ],
-      "material": 0,
-      "group": "rotor"
-    },
-    {
-      "name": "Cubo de ferro",
-      "from": [
-        6,
-        6,
-        5.5
-      ],
-      "to": [
-        10,
-        10,
-        10.5
+        8.5,
+        1.9,
+        8.2
       ],
       "material": 2,
       "group": "rotor"
+    },
+    {
+      "name": "Tooth 1",
+      "from": [
+        7.5,
+        1.9,
+        4.2
+      ],
+      "to": [
+        8.5,
+        3.1,
+        5.2
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 2",
+      "from": [
+        7.5,
+        4.2,
+        1.9
+      ],
+      "to": [
+        8.5,
+        5.2,
+        3.1
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 3",
+      "from": [
+        7.5,
+        7.2,
+        0.9
+      ],
+      "to": [
+        8.5,
+        8.2,
+        1.9
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 4",
+      "from": [
+        7.5,
+        10.8,
+        1.9
+      ],
+      "to": [
+        8.5,
+        11.8,
+        3.1
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 5",
+      "from": [
+        7.5,
+        12.9,
+        4.2
+      ],
+      "to": [
+        8.5,
+        14.1,
+        5.2
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 6",
+      "from": [
+        7.5,
+        14.1,
+        7.6
+      ],
+      "to": [
+        8.5,
+        15.0,
+        8.6
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 7",
+      "from": [
+        7.5,
+        12.9,
+        10.8
+      ],
+      "to": [
+        8.5,
+        14.1,
+        11.8
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 8",
+      "from": [
+        7.5,
+        10.8,
+        12.9
+      ],
+      "to": [
+        8.5,
+        11.8,
+        14.1
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 9",
+      "from": [
+        7.5,
+        7.6,
+        14.1
+      ],
+      "to": [
+        8.5,
+        8.6,
+        15.0
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 10",
+      "from": [
+        7.5,
+        4.2,
+        12.9
+      ],
+      "to": [
+        8.5,
+        5.2,
+        14.1
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Tooth 11",
+      "from": [
+        7.5,
+        1.9,
+        10.8
+      ],
+      "to": [
+        8.5,
+        3.1,
+        11.8
+      ],
+      "material": 2,
+      "group": "rotor"
+    },
+    {
+      "name": "Crank Arm",
+      "from": [
+        15.0,
+        7.5,
+        7.5
+      ],
+      "to": [
+        15.6,
+        8.5,
+        12.2
+      ],
+      "material": 7,
+      "group": "crank"
+    },
+    {
+      "name": "Crank Handle",
+      "from": [
+        14.6,
+        7.2,
+        11.3
+      ],
+      "to": [
+        16.0,
+        8.8,
+        12.6
+      ],
+      "material": 0,
+      "group": "crank"
     }
   ]
 }
