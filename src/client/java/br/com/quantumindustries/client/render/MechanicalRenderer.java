@@ -108,10 +108,6 @@ public final class MechanicalRenderer<T extends RotationalBlockEntity> extends G
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(),
                 ctx -> new MechanicalRenderer<>(ctx, "mechanical_sawmill"));
-        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(),
-                ctx -> new MechanicalRenderer<>(ctx, "mechanical_shaft_block"));
-        event.registerBlockEntityRenderer(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(),
-                ctx -> new MechanicalRenderer<>(ctx, "primitive_water_wheel"));
     }
 
     @Override

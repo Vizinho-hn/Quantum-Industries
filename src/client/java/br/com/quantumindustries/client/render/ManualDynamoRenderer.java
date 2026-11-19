@@ -13,6 +13,8 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,6 +30,8 @@ public final class ManualDynamoRenderer extends GeoBlockRenderer<ManualDynamoBlo
 
     public static final class State extends BlockEntityRenderState implements GeoRenderState {
         boolean installed;
+        float angle;
+        Direction facing = Direction.NORTH;
         private static final java.lang.invoke.MethodHandle SUPER_GET_DATA_MAP;
         private static final java.lang.reflect.Field DATA_FIELD;
 
@@ -89,12 +93,20 @@ public final class ManualDynamoRenderer extends GeoBlockRenderer<ManualDynamoBlo
             Vec3 camera, ModelFeatureRenderer.CrumblingOverlay overlay) {
         super.extractRenderState(dynamo, state, partialTick, camera, overlay);
         state.installed = dynamo.installed();
+        state.facing = dynamo.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+        state.angle = dynamo.getLevel() == null
+                ? 0f
+                : dynamo.rotation(dynamo.getLevel().getGameTime() + partialTick);
     }
 
     @Override
     public void adjustModelBonesForRender(RenderPassInfo<State> renderPass, com.geckolib.renderer.base.BoneSnapshots snapshots) {
         super.adjustModelBonesForRender(renderPass, snapshots);
-        snapshots.ifPresent("crank", b -> b.skipRender(!renderPass.renderState().installed));
+        State state = renderPass.renderState();
+        snapshots.ifPresent("crank", b -> b.skipRender(!state.installed));
+        float axisSign = (state.facing == Direction.NORTH || state.facing == Direction.EAST) ? 1f : -1f;
+        float rad = (float) Math.toRadians(state.angle * axisSign);
+        snapshots.ifPresent("rotor", b -> b.setRotX(rad));
     }
 
     @SubscribeEvent

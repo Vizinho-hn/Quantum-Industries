@@ -1,6 +1,7 @@
 package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.mechanical.KineticMath;
 import br.com.quantumindustries.mechanical.MechanicalNetwork;
 import br.com.quantumindustries.mechanical.MechanicalParticipant;
 import br.com.quantumindustries.research.ResearchIds;
@@ -44,6 +45,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     private String mechanicalOperator = "";
     private int mechanicalTicks;
     private boolean mechanicallyDriven;
+    private int spinDirection = 1;
 
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
@@ -57,9 +59,14 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     public boolean installed() { return installed; }
     public long lastTurn() { return lastTurn; }
+    public int spinDirection() { return spinDirection; }
     public boolean isTurning() {
         if (level == null) return false;
         return mechanicallyDriven || installed && (level.getGameTime() - lastTurn) < (TURN_TICKS + TURNING_GRACE_TICKS);
+    }
+
+    public float rotation(double time) {
+        return KineticMath.deterministicAngle(time, 0f, isTurning(), spinDirection, KineticMath.DEFAULT_DEGREES_PER_TICK);
     }
 
     public Direction mechanicalFace() {
@@ -100,12 +107,9 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<ManualDynamoBlockEntity>("crank_controller", 0, test -> {
-            if (this.isTurning()) {
-                return test.setAndContinue(RawAnimation.begin().thenLoop("cranking"));
-            }
-            return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
-        }));
+        // Rotor is driven deterministically by ManualDynamoRenderer using KineticMath so it stays phase-locked to shafts.
+        controllers.add(new AnimationController<ManualDynamoBlockEntity>("crank_controller", 0,
+                test -> test.setAndContinue(RawAnimation.begin().thenLoop("idle"))));
     }
 
     @Override
@@ -177,12 +181,17 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     }
 
     private void tickMechanicalDrive(ServerLevel server) {
-        boolean powered = requestedLoad() > 0 && MechanicalNetwork.state(server, worldPosition).powered();
-        if (mechanicallyDriven != powered) {
-            mechanicallyDriven = powered;
+        var network = MechanicalNetwork.state(server, worldPosition);
+        // When coupled to a powered shaft, the rotor freewheels in sync even at full battery (open-circuit, zero load).
+        boolean shaftSpinning = !installed && network.powered() && network.nodes().size() > 1;
+        int nextDirection = shaftSpinning ? network.spinDirection() : 1;
+        if (mechanicallyDriven != shaftSpinning || (shaftSpinning && spinDirection != nextDirection)) {
+            mechanicallyDriven = shaftSpinning;
+            spinDirection = nextDirection;
             changed();
         }
-        if (!powered) {
+        boolean generating = shaftSpinning && requestedLoad() > 0;
+        if (!generating) {
             if (mechanicalTicks != 0) {
                 mechanicalTicks = 0;
                 setChanged();
@@ -196,7 +205,6 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         try (var transaction = Transaction.openRoot()) {
             if (battery.insert(PER_TURN, transaction) > 0) transaction.commit();
         }
-        if (energy() == CAPACITY) mechanicallyDriven = false;
         changed();
     }
 
@@ -215,6 +223,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         output.putString("mechanical_operator", mechanicalOperator);
         output.putInt("mechanical_ticks", mechanicalTicks);
         output.putBoolean("mechanically_driven", mechanicallyDriven);
+        output.putInt("spin_direction", spinDirection);
     }
 
     @Override protected void loadAdditional(ValueInput input) {
@@ -226,6 +235,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         mechanicalOperator = input.getStringOr("mechanical_operator", "");
         mechanicalTicks = Math.clamp(input.getIntOr("mechanical_ticks", 0), 0, TURN_TICKS - 1);
         mechanicallyDriven = input.getBooleanOr("mechanically_driven", false);
+        spinDirection = input.getIntOr("spin_direction", 1) < 0 ? -1 : 1;
     }
 
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {

@@ -1,0 +1,284 @@
+{
+  "textures": {
+    "atlas": "quantumindustries:block/era2_industrial_machines",
+    "particle": "quantumindustries:block/era2_industrial_machines"
+  },
+  "elements": [
+    {
+      "name": "core_hub",
+      "from": [
+        4.6,
+        4.6,
+        4.6
+      ],
+      "to": [
+        11.4,
+        11.4,
+        11.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "core_band_x",
+      "from": [
+        4.5,
+        5.2,
+        5.2
+      ],
+      "to": [
+        11.5,
+        10.8,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "core_band_y",
+      "from": [
+        5.2,
+        4.5,
+        5.2
+      ],
+      "to": [
+        10.8,
+        11.5,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "core_band_z",
+      "from": [
+        5.2,
+        5.2,
+        4.5
+      ],
+      "to": [
+        10.8,
+        10.8,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    }
+  ]
+}

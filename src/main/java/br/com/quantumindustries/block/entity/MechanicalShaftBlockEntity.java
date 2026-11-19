@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 public final class MechanicalShaftBlockEntity extends RotationalBlockEntity {
     public MechanicalShaftBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(), pos, state); }
     @Override public Direction.Axis axle() { return getBlockState().getValue(BlockStateProperties.AXIS); }
+    @Override protected boolean usesProceduralRotor() { return true; }
     public void tick() {
         if (level instanceof ServerLevel server) {
             var state = MechanicalNetwork.state(server, worldPosition);
