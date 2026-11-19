@@ -29,17 +29,36 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
+
 public final class ElectricAlloySmelterBlock extends BaseEntityBlock {
     public ElectricAlloySmelterBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        registerDefaultState(stateDefinition.any()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.LIT, false));
     }
 
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(ElectricAlloySmelterBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.LIT);
+    }
+
+    @Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (!state.getValueOrElse(BlockStateProperties.LIT, false)) return;
+        if (random.nextInt(2) == 0) {
+            level.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5, pos.getY() + 1.02, pos.getZ() + 0.5, 0.0, 0.03, 0.0);
+        }
+        if (random.nextInt(3) == 0) {
+            level.addParticle(ParticleTypes.FLAME,
+                    pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.25,
+                    pos.getY() + 0.55,
+                    pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.25,
+                    0.0, 0.01, 0.0);
+        }
     }
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context) {

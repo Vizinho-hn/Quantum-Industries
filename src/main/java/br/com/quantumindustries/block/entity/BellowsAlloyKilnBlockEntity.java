@@ -20,7 +20,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** Era I bellows-driven crucible furnace for smelting Copper + Tin (Bronze) and Copper + Zinc (Brass). */
-public final class BellowsAlloyKilnBlockEntity extends BlockEntity {
+public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements MachineStatusInspectable {
     public static final int FUEL_PER_COAL = 1200, HEAT_PER_PUFF = 100, MAX_HEAT = 400, SMELT_TICKS = 80;
     private int fuel, heat, progress;
     private long lastPuff = -10;
@@ -31,6 +31,22 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity {
     public BellowsAlloyKilnBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BELLOWS_ALLOY_KILN_ENTITY.get(), pos, state);
     }
+
+    @Override public Component statusTitle() { return Component.translatable("block.quantumindustries.bellows_alloy_kiln"); }
+    @Override public Component statusDetail() { return status(); }
+    @Override public State statusState() {
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, 1);
+        if (progress > 0 && recipe != null && heat > 0 && fuel > 0) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (!inputA.isEmpty() || !inputB.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress() {
+        if (progress > 0) return Math.min(1.0f, (float) progress / SMELT_TICKS);
+        return !output.isEmpty() ? 1.0f : 0.0f;
+    }
+    public ItemStack inputA() { return inputA; }
+    public ItemStack inputB() { return inputB; }
 
     public Component status() {
         if (!output.isEmpty()) {

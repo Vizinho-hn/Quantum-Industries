@@ -64,6 +64,13 @@ O Quantum Industries conta com um catálogo visual completo com ilustrações em
 
 ## Protótipo jogável atual
 
+Com JEI instalado, os processos da serraria, britador, fornos de ligas, bancada de
+conformação, prensa elétrica, trefiladora, braseiro, cuba de decantação e moedor
+manual aparecem em categorias próprias, associadas às respectivas máquinas.
+A consulta mostra insumos e produtos; pesquisas e operação continuam validadas
+pelo servidor. Combustível, acionamento manual e energia continuam necessários
+conforme as regras de cada equipamento.
+
 Comece pela Mesa de Pesquisa Tier 1 e conclua **Observação dos Materiais**.
 Essa é a entrada da Era I e libera o **Analisador de Materiais**, que reutiliza
 o bloco da Bancada de Ensaio Empírico.

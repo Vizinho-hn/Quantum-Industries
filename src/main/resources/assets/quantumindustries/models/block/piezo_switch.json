@@ -1,146 +1,9 @@
 {
+  "parent": "minecraft:block/block",
   "textures": {
-    "atlas": "quantumindustries:block/piezo_switch_atlas",
-    "particle": "quantumindustries:block/piezo_switch_atlas"
+    "atlas": "quantumindustries:block/era2_industrial_machines",
+    "particle": "quantumindustries:block/era2_industrial_machines"
   },
-  "elements": [
-    {
-      "from": [
-        1,
-        0,
-        1
-      ],
-      "to": [
-        15,
-        2,
-        15
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            14,
-            2
-          ],
-          "texture": "#atlas"
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            14,
-            2
-          ],
-          "texture": "#atlas"
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            14,
-            2
-          ],
-          "texture": "#atlas"
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            14,
-            2
-          ],
-          "texture": "#atlas"
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            14,
-            14
-          ],
-          "texture": "#atlas"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            14,
-            14
-          ],
-          "texture": "#atlas"
-        }
-      }
-    },
-    {
-      "from": [
-        3,
-        2,
-        3
-      ],
-      "to": [
-        13,
-        3,
-        13
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            16,
-            0,
-            26,
-            1
-          ],
-          "texture": "#atlas"
-        },
-        "south": {
-          "uv": [
-            16,
-            0,
-            26,
-            1
-          ],
-          "texture": "#atlas"
-        },
-        "east": {
-          "uv": [
-            16,
-            0,
-            10,
-            1
-          ],
-          "texture": "#atlas"
-        },
-        "west": {
-          "uv": [
-            16,
-            0,
-            10,
-            1
-          ],
-          "texture": "#atlas"
-        },
-        "up": {
-          "uv": [
-            16,
-            0,
-            10,
-            10
-          ],
-          "texture": "#atlas"
-        },
-        "down": {
-          "uv": [
-            16,
-            0,
-            10,
-            10
-          ],
-          "texture": "#atlas"
-        }
-      }
-    }
-  ],
   "display": {
     "gui": {
       "rotation": [
@@ -188,15 +51,15 @@
         0
       ],
       "scale": [
-        1,
-        1,
-        1
+        0.5,
+        0.5,
+        0.5
       ]
     },
     "thirdperson_righthand": {
       "rotation": [
         75,
-        225,
+        45,
         0
       ],
       "translation": [
@@ -205,15 +68,15 @@
         0
       ],
       "scale": [
-        0.4,
-        0.4,
-        0.4
+        0.375,
+        0.375,
+        0.375
       ]
     },
     "firstperson_righthand": {
       "rotation": [
         0,
-        225,
+        45,
         0
       ],
       "translation": [
@@ -222,10 +85,978 @@
         0
       ],
       "scale": [
-        0.55,
-        0.55,
-        0.55
+        0.4,
+        0.4,
+        0.4
       ]
     }
-  }
+  },
+  "elements": [
+    {
+      "name": "cast_iron_frame",
+      "from": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "to": [
+        15.0,
+        1.25,
+        15.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.2,
+            0.2,
+            3.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "ebonite_insulator",
+      "from": [
+        2.0,
+        1.15,
+        2.0
+      ],
+      "to": [
+        14.0,
+        1.85,
+        14.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            4.2,
+            15.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "brass_bezel_rim",
+      "from": [
+        3.2,
+        1.75,
+        3.2
+      ],
+      "to": [
+        12.8,
+        2.3,
+        12.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "quartz_pressure_pad",
+      "from": [
+        4.2,
+        2.15,
+        4.2
+      ],
+      "to": [
+        11.8,
+        2.65,
+        11.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.2,
+            12.2,
+            11.8,
+            15.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "pin_nw",
+      "from": [
+        1.5,
+        1.1,
+        1.5
+      ],
+      "to": [
+        2.7,
+        2.0,
+        2.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "pin_ne",
+      "from": [
+        13.3,
+        1.1,
+        1.5
+      ],
+      "to": [
+        14.5,
+        2.0,
+        2.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "pin_sw",
+      "from": [
+        1.5,
+        1.1,
+        13.3
+      ],
+      "to": [
+        2.7,
+        2.0,
+        14.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "pin_se",
+      "from": [
+        13.3,
+        1.1,
+        13.3
+      ],
+      "to": [
+        14.5,
+        2.0,
+        14.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.2,
+            0.2,
+            15.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "terminal_porcelain_n",
+      "from": [
+        6.4,
+        0.2,
+        0.2
+      ],
+      "to": [
+        9.6,
+        1.4,
+        1.15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "terminal_copper_n",
+      "from": [
+        7.0,
+        0.4,
+        0.0
+      ],
+      "to": [
+        9.0,
+        1.1,
+        0.35
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "terminal_porcelain_s",
+      "from": [
+        6.4,
+        0.2,
+        14.85
+      ],
+      "to": [
+        9.6,
+        1.4,
+        15.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.2,
+            4.2,
+            11.8,
+            7.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "terminal_copper_s",
+      "from": [
+        7.0,
+        0.4,
+        15.65
+      ],
+      "to": [
+        9.0,
+        1.1,
+        16.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.2,
+            0.2,
+            11.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "side_rib_w",
+      "from": [
+        0.7,
+        0.1,
+        5.2
+      ],
+      "to": [
+        1.15,
+        1.0,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "side_rib_e",
+      "from": [
+        14.85,
+        0.1,
+        5.2
+      ],
+      "to": [
+        15.3,
+        1.0,
+        10.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.2,
+            0.2,
+            7.8,
+            3.8
+          ],
+          "texture": "#atlas"
+        }
+      }
+    }
+  ]
 }

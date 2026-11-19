@@ -199,6 +199,7 @@ public final class MachinesQaSetup {
         // Row 1: Processing & Metallurgy
         level.setBlock(FORMING_POS, ModBlocks.FORMING_BENCH.get().defaultBlockState(), 3);
         level.setBlock(MILL_POS, facingNorth(ModBlocks.MANUAL_GRAIN_MILL.get()), 3);
+        level.setBlock(BRAZIER_POS.below(), Blocks.MAGMA_BLOCK.defaultBlockState(), 3);
         level.setBlock(BRAZIER_POS, ModBlocks.BELLOWS_BRAZIER.get().defaultBlockState(), 3);
         level.setBlock(KILN_POS, facingNorth(ModBlocks.BELLOWS_ALLOY_KILN.get()), 3);
         level.setBlock(CRUSHER_POS, facingNorth(ModBlocks.JAW_CRUSHER.get()), 3);
@@ -266,7 +267,7 @@ public final class MachinesQaSetup {
     }
 
     private static void runImmediateTests(ServerLevel level, ServerPlayer player) {
-        // 1. Bellows Brazier
+        // 1. Bellows Brazier (heated by Magma Block underneath, no coal required)
         var brazierState = level.getBlockState(BRAZIER_POS);
         var gold = new ItemStack(Items.GOLD_INGOT, 1);
         var goldRes = brazierState.useItemOn(gold, level, player, InteractionHand.MAIN_HAND, hit(BRAZIER_POS));
@@ -277,7 +278,8 @@ public final class MachinesQaSetup {
         var bellows = new ItemStack(ModItems.MANUAL_BELLOWS.get(), 1);
         brazierState.useItemOn(bellows, level, player, InteractionHand.MAIN_HAND, hit(BRAZIER_POS));
         log("BellowsBrazier: gold_ingot result=" + goldRes + " (count left=" + gold.getCount() + "), "
-                + "coal consumed=" + (2 - coal.getCount()) + ", iron consumed=" + (2 - iron.getCount()));
+                + "coal consumed=" + (2 - coal.getCount()) + ", iron consumed=" + (2 - iron.getCount())
+                + ", heatBelow=" + BellowsBrazierBlockEntity.heatSourceLevel(level, BRAZIER_POS));
 
         // 2. Forming Bench (cold vs heated)
         var formingState = level.getBlockState(FORMING_POS);

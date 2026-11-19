@@ -13,8 +13,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+
 /** A simple hand-driven mill: four strokes convert one wheat into one flour. */
-public final class ManualGrainMillBlockEntity extends BlockEntity {
+public final class ManualGrainMillBlockEntity extends BlockEntity implements MachineStatusInspectable {
     public static final int STROKES = 4;
     private ItemStack input = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
@@ -83,6 +87,22 @@ public final class ManualGrainMillBlockEntity extends BlockEntity {
         return Component.translatable("gui.quantumindustries.grain_mill.status",
                 input.getCount(), output.getCount(), progress, STROKES);
     }
+
+    @Override public Component statusTitle() { return Component.translatable("block.quantumindustries.manual_grain_mill"); }
+    @Override public Component statusDetail() { return status(); }
+    @Override public State statusState() {
+        if (progress > 0 && !input.isEmpty()) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (!input.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress() {
+        if (progress > 0 && !input.isEmpty()) return Math.min(1.0f, (float) progress / STROKES);
+        return !output.isEmpty() ? 1.0f : 0.0f;
+    }
+
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveCustomOnly(registries); }
+    @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
 
     private void changed() {
         setChanged();

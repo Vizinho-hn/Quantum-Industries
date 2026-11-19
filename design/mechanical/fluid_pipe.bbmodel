@@ -1,0 +1,1149 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "fluid_pipe",
+  "resolution": {
+    "width": 128,
+    "height": 128
+  },
+  "elements": [
+    {
+      "name": "copper_barrel_core",
+      "from": [
+        5.2,
+        5.2,
+        1.8
+      ],
+      "to": [
+        10.8,
+        10.8,
+        14.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "2cd41e00-20d5-575d-8bab-cb5fff4c835b",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "copper_rib_top",
+      "from": [
+        6.1,
+        10.65,
+        1.9
+      ],
+      "to": [
+        9.9,
+        11.4,
+        14.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "90f1d3ea-c6f3-581e-8561-212a3e1cca3b",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "copper_rib_bot",
+      "from": [
+        6.1,
+        4.6,
+        1.9
+      ],
+      "to": [
+        9.9,
+        5.35,
+        14.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "3f5b73f2-27ab-568c-b0d8-d96614cd5de2",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "copper_rib_w",
+      "from": [
+        4.6,
+        6.1,
+        1.9
+      ],
+      "to": [
+        5.35,
+        9.9,
+        14.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "028af5e9-d3d7-581d-a8e7-0c5239618e58",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "copper_rib_e",
+      "from": [
+        10.65,
+        6.1,
+        1.9
+      ],
+      "to": [
+        11.4,
+        9.9,
+        14.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "f569bf8a-8be1-55ef-aaf6-35e049af0584",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "flange_n_outer",
+      "from": [
+        4.0,
+        4.0,
+        0.0
+      ],
+      "to": [
+        12.0,
+        12.0,
+        1.35
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "a3332a4a-8265-5115-ac85-a6caf18c9493",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "flange_n_inner",
+      "from": [
+        4.5,
+        4.5,
+        1.2
+      ],
+      "to": [
+        11.5,
+        11.5,
+        2.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "d7532ed2-bf2c-5997-b909-bf81f39c5a94",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "flange_s_outer",
+      "from": [
+        4.0,
+        4.0,
+        14.65
+      ],
+      "to": [
+        12.0,
+        12.0,
+        16.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "293c18c4-c391-5f94-bd79-74f2138ee9b7",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "flange_s_inner",
+      "from": [
+        4.5,
+        4.5,
+        13.8
+      ],
+      "to": [
+        11.5,
+        11.5,
+        14.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "97286b47-96ed-55ab-b5b0-c07ab9b79bcb",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "center_saddle_ring",
+      "from": [
+        4.4,
+        4.4,
+        6.6
+      ],
+      "to": [
+        11.6,
+        11.6,
+        9.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            1.6,
+            1.6,
+            30.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "fa3eb503-3a9b-5102-98d1-b7efdb05cd15",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "center_brass_band",
+      "from": [
+        4.8,
+        4.8,
+        7.2
+      ],
+      "to": [
+        11.2,
+        11.2,
+        8.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "07177e0c-e1b1-5645-9ccf-d4d61137a253",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "relief_valve_neck",
+      "from": [
+        7.1,
+        11.05,
+        7.1
+      ],
+      "to": [
+        8.9,
+        12.45,
+        8.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            97.6,
+            1.6,
+            126.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "edb834b3-0ef7-5204-ac93-a3bacb513675",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "relief_valve_cap",
+      "from": [
+        6.6,
+        12.3,
+        6.6
+      ],
+      "to": [
+        9.4,
+        13.1,
+        9.4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            1.6,
+            94.4,
+            30.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "1e8a92cc-3368-5fe8-9635-aa6da729ad18",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "sight_plug_w",
+      "from": [
+        4.1,
+        7.0,
+        7.0
+      ],
+      "to": [
+        4.75,
+        9.0,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            65.6,
+            97.6,
+            94.4,
+            126.4
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "268c5d2f-2e63-5c69-97df-9ab735cf2332",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "base",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "uuid": "2e0df191-3969-5862-9035-cf571306da2c",
+      "export": true,
+      "isOpen": true,
+      "children": [
+        "2cd41e00-20d5-575d-8bab-cb5fff4c835b",
+        "90f1d3ea-c6f3-581e-8561-212a3e1cca3b",
+        "3f5b73f2-27ab-568c-b0d8-d96614cd5de2",
+        "028af5e9-d3d7-581d-a8e7-0c5239618e58",
+        "f569bf8a-8be1-55ef-aaf6-35e049af0584",
+        "a3332a4a-8265-5115-ac85-a6caf18c9493",
+        "d7532ed2-bf2c-5997-b909-bf81f39c5a94",
+        "293c18c4-c391-5f94-bd79-74f2138ee9b7",
+        "97286b47-96ed-55ab-b5b0-c07ab9b79bcb",
+        "fa3eb503-3a9b-5102-98d1-b7efdb05cd15",
+        "07177e0c-e1b1-5645-9ccf-d4d61137a253",
+        "edb834b3-0ef7-5204-ac93-a3bacb513675",
+        "1e8a92cc-3368-5fe8-9635-aa6da729ad18",
+        "268c5d2f-2e63-5c69-97df-9ab735cf2332"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "path": "/mnt/dados/dev/Quantum-Industries/src/main/resources/assets/quantumindustries/textures/block/era2_industrial_machines.png",
+      "name": "era2_industrial_machines.png",
+      "folder": "block",
+      "namespace": "quantumindustries",
+      "id": "0",
+      "width": 128,
+      "height": 128,
+      "uv_width": 128,
+      "uv_height": 128,
+      "particle": true
+    }
+  ]
+}

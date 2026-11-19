@@ -26,7 +26,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
  * or automatically with Forge Energy in Era II (60 FE over 20 ticks).
  * Doubles raw ore yield into 2x purified mineral dust and mills 1x wheat into 2x flour.
  */
-public final class JawCrusherBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class JawCrusherBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY = 480;
     public static final int MAX_RECEIVE = 48;
     public static final int WORK_TICKS = 20;
@@ -59,10 +59,29 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
 
     @Override
     public Component inspectDetail() {
+        if (progress > 0 && !input.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.crusher.progress", progress * 100 / WORK_TICKS);
+        }
+        if (!output.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.press.output_ready", output.getCount(), output.getHoverName());
+        }
         return Component.translatable("message.quantumindustries.jaw_crusher.status",
                 progress, WORK_TICKS, energy(),
                 input.isEmpty() ? Component.literal("-") : input.getHoverName(),
                 output.isEmpty() ? 0 : output.getCount());
+    }
+
+    @Override public Component statusTitle() { return inspectTitle(); }
+    @Override public Component statusDetail() { return inspectDetail(); }
+    @Override public State statusState() {
+        if (progress > 0 && !input.isEmpty()) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (!input.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress() {
+        if (progress > 0 && !input.isEmpty()) return Math.min(1.0f, (float) progress / WORK_TICKS);
+        return !output.isEmpty() ? 1.0f : 0.0f;
     }
 
     @Override

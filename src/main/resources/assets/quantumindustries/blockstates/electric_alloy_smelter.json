@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,lit=false": {
       "model": "quantumindustries:block/electric_alloy_smelter"
     },
-    "facing=east": {
+    "facing=north,lit=true": {
+      "model": "quantumindustries:block/electric_alloy_smelter_lit"
+    },
+    "facing=east,lit=false": {
       "model": "quantumindustries:block/electric_alloy_smelter",
       "y": 90
     },
-    "facing=south": {
+    "facing=east,lit=true": {
+      "model": "quantumindustries:block/electric_alloy_smelter_lit",
+      "y": 90
+    },
+    "facing=south,lit=false": {
       "model": "quantumindustries:block/electric_alloy_smelter",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,lit=true": {
+      "model": "quantumindustries:block/electric_alloy_smelter_lit",
+      "y": 180
+    },
+    "facing=west,lit=false": {
       "model": "quantumindustries:block/electric_alloy_smelter",
+      "y": 270
+    },
+    "facing=west,lit=true": {
+      "model": "quantumindustries:block/electric_alloy_smelter_lit",
       "y": 270
     }
   }

@@ -147,7 +147,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<br.com.quantumindustries.block.BellowsBrazierBlock> BELLOWS_BRAZIER =
             BLOCKS.registerBlock("bellows_brazier", br.com.quantumindustries.block.BellowsBrazierBlock::new,
-                    props -> props.strength(2.4F).noOcclusion());
+                    props -> props.strength(2.4F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 10 : 0));
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity>> BELLOWS_BRAZIER_ENTITY =
             BLOCK_ENTITIES.register("bellows_brazier",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity::new,
@@ -156,7 +156,7 @@ public class ModBlocks {
     public static final DeferredBlock<br.com.quantumindustries.block.WireDrawingBenchBlock> WIRE_DRAWING_BENCH =
             BLOCKS.registerBlock("wire_drawing_bench",
                     br.com.quantumindustries.block.WireDrawingBenchBlock::new,
-                    props -> props.strength(2.4F).noOcclusion());
+                    props -> props.strength(2.4F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 5 : 0));
 
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity>> WIRE_DRAWING_BENCH_ENTITY =
             BLOCK_ENTITIES.register("wire_drawing_bench",
@@ -200,7 +200,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<br.com.quantumindustries.block.ElectricAlloySmelterBlock> ELECTRIC_ALLOY_SMELTER =
             BLOCKS.registerBlock("electric_alloy_smelter", br.com.quantumindustries.block.ElectricAlloySmelterBlock::new,
-                    props -> props.strength(3.0F).noOcclusion());
+                    props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 12 : 0));
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity>> ELECTRIC_ALLOY_SMELTER_ENTITY =
             BLOCK_ENTITIES.register("electric_alloy_smelter",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity::new,

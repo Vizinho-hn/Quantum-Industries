@@ -22,7 +22,7 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Era II FE-powered forming press: stamps ingots into metal sheets using 60 FE over 20 ticks without hammer wear. */
-public final class ElectromechanicalPressBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class ElectromechanicalPressBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY = 480;
     public static final int MAX_RECEIVE = 48;
     public static final int WORK_TICKS = 20;
@@ -42,6 +42,19 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
     @Override public int capacity() { return CAPACITY; }
     @Override public Component inspectTitle() {
         return Component.translatable("block.quantumindustries.electromechanical_press");
+    }
+
+    @Override public Component statusTitle() { return inspectTitle(); }
+    @Override public Component statusDetail() { return inspectDetail(); }
+    @Override public State statusState() {
+        if (progress > 0 && !input.isEmpty()) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (!input.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress() {
+        if (progress > 0 && !input.isEmpty()) return Math.min(1.0f, (float) progress / WORK_TICKS);
+        return !output.isEmpty() ? 1.0f : 0.0f;
     }
 
     @Override public Component inspectDetail() {
@@ -141,6 +154,11 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
             transaction.commit();
         }
         progress++;
+        if (progress % 4 == 0) {
+            server.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                    worldPosition.getX() + 0.5, worldPosition.getY() + 0.52, worldPosition.getZ() + 0.5,
+                    2, 0.14, 0.04, 0.14, 0.01);
+        }
         if (progress == Math.max(1, requiredTicks / 2)) {
             server.playSound(null, worldPosition, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.35f, 0.9f);
         }

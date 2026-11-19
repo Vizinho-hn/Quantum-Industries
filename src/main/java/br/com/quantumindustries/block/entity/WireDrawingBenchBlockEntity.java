@@ -14,11 +14,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Wire drawing: four wires per sheet, either hand-cranked or powered by FE. */
-public final class WireDrawingBenchBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class WireDrawingBenchBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY = 240, MAX_RECEIVE = 32, WORK_TICKS = 20, FE_PER_TICK = 3;
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_RECEIVE, FE_PER_TICK);
     private ItemStack input = ItemStack.EMPTY, output = ItemStack.EMPTY;
@@ -34,8 +38,31 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         return Component.translatable("block.quantumindustries.wire_drawing_bench");
     }
     @Override public Component inspectDetail() {
-        return Component.translatable("message.quantumindustries.wire.status", progress, WORK_TICKS, energy());
+        if (progress > 0 && !input.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.wire.progress", progress * 100 / WORK_TICKS);
+        }
+        if (!output.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.press.output_ready", output.getCount(), output.getHoverName());
+        }
+        if (!input.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.wire.waiting_power");
+        }
+        return Component.translatable("gui.quantumindustries.wire.idle");
     }
+    @Override public Component statusTitle() { return inspectTitle(); }
+    @Override public Component statusDetail() { return inspectDetail(); }
+    @Override public State statusState() {
+        if (progress > 0 && !input.isEmpty()) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (!input.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress() {
+        if (progress > 0 && !input.isEmpty()) return Math.min(1.0f, (float) progress / WORK_TICKS);
+        return !output.isEmpty() ? 1.0f : 0.0f;
+    }
+    public ItemStack input() { return input; }
+    public int progress() { return progress; }
     @Override public int receiveEnergy(int offered) {
         if (!(level instanceof ServerLevel) || offered <= 0) return 0;
         int inserted;
@@ -105,14 +132,41 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         if (!result.isEmpty()) changed();
         return result;
     }
+    private void setLit(ServerLevel server, boolean lit) {
+        BlockState state = getBlockState();
+        if (state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT) != lit) {
+            server.setBlock(worldPosition, state.setValue(BlockStateProperties.LIT, lit), Block.UPDATE_ALL);
+        }
+    }
+
     public void tick() {
-        if (!(level instanceof ServerLevel) || !canRun() || energy() < FE_PER_TICK) return;
+        if (!(level instanceof ServerLevel server)) return;
+        if (!canRun() || energy() < FE_PER_TICK) {
+            setLit(server, false);
+            return;
+        }
         try (var tx = Transaction.openRoot()) {
-            if (battery.extract(FE_PER_TICK, tx) < FE_PER_TICK) return;
+            if (battery.extract(FE_PER_TICK, tx) < FE_PER_TICK) {
+                setLit(server, false);
+                return;
+            }
             tx.commit();
         }
+        setLit(server, true);
         progress++;
+        if (progress % 5 == 0) {
+            server.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                    worldPosition.getX() + 0.5, worldPosition.getY() + 0.78, worldPosition.getZ() + 0.5,
+                    2, 0.16, 0.04, 0.16, 0.01);
+        }
+        if (progress == WORK_TICKS / 2) {
+            server.playSound(null, worldPosition, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.25f, 1.4f);
+        }
         finishIfReady();
+        if (progress == 0) {
+            setLit(server, canRun() && energy() >= FE_PER_TICK);
+            server.playSound(null, worldPosition, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.25f, 1.5f);
+        }
         changed();
     }
     private void finishIfReady() {

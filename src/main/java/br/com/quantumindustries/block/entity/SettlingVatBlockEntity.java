@@ -5,10 +5,13 @@ import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.fluid.FluidInspectable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,7 +26,7 @@ import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** 8-bucket working vat; produces bottled concentrate and solid sediment. */
-public final class SettlingVatBlockEntity extends BlockEntity implements FluidInspectable {
+public final class SettlingVatBlockEntity extends BlockEntity implements FluidInspectable, MachineStatusInspectable {
     public static final int CAPACITY=8000,RECIPE_WATER=1000,WORK_TICKS=120;
     private final FluidStacksResourceHandler tank=new FluidStacksResourceHandler(1,CAPACITY){
         @Override protected void onContentsChanged(int slot,net.neoforged.neoforge.fluids.FluidStack stack){
@@ -39,6 +42,28 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     @Override public Component fluidTitle(){return Component.translatable("block.quantumindustries.settling_vat");}
     @Override public Component fluidDetail(){
         return Component.translatable("message.quantumindustries.vat.status",storedFluid(),CAPACITY,lapis+sulfur+halite,bottles,progress);
+    }
+    @Override public Component statusTitle(){return fluidTitle();}
+    @Override public Component statusDetail(){
+        if(progress>0)return Component.translatable("gui.quantumindustries.vat.progress",progress*100/WORK_TICKS);
+        if(!concentrate.isEmpty()||!sediment.isEmpty()){
+            ItemStack ready=!concentrate.isEmpty()?concentrate:sediment;
+            return Component.translatable("gui.quantumindustries.press.output_ready",ready.getCount(),ready.getHoverName());
+        }
+        if((lapis>0||sulfur>0||halite>0||bottles>0||storedFluid()>0)){
+            return Component.translatable("gui.quantumindustries.vat.waiting",storedFluid(),RECIPE_WATER,lapis+sulfur+halite,bottles);
+        }
+        return fluidDetail();
+    }
+    @Override public State statusState(){
+        if(progress>0)return State.WORKING;
+        if(!concentrate.isEmpty()||!sediment.isEmpty())return State.READY;
+        if(lapis>0||sulfur>0||halite>0||bottles>0||storedFluid()>0)return State.BLOCKED;
+        return State.IDLE;
+    }
+    @Override public float statusProgress(){
+        if(progress>0)return Math.min(1.0f,(float)progress/WORK_TICKS);
+        return(!concentrate.isEmpty()||!sediment.isEmpty())?1.0f:0.0f;
     }
     public static boolean isReagentItem(ItemStack stack){
         return stack.is(Items.LAPIS_LAZULI)
@@ -80,14 +105,21 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
         return ItemStack.EMPTY;
     }
     public void tick(){
-        if(!(level instanceof ServerLevel))return;
+        if(!(level instanceof ServerLevel server))return;
         Item expectedConcentrate=halite>0?ModItems.HYDROCHLORIC_ACID.get():ModItems.GALVANIC_ELECTROLYTE.get();
         boolean ready=(lapis>0||sulfur>0||halite>0)&&bottles>0&&storedFluid()>=RECIPE_WATER
                 &&tank.getResource(0).is(Fluids.WATER)
                 &&(concentrate.isEmpty()||(concentrate.is(expectedConcentrate)&&concentrate.getCount()<64))
                 &&(sediment.isEmpty()||sediment.getCount()<64);
         if(!ready)return;
-        if(++progress<WORK_TICKS){if(progress%20==0)changed();return;}
+        if(++progress<WORK_TICKS){
+            if(progress%6==0){
+                server.sendParticles(ParticleTypes.BUBBLE_POP,worldPosition.getX()+0.5,worldPosition.getY()+0.82,
+                        worldPosition.getZ()+0.5,2,0.18,0.03,0.18,0.01);
+            }
+            if(progress%5==0)changed();
+            return;
+        }
         try(var tx=Transaction.openRoot()){
             int taken=tank.extract(FluidResource.of(Fluids.WATER),RECIPE_WATER,tx);
             if(taken!=RECIPE_WATER){progress=0;return;}
@@ -101,6 +133,7 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
         else concentrate.grow(1);
         if(sediment.isEmpty())sediment=new ItemStack(ModItems.PIGMENT_SEDIMENT.get());
         else sediment.grow(1);
+        server.playSound(null,worldPosition,SoundEvents.BREWING_STAND_BREW,SoundSource.BLOCKS,0.4f,1.1f);
         changed();
     }
     private void changed(){setChanged();if(level!=null)level.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);}

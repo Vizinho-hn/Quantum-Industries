@@ -27,10 +27,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+
 public final class WireDrawingBenchBlock extends BaseEntityBlock {
     public WireDrawingBenchBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        registerDefaultState(stateDefinition.any()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.LIT, false));
     }
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(WireDrawingBenchBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
@@ -42,7 +47,7 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
                 (l, p, s, be) -> be.tick());
     }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
-        b.add(BlockStateProperties.HORIZONTAL_FACING);
+        b.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.LIT);
     }
     @Override public BlockState getStateForPlacement(BlockPlaceContext context) {
         return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING,
@@ -59,9 +64,17 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
         }
         if (!(server.getBlockEntity(pos) instanceof WireDrawingBenchBlockEntity be)) return InteractionResult.SUCCESS;
         if (stack.is(ModItems.HAND_CRANK.get())) {
-            be.manualStroke();
+            if (be.manualStroke()) {
+                server.playSound(null, pos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.35f, 1.35f);
+                op.sendOverlayMessage(be.inspectDetail());
+            }
         } else {
-            if (!be.insert(stack)) op.sendOverlayMessage(Component.translatable("message.quantumindustries.wire.busy"));
+            if (be.insert(stack)) {
+                server.playSound(null, pos, SoundEvents.METAL_PLACE, SoundSource.BLOCKS, 0.45f, 1.2f);
+                op.sendOverlayMessage(be.inspectDetail());
+            } else {
+                op.sendOverlayMessage(Component.translatable("message.quantumindustries.wire.busy"));
+            }
         }
         return InteractionResult.SUCCESS;
     }

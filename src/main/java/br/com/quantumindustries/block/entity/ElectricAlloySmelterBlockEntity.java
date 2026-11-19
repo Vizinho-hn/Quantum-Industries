@@ -17,11 +17,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Era II FE-powered induction alloy furnace: smelts both Tier 1 (Bronze, Brass) and Tier 2 (Invar, Electrum, Constantan, Steel) alloys. */
-public final class ElectricAlloySmelterBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class ElectricAlloySmelterBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY = 1200;
     public static final int MAX_RECEIVE = 64;
     public static final int ENERGY_PER_TICK = 4;
@@ -42,6 +43,27 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         return Component.translatable("block.quantumindustries.electric_alloy_smelter");
     }
 
+    @Override public Component statusTitle() { return inspectTitle(); }
+    @Override public Component statusDetail() { return inspectDetail(); }
+
+    @Override public State statusState() {
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
+        if (progress > 0 && recipe != null) return State.WORKING;
+        if (!output.isEmpty()) return State.READY;
+        if (recipe != null || !inputA.isEmpty() || !inputB.isEmpty()) return State.BLOCKED;
+        return State.IDLE;
+    }
+
+    @Override public float statusProgress() {
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
+        if (progress > 0 && recipe != null) return Math.min(1.0f, (float) progress / recipe.workTicks());
+        return !output.isEmpty() ? 1.0f : 0.0f;
+    }
+
+    public ItemStack inputA() { return inputA; }
+    public ItemStack inputB() { return inputB; }
+    public int progress() { return progress; }
+
     @Override public Component inspectDetail() {
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (progress > 0 && recipe != null) {
@@ -52,6 +74,9 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         }
         if (recipe != null) {
             return Component.translatable("gui.quantumindustries.smelter.waiting_energy");
+        }
+        if (!inputA.isEmpty() || !inputB.isEmpty()) {
+            return Component.translatable("gui.quantumindustries.smelter.waiting_pair");
         }
         return Component.translatable("gui.quantumindustries.smelter.idle");
     }
@@ -141,10 +166,18 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
                 && output.getCount() + result.getCount() <= output.getMaxStackSize();
     }
 
+    private void setLit(ServerLevel server, boolean lit) {
+        BlockState state = getBlockState();
+        if (state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT) != lit) {
+            server.setBlock(worldPosition, state.setValue(BlockStateProperties.LIT, lit), Block.UPDATE_ALL);
+        }
+    }
+
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (!canProcess(recipe)) {
+            setLit(server, false);
             if (progress != 0) {
                 progress = 0;
                 changed();
@@ -154,19 +187,28 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         int prevTarget = progress * recipe.totalFe() / recipe.workTicks();
         int nextTarget = (progress + 1) * recipe.totalFe() / recipe.workTicks();
         int stepFe = Math.max(0, nextTarget - prevTarget);
-        if (energy() < stepFe) return;
+        if (energy() < stepFe) {
+            setLit(server, false);
+            return;
+        }
         if (stepFe > 0) {
             try (var transaction = Transaction.openRoot()) {
-                if (battery.extract(stepFe, transaction) < stepFe) return;
+                if (battery.extract(stepFe, transaction) < stepFe) {
+                    setLit(server, false);
+                    return;
+                }
                 transaction.commit();
             }
         }
+        setLit(server, true);
         progress++;
+        if (progress % 6 == 0) {
+            server.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                    worldPosition.getX() + 0.5, worldPosition.getY() + 0.65, worldPosition.getZ() + 0.5,
+                    2, 0.14, 0.06, 0.14, 0.01);
+        }
         if (progress % 20 == 0) {
             server.playSound(null, worldPosition, SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 0.35f, 1.15f);
-            server.sendParticles(ParticleTypes.ELECTRIC_SPARK,
-                    worldPosition.getX() + 0.5, worldPosition.getY() + 0.75, worldPosition.getZ() + 0.5,
-                    3, 0.1, 0.05, 0.1, 0.01);
         }
         if (progress >= recipe.workTicks()) {
             progress = 0;
@@ -176,9 +218,10 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
             if (inputB.isEmpty()) inputB = ItemStack.EMPTY;
             if (output.isEmpty()) output = produced;
             else output.grow(produced.getCount());
+            setLit(server, canProcess(AlloyCatalog.findMatch(inputA, inputB, 2)) && energy() >= ENERGY_PER_TICK);
             server.playSound(null, worldPosition, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.35f, 1.25f);
         }
-        changed();
+        if (progress % 4 == 0 || progress == 0) changed();
     }
 
     private void changed() {

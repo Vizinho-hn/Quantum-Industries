@@ -1,1 +1,10 @@
-{"variants":{"":{"model":"quantumindustries:block/bellows_brazier"}}}
+{
+  "variants": {
+    "lit=false": {
+      "model": "quantumindustries:block/bellows_brazier"
+    },
+    "lit=true": {
+      "model": "quantumindustries:block/bellows_brazier_lit"
+    }
+  }
+}
