@@ -1,0 +1,22 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/connections-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/connections-preview')
+            systemProperty 'quantumindustries.previewConnections', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'ConnectionsQA', '--width', '1100', '--height', '760'
+        }
+        def previewOptions = file('build/connections-preview/options.txt')
+        tasks.named('runClient').configure {
+            doFirst {
+                def options = previewOptions
+                options.parentFile.mkdirs()
+                def text = options.exists() ? options.getText('UTF-8') : 'onboardAccessibility:true\npauseOnLostFocus:true\nlang:pt_br\n'
+                options.setText(text.replaceAll('(?m)^onboardAccessibility:.*', 'onboardAccessibility:false')
+                        .replaceAll('(?m)^pauseOnLostFocus:.*', 'pauseOnLostFocus:false')
+                        .replaceAll('(?m)^lang:.*', 'lang:pt_br')
+                        .replaceAll('(?m)^tutorialStep:.*', 'tutorialStep:none'), 'UTF-8')
+            }
+        }
+    }
+}

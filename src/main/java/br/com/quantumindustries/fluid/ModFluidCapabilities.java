@@ -9,7 +9,7 @@ public final class ModFluidCapabilities {
     private ModFluidCapabilities() {}
     public static void register(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlocks.FLUID_PIPE_ENTITY.get(),
-                (be, side) -> be.tank());
+                (be, side) -> be.sidedTank(side));
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlocks.SETTLING_VAT_ENTITY.get(),
                 (be, side) -> be.tank());
     }

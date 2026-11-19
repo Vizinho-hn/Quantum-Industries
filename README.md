@@ -169,7 +169,7 @@ Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulado
 
 Ambos conectam-se a cabos e máquinas adjacentes nas seis direções, inclusive diretamente acima e abaixo. Modelo e hitbox acompanham cada conexão; vizinhos diagonais não se conectam. As conexões dos cabos salvos são recalculadas ao carregar. Verificação em servidor isolado: `bash tools/verify-cables.sh`.
 
-O Dínamo Manual fornece FE somente pela porta elétrica lateral, oposta à roda/manivela. Essa face acompanha a rotação do bloco e vale tanto para cabos quanto para máquinas diretamente adjacentes. Cada giro ainda precisa ser acionado para gerar energia.
+O **Dínamo** aceita manivela ou movimento da roda-d'água pelo Eixo de Transmissão Mecânica. Retire a manivela com Shift + botão direito e conecte o eixo ao encaixe lateral. A geração automática consome **6 UM** da rede e produz **12 FE a cada 8 ticks** (1,5 FE/t). Um dínamo já colocado precisa de um clique de um jogador com Projeto do Dínamo para autorizar esse acionamento; novas colocações desse jogador já ficam autorizadas. A porta elétrica fica no lado oposto e alimenta cabos ou máquinas adjacentes. Eixo desconectado, água sem movimento ou sobrecarga interrompem a geração. O bloco mantém o ID `manual_dynamo` e a capacidade de 240 FE.
 
 ### Trefiladora de bancada
 
@@ -192,6 +192,31 @@ A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o
 A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
+
+## Chave de Configuração e pontas dos tubos
+
+A **Chave de Configuração** é liberada por Mecânica Fundamental e aparece no
+caderno e na aba criativa. Sua receita usa dois lingotes de ferro nos cantos
+superiores, uma engrenagem de ferro no centro e um graveto abaixo dela.
+
+Clique na ponta de um tubo de itens, duto de cobre/vidro ou cabo elétrico para
+alternar **Puxar → Empurrar → Nenhum**. Os modos são relativos ao segmento
+selecionado: Puxar é entrada e Empurrar é saída. Cada uma das seis direções
+tem configuração própria. **Shift + clique** restaura **Automático**, o padrão
+dos tubos novos e dos saves anteriores. Nenhum bloqueia a passagem nessa ponta.
+
+Tubos de itens em Puxar retiram um item por vez de inventários e saídas de
+máquinas adjacentes; as pontas de saída encaminham o pacote até o destino.
+Dutos em Puxar recebem fluidos dos reservatórios adjacentes e Empurrar dirige
+a saída. Trechos ascendentes continuam usando pressão da bomba. Nos cabos,
+Puxar recebe FE da fonte e Empurrar libera FE para o destino, com os limites
+e perdas do tipo de cabo. Configurações e conteúdo ficam salvos ao reiniciar.
+
+Equipe os **Óculos de Inspeção Energética** e mire na ponta desejada. O painel
+mostra a direção e o modo da mesma ponta que a chave seleciona, além da leitura
+de energia ou fluido do segmento. Os quatro estados são traduzidos em PT-BR
+e EN-US. Testes dedicados: `bash tools/verify-connections.sh`, em dois
+carregamentos de um mundo isolado, incluindo conservação, bloqueios e retomada.
 
 ## Imagens do protótipo
 

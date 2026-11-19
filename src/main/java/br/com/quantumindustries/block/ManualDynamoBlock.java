@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -53,10 +54,18 @@ public final class ManualDynamoBlock extends BaseEntityBlock {
         return defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof ManualDynamoBlockEntity dynamo) {
+            dynamo.configureMechanicalDrive(player);
+        }
+    }
+
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
         if (!stack.is(ModItems.HAND_CRANK.get())) return InteractionResult.TRY_WITH_EMPTY_HAND;
         if (player instanceof ServerPlayer operator && level.getBlockEntity(pos) instanceof ManualDynamoBlockEntity dynamo) {
+            dynamo.configureMechanicalDrive(player);
             boolean paid = !operator.getAbilities().instabuild;
             if (dynamo.install(paid)) {
                 if (paid) stack.shrink(1);
@@ -70,13 +79,15 @@ public final class ManualDynamoBlock extends BaseEntityBlock {
             Player player, BlockHitResult hit) {
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer operator)
                 || !(server.getBlockEntity(pos) instanceof ManualDynamoBlockEntity dynamo)) return InteractionResult.SUCCESS;
+        dynamo.configureMechanicalDrive(player);
         if (player.isShiftKeyDown() && player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()) {
             if (dynamo.installed()) {
                 if (dynamo.detach()) operator.getInventory().placeItemBackInInventory(new ItemStack(ModItems.HAND_CRANK.get()));
                 message(operator, "removed");
             }
         } else if (!dynamo.installed()) {
-            message(operator, "missing_crank");
+            if (!WorldResearchData.get(server).knows(player, "manual_dynamo_design")) message(operator, "research");
+            else message(operator, dynamo.hasMechanicalDrive() ? "mechanical_ready" : "missing_crank");
         } else if (!WorldResearchData.get(server).knows(player, "manual_dynamo_design")) {
             message(operator, "research");
         } else if (dynamo.energy() == ManualDynamoBlockEntity.CAPACITY) {

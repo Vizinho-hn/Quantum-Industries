@@ -20,6 +20,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Localizar códice, caderno, pesquisas, relatórios e descrições dos itens em PT-BR/EN-US, acompanhando o idioma do jogo.
 - [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
+- [x] Configurar seis pontas de tubos de itens, fluidos e cabos elétricos com chave (Puxar/Empurrar/Nenhum), leitura nos óculos, modo automático compatível e persistência.
 - [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
@@ -41,6 +42,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.
 - [x] Liberar o Núcleo Mecânico Primitivo pela pesquisa de Estrutura Eletromecânica.
 - [x] Liberar o Dínamo Manual pelo Projeto do Dínamo e manter Indução Eletromagnética na Era II.
+- [x] Acionar o mesmo Dínamo por roda-d'água e eixos, com carga de 6 UM, geração de 12 FE/8 ticks e autorização individual persistente.
 - [x] Tratar **eras como agrupamentos**, não bloqueios globais: abas com pesquisas podem ser abertas, com pré-requisitos de cada estudo preservados.
 - [x] Desacoplar os ramos de Hidrostática, Pressão Pneumática, Recozimento Térmico e Trefilação de pesquisas elétricas que não são necessárias ao processo.
 - [ ] Testar em cliente/servidor o acesso paralelo aos ramos e a persistência dos saves, sem liberar por engano receitas protegidas.

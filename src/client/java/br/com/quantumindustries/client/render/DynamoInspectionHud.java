@@ -4,6 +4,8 @@ import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
 import br.com.quantumindustries.block.entity.MachineStatusInspectable;
 import br.com.quantumindustries.fluid.FluidInspectable;
+import br.com.quantumindustries.logistics.ConfigurableConduit;
+import br.com.quantumindustries.logistics.ConnectionTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -36,6 +38,7 @@ public final class DynamoInspectionHud {
         boolean hasGoggles = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get());
 
         if (hasGoggles) {
+            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit);
             if (blockEntity instanceof FluidInspectable fluid) {
                 drawFluid(g, minecraft, fluid);
                 return;
@@ -49,6 +52,24 @@ public final class DynamoInspectionHud {
         if (blockEntity instanceof MachineStatusInspectable machine) {
             drawCompactStatus(g, minecraft, machine);
         }
+    }
+
+    private static void drawConnection(GuiGraphicsExtractor g, Minecraft minecraft,
+            ConfigurableConduit conduit, BlockHitResult hit) {
+        var side = ConnectionTarget.face(hit.getBlockPos(), hit.getLocation(), hit.getDirection());
+        var mode = conduit.connectionMode(side);
+        int color = switch (mode) {
+            case PULL -> 0xFF6DBDE0;
+            case PUSH -> 0xFFE4AE62;
+            case NONE -> 0xFFB4A99A;
+            case AUTO -> 0xFF83A276;
+        };
+        var label = Component.translatable("gui.quantumindustries.connection.changed",
+                Component.translatable("gui.quantumindustries.connection.face." + side.getName()), mode.label());
+        int width = Math.max(168, minecraft.font.width(label) + 16);
+        g.fill(7, 84, 7 + width, 105, 0xFFB37B55);
+        g.fill(8, 85, 6 + width, 104, 0xED201C19);
+        g.text(minecraft.font, label, 14, 91, color, false);
     }
 
     private static void drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft, EnergyInspectable target) {
