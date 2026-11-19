@@ -79,6 +79,17 @@ dt = 0,05 s a 20 TPS
 - [ ] Upgrade: RPM, aceleração, direção da potência e vetores indicativos, **somente se forem dados realmente simulados**.
 - [ ] Livro: operação prática primeiro; fundamentos de MCU/MCUV/torque/engrenagens em capítulos opcionais sem novos bloqueios de crafting.
 
+## Teste local independente (Etapa A)
+
+No diretório raiz do repositório, com um JDK 21 ou superior para este teste **isolado** (o build completo do mod exige Java 25):
+
+```powershell
+javac -d build/kinetic-standalone src/main/java/br/com/quantumindustries/mechanical/KineticDynamics.java tests/KineticDynamicsCheck.java
+java -cp build/kinetic-standalone KineticDynamicsCheck
+```
+
+Resultado esperado: `KineticDynamicsCheck: PASS (10 checks)`. Este teste **não prova** compatibilidade do renderer, do servidor ou do Minecraft. Depois das etapas B/C, executar `.\\gradlew.bat build`, `.\\gradlew.bat runClient` e os harnesses em `tests/`.
+
 ## 6. QA obrigatório
 
 - **Física pura:** repouso, torque abaixo da carga, aceleração, inércia, frenagem, inversão, velocidade máxima, wrap, NaN/overflow.
