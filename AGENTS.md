@@ -36,6 +36,12 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
+## Quantum Kinetic System — migração planejada
+- Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
+- O `KineticDynamics` existente é **somente um integrador matemático testável**; ele ainda não está conectado ao `MechanicalNetwork`. Não declarar velocidade variável funcional no Minecraft antes de implementar e testar essa integração.
+- O `KineticRenderer` atual ainda herda de `GeoBlockRenderer`: **não** chamá-lo de independente do GeckoLib. A migração final exige renderer NeoForge próprio, renderização correta dos assets existentes e regressão de serraria/dínamo.
+- Não importar RPM/torque físico em SI como se as unidades UM já fossem N·m, não duplicar energia, não bloquear pesquisas por conteúdo opcional do livro, e não trocar modelos existentes por placeholders.
+
 ## Direção artística e produção de assets (obrigatório)
 - **Leia `docs/ART_DIRECTION.md` antes de criar ou alterar itens, blocos, modelos 3D, texturas ou animações.** Para assets das Eras I e II, siga também `docs/ERA1_VISUAL_STYLE_GUIDE.md` ou `docs/ERA2_VISUAL_STYLE_GUIDE.md`, respectivamente. `docs/MOD_REFERENCES.md` registra referências externas verificadas, mas não substitui as regras do projeto.
 - **Confirme a era real** no `ROADMAP.md`, no catálogo de pesquisas/desbloqueios e na documentação existente; não classifique pelo nome, aparência ou tipo de energia. As cinco eras são as definidas no roadmap. **`wire_drawing_bench` pertence à Era II** conforme o guia atual, embora tenha acionamento manual/FE. Não invente paletas oficiais para as Eras III–V.
