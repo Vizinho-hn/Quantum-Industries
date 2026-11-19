@@ -43,6 +43,10 @@ As eras agrupam pesquisas e não são bloqueios globais de progressão; não alt
 
 ## 4. Geometria, animação e renderização
 
+**Conexões e máquinas funcionais:** para cabos, tubos, fluidos, pacotes pneumáticos, redes de eixos, portas de máquinas e estados de funcionamento, consultar também o **[Atlas de Engenharia](ENGINEERING_REFERENCE_ATLAS.md)**. A aparência deve concordar com a topologia e as permissões reais, não apenas com uma imagem de referência.
+
+
+
 - Inspecionar o caminho de renderização real antes de escolher ferramenta: **modelo JSON vanilla** quando basta geometria estática; **GeckoLib** quando a implementação necessita de bones/animação. Não converter indiscriminadamente.
 - Separar peças móveis por função (rotor, manivela, carro, engrenagem) e preservar nomes de bones, pivôs, eixos de rotação, orientação, visibilidade condicional e animações existentes.
 - Conferir conexões modulares, alturas de eixo, portas de entrada/saída, orientação de bloco e limites de colisão/seleção. Respeitar contratos específicos dos guias e testes automatizados.
