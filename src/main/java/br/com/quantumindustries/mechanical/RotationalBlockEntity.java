@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** Shared movement state, not FE storage. A crank pulse supplies time, never instant work. */
-public abstract class RotationalBlockEntity extends BlockEntity implements GeoBlockEntity {
+public abstract class RotationalBlockEntity extends BlockEntity implements GeoBlockEntity, MechanicalParticipant {
     public static final int MANUAL_CAPACITY = 6, CRANK_INTERVAL = 10, CRANK_TICKS = 20;
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     private boolean crankInstalled;

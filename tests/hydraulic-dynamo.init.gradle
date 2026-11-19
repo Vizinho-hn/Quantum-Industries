@@ -1,0 +1,9 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/hydraulic-dynamo-runtime')
+        neoForge.runs.server {
+            gameDirectory = file(providers.gradleProperty('hydraulicRunDir').get() + '/world')
+            systemProperty 'quantumindustries.verifyHydraulicDynamo', 'true'
+        }
+    }
+}

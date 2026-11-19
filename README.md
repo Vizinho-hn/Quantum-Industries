@@ -169,7 +169,7 @@ Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulado
 
 Ambos conectam-se a cabos e máquinas adjacentes nas seis direções, inclusive diretamente acima e abaixo. Modelo e hitbox acompanham cada conexão; vizinhos diagonais não se conectam. As conexões dos cabos salvos são recalculadas ao carregar. Verificação em servidor isolado: `bash tools/verify-cables.sh`.
 
-O Dínamo Manual fornece FE somente pela porta elétrica lateral, oposta à roda/manivela. Essa face acompanha a rotação do bloco e vale tanto para cabos quanto para máquinas diretamente adjacentes. Cada giro ainda precisa ser acionado para gerar energia.
+O **Dínamo** aceita manivela ou movimento da roda-d'água pelo Eixo de Transmissão Mecânica. Retire a manivela com Shift + botão direito e conecte o eixo ao encaixe lateral. A geração automática consome **6 UM** da rede e produz **12 FE a cada 8 ticks** (1,5 FE/t). Um dínamo já colocado precisa de um clique de um jogador com Projeto do Dínamo para autorizar esse acionamento; novas colocações desse jogador já ficam autorizadas. A porta elétrica fica no lado oposto e alimenta cabos ou máquinas adjacentes. Eixo desconectado, água sem movimento ou sobrecarga interrompem a geração. O bloco mantém o ID `manual_dynamo` e a capacidade de 240 FE.
 
 ### Trefiladora de bancada
 

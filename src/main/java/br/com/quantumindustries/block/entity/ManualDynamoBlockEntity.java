@@ -1,6 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.mechanical.MechanicalNetwork;
+import br.com.quantumindustries.mechanical.MechanicalParticipant;
+import br.com.quantumindustries.research.ResearchIds;
+import br.com.quantumindustries.research.WorldResearchData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -11,6 +15,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
@@ -22,18 +28,22 @@ import com.geckolib.animation.AnimationController;
 import com.geckolib.animation.RawAnimation;
 import com.geckolib.util.GeckoLibUtil;
 
-public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable, GeoBlockEntity {
+public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable, GeoBlockEntity, MechanicalParticipant {
     public static final int CAPACITY = 240;
     public static final int PER_TURN = 12;
     public static final int MAX_EXTRACT = 24;
     public static final int TURN_TICKS = 8;
     public static final int TURNING_GRACE_TICKS = 5;
+    public static final int MECHANICAL_LOAD = 6;
 
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, PER_TURN, MAX_EXTRACT);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean installed;
     private boolean refundable;
     private long lastTurn = -(TURN_TICKS + TURNING_GRACE_TICKS);
+    private String mechanicalOperator = "";
+    private int mechanicalTicks;
+    private boolean mechanicallyDriven;
 
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
@@ -49,7 +59,43 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     public long lastTurn() { return lastTurn; }
     public boolean isTurning() {
         if (level == null) return false;
-        return (level.getGameTime() - lastTurn) < (TURN_TICKS + TURNING_GRACE_TICKS);
+        return mechanicallyDriven || installed && (level.getGameTime() - lastTurn) < (TURN_TICKS + TURNING_GRACE_TICKS);
+    }
+
+    public Direction mechanicalFace() {
+        return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise();
+    }
+
+    @Override public Direction.Axis axle() { return mechanicalFace().getAxis(); }
+    @Override public boolean connectsMechanical(Direction face) { return !installed && face == mechanicalFace(); }
+
+    public boolean configureMechanicalDrive(Player player) {
+        if (!(level instanceof ServerLevel server) || player.level() != level || isRemoved()
+                || player.distanceToSqr(worldPosition.getCenter()) > 64
+                || !WorldResearchData.get(server).knows(player, "manual_dynamo_design")) return false;
+        String operator = player.getUUID().toString();
+        if (!operator.equals(mechanicalOperator)) {
+            mechanicalOperator = operator;
+            mechanicalTicks = 0;
+            changed();
+        }
+        return true;
+    }
+
+    @Override public int requestedLoad() {
+        return level instanceof ServerLevel server && !installed && energy() < CAPACITY
+                && WorldResearchData.get(server).knows(mechanicalOperator, ResearchIds.of("manual_dynamo_design"))
+                ? MECHANICAL_LOAD : 0;
+    }
+
+    public boolean hasMechanicalDrive() {
+        return level instanceof ServerLevel server && !installed
+                && MechanicalNetwork.state(server, worldPosition).nodes().size() > 1;
+    }
+
+    @Override public Component inspectDetail() {
+        return Component.translatable("block.quantumindustries.manual_dynamo." +
+                (mechanicallyDriven ? "mechanical_running" : installed ? "manual_drive" : "shaft_drive"));
     }
 
     @Override
@@ -71,6 +117,8 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         if (!(level instanceof ServerLevel) || installed) return false;
         installed = true;
         refundable = paid;
+        mechanicalTicks = 0;
+        mechanicallyDriven = false;
         changed();
         return true;
     }
@@ -110,13 +158,16 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     }
 
     public void tick() {
-        if (!(level instanceof ServerLevel server) || energy() <= 0) return;
+        if (!(level instanceof ServerLevel server)) return;
+        tickMechanicalDrive(server);
+        if (energy() <= 0) return;
         br.com.quantumindustries.energy.CableNetwork.transfer(server, worldPosition,
                 this::energy, this::extractEnergy, MAX_EXTRACT);
         for (Direction dir : Direction.values()) {
             if (!br.com.quantumindustries.energy.EnergyPorts.connects(getBlockState(), dir)) continue;
             if (energy() <= 0) break;
-            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
+            if (server.hasChunkAt(worldPosition.relative(dir))
+                    && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && !(target instanceof ManualDynamoBlockEntity)) {
                 int available = Math.min(MAX_EXTRACT, energy());
                 int accepted = target.receiveEnergy(available);
@@ -125,8 +176,33 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         }
     }
 
+    private void tickMechanicalDrive(ServerLevel server) {
+        boolean powered = requestedLoad() > 0 && MechanicalNetwork.state(server, worldPosition).powered();
+        if (mechanicallyDriven != powered) {
+            mechanicallyDriven = powered;
+            changed();
+        }
+        if (!powered) {
+            if (mechanicalTicks != 0) {
+                mechanicalTicks = 0;
+                setChanged();
+            }
+            return;
+        }
+        mechanicalTicks++;
+        setChanged();
+        if (mechanicalTicks < TURN_TICKS) return;
+        mechanicalTicks = 0;
+        try (var transaction = Transaction.openRoot()) {
+            if (battery.insert(PER_TURN, transaction) > 0) transaction.commit();
+        }
+        if (energy() == CAPACITY) mechanicallyDriven = false;
+        changed();
+    }
+
     private void changed() {
         setChanged();
+        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
@@ -136,6 +212,9 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         output.putBoolean("crank_installed", installed);
         output.putBoolean("crank_refundable", refundable);
         output.putLong("last_turn", lastTurn);
+        output.putString("mechanical_operator", mechanicalOperator);
+        output.putInt("mechanical_ticks", mechanicalTicks);
+        output.putBoolean("mechanically_driven", mechanicallyDriven);
     }
 
     @Override protected void loadAdditional(ValueInput input) {
@@ -144,6 +223,9 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         installed = input.getBooleanOr("crank_installed", false);
         refundable = installed && input.getBooleanOr("crank_refundable", false);
         lastTurn = input.getLongOr("last_turn", -(TURN_TICKS + TURNING_GRACE_TICKS));
+        mechanicalOperator = input.getStringOr("mechanical_operator", "");
+        mechanicalTicks = Math.clamp(input.getIntOr("mechanical_ticks", 0), 0, TURN_TICKS - 1);
+        mechanicallyDriven = input.getBooleanOr("mechanically_driven", false);
     }
 
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
@@ -157,5 +239,9 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     }
 
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveCustomOnly(registries); }
+    @Override public void setRemoved() {
+        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
+        super.setRemoved();
+    }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
 }
