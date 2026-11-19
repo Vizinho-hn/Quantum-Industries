@@ -36,6 +36,16 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
+## Direção artística e produção de assets (obrigatório)
+- **Leia `docs/ART_DIRECTION.md` antes de criar ou alterar itens, blocos, modelos 3D, texturas ou animações.** Para assets das Eras I e II, siga também `docs/ERA1_VISUAL_STYLE_GUIDE.md` ou `docs/ERA2_VISUAL_STYLE_GUIDE.md`, respectivamente. `docs/MOD_REFERENCES.md` registra referências externas verificadas, mas não substitui as regras do projeto.
+- **Confirme a era real** no `ROADMAP.md`, no catálogo de pesquisas/desbloqueios e na documentação existente; não classifique pelo nome, aparência ou tipo de energia. As cinco eras são as definidas no roadmap. **`wire_drawing_bench` pertence à Era II** conforme o guia atual, embora tenha acionamento manual/FE. Não invente paletas oficiais para as Eras III–V.
+- Identidade visual: **Minecraft industrial detalhado**, com acabamento de alto nível, silhueta legível, pixel art nítida e detalhes mecânicos com propósito. Não simplifique por reflexo nem confunda complexidade com ruído, gradientes pintados, brilho futurista ou estética desconectada do Minecraft.
+- Preserve os materiais, rampas de cor, atlas e proporções estabelecidos nos guias de cada era. **A grade de 16 unidades por bloco não exige textura 16×16**: respeite os sprites 16×16/32×32 e atlas 128×128 já utilizados. Verifique UVs e todos os consumidores de atlas compartilhados antes de modificá-los.
+- Antes de modelar, localize o asset existente, sua fonte `.bbmodel`, modelo JSON/`.geo.json`, textura, renderizador, blockstate, modelos de item, animações, bones, pivôs, orientação, colisões e conexões relevantes. Prefira **JSON vanilla para geometria estática** e **GeckoLib quando houver necessidade real de animação**, respeitando a implementação existente.
+- Imagens conceituais geradas ou fornecidas servem como **referência artística**, não como geometria exata. Adapte proporções à grade voxel, faça vistas úteis e preserve encaixes, mecânica e leitura em escala de jogo. Não copie assets ou código de Create, Oritech, AE2, Mekanism ou outros terceiros.
+- Pipeline: **inspeção → diagnóstico visual → proposta → protótipo único no Blockbench/MCP → integração → QA in-game → aprovação**. Reaproveite o harness e o `minecraft-live` descritos abaixo. Não confunda screenshot do Blockbench com validação no Minecraft; registre antes/depois quando possível e declare o que realmente foi testado.
+- **Sem padronização em lote sem aprovação do piloto.** Preserve IDs, receitas, progressão, registros, animações e contratos de teste. Para cada mudança visual, relate arquivos alterados, decisões de design, verificações executadas e pendências.
+
 ## Verificação proporcional ao risco
 - Verificações da CI: `python3 -m unittest discover -s tests -p 'test_*.py' -v`, `bash ./gradlew --no-daemon verifyLegacyResearch`, `bash tools/verify-mechanical.sh` e `bash ./gradlew --no-daemon build` (requer JDK 25).
 - Integração de bancada em servidor isolado: `./tools/verify-assay.sh`.
