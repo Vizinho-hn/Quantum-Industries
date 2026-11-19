@@ -20,6 +20,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Localizar códice, caderno, pesquisas, relatórios e descrições dos itens em PT-BR/EN-US, acompanhando o idioma do jogo.
 - [x] Dar à Mesa de Pesquisa Tier 1 um modelo artesanal próprio, com caderno e instrumentos manuais, textura pixel art e arquivo Blockbench.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
+- [x] Configurar seis pontas de tubos de itens, fluidos e cabos elétricos com chave (Puxar/Empurrar/Nenhum), leitura nos óculos, modo automático compatível e persistência.
 - [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.

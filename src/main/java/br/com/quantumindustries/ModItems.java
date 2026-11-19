@@ -27,6 +27,8 @@ public class ModItems {
     // Ferramenta de teste (Sonda)
     public static final DeferredItem<Item> TEST_PROBES = ITEMS.registerItem("test_probes",
             br.com.quantumindustries.item.TestProbesItem::new, properties -> properties.durability(100));
+    public static final DeferredItem<Item> CONFIGURATION_WRENCH = ITEMS.registerItem("configuration_wrench",
+            br.com.quantumindustries.item.ConfigurationWrenchItem::new, properties -> properties.stacksTo(1));
 
     // Dados de pesquisa (output da bancada)
     public static final DeferredItem<Item> RESEARCH_DATA = ITEMS.registerItem("research_data", br.com.quantumindustries.research.ResearchReportItem::new);

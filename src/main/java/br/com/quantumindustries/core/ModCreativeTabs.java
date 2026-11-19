@@ -28,6 +28,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.RESEARCH_DATA.get());
                     output.accept(ModItems.QUANTUM_GUIDEBOOK.get());
                     output.accept(ModItems.MANUAL_HAMMER.get());
+                    output.accept(ModItems.CONFIGURATION_WRENCH.get());
                     output.accept(ModItems.IRON_SHEET.get());
                     output.accept(ModItems.COPPER_SHEET.get());
                     output.accept(ModItems.IRON_GEAR.get());

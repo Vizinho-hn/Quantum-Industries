@@ -122,6 +122,7 @@ public final class FoundationRecipe extends ShapedRecipe {
             new Pattern("manual_forming", ModItems.MANUAL_HAMMER, 1, 3, nugget,nugget,nugget, null,stick,null, null,stick,null),
             new Pattern("manual_forming", ModItems.FORMING_BENCH, 1, 3, iron,iron,iron, plank,null,plank, plank,null,plank),
             new Pattern("basic_mechanics", ModItems.IRON_GEAR, 1, 3, null,nugget,null, nugget,iron,nugget, null,nugget,null),
+            new Pattern("basic_mechanics", ModItems.CONFIGURATION_WRENCH, 1, 3, iron,null,iron, null,gear,null, null,stick,null),
             new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT, 2, 1, iron,iron),
             new Pattern("mechanical_transmission", ModItems.HAND_CRANK, 1, 2, shaft,gear, null,stick),
             new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT_BLOCK, 2, 3, plank,shaft,plank, plank,shaft,plank),

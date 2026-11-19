@@ -962,5 +962,19 @@
   "block.quantumindustries.manual_dynamo.mechanical_ready": "Eixo conectado. O dínamo requer 6 UM para gerar 12 FE a cada 8 ticks.",
   "block.quantumindustries.manual_dynamo.mechanical_running": "Eixo em movimento · 6 UM",
   "block.quantumindustries.manual_dynamo.manual_drive": "Acionamento por manivela",
-  "block.quantumindustries.manual_dynamo.shaft_drive": "Entrada mecânica livre"
+  "block.quantumindustries.manual_dynamo.shaft_drive": "Entrada mecânica livre",
+  "item.quantumindustries.configuration_wrench": "Chave de Configuração",
+  "tooltip.quantumindustries.configuration_wrench.use": "Clique numa ponta: Puxar → Empurrar → Nenhum.",
+  "tooltip.quantumindustries.configuration_wrench.reset": "Shift + clique restaura Automático.",
+  "gui.quantumindustries.connection.auto": "Automático",
+  "gui.quantumindustries.connection.pull": "Puxar",
+  "gui.quantumindustries.connection.push": "Empurrar",
+  "gui.quantumindustries.connection.none": "Nenhum",
+  "gui.quantumindustries.connection.changed": "Ponta %s · %s",
+  "gui.quantumindustries.connection.face.down": "Inferior",
+  "gui.quantumindustries.connection.face.up": "Superior",
+  "gui.quantumindustries.connection.face.north": "Norte",
+  "gui.quantumindustries.connection.face.south": "Sul",
+  "gui.quantumindustries.connection.face.east": "Leste",
+  "gui.quantumindustries.connection.face.west": "Oeste"
 }

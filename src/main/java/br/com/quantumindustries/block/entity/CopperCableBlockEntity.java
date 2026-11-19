@@ -2,6 +2,8 @@ package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.block.CopperCableBlock;
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.logistics.ConfigurableConduit;
+import br.com.quantumindustries.logistics.ConnectionModes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,10 +17,11 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** Stateless conductor for FE; records only transient load/loss for inspection. */
-public final class CopperCableBlockEntity extends BlockEntity implements EnergyInspectable {
+public final class CopperCableBlockEntity extends BlockEntity implements EnergyInspectable, ConfigurableConduit {
     private int flow;
     private int loss;
     private long lastFlow = Long.MIN_VALUE;
+    private final ConnectionModes connections = new ConnectionModes();
 
     public CopperCableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.COPPER_CABLE_ENTITY.get(), pos, state);
@@ -42,6 +45,15 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         return Component.translatable("gui.quantumindustries.cable.flow", flow, loss);
     }
     public int flow() { return flow; }
+    @Override public ConnectionModes connectionModes() { return connections; }
+    @Override public void connectionChanged() {
+        sync();
+        if (level instanceof ServerLevel server) {
+            var state = CopperCableBlock.computeState(server, worldPosition, getBlockState());
+            server.setBlock(worldPosition, state, Block.UPDATE_ALL);
+            server.updateNeighborsAt(worldPosition, state.getBlock());
+        }
+    }
     /** Residual edge capacity for the *current* server tick. */
     public int availableThisTick(long time) {
         return Math.max(0, capacity() - (lastFlow == time ? flow : 0));
@@ -67,10 +79,12 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
     }
     @Override protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
+        connections.save(out);
         // Cable load is transient: never saved as an energy battery.
     }
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
+        connections.load(in);
         flow = in.getIntOr("cable_flow", 0);
         loss = in.getIntOr("cable_loss", 0);
     }

@@ -28,6 +28,8 @@ jobs:
         run: bash tools/verify-mechanical.sh
       - name: Verify hydraulic dynamo and save reload
         run: bash tools/verify-hydraulic-dynamo.sh
+      - name: Verify configured tubes and cables
+        run: bash tools/verify-connections.sh
       - name: Compile and package mod
         run: bash ./gradlew --no-daemon build
       - name: Upload testable mod jar
