@@ -39,10 +39,10 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
-## Quantum Kinetic System — migração planejada
+## Quantum Kinetic System — PR 1 integrado
 - Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
-- O `KineticDynamics` existente é **somente um integrador matemático testável**; ele ainda não está conectado ao `MechanicalNetwork`. Não declarar velocidade variável funcional no Minecraft antes de implementar e testar essa integração.
-- O `KineticRenderer` atual ainda herda de `GeoBlockRenderer`: **não** chamá-lo de independente do GeckoLib. A migração final exige renderer NeoForge próprio, renderização correta dos assets existentes e regressão de serraria/dínamo.
+- O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. Engrenagens, volante, polias e rodas 3×3/5×5 ficam para o PR 2; telemetria dos óculos, capítulos de física do Códice e `verify-qks.sh` completo ficam para o PR 3.
+- O renderer mecânico nativo é `client/kinetic/QksBlockEntityRenderer`; `ClientKineticTracker.init()` deve instalar o sink antes da entrada no mundo. O diretório legado dos assets não implica dependência da API GeckoLib. O PR 1 foi verificado em preview do cliente e suítes de servidor, incluindo serraria/dínamo, sem API GeckoLib no subsistema mecânico. Preserve essas regressões em mudanças futuras; veja `docs/adr/0001-qks-native-renderer.md`.
 - Não importar RPM/torque físico em SI como se as unidades UM já fossem N·m, não duplicar energia, não bloquear pesquisas por conteúdo opcional do livro, e não trocar modelos existentes por placeholders.
 
 ## Direção artística e produção de assets (obrigatório)

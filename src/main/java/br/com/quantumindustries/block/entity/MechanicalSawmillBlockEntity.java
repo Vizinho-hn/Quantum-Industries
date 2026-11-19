@@ -82,12 +82,15 @@ public final class MechanicalSawmillBlockEntity extends RotationalBlockEntity {
 
     @Override protected boolean isCutting() { return rotating() && !input.isEmpty(); }
 
+    @Override public double kineticInertia() { return 2.5; }
+    @Override public double kineticDrag() { return .20; }
+    @Override public double kineticLoadTorque() { return requestedLoad() * .75; }
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
-        var net = br.com.quantumindustries.mechanical.MechanicalNetwork.state(server, worldPosition);
+        var net = br.com.quantumindustries.mechanical.KineticNetworkManager.snapshot(server, worldPosition);
         var recipe = availableProcess();
-        setMotion(net.powered(), net.spinDirection());
-        if (recipe == null || !net.powered()) return;
+        applyKineticSnapshot(net);
+        if (recipe == null || !net.powered() || Math.abs(net.angularVelocity()) <= 1e-3) return;
         var holder = MechanicalProcesses.find(server, input);
         String current = holder.id().identifier().toString();
         if (!current.equals(processId)) { processId = current; progress = 0; }

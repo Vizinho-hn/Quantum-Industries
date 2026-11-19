@@ -58,6 +58,57 @@ public final class KineticDynamics {
         return new State(nextAngle, nextSpeed);
     }
 
+    public record StepResult(State state, double angularAcceleration, double netTorque,
+            double mechanicalPower, double kineticEnergy, boolean stalled) {}
+
+    public static StepResult advanceDetailed(State previous, double drive, double load,
+            double inertia, double drag, double maxSpeed, double seconds) {
+        return advanceDetailed(previous, drive, load, inertia, drag, maxSpeed, seconds, 0.0);
+    }
+
+    public static StepResult advanceDetailed(State previous, double drive, double load,
+            double inertia, double drag, double maxSpeed, double seconds, double staticFriction) {
+        requireNonNegative("staticFriction", staticFriction);
+        // Run the common integrator first so every input is validated, even when statically stalled.
+        State next = advance(previous, drive, load, inertia, drag, maxSpeed, seconds);
+        if (Math.abs(previous.angularVelocityRadiansPerSecond()) <= EPSILON
+                && Math.abs(drive) <= load + staticFriction) next = new State(wrap(previous.angleRadians()), 0);
+        double omega = next.angularVelocityRadiansPerSecond();
+        double alpha = (omega - previous.angularVelocityRadiansPerSecond()) / seconds;
+        double torque = alpha * inertia;
+        return new StepResult(next, alpha, torque, torque * omega, .5 * inertia * omega * omega, omega == 0);
+    }
+
+    public static double reflectInertia(double localInertia, double ratio) {
+        requirePositive("localInertia", localInertia); requireRatio(ratio);
+        return localInertia * ratio * ratio;
+    }
+    public static double reflectDrag(double localDrag, double ratio) {
+        requireNonNegative("localDrag", localDrag); requireRatio(ratio);
+        return localDrag * ratio * ratio;
+    }
+    public static double reflectDriveTorque(double localDriveTorque, double ratio, double efficiency) {
+        requireFinite("localDriveTorque", localDriveTorque); requireRatio(ratio); requireEfficiency(efficiency);
+        return localDriveTorque * ratio * efficiency;
+    }
+    public static double reflectLoadTorque(double localLoadTorque, double ratio, double efficiency) {
+        requireNonNegative("localLoadTorque", localLoadTorque); requireRatio(ratio); requireEfficiency(efficiency);
+        return localLoadTorque * Math.abs(ratio) / Math.max(1e-6, efficiency);
+    }
+    public static double mergeAngularVelocity(double totalAngularMomentum, double totalReflectedInertia) {
+        requireFinite("totalAngularMomentum", totalAngularMomentum);
+        requirePositive("totalReflectedInertia", totalReflectedInertia);
+        return totalAngularMomentum / totalReflectedInertia;
+    }
+    private static void requireRatio(double ratio) {
+        requireFinite("ratio", ratio);
+        if (ratio == 0) throw new IllegalArgumentException("ratio must be nonzero");
+    }
+    private static void requireEfficiency(double efficiency) {
+        requirePositive("efficiency", efficiency);
+        if (efficiency > 1) throw new IllegalArgumentException("efficiency exceeds one");
+    }
+
     public static double toRpm(double radiansPerSecond) {
         requireFinite("radiansPerSecond", radiansPerSecond);
         return radiansPerSecond * 30.0 / Math.PI;

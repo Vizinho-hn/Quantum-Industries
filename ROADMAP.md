@@ -40,8 +40,10 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Próxima expansão opcional: fermento/cultura-mãe reutilizável, Pão Fermentado com maior saturação e Moedor Elétrico como upgrade; sem travar novas eras.
 - [ ] Refinar visual no Blockbench e criar sprites 32×32 originais antes de declarar asset final.
 - [x] Criar núcleo matemático isolado para aceleração angular/inércia e capítulo **opcional** de física rotacional no Códice, sem bloquear pesquisas existentes.
-- [ ] **Quantum Kinetic System:** integrar dinâmica em redes compartilhadas e sincronização servidor-cliente, mantendo a unidade UM e a progressão atual; ver `docs/KINETIC_ENGINE_ARCHITECTURE.md`.
-- [ ] Migrar **eixos e rodas-d'água** para renderer cinético próprio sem GeckoLib, preservando geometria; avaliar a serraria separadamente. Rodas 3×3/5×5, engrenagens, polias e volantes somente após o núcleo funcionar.
+- [x] **QKS PR 1 — Core / Network / Chunk Sync:** integrate component dynamics, shared network solving and server-client chunk synchronization, preserving UM and progression; see `docs/KINETIC_ENGINE_ARCHITECTURE.md`.
+- [x] **QKS PR 1 — Native Renderer:** migrate shafts, water wheels, sawmills and dynamos off the GeckoLib API while preserving geometry; client preview and server regression suites completed.
+- [ ] **QKS PR 2:** cogwheels, flywheel, pulleys and 3×3/5×5 water wheels.
+- [ ] **QKS PR 3:** Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` harness.
 - [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
 
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.

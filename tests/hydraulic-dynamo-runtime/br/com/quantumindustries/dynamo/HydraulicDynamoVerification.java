@@ -172,7 +172,7 @@ public final class HydraulicDynamoVerification {
                 check(dynamo.detach() && !dynamo.detach(), "paid crank is returned exactly once");
             }
             if (ticks == 280) {
-                check(dynamo.energy() == 240 && !dynamo.isTurning(), "full buffer cannot overflow and stops the rotor");
+                check(dynamo.energy() == 240 && dynamo.requestedLoad() == 0 && dynamo.isTurning(), "full buffer cannot overflow and freewheels with zero electrical load");
                 var legacy = dynamo.saveWithoutMetadata(level.registryAccess());
                 legacy.remove("mechanical_operator");
                 legacy.remove("mechanical_ticks");
