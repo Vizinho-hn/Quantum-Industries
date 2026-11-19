@@ -100,6 +100,34 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     public ItemStack output() { return output; }
     public int progress() { return progress; }
 
+    /** The menu edits the same stacks persisted and used by automation. */
+    public net.minecraft.world.Container menuInventory() {
+        return new net.minecraft.world.SimpleContainer(2) {
+            @Override public ItemStack getItem(int slot) {
+                return switch (slot) { case 0 -> input; case 1 -> output; default -> ItemStack.EMPTY; };
+            }
+            @Override public boolean isEmpty() { return input.isEmpty() && output.isEmpty(); }
+            @Override public void setItem(int slot, ItemStack stack) {
+                if (slot == 0 && !ItemStack.isSameItemSameComponents(getItem(slot), stack)) progress = 0;
+                switch (slot) { case 0 -> input = stack; case 1 -> output = stack; default -> throw new IndexOutOfBoundsException(slot); }
+                changed();
+            }
+            @Override public ItemStack removeItem(int slot, int amount) {
+                var taken = getItem(slot).split(amount);
+                if (slot == 0 && getItem(slot).isEmpty()) progress = 0;
+                if (!taken.isEmpty()) changed();
+                return taken;
+            }
+            @Override public ItemStack removeItemNoUpdate(int slot) {
+                var taken = getItem(slot);
+                setItem(slot, ItemStack.EMPTY);
+                return taken;
+            }
+            @Override public void clearContent() { for (int slot = 0; slot < 2; slot++) setItem(slot, ItemStack.EMPTY); }
+            @Override public void setChanged() { changed(); }
+        };
+    }
+
     public ItemStack extractOutput(int maximum) {
         if (!(level instanceof ServerLevel) || output.isEmpty() || maximum <= 0) return ItemStack.EMPTY;
         ItemStack result = output.split(Math.min(maximum, output.getCount()));

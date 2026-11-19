@@ -193,6 +193,21 @@ A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vid
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
 
+## Interfaces de processamento
+
+Abra a **Fundidora de Ligas Elétrica** com botão direito para acessar as duas
+entradas, saída e inventário. A tela tem câmara de fusão, carga em FE, progresso
+e o nome da liga produzida, como **Fundindo Bronze**. O consumo mostrado segue
+a receita real. Entradas, saída e progresso pertencem à máquina e ficam
+guardados ao fechar a interface.
+
+O **Britador de Mandíbulas** usa a mesma organização, com uma entrada, saída,
+mandíbulas ilustradas, energia e nome do material em britagem. O botão
+**Acionar manivela** usa a manivela presente no inventário, respeitando a
+pesquisa e o intervalo entre giros. O acionamento com a ferramenta na mão
+também continua disponível. Shift + clique transfere itens entre os slots e
+o inventário, e o servidor valida os ingredientes e as pesquisas.
+
 ## Chave de Configuração e pontas dos tubos
 
 A **Chave de Configuração** é liberada por Mecânica Fundamental e aparece no
@@ -200,10 +215,12 @@ caderno e na aba criativa. Sua receita usa dois lingotes de ferro nos cantos
 superiores, uma engrenagem de ferro no centro e um graveto abaixo dela.
 
 Clique na ponta de um tubo de itens, duto de cobre/vidro ou cabo elétrico para
-alternar **Puxar → Empurrar → Nenhum**. Os modos são relativos ao segmento
+alternar **Entrada e saída → Puxar → Empurrar → Nenhum**. Os modos são relativos ao segmento
 selecionado: Puxar é entrada e Empurrar é saída. Cada uma das seis direções
-tem configuração própria. **Shift + clique** restaura **Automático**, o padrão
+tem configuração própria. **Shift + clique** seleciona **Entrada e saída**, o padrão
 dos tubos novos e dos saves anteriores. Nenhum bloqueia a passagem nessa ponta.
+Nos cabos elétricos, Entrada e saída permite que uma bateria receba energia e
+depois alimente consumidores usando a mesma conexão.
 
 Tubos de itens em Puxar retiram um item por vez de inventários e saídas de
 máquinas adjacentes; as pontas de saída encaminham o pacote até o destino.

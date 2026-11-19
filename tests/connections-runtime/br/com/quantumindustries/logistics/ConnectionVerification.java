@@ -204,6 +204,7 @@ public final class ConnectionVerification {
                     for (BlockPos origin : new BlockPos[]{ITEMS, FLUID, ENERGY}) {
                         click(origin.east(2), Direction.EAST, false);
                         click(origin.east(2), Direction.EAST, false);
+                        click(origin.east(2), Direction.EAST, false);
                     }
                 }
                 if (ticks == 70) {
@@ -220,6 +221,7 @@ public final class ConnectionVerification {
             if (ticks == 30) {
                 check(chest(3).getItem(0).isEmpty() && vat(3).storedFluid() == 0 && energy(3).energy() == 0, "None blocks all three resource types");
                 for (BlockPos origin : new BlockPos[]{ITEMS, FLUID, ENERGY}) {
+                    click(origin.east(2), Direction.EAST, false);
                     click(origin.east(2), Direction.EAST, false);
                     click(origin.east(2), Direction.EAST, false);
                 }

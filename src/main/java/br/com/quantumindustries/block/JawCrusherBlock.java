@@ -3,7 +3,6 @@ package br.com.quantumindustries.block;
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.JawCrusherBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
-import br.com.quantumindustries.material.CrushingCatalog;
 import br.com.quantumindustries.research.WorldResearchData;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -69,7 +68,7 @@ public final class JawCrusherBlock extends BaseEntityBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                           Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!(CrushingCatalog.isValidInput(stack) || stack.is(ModItems.HAND_CRANK.get()))) {
+        if (!stack.is(ModItems.HAND_CRANK.get())) {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer op)) {
@@ -82,15 +81,7 @@ public final class JawCrusherBlock extends BaseEntityBlock {
         if (!(server.getBlockEntity(pos) instanceof JawCrusherBlockEntity be)) {
             return InteractionResult.SUCCESS;
         }
-        if (stack.is(ModItems.HAND_CRANK.get())) {
-            if (!be.manualStroke()) {
-                op.sendOverlayMessage(be.inspectDetail());
-            }
-        } else {
-            if (!be.insert(stack)) {
-                op.sendOverlayMessage(Component.translatable("message.quantumindustries.jaw_crusher.busy"));
-            }
-        }
+        if (!be.manualStroke()) op.sendOverlayMessage(be.inspectDetail());
         return InteractionResult.SUCCESS;
     }
 
@@ -98,12 +89,9 @@ public final class JawCrusherBlock extends BaseEntityBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                                Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && server.getBlockEntity(pos) instanceof JawCrusherBlockEntity be) {
-            ItemStack result = be.take(player.isShiftKeyDown());
-            if (!result.isEmpty()) {
-                player.getInventory().placeItemBackInInventory(result);
-            } else if (player instanceof ServerPlayer op) {
-                op.sendOverlayMessage(be.inspectDetail());
-            }
+            if (player instanceof ServerPlayer op) op.openMenu(new net.minecraft.world.SimpleMenuProvider(
+                    (id, inventory, owner) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inventory, pos, true),
+                    Component.translatable("block.quantumindustries.jaw_crusher")), pos);
         }
         return InteractionResult.SUCCESS;
     }
