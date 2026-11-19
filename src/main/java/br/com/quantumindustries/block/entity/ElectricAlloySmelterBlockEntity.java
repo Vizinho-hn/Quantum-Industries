@@ -64,6 +64,34 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
     public ItemStack inputB() { return inputB; }
     public int progress() { return progress; }
 
+    /** The menu edits the same stacks persisted and used by automation. */
+    public net.minecraft.world.Container menuInventory() {
+        return new net.minecraft.world.SimpleContainer(3) {
+            @Override public ItemStack getItem(int slot) {
+                return switch (slot) { case 0 -> inputA; case 1 -> inputB; case 2 -> output; default -> ItemStack.EMPTY; };
+            }
+            @Override public boolean isEmpty() { return inputA.isEmpty() && inputB.isEmpty() && output.isEmpty(); }
+            @Override public void setItem(int slot, ItemStack stack) {
+                if (slot < 2 && !ItemStack.isSameItemSameComponents(getItem(slot), stack)) progress = 0;
+                switch (slot) { case 0 -> inputA = stack; case 1 -> inputB = stack; case 2 -> output = stack; default -> throw new IndexOutOfBoundsException(slot); }
+                changed();
+            }
+            @Override public ItemStack removeItem(int slot, int amount) {
+                var taken = getItem(slot).split(amount);
+                if (slot < 2 && getItem(slot).isEmpty()) progress = 0;
+                if (!taken.isEmpty()) changed();
+                return taken;
+            }
+            @Override public ItemStack removeItemNoUpdate(int slot) {
+                var taken = getItem(slot);
+                setItem(slot, ItemStack.EMPTY);
+                return taken;
+            }
+            @Override public void clearContent() { for (int slot = 0; slot < 3; slot++) setItem(slot, ItemStack.EMPTY); }
+            @Override public void setChanged() { changed(); }
+        };
+    }
+
     @Override public Component inspectDetail() {
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (progress > 0 && recipe != null) {

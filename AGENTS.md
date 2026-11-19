@@ -17,6 +17,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Treat graph links, clusters, and hubs as navigation clues, not authority. Verify relevant conclusions in source; the report records dangling edges, self-loops, collapsed relationships, and incomplete semantic token accounting.
 
 ## Antes de alterar código
+0. Leia este `AGENTS.md` antes de cada tarefa de alteração. Ao confirmar um aprendizado novo e reutilizável sobre o projeto, registre aqui uma orientação curta ou um link para a documentação específica. Preserve o conteúdo dos colaboradores e evite hipóteses, logs de sessão e instruções duplicadas.
 1. Leia somente os arquivos relevantes à tarefa; comece por `README.md`, `CONTRIBUTING.md`, `ROADMAP.md` e a documentação específica quando necessário. Não varra o repositório inteiro sem motivo.
 2. Verifique o estado do Git (`git status --short`) e preserve alterações de outras pessoas. Não sobrescreva trabalho alheio.
 3. Identifique a implementação real antes de criar classes, pacotes ou abstrações. `docs/ARCHITECTURE.md` descreve também módulos **conceituais**, não necessariamente existentes.
@@ -24,6 +25,8 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 5. Para trabalho compartilhado, confirme a tarefa com a equipe e use uma branch `feat/*`, `fix/*` ou `docs/*`. Abra PR; não faça push direto na `main` sem autorização explícita.
 
 ## Regras de implementação
+- Interfaces de processamento: `MachineProcessingMenu` compartilha os slots reais das Block Entities da Fundidora Elétrica e do Britador. Fechar uma tela deve manter entradas, saída e progresso na máquina. Em MC 26.1.2, o desenho dessas telas usa `extractContents(GuiGraphicsExtractor, int, int, float)`; confira o padrão em `MachineProcessingScreen` antes de usar assinaturas de versões antigas.
+- Conexões: `ConnectionMode.AUTO` é o identificador persistido do modo exibido como **Entrada e saída**. Ele permite tráfego nos dois sentidos e participa do ciclo da chave. Preserve o valor salvo e as permissões ao alterar nomes ou incluir novos modos.
 - Faça a **menor alteração correta** para atender à solicitação. Evite refatorações oportunistas, dependências novas e mudanças de versão.
 - Preserve a separação cliente/servidor: o **servidor é autoridade** sobre inventários, custos, descobertas, pesquisas, permissões e desbloqueios.
 - Mantenha descobertas e pesquisas persistentes **por jogador**. Compartilhar máquina não deve misturar progresso individual.

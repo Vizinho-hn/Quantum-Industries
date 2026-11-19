@@ -2,16 +2,12 @@ package br.com.quantumindustries.block;
 
 import br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
-import br.com.quantumindustries.material.AlloyCatalog;
-import br.com.quantumindustries.research.WorldResearchData;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -76,22 +72,7 @@ public final class ElectricAlloySmelterBlock extends BaseEntityBlock {
 
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!AlloyCatalog.isValidIngredient(stack, 2)) return InteractionResult.TRY_WITH_EMPTY_HAND;
-        if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer op)
-                || !(server.getBlockEntity(pos) instanceof ElectricAlloySmelterBlockEntity smelter)) {
-            return InteractionResult.SUCCESS;
-        }
-        if (!WorldResearchData.get(server).knows(op, "electric_alloy_smelting")) {
-            op.sendOverlayMessage(Component.translatable("block.quantumindustries.electric_alloy_smelter.research"));
-            return InteractionResult.SUCCESS;
-        }
-        if (smelter.insertIngredient(stack)) {
-            server.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 0.4f, 1.15f);
-            op.sendOverlayMessage(smelter.inspectDetail());
-        } else {
-            op.sendOverlayMessage(Component.translatable("block.quantumindustries.electric_alloy_smelter.busy"));
-        }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
@@ -100,13 +81,9 @@ public final class ElectricAlloySmelterBlock extends BaseEntityBlock {
                 || !(server.getBlockEntity(pos) instanceof ElectricAlloySmelterBlockEntity smelter)) {
             return InteractionResult.SUCCESS;
         }
-        ItemStack extracted = smelter.extractResult(player.isShiftKeyDown());
-        if (!extracted.isEmpty()) {
-            op.getInventory().placeItemBackInInventory(extracted);
-            server.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.35f, 1.1f);
-            return InteractionResult.SUCCESS;
-        }
-        op.sendOverlayMessage(smelter.inspectDetail());
+        op.openMenu(new net.minecraft.world.SimpleMenuProvider(
+                (id, inventory, owner) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inventory, pos, false),
+                Component.translatable("block.quantumindustries.electric_alloy_smelter")), pos);
         return InteractionResult.SUCCESS;
     }
 }
