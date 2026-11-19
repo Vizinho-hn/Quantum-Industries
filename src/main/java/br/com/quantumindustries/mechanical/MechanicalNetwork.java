@@ -72,13 +72,13 @@ public final class MechanicalNetwork {
         return result;
     }
     private static Node<BlockPos> node(ServerLevel level, BlockPos pos) {
-        if (!level.hasChunkAt(pos) || !(level.getBlockEntity(pos) instanceof RotationalBlockEntity current)) return null;
+        if (!level.hasChunkAt(pos) || !(level.getBlockEntity(pos) instanceof MechanicalParticipant current)) return null;
         var links = new java.util.ArrayList<BlockPos>(2);
         for (Direction direction : Direction.values()) {
-            if (direction.getAxis() != current.axle()) continue;
+            if (!current.connectsMechanical(direction)) continue;
             var next = pos.relative(direction);
-            if (level.hasChunkAt(next) && level.getBlockEntity(next) instanceof RotationalBlockEntity other
-                    && other.axle() == current.axle()) links.add(next.immutable());
+            if (level.hasChunkAt(next) && level.getBlockEntity(next) instanceof MechanicalParticipant other
+                    && other.connectsMechanical(direction.getOpposite())) links.add(next.immutable());
         }
         return new Node<>(links, current.sourceCapacity(), current.requestedLoad(), current.sourceDirection());
     }

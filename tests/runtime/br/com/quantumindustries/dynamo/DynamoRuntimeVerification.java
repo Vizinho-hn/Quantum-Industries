@@ -122,6 +122,7 @@ public final class DynamoRuntimeVerification {
         profile.complete(AssayCatalog.Material.IRON, AssayCatalog.Method.MECHANICAL);
         profile.complete(AssayCatalog.Material.COAL, AssayCatalog.Method.INSPECTION);
         profile.complete(AssayCatalog.Material.TIN, AssayCatalog.Method.HEATING);
+        profile.complete(AssayCatalog.Material.TIN, AssayCatalog.Method.MECHANICAL);
         var coilKey = recipeKey(ModItems.COPPER_COIL.get());
         ModRecipeBook.sync(player);
         check(player.getRecipeBook().contains(recipeKey(ModItems.SCIENTIFIC_ANALYZER_TIER_1.get())),
@@ -157,7 +158,7 @@ public final class DynamoRuntimeVerification {
         check(player.getRecipeBook().contains(recipeKey(core)), "research adds the core to the book");
         check(player.getRecipeBook().contains(recipeKey(ModItems.MANUAL_DYNAMO.get())),
                 "research adds the dynamo to the book without induction");
-        check(eraOne == 16 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
+        check(eraOne == 17 && !research.knows(player, "electromagnetic_induction"), "finish Era I before induction");
         verifyCraft(player, coreGrid, core, true);
         verifyCraft(player, dynamoGrid, ModItems.MANUAL_DYNAMO.get(), true);
         var other = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "DynamoGuest"));
@@ -331,11 +332,11 @@ public final class DynamoRuntimeVerification {
         try {
             long elapsed = level.getGameTime() - firstTurn;
             if (turns < 20) {
-                if (elapsed % 10 != 0) {
+                if (elapsed % ManualDynamoBlockEntity.TURN_TICKS != 0) {
                     check(dynamo.energy() == turns * 12 && !dynamo.turn(), "no idle generation or early turns");
                     return;
                 }
-                check(dynamo.turn(), "turn allowed after 10 ticks");
+                check(dynamo.turn(), "turn allowed after the configured cooldown");
                 turns++;
                 return;
             }
@@ -375,7 +376,7 @@ public final class DynamoRuntimeVerification {
     private static void finish(Throwable error) throws Exception {
         turns = 0;
         try {
-            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 14 Era I studies, recipe book placement, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
+            Files.writeString(Path.of("../result.txt"), error == null ? "PASS: 17 Era I studies, recipe book placement, individual craft gates and dynamo server behavior\n" : "FAIL: " + error);
             if (error != null) error.printStackTrace();
         } finally {
             level.getServer().halt(false);
