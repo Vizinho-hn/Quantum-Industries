@@ -45,17 +45,17 @@ public abstract class RotationalBlockEntity extends BlockEntity implements GeoBl
     public boolean rotating() { return rotating; }
     public int spinDirection() { return spinDirection; }
     protected boolean isCutting() { return false; }
+    /** Purely rotational components use KineticRenderer and never let GeckoLib animate the rotor bone. */
+    protected boolean usesProceduralRotor() { return false; }
 
     public float rotation(double time) {
-        if (!rotating) return ((angle % 360f) + 360f) % 360f;
-        double raw = (angle + Math.max(0, time - angleTime) * 9.0 * spinDirection) % 360.0;
-        return (float) ((raw + 360.0) % 360.0);
+        return KineticMath.deterministicAngle(time, angle, rotating, spinDirection, KineticMath.DEFAULT_DEGREES_PER_TICK);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<RotationalBlockEntity>("mechanical_controller", 0, test -> {
-            if (!rotating()) return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
+            if (usesProceduralRotor() || !rotating()) return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
             if (isCutting()) {
                 return test.setAndContinue(RawAnimation.begin().thenLoop(spinDirection < 0 ? "cutting_ccw" : "cutting_cw"));
             }

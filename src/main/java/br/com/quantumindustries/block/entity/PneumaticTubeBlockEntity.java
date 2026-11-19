@@ -1,5 +1,6 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.block.PneumaticTubeBlock;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ItemRouting;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
@@ -34,8 +35,23 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
     public float fraction(float partialTick) { return Math.min(1f, (progress + partialTick) / HOP_TICKS); }
     public Direction inlet() { return inlet; }
     public long enteredAt() { return enteredAt; }
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) {
+            BlockState state = getBlockState();
+            BlockState connected = PneumaticTubeBlock.computeState(server, worldPosition, state);
+            if (connected != state) server.setBlock(worldPosition, connected, Block.UPDATE_ALL);
+        }
+    }
     @Override public ConnectionModes connectionModes() { return connections; }
-    @Override public void connectionChanged() { changed(); }
+    @Override public void connectionChanged() {
+        changed();
+        if (level instanceof ServerLevel server) {
+            BlockState state = PneumaticTubeBlock.computeState(server, worldPosition, getBlockState());
+            server.setBlock(worldPosition, state, Block.UPDATE_ALL);
+            server.updateNeighborsAt(worldPosition, state.getBlock());
+        }
+    }
 
     public boolean accept(ItemStack incoming, Direction from) {
         if (!(level instanceof ServerLevel) || !packet.isEmpty() || incoming.isEmpty()

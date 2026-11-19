@@ -16,12 +16,28 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 /** Server-only inventory bridge. A packet is removed from its origin exactly once. */
 public final class ItemRouting {
     private ItemRouting() {}
+
+    public static boolean isEndpoint(BlockGetter level, BlockPos pos) {
+        BlockEntity entity = level.getBlockEntity(pos);
+        return entity instanceof PneumaticTubeBlockEntity
+                || entity instanceof GravitationalSorterBlockEntity
+                || entity instanceof ElectromechanicalPressBlockEntity
+                || entity instanceof JawCrusherBlockEntity
+                || entity instanceof WireDrawingBenchBlockEntity
+                || entity instanceof ElectricAlloySmelterBlockEntity
+                || entity instanceof BellowsAlloyKilnBlockEntity
+                || entity instanceof BellowsBrazierBlockEntity
+                || entity instanceof ManualGrainMillBlockEntity
+                || entity instanceof SettlingVatBlockEntity
+                || entity instanceof Container;
+    }
 
     private static ItemStack previewStack(ItemStack stack, int maximum) {
         return stack.isEmpty() ? ItemStack.EMPTY
