@@ -962,5 +962,19 @@
   "block.quantumindustries.manual_dynamo.mechanical_ready": "Shaft connected. The dynamo requires 6 MU to generate 12 FE every 8 ticks.",
   "block.quantumindustries.manual_dynamo.mechanical_running": "Shaft running · 6 MU",
   "block.quantumindustries.manual_dynamo.manual_drive": "Manual crank drive",
-  "block.quantumindustries.manual_dynamo.shaft_drive": "Mechanical input available"
+  "block.quantumindustries.manual_dynamo.shaft_drive": "Mechanical input available",
+  "item.quantumindustries.configuration_wrench": "Configuration Wrench",
+  "tooltip.quantumindustries.configuration_wrench.use": "Click an endpoint: Pull → Push → None.",
+  "tooltip.quantumindustries.configuration_wrench.reset": "Shift + click restores Automatic.",
+  "gui.quantumindustries.connection.auto": "Automatic",
+  "gui.quantumindustries.connection.pull": "Pull",
+  "gui.quantumindustries.connection.push": "Push",
+  "gui.quantumindustries.connection.none": "None",
+  "gui.quantumindustries.connection.changed": "%s endpoint · %s",
+  "gui.quantumindustries.connection.face.down": "Bottom",
+  "gui.quantumindustries.connection.face.up": "Top",
+  "gui.quantumindustries.connection.face.north": "North",
+  "gui.quantumindustries.connection.face.south": "South",
+  "gui.quantumindustries.connection.face.east": "East",
+  "gui.quantumindustries.connection.face.west": "West"
 }

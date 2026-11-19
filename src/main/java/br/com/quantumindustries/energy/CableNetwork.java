@@ -3,6 +3,7 @@ package br.com.quantumindustries.energy;
 import br.com.quantumindustries.block.CopperCableBlock;
 import br.com.quantumindustries.block.entity.CopperCableBlockEntity;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
+import br.com.quantumindustries.logistics.ConfigurableConduit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +36,8 @@ public final class CableNetwork {
         for (Direction direction : Direction.values()) {
             if (!EnergyPorts.connects(level.getBlockState(source), direction)) continue;
             BlockPos next = source.relative(direction);
-            if (level.hasChunkAt(next) && level.getBlockState(next).getBlock() instanceof CopperCableBlock cable) {
+            if (level.hasChunkAt(next) && level.getBlockState(next).getBlock() instanceof CopperCableBlock cable
+                    && ConfigurableConduit.modeAt(level, next, direction.getOpposite()).allowsInput()) {
                 visited.add(next);
                 queue.add(new Route(next, List.of(next), cable.insulated() ? 0 : 1,
                         cable.insulated() ? 64 : 32));
@@ -45,9 +47,11 @@ public final class CableNetwork {
         while (!queue.isEmpty() && visited.size() <= MAX_NODES) {
             Route path = queue.remove();
             for (Direction direction : Direction.values()) {
+                if (!ConfigurableConduit.modeAt(level, path.pos(), direction).allowsOutput()) continue;
                 BlockPos next = path.pos().relative(direction);
                 if (next.equals(source) || !level.hasChunkAt(next)) continue;
                 if (level.getBlockState(next).getBlock() instanceof CopperCableBlock cable) {
+                    if (!ConfigurableConduit.modeAt(level, next, direction.getOpposite()).allowsInput()) continue;
                     if (visited.add(next) && visited.size() <= MAX_NODES) {
                         var steps = new ArrayList<>(path.cables());
                         steps.add(next);

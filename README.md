@@ -193,6 +193,31 @@ A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vid
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
 
+## Chave de Configuração e pontas dos tubos
+
+A **Chave de Configuração** é liberada por Mecânica Fundamental e aparece no
+caderno e na aba criativa. Sua receita usa dois lingotes de ferro nos cantos
+superiores, uma engrenagem de ferro no centro e um graveto abaixo dela.
+
+Clique na ponta de um tubo de itens, duto de cobre/vidro ou cabo elétrico para
+alternar **Puxar → Empurrar → Nenhum**. Os modos são relativos ao segmento
+selecionado: Puxar é entrada e Empurrar é saída. Cada uma das seis direções
+tem configuração própria. **Shift + clique** restaura **Automático**, o padrão
+dos tubos novos e dos saves anteriores. Nenhum bloqueia a passagem nessa ponta.
+
+Tubos de itens em Puxar retiram um item por vez de inventários e saídas de
+máquinas adjacentes; as pontas de saída encaminham o pacote até o destino.
+Dutos em Puxar recebem fluidos dos reservatórios adjacentes e Empurrar dirige
+a saída. Trechos ascendentes continuam usando pressão da bomba. Nos cabos,
+Puxar recebe FE da fonte e Empurrar libera FE para o destino, com os limites
+e perdas do tipo de cabo. Configurações e conteúdo ficam salvos ao reiniciar.
+
+Equipe os **Óculos de Inspeção Energética** e mire na ponta desejada. O painel
+mostra a direção e o modo da mesma ponta que a chave seleciona, além da leitura
+de energia ou fluido do segmento. Os quatro estados são traduzidos em PT-BR
+e EN-US. Testes dedicados: `bash tools/verify-connections.sh`, em dois
+carregamentos de um mundo isolado, incluindo conservação, bloqueios e retomada.
+
 ## Imagens do protótipo
 
 ![Bancada com amostra e ferramentas armazenadas](docs/design/bancada-de-ensaio/images/bancada-ferro.png)

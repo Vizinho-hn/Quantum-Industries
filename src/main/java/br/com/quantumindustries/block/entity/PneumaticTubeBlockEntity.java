@@ -2,6 +2,9 @@ package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ItemRouting;
+import br.com.quantumindustries.logistics.ConfigurableConduit;
+import br.com.quantumindustries.logistics.ConnectionModes;
+import br.com.quantumindustries.logistics.ConnectionMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -16,12 +19,13 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** One physically resident packet per segment, persisted on chunk unload. */
-public final class PneumaticTubeBlockEntity extends BlockEntity {
+public final class PneumaticTubeBlockEntity extends BlockEntity implements ConfigurableConduit {
     public static final int HOP_TICKS = 5;
     private ItemStack packet = ItemStack.EMPTY;
     private Direction inlet = Direction.DOWN;
     private int progress;
     private long enteredAt;
+    private final ConnectionModes connections = new ConnectionModes();
 
     public PneumaticTubeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.PNEUMATIC_TUBE_ENTITY.get(), pos, state);
@@ -30,9 +34,12 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
     public float fraction(float partialTick) { return Math.min(1f, (progress + partialTick) / HOP_TICKS); }
     public Direction inlet() { return inlet; }
     public long enteredAt() { return enteredAt; }
+    @Override public ConnectionModes connectionModes() { return connections; }
+    @Override public void connectionChanged() { changed(); }
 
     public boolean accept(ItemStack incoming, Direction from) {
-        if (!(level instanceof ServerLevel) || !packet.isEmpty() || incoming.isEmpty()) return false;
+        if (!(level instanceof ServerLevel) || !packet.isEmpty() || incoming.isEmpty()
+                || !connectionMode(from).allowsInput()) return false;
         packet = incoming.copy();
         incoming.setCount(0);
         inlet = from;
@@ -43,12 +50,16 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
     }
 
     public void tick() {
-        if (!(level instanceof ServerLevel server) || packet.isEmpty()) return;
+        if (!(level instanceof ServerLevel server)) return;
+        if (packet.isEmpty()) {
+            if (server.getGameTime() % HOP_TICKS == 0) pullFromInventory(server);
+            return;
+        }
         if (++progress < HOP_TICKS) return;
         progress = HOP_TICKS;
         // Do not immediately route back into the block that sent the packet.
         for (Direction direction : Direction.values()) {
-            if (direction == inlet) continue;
+            if (direction == inlet || !connectionMode(direction).allowsOutput()) continue;
             BlockPos next = worldPosition.relative(direction);
             if (ItemRouting.insert(server, next, packet, direction.getOpposite())) {
                 if (packet.isEmpty()) {
@@ -61,12 +72,26 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
         }
     }
 
+    private void pullFromInventory(ServerLevel server) {
+        for (Direction direction : Direction.values()) {
+            if (connectionMode(direction) != ConnectionMode.PULL) continue;
+            BlockPos source = worldPosition.relative(direction);
+            if (ItemRouting.preview(server, source, 1).isEmpty()) continue;
+            ItemStack extracted = ItemRouting.extract(server, source, 1);
+            if (!extracted.isEmpty()) {
+                accept(extracted, direction);
+                return;
+            }
+        }
+    }
+
     private void changed() {
         setChanged();
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
     @Override protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
+        connections.save(out);
         if (!packet.isEmpty()) out.store("packet", ItemStack.CODEC, packet);
         out.putInt("inlet", inlet.get3DDataValue());
         out.putInt("progress", progress);
@@ -74,6 +99,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity {
     }
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
+        connections.load(in);
         packet = in.read("packet", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         inlet = Direction.from3DDataValue(in.getIntOr("inlet", 0));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, HOP_TICKS);

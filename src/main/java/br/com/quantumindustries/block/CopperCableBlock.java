@@ -3,6 +3,7 @@ package br.com.quantumindustries.block;
 import br.com.quantumindustries.block.entity.CopperCableBlockEntity;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.logistics.ConfigurableConduit;
 import com.mojang.serialization.MapCodec;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
@@ -90,6 +91,12 @@ public final class CopperCableBlock extends BaseEntityBlock {
             boolean connected = loaded && (level.getBlockState(neighbor).getBlock() instanceof CopperCableBlock
                     || (isMachine(level, neighbor) && br.com.quantumindustries.energy.EnergyPorts.connects(
                             level.getBlockState(neighbor), direction.getOpposite())));
+            if (connected) {
+                var ownMode = ConfigurableConduit.modeAt(level, pos, direction);
+                var otherMode = ConfigurableConduit.modeAt(level, neighbor, direction.getOpposite());
+                connected = ownMode.allowsInput() && otherMode.allowsOutput()
+                        || ownMode.allowsOutput() && otherMode.allowsInput();
+            }
             base = base.setValue(PROPERTY_BY_DIRECTION.get(direction), connected);
         }
         return base;
