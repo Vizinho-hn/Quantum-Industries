@@ -16,7 +16,8 @@ public enum ConnectionMode {
     public boolean allowsOutput() { return output; }
     public ConnectionMode next() {
         return switch (this) {
-            case AUTO, NONE -> PULL;
+            case AUTO -> PULL;
+            case NONE -> AUTO;
             case PULL -> PUSH;
             case PUSH -> NONE;
         };

@@ -1,0 +1,17 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/machine-screen-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/machine-screen-preview')
+            systemProperty 'quantumindustries.previewMachineScreen', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'MachineScreensQA', '--width', '1280', '--height', '900'
+        }
+        def options = file('build/machine-screen-preview/options.txt')
+        tasks.named('runClient').configure {
+            doFirst {
+                options.parentFile.mkdirs()
+                options.setText('onboardAccessibility:false\npauseOnLostFocus:false\nlang:pt_br\nguiScale:2\ntutorialStep:none\n', 'UTF-8')
+            }
+        }
+    }
+}
