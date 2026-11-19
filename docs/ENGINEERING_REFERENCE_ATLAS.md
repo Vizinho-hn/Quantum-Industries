@@ -58,7 +58,7 @@ Este contrato é **recomendação de engenharia** para mudanças futuras. Não s
 ### 3.1 Separar quatro responsabilidades
 
 - **Topologia:** quais vizinhos estão conectados; atualizar ao colocar, remover, girar, alterar modo ou carregar/descarregar chunks. Não consultar chunks não carregados.
-- **Permissão de face:** `AUTO`, entrada, saída, bloqueado ou outros modos **somente se já suportados**; cada lado deve validar ambos os extremos. A interface e a aparência não podem divergir da transferência real.
+- **Permissão de face:** o código atual usa exatamente `AUTO`, `PULL` (entrada), `PUSH` (saída) e `NONE` (bloqueado); cada lado deve validar ambos os extremos. A interface e a aparência não podem divergir da transferência real.
 - **Transferência:** energia, fluido e item têm semânticas distintas; **não** usar a mesma rotina genérica sem preservar suas invariantes. Fluxo é contabilizado no servidor, com limites por aresta/recurso e sem criação de recursos.
 - **Apresentação:** bloco, modelo multipart, indicador de fluxo, partículas e HUD refletem estado confirmado. Visual não é fonte de verdade da rede.
 
@@ -192,7 +192,7 @@ Toda máquina deve documentar: **pesquisa exigida, insumos, produtos, slots, lad
 | Sistema | Cenários de teste | Invariantes / observações |
 |---|---|---|
 | **Cabos FE** | Linha, T, cruzamento, vertical, loop, 2 fontes, 3 consumidores, fonte vazia, destino cheio | `extraído = entregue + perda`, limite por trecho, justiça, conexão correta |
-| **Modos de face** | AUTO/entrada/saída/bloqueado, ambos extremos, giro de máquina, salvar e reabrir | O render e a transferência concordam; modo persiste |
+| **Modos de face** | `AUTO/PULL/PUSH/NONE`, ambos extremos, giro de máquina, salvar e reabrir | O render e a transferência concordam; modo persiste |
 | **Chunks** | Rede atravessando borda, descarregar/recarregar, remover ponta, duas dimensões | Sem carga forçada, vazamento, duplicação, cache obsoleto ou crash |
 | **Fluidos** | Água, lava/outro fluido, mistura, T, loop, subida com/sem bomba, tubo cheio, válvula | Volume conservado, rollback, pressão e tipo corretos |
 | **Vidro** | Fundo claro/escuro, céu, água, luz baixa, fluido cheio/vazio, shaders quando aplicável | Tubo visível, fluido legível, sem faces quebradas |
