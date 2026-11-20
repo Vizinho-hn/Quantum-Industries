@@ -1,8 +1,8 @@
 # Quantum Kinetic System — implementation and migration
 
-**Status:** PR 1 integrates QKS Core, Network Solver, Chunk Sync and Native Renderer; PR 2 completes Stage D transmissions and larger wheels. PR 1 component dynamics drive the existing mechanical machines in game, verified with headless mechanics checks, dedicated-server regression suites (`verify-mechanical.sh`, `verify-hydraulic-dynamo.sh`), and client visual previews (`mechanical-preview`, `qa-preview`).
+**Status:** Stages A–E are implemented across PR 1 (core, network, chunk sync and native renderer), PR 2 (transmissions and larger wheels), and PR 3 (inspection telemetry, optional physics chapters and dedicated-server verification harness). PR 3 dedicated-server acceptance passed end-to-end with `bash tools/verify-qks.sh` (write/read phases and class isolation in both JVMs).
 
-**Scope:** shafts, the existing one-block water wheel, sawmills and dynamos use server-authoritative QKS dynamics and a native renderer without GeckoLib API consumers. PR 2 adds cogwheels, flywheel, pulleys/belts and 3×3/5×5 wheels. Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` remain upcoming in PR 3. The globally declared GeckoLib dependency is outside this delivery.
+**Scope:** server-authoritative dynamics for shafts, sawmills, dynamos, cogwheels, flywheel, pulleys/belts and 1×1/3×3/5×5 water wheels. Existing geometry uses the native renderer; the globally declared GeckoLib dependency is outside this delivery. PR 3 runtime acceptance is verified by `bash tools/verify-qks.sh`; the client preview verifies the normal goggles HUD, Shift diagnostics/topology and optional Codex pagination.
 
 ## 1. Implemented PR 1 components
 
@@ -27,7 +27,7 @@ Paths below are relative to `src/`; line references identify declarations or ent
 
 ## 2. Runtime boundaries
 
-1. **Server topology:** bounded traversal validates ratios and inconsistent cycles without loading chunks. Existing mechanical ports supply links; ratio support does not mean gear or pulley blocks ship in PR 1.
+1. **Server topology:** bounded traversal validates ratios and inconsistent cycles without loading chunks. Existing mechanical ports supply links; PR 2 supplies physical gear meshes and reciprocal pulley links.
 2. **Server dynamics:** one reference rotor per component advances angle, signed velocity and acceleration with reflected inertia, source torque, load and losses. Capacity/load remain gameplay UM. Stop classification gates production separately from coasting.
 3. **Synchronization:** snapshots are sent on relevant state changes, periodically while moving and on chunk watch. The wire payload carries a subset of the server snapshot; network ID, topology version and full ratings are not transmitted. The client sink is initialized during renderer registration. Pending packets are bounded, expire and are cleared on world changes.
 4. **Native rendering:** existing meshes, UVs, hierarchy and pivots are retained. Stationary bearings remain separate from rotors; hiding base geometry does not hide child rotors. Entities extrapolate the authoritative phase/time pair and clamp braking before an uncommanded reversal. See [ADR 0001](adr/0001-qks-native-renderer.md).
@@ -53,7 +53,7 @@ Ideal gears obey `omega2 / omega1 = -teeth1 / teeth2`; torque and inertia must b
 - A rotating machine is not necessarily powered. Torque/friction helpers describe dynamics; callers must apply stop/overload checks before delivering work. The sawmill checks both power and speed (`main/java/br/com/quantumindustries/block/entity/MechanicalSawmillBlockEntity.java:93`).
 - Keep the existing one-block wheel and original assets. PR 2 adds larger wheels with dedicated geometry, collision, water sampling and inertia.
 - Minecraft flow is a gameplay input, not an exact scientific measurement of discharge or hydraulic head. Preserve the established axial torque sign convention.
-- Optional physics reading must not add research or crafting gates. The existing introductory chapter remains available; expanded chapters are PR 3.
+- Optional physics reading must not add research or crafting gates. PR 3 expands the optional chapters without adding research or crafting prerequisites.
 
 ## 5. Delivery stages
 
@@ -84,17 +84,37 @@ Ideal gears obey `omega2 / omega1 = -teeth1 / teeth2`; torque and inertia must b
 - [x] `iron_flywheel` and `mechanical_pulley` + `drive_belt` with appropriate losses and inertia.
 - [x] `medium_water_wheel` (3×3) and `large_water_wheel` (5×5), multiblock geometry/collision and water sampling.
 
-### Stage E — Telemetry and optional physics (PR 3 upcoming)
+### Stage E — Telemetry and optional physics (PR 3 complete)
 
-- [ ] Inspection Goggles kinetic capacity/load, direction, connections and stop diagnostics.
-- [ ] RPM, acceleration, power direction and vector overlays derived from simulated values.
-- [ ] Expanded optional Codex chapters on circular motion, torque, gears and practical operation, without crafting gates.
-- [ ] Full `verify-qks.sh` harness.
+- [x] Inspection Goggles capacity/load, direction, connections and QKS stop diagnostics.
+- [x] RPM, angular velocity/acceleration, torque, inertia, power and ratio telemetry derived from server snapshots.
+- [x] Expanded optional Codex chapters on circular motion, torque, gears and practical operation, without crafting gates.
+- [x] Dedicated-server `bash tools/verify-qks.sh` passed write/read restart phases and class isolation in both JVMs.
 
 ## 6. Verification and remaining coverage
 
 PR 1 verification passes across the Python contract suite (`unittest`), Gradle build & headless checks (`build`, `verifyLegacyResearch`, `verifyMechanicalFoundation` including `QksGeometrySelfCheck` and `1`–`256` node microbenchmarks), dedicated-server suites (`tools/verify-mechanical.sh`, `tools/verify-hydraulic-dynamo.sh`), and client visual previews (`tests/mechanical-preview.init.gradle`, `tests/qa-preview.init.gradle`).
 
-Stage D implementation is complete. This final polish is checked with the Python contract suite and `git diff --check`; it does not rerun Gradle or in-game acceptance. Remaining verification includes in-game acceptance of the new transmissions and cycle/energy safety under their actual block topology, plus comparable CPU/MSPT, GPU and network measurements; no performance gain is claimed here.
+PR 3 dedicated-server acceptance passed end-to-end on both JVMs: the write phase and the read restart persistence phase completed successfully (`read assertions=30`: full server restart, rotor phase/omega, belts, FE and resumed motion). The audit reported `PASS: dedicated-server class isolation (both JVMs)`. Verified command:
 
-PR 3 remains upcoming: extended multiplayer inspection telemetry (`Inspection Goggles`), expanded optional Codex physics chapters, and consolidated dedicated-server stress testing (`tools/verify-qks.sh`).
+```bash
+bash tools/verify-qks.sh
+```
+
+The script launches two dedicated-server JVMs with one isolated run directory under `build/qks-verification/runs/`. Each phase must emit a fresh `PASS` result and exit successfully; the second loads the first phase's saved chunks. Evidence includes phase logs, `restart-ready.txt` (persisted angle/omega and FE expectations), `complete.txt`, and JVM class-loading logs. Any client class loaded under `net.minecraft.client` or `br.com.quantumindustries.client` fails the final audit. A 600-second timeout bounds each phase.
+
+The harness runs on real dedicated `ServerLevel` blocks using a `FakePlayer` with authorized research to insert oak logs and configure the dynamo through production APIs, without mocked worlds or client code. Controlled real fluid block states are refreshed before ticks to isolate signed flow from channel erosion; this tests hydraulic sampling and runtime dynamics, not natural river generation. Coverage includes both axle orientations, exact torque signs, balanced sources, reversal, dry/coasting power gates, one/three/four sawmill loads, dynamo buffer/freewheel, both gear ratios and mesh efficiency, flywheel inertia, both belt crossings/refund, larger-wheel partial wetting, topology split/merge and restart continuity. Three adjacent gears cannot form a triangular nearest-neighbor mesh on the voxel grid; the contradictory fixture closes their two meshes with a crossed return belt.
+
+The headless `verifyMechanicalFoundation` microbenchmarks above are separate from the live dedicated-server `verify-qks.sh` benchmarks. Live `QKS runtime benchmark` mean rebuild+solve timings (10 samples per size, after warmup) were: 1 node: **910.38 µs**; 32 nodes: **962.78 µs**; 128 nodes: **1136.74 µs**; 256 nodes: **1360.58 µs** (run `qks-jignDTos`). These measure invalidated manager rebuild/solve calls over real connected shaft networks, including other active fixtures and packet dispatch overhead; they are not isolated MSPT, GPU measurements or a performance improvement claim. Remaining coverage includes natural-channel and multiplayer visual QA, and representative CPU/GPU/network measurements.
+
+The client fixture (`tests/qks-preview.init.gradle`) equips real Inspection Goggles, aims at a working cogwheel, and requires a nonzero server-authored RPM snapshot before capturing the normal HUD and Shift diagnostics/topology. It also opens the optional physics reference with the existing Mechanical Transmission research and checks the next-page button. Eight decoded PNGs and `preview-result.txt` are written under `build/qks-preview/`; QA sources stay outside the production JAR. Captures were reviewed at 1280×800 with GUI scale 2, in English; other resolutions and Portuguese layout remain outside this visual check.
+
+- [Normal goggles HUD](images/qks/goggles.png)
+- [Shift diagnostics and network overlay](images/qks/goggles-diagnostics.png)
+- [Optional Codex reference, page 2](images/qks/codex-page2.png)
+
+## 7. Telemetry boundary and verification decision
+
+The server inspection registry dispatches mechanical requests to `MechanicalInspectionProvider` (`src/main/java/br/com/quantumindustries/inspection/MechanicalInspectionProvider.java:22`), which uses `KineticNetworkManager` snapshots rather than client estimates. `InspectionSnapshot` (`src/main/java/br/com/quantumindustries/inspection/InspectionSnapshot.java:13`) preserves its original fourteen components, then appends angular velocity, acceleration, RPM, drive/load/net torque, equivalent/local inertia, mechanical power, effective ratio and stop reason. Its registry-aware stream codec (`InspectionSnapshot.java:94`, same directory) carries the same server-authored values. The goggles HUD and mechanical overlay consume these measurements; optional Códice physics chapters explain them without gating research.
+
+**Decision (PR 3):** extend the established dedicated-server write/read harness pattern for QKS. A pure solver test cannot establish block topology, production gates, world saves or server class isolation; a visual preview cannot establish a fresh dedicated-server restart. Consequence: acceptance costs two server boots and requires JDK 25/Gradle cache access. Keep this test-only source set opt-in through `tests/qks.init.gradle`, outside the production JAR.

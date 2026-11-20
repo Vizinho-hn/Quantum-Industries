@@ -53,6 +53,16 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
     }
 
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) KineticNetworkManager.track(server, worldPosition);
+    }
+
+    @Override public void onChunkUnloaded() {
+        if (level instanceof ServerLevel server) KineticNetworkManager.untrack(server, worldPosition);
+        super.onChunkUnloaded();
+    }
+
     @Override public int energy() { return (int) battery.getAmountAsLong(); }
     @Override public int capacity() { return CAPACITY; }
     @Override public Component inspectTitle() {
@@ -244,7 +254,10 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     private void changed() {
         setChanged();
-        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
+        if (level instanceof ServerLevel server) {
+            KineticNetworkManager.track(server, worldPosition);
+            MechanicalNetwork.invalidate(server);
+        }
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 

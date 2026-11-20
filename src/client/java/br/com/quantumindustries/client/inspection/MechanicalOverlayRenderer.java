@@ -1,6 +1,9 @@
 package br.com.quantumindustries.client.inspection;
 
 import br.com.quantumindustries.ModItems;
+import br.com.quantumindustries.mechanical.MechanicalParticipant;
+import br.com.quantumindustries.mechanical.RotationalBlockEntity;
+import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
 import br.com.quantumindustries.inspection.InspectionSnapshot;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.logistics.ConnectionMode;
@@ -21,6 +24,8 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 /** Discrete world-space topology and directional overlay for the Inspection Goggles. */
 @EventBusSubscriber(modid = "quantumindustries", value = Dist.CLIENT)
 public final class MechanicalOverlayRenderer {
+    private static final double MOTION_EPSILON = 1.0e-6;
+
     private MechanicalOverlayRenderer() {}
 
     @SubscribeEvent
@@ -70,14 +75,30 @@ public final class MechanicalOverlayRenderer {
                     node.getX() + 1f + pad, node.getY() + 1f + pad, node.getZ() + 1f + pad,
                     r, g, b, alpha);
 
+            if (snap.kind() == InspectionSnapshot.Kind.MECHANICAL
+                    && level.getBlockEntity(node) instanceof MechanicalParticipant participant) {
+                // Each node has its own synchronized sign: gears and crossed belts can reverse it.
+                double omega;
+                int fallback;
+                if (node.equals(snap.target())) {
+                    omega = snap.angularVelocity();
+                    fallback = snap.spinDirection();
+                } else if (participant instanceof RotationalBlockEntity rotor) {
+                    omega = rotor.angularVelocity();
+                    fallback = rotor.spinDirection();
+                } else if (participant instanceof ManualDynamoBlockEntity dynamo) {
+                    omega = dynamo.angularVelocity();
+                    fallback = dynamo.spinDirection();
+                } else {
+                    continue;
+                }
+                int direction = Math.abs(omega) > MOTION_EPSILON ? (omega < 0 ? -1 : 1) : fallback;
+                drawAxisArrow(consumer, matrix, node, participant.axle(), direction, r, g, b, alpha);
+            }
             if (snap.kind() != InspectionSnapshot.Kind.MECHANICAL
                     && level.getBlockEntity(node) instanceof ConfigurableConduit conduit) {
                 drawConduitModeArrows(consumer, matrix, node, conduit);
             }
-        }
-
-        if (snap.kind() == InspectionSnapshot.Kind.MECHANICAL) {
-            drawAxisArrow(consumer, matrix, snap.target(), snap.axle(), snap.spinDirection(), r, g, b, 255);
         }
 
         pose.popPose();

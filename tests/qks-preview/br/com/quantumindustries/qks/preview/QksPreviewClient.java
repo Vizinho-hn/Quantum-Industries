@@ -23,10 +23,11 @@ import org.slf4j.Logger;
 public final class QksPreviewClient {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final List<String> SHOTS = List.of("01-qks-cogwheels-flywheel-a.png",
-            "02-qks-cogwheels-flywheel-b.png", "03-qks-pulleys-belts.png", "04-qks-large-wheels.png");
+            "02-qks-cogwheels-flywheel-b.png", "03-qks-pulleys-belts.png", "04-qks-large-wheels.png",
+            "05-qks-goggles.png", "06-qks-goggles-diagnostics.png", "07-qks-codex.png", "08-qks-codex-page2.png");
     private static final int FIRST_SHOT = 80, ROTATION_GAP = 7, BELT_SHOT = 115, WHEEL_SHOT = 145;
     private static final int BELT_VIEW_TICK = 90, WHEEL_VIEW_TICK = 120;
-    private static final int FINISH_TICK = 170, FILE_TIMEOUT = 400, STARTUP_TIMEOUT = 2400;
+    private static final int FINISH_TICK = 300, FILE_TIMEOUT = 500, STARTUP_TIMEOUT = 2400;
     private static final double EPSILON = 1e-3;
     private static int ticks, totalTicks;
     private static boolean initialized, finished;
@@ -76,10 +77,60 @@ public final class QksPreviewClient {
                 verifyClient(game);
                 capture(game, SHOTS.get(3));
             }
+            if (ticks == 170) {
+                game.options.hideGui = false;
+                QksPreviewSetup.requestedView = 4;
+            }
+            if (ticks == 200 || ticks == 230) {
+                requireView(4);
+                check(game.player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD)
+                        .is(br.com.quantumindustries.ModItems.ENERGY_INSPECTION_GOGGLES.get()), "Goggles not synchronized");
+                var snap = br.com.quantumindustries.client.inspection.ClientInspectionCache.forPos(QksPreviewSetup.SMALL);
+                check(snap != null && snap.kind() == br.com.quantumindustries.inspection.InspectionSnapshot.Kind.MECHANICAL
+                        && Math.abs(snap.rpm()) > EPSILON && Double.isFinite(snap.netTorque()),
+                        "Server inspection telemetry did not reach the goggles HUD");
+                if (ticks == 230) check(game.player.isShiftKeyDown() && !snap.networkNodes().isEmpty(),
+                        "Expanded diagnostics/topology not available");
+                capture(game, SHOTS.get(ticks == 200 ? 4 : 5));
+            }
+            if (ticks == 205) game.options.keyShift.setDown(true);
+            if (ticks == 240) {
+                game.options.keyShift.setDown(false);
+                var menu = new br.com.quantumindustries.menu.QuantumGuidebookMenu(0, game.player.getInventory());
+                menu.setData(br.com.quantumindustries.research.ResearchCatalog.indexOf("mechanical_transmission"), 1);
+                var chapters = br.com.quantumindustries.research.GuidebookCatalog.chapters();
+                int index = java.util.stream.IntStream.range(0, chapters.size())
+                        .filter(i -> chapters.get(i).id().equals("rotational_science")).findFirst().orElseThrow();
+                check(menu.isUnlocked(chapters.get(index)), "Optional physics chapter not unlocked by existing research");
+                var screen = new br.com.quantumindustries.client.QuantumGuidebookScreen(menu,
+                        game.player.getInventory(), net.minecraft.network.chat.Component.literal("QKS Codex QA"));
+                var selected = screen.getClass().getDeclaredField("selectedIndex");
+                selected.setAccessible(true);
+                selected.setInt(screen, index);
+                var page = screen.getClass().getDeclaredField("listPage");
+                page.setAccessible(true);
+                page.setInt(screen, index / 8);
+                game.setScreen(screen);
+            }
+            if (ticks == 260) capture(game, SHOTS.get(6));
+            if (ticks == 270) {
+                float scale = Math.min((game.screen.width - 8f) / 540, (game.screen.height - 8f) / 372);
+                double x = (game.screen.width - 540 * scale) / 2 + 506 * scale;
+                double y = (game.screen.height - 372 * scale) / 2 + 270 * scale;
+                check(game.screen.mouseClicked(new net.minecraft.client.input.MouseButtonEvent(x, y,
+                        new net.minecraft.client.input.MouseButtonInfo(0, 0)), false),
+                        "Codex next-page button did not handle the click");
+            }
+            if (ticks == 285) {
+                var page = game.screen.getClass().getDeclaredField("readingPage");
+                page.setAccessible(true);
+                check(page.getInt(game.screen) == 1, "Physics chapter does not expose its second reading page");
+                capture(game, SHOTS.get(7));
+            }
             if (ticks < FINISH_TICK) return;
             if (ticks > FILE_TIMEOUT) throw new AssertionError("Timed out waiting for server checks or PNG writes");
             if (QksPreviewSetup.serverReport == null || !screenshotsWritten(game)) return;
-            Files.writeString(result(game), "PASS: QKS PR 2 client preview; all fixture block entities present, finite synced motion, "
+            Files.writeString(result(game), "PASS: QKS PR 2/3 client preview; server-authored goggles telemetry, Shift topology and Codex pagination; all fixture block entities present, finite synced motion, "
                     + "gear phase advanced across seven ticks; open/crossed belt partners and signed ratios synced.\n"
                     + QksPreviewSetup.serverReport + "Screenshots (decoded PNGs): " + String.join(", ", SHOTS)
                     + "\nVisual review still required: half-tooth alignment, belt strips, smoothness and rim/frustum clearance.\n");

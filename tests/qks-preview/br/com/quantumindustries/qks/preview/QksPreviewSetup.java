@@ -60,6 +60,13 @@ public final class QksPreviewSetup {
                     case 1 -> camera(player, 10, 105, -6, 2, 101, .5);
                     case 2 -> camera(player, 16, 106, 1, 3.5, 101, 8);
                     case 3 -> camera(player, 22, 109, 7, 3.5, 103, 17);
+                    case 4 -> {
+                        player.gameMode.changeGameModeForPlayer(GameType.CREATIVE);
+                        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                                new ItemStack(br.com.quantumindustries.ModItems.ENERGY_INSPECTION_GOGGLES.get()));
+                        player.setNoGravity(true);
+                        camera(player, 2.5, 100, -3, 2.5, 101.5, .5);
+                    }
                     default -> throw new AssertionError("Unknown preview camera");
                 }
                 appliedView = requestedView;
