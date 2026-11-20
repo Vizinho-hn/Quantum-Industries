@@ -39,10 +39,11 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
-## Quantum Kinetic System — PR 1 integrado
+## Quantum Kinetic System — PRs 1–3 (implementação)
 - Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
-- O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. Engrenagens, volante, polias e rodas 3×3/5×5 ficam para o PR 2; telemetria dos óculos, capítulos de física do Códice e `verify-qks.sh` completo ficam para o PR 3.
+- O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. O PR 2 acrescenta engrenagens, volante, polias/correias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos, capítulos opcionais de física no Códice e `tools/verify-qks.sh`. A aceitação dedicada do PR 3 passou com `bash tools/verify-qks.sh`: fases write/read, persistência após reinício e isolamento de classes nas duas JVMs. O preview cliente verificou o HUD normal, os diagnósticos com Shift e a paginação do Códice.
 - O renderer mecânico nativo é `client/kinetic/QksBlockEntityRenderer`; `ClientKineticTracker.init()` deve instalar o sink antes da entrada no mundo. O diretório legado dos assets não implica dependência da API GeckoLib. O PR 1 foi verificado em preview do cliente e suítes de servidor, incluindo serraria/dínamo, sem API GeckoLib no subsistema mecânico. Preserve essas regressões em mudanças futuras; veja `docs/adr/0001-qks-native-renderer.md`.
+- A suíte QKS é opt-in (`tests/qks.init.gradle`, `tests/qks-runtime/`), usa dois servidores reais sobre um mundo isolado e audita classes carregadas. Preserve os 14 campos originais de `InspectionSnapshot` antes dos 11 campos QKS; valide o codec com `RegistryFriendlyByteBuf` e registries reais.
 - Não importar RPM/torque físico em SI como se as unidades UM já fossem N·m, não duplicar energia, não bloquear pesquisas por conteúdo opcional do livro, e não trocar modelos existentes por placeholders.
 
 ## Direção artística e produção de assets (obrigatório)

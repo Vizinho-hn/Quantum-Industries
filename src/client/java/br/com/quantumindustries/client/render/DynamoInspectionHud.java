@@ -11,6 +11,8 @@ import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.logistics.ConnectionTarget;
 import br.com.quantumindustries.mechanical.MechanicalParticipant;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -127,59 +129,66 @@ public final class DynamoInspectionHud {
         }
     }
 
-    private static void drawMechanical(GuiGraphicsExtractor g, Minecraft minecraft,
-            InspectionSnapshot snap, int top, boolean topologyActive) {
-        Component stateLabel;
-        int stateColor;
-        if (snap.limited()) {
-            stateLabel = Component.translatable("gui.quantumindustries.mechanical.state.limited");
-            stateColor = 0xFFC16A4B;
-        } else if (snap.powered()) {
-            stateLabel = Component.translatable("gui.quantumindustries.mechanical.state.active");
-            stateColor = 0xFF83A276;
-        } else if (snap.capacity() > 0) {
-            stateLabel = Component.translatable("gui.quantumindustries.mechanical.state.overloaded");
-            stateColor = 0xFFE4AE62;
-        } else {
-            stateLabel = Component.translatable("gui.quantumindustries.mechanical.state.unpowered");
-            stateColor = 0xFFC16A4B;
-        }
+    private static final double MOTION_EPSILON = 1.0e-6;
+    private static final int MECHANICAL_LINE_HEIGHT = 12;
 
-        Component title = Component.translatable("gui.quantumindustries.mechanical.title");
-        Component capLoad = Component.translatable("gui.quantumindustries.mechanical.capacity_load",
-                snap.capacity(), snap.load());
-        Component spin = Component.translatable(snap.spinDirection() < 0
+    private static void drawMechanical(GuiGraphicsExtractor g, Minecraft minecraft,
+            InspectionSnapshot snap, int top, boolean shift) {
+        boolean moving = Math.abs(snap.angularVelocity()) > MOTION_EPSILON;
+        Component state = Component.translatable(snap.powered()
+                ? "gui.quantumindustries.mechanical.state.powered"
+                : moving ? "gui.quantumindustries.mechanical.state.coasting"
+                : "gui.quantumindustries.mechanical.state.stalled");
+        Component reason = Component.translatable("gui.quantumindustries.mechanical.stop_reason."
+                + snap.stopReason().name().toLowerCase(Locale.ROOT));
+        int direction = moving ? (snap.angularVelocity() < 0 ? -1 : 1) : snap.spinDirection();
+        Component spin = Component.translatable(direction < 0
                 ? "gui.quantumindustries.mechanical.spin.ccw"
                 : "gui.quantumindustries.mechanical.spin.cw");
-        Component axleSpin = Component.translatable("gui.quantumindustries.mechanical.axle_spin",
-                snap.axle().getName().toUpperCase(Locale.ROOT), spin);
-        Component nodes = Component.translatable("gui.quantumindustries.mechanical.nodes", snap.nodeCount());
-        Component torqueLine = snap.hasTorque()
-                ? Component.translatable("gui.quantumindustries.mechanical.hydraulic_torque",
-                        String.format(Locale.ROOT, "%+.1f", snap.torqueTenths() / 10.0))
-                : null;
-        Component hint = Component.translatable(topologyActive
-                ? "gui.quantumindustries.mechanical.overlay.on"
-                : "gui.quantumindustries.mechanical.overlay.hint");
-
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.title"));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.state_reason", state, reason));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.rpm", decimal(snap.rpm())));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.capacity_load", snap.capacity(), snap.load()));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.axle_spin",
+                Component.translatable("gui.quantumindustries.mechanical.axis." + snap.axle().getName()), spin));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.nodes", snap.nodeCount()));
+        if (shift) {
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.angular_velocity", decimal(snap.angularVelocity())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.angular_acceleration", decimal(snap.angularAcceleration())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.torques",
+                    decimal(snap.driveTorque()), decimal(snap.loadTorque()), decimal(snap.netTorque())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.inertias",
+                    decimal(snap.equivalentInertia()), decimal(snap.localInertia())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.power", decimal(snap.mechanicalPower())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.ratio", decimal(snap.effectiveRatio())));
+        }
+        lines.add(Component.translatable(shift
+                ? "gui.quantumindustries.mechanical.diagnostics.on"
+                : "gui.quantumindustries.mechanical.diagnostics.hint"));
         int width = 178;
-        for (Component line : new Component[]{title, stateLabel, capLoad, axleSpin, nodes, torqueLine, hint}) {
-            if (line != null) width = Math.max(width, minecraft.font.width(line) + 20);
+        for (Component line : lines) width = Math.max(width, minecraft.font.width(line) + 20);
+        int height = lines.size() * MECHANICAL_LINE_HEIGHT + 12;
+        float scale = Math.min(1.0f, Math.min((g.guiHeight() - top - 7f) / height,
+                (g.guiWidth() - 14f) / width));
+        g.pose().pushMatrix();
+        try {
+            g.pose().translate(7f, (float) top).scale(scale);
+            g.fill(0, 0, width, height, 0xFFB37B55);
+            g.fill(1, 1, width - 1, height - 1, 0xE8201C19);
+            for (int i = 0; i < lines.size(); i++) {
+                int color = i == 0 ? 0xFFF4DCB9 : i == 1
+                        ? (snap.powered() ? 0xFF83A276 : moving ? 0xFFE4AE62 : 0xFFC16A4B)
+                        : 0xFFF4EEE6;
+                g.text(minecraft.font, lines.get(i), 7, 6 + i * MECHANICAL_LINE_HEIGHT, color, false);
+            }
+        } finally {
+            g.pose().popMatrix();
         }
-        int bottom = top + (torqueLine == null ? 77 : 89);
-        g.fill(7, top, 7 + width, bottom, 0xFFB37B55);
-        g.fill(8, top + 1, 6 + width, bottom - 1, 0xE8201C19);
-        g.text(minecraft.font, title, 14, top + 6, 0xFFF4DCB9, false);
-        g.text(minecraft.font, stateLabel, 14, top + 18, stateColor, false);
-        g.text(minecraft.font, capLoad, 14, top + 30, 0xFFF4EEE6, false);
-        g.text(minecraft.font, axleSpin, 14, top + 42, 0xFFF4EEE6, false);
-        g.text(minecraft.font, nodes, 14, top + 54, 0xFFAEC6AD, false);
-        if (torqueLine != null) {
-            g.text(minecraft.font, torqueLine, 14, top + 65, 0xFF6DBDE0, false);
-            g.text(minecraft.font, hint, 14, top + 77, 0xFFB4A99A, false);
-        } else {
-            g.text(minecraft.font, hint, 14, top + 65, 0xFFB4A99A, false);
-        }
+    }
+
+    private static String decimal(double value) {
+        return String.format(Locale.ROOT, "%.1f", value);
     }
 
     private static void drawFluid(GuiGraphicsExtractor g, Minecraft minecraft,

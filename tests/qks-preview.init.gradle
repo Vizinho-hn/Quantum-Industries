@@ -9,10 +9,17 @@ allprojects {
         }
         // Quick Play expects saves/QksQA to exist, as in mechanical-preview's isolated world.
         def previewOptions = file('build/qks-preview/options.txt')
+        def previewResult = file('build/qks-preview/preview-result.txt')
         tasks.named('runClient').configure {
             doFirst {
+                java.nio.file.Files.deleteIfExists(previewResult.toPath())
                 previewOptions.parentFile.mkdirs()
                 previewOptions.setText('onboardAccessibility:false\npauseOnLostFocus:false\nlang:en_us\nguiScale:2\ntutorialStep:none\nfov:0.0\n', 'UTF-8')
+            }
+            doLast {
+                if (!previewResult.isFile() || !previewResult.getText('UTF-8').startsWith('PASS:')) {
+                    throw new GradleException('QKS client preview failed; inspect build/qks-preview/preview-result.txt')
+                }
             }
         }
     }

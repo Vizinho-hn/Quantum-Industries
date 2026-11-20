@@ -40,6 +40,7 @@ public final class KineticNetworkManager {
         Motion motion;
         int version;
         long id;
+        long steppedTick = Long.MIN_VALUE;
     }
     private static final class LevelRuntime {
         long time = Long.MIN_VALUE;
@@ -126,15 +127,29 @@ public final class KineticNetworkManager {
                 omega, step.angularAcceleration(), step.netTorque(), reason == StopReason.NONE, reason);
     }
 
+    private static boolean isChunkActive(ServerLevel level, BlockPos pos) {
+        return level.shouldTickBlocksAt(ChunkPos.pack(pos)) && level.hasChunkAt(pos);
+    }
     private static Node node(ServerLevel level, BlockPos pos) {
-        if (!level.hasChunkAt(pos) || !(level.getBlockEntity(pos) instanceof MechanicalParticipant p)) return null;
+        if (!isChunkActive(level, pos) || !(level.getBlockEntity(pos) instanceof MechanicalParticipant p)) return null;
         return new Node(p.kineticLinks(level, pos), p.sourceCapacity(), p.requestedLoad(), p.kineticInertia(),
                 p.kineticDrag(), p.kineticDriveTorque(), p.kineticLoadTorque(), p.staticFrictionTorque(),
                 p.maxAngularSpeed(), p.persistedAngleRadians(), p.persistedAngularVelocity());
     }
+    public static void track(ServerLevel level, BlockPos pos) {
+        LEVELS.computeIfAbsent(level, ignored -> new LevelRuntime()).active.add(pos.immutable());
+    }
+    public static void untrack(ServerLevel level, BlockPos pos) {
+        var runtime = LEVELS.get(level);
+        if (runtime == null) return;
+        runtime.active.remove(pos);
+        runtime.components.remove(pos);
+        runtime.snapshots.remove(pos);
+        runtime.sent.remove(pos);
+    }
     public static KineticSnapshot snapshot(ServerLevel level, BlockPos pos) {
         var runtime = LEVELS.computeIfAbsent(level, ignored -> new LevelRuntime());
-        runtime.active.add(pos.immutable());
+        if (level.hasChunkAt(pos)) runtime.active.add(pos.immutable());
         if (runtime.dirty || runtime.time != level.getGameTime() || !runtime.snapshots.containsKey(pos)) {
             tick(level, runtime);
         }
@@ -151,17 +166,19 @@ public final class KineticNetworkManager {
         return runtime == null ? 0 : runtime.version;
     }
     private static void tick(ServerLevel level, LevelRuntime runtime) {
-        boolean freshTick = runtime.time != level.getGameTime();
+        long now = level.getGameTime();
+        boolean freshTick = runtime.time != now;
         boolean rebuildAll = freshTick || runtime.dirty;
-        runtime.time = level.getGameTime();
+        runtime.time = now;
         runtime.dirty = false;
-        runtime.active.removeIf(pos -> !level.hasChunkAt(pos) || !(level.getBlockEntity(pos) instanceof MechanicalParticipant));
+        runtime.active.removeIf(pos -> !level.hasChunkAt(pos)
+                || (level.shouldTickBlocksAt(ChunkPos.pack(pos)) && !(level.getBlockEntity(pos) instanceof MechanicalParticipant)));
         var previous = new HashMap<>(runtime.components);
         if (rebuildAll) {
             runtime.components.clear(); runtime.snapshots.clear(); runtime.visits = 0;
         }
         for (var root : new TreeSet<>(runtime.active)) {
-            if (runtime.snapshots.containsKey(root)) continue;
+            if (!isChunkActive(level, root) || runtime.snapshots.containsKey(root)) continue;
             int budget = MAX_VISITS_PER_TICK - runtime.visits;
             if (budget <= 0) {
                 if (level.getBlockEntity(root) instanceof MechanicalParticipant p) {
@@ -201,7 +218,9 @@ public final class KineticNetworkManager {
                     : old.motion.unwrappedAngle() * old.topology.members().get(phaseAnchor).ratio()
                             / topology.members().get(phaseAnchor).ratio();
             var initial = same ? old.motion : new Motion(initialAngle, topology.initialOmega(), 0, 0, false, StopReason.NONE);
-            component.motion = freshTick ? advance(topology, initial) : refreshMotion(topology, initial);
+            boolean needsStep = old == null || old.steppedTick != runtime.time;
+            component.motion = needsStep ? advance(topology, initial) : refreshMotion(topology, initial);
+            component.steppedTick = runtime.time;
             for (var entry : topology.members().entrySet()) {
                 var pos = entry.getKey(); double r = entry.getValue().ratio(); var m = component.motion;
                 var snap = new KineticSnapshot(component.id, component.version, runtime.time,
@@ -211,7 +230,7 @@ public final class KineticNetworkManager {
                         Math.abs(m.omega()) > SPEED_EPSILON ? (m.omega() * r < 0 ? -1 : 1) : (topology.drive() * r < 0 ? -1 : 1),
                         m.powered(), topology.limited(), topology.jammed(), m.reason());
                 runtime.components.put(pos, component); runtime.snapshots.put(pos, snap); runtime.active.add(pos);
-                if (level.hasChunkAt(pos) && level.getBlockEntity(pos) instanceof MechanicalParticipant p) p.applyKineticSnapshot(snap);
+                if (isChunkActive(level, pos) && level.getBlockEntity(pos) instanceof MechanicalParticipant p) p.applyKineticSnapshot(snap);
                 var sent = runtime.sent.get(pos);
                 if (shouldSync(sent, snap)) {
                     PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos.containing(pos), KineticSyncPayload.from(pos, snap));

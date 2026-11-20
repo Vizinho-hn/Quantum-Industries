@@ -34,6 +34,14 @@ public abstract class RotationalBlockEntity extends BlockEntity implements Mecha
     private long angleTime;
 
     protected RotationalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) { super(type, pos, state); }
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) KineticNetworkManager.track(server, worldPosition);
+    }
+    @Override public void onChunkUnloaded() {
+        if (level instanceof ServerLevel server) KineticNetworkManager.untrack(server, worldPosition);
+        super.onChunkUnloaded();
+    }
     public abstract Direction.Axis axle();
     public void tickTransmission() {
         if (level instanceof ServerLevel server) applyKineticSnapshot(KineticNetworkManager.snapshot(server, worldPosition));
@@ -131,7 +139,10 @@ public abstract class RotationalBlockEntity extends BlockEntity implements Mecha
     }
     protected void changed() {
         setChanged();
-        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
+        if (level instanceof ServerLevel server) {
+            KineticNetworkManager.track(server, worldPosition);
+            MechanicalNetwork.invalidate(server);
+        }
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
     @Override protected void saveAdditional(ValueOutput out) {

@@ -43,7 +43,8 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] **QKS PR 1 — Core / Network / Chunk Sync:** integrate component dynamics, shared network solving and server-client chunk synchronization, preserving UM and progression; see `docs/KINETIC_ENGINE_ARCHITECTURE.md`.
 - [x] **QKS PR 1 — Native Renderer:** migrate shafts, water wheels, sawmills and dynamos off the GeckoLib API while preserving geometry; client preview and server regression suites completed.
 - [x] **QKS PR 2 — Stage D:** `small_cogwheel` (Z=8), `large_cogwheel` (Z=16), `iron_flywheel`, `mechanical_pulley` + `drive_belt`, `medium_water_wheel` (3×3) and `large_water_wheel` (5×5).
-- [ ] **QKS PR 3 — Stage E (upcoming):** Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` harness.
+- [x] **QKS PR 3 — Stage E (implementação):** telemetria cinética nos Óculos de Inspeção, capítulos opcionais de física no Códice e suíte dedicada `tools/verify-qks.sh` com reinício write/read.
+- [x] **Aceitação QKS PR 3:** `bash tools/verify-qks.sh` e suíte dedicada aprovados nas fases write/read, com persistência após reinício e isolamento de classes nas duas JVMs; preview cliente do HUD normal, diagnósticos com Shift e paginação do Códice verificado.
 - [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
 
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.

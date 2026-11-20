@@ -69,7 +69,10 @@ public final class GuidebookCatalog {
             () -> new ItemStack(ModItems.MECHANICAL_SAWMILL.get()),
             List.of(
                 "guidebook.quantumindustries.mechanical_transmission.paragraph_0",
-                "guidebook.quantumindustries.mechanical_transmission.paragraph_1"
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_1",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_2",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_3",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_4"
             ),
             "guidebook.quantumindustries.mechanical_transmission.operation"
         ),
@@ -86,13 +89,29 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.rotation_principles.operation"
         ),
+        new Chapter("rotational_science", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotational_science.title",
+            "guidebook.quantumindustries.rotational_science.subtitle",
+            () -> new ItemStack(ModItems.IRON_FLYWHEEL.get()),
+            List.of(
+                "guidebook.quantumindustries.rotational_science.paragraph_0",
+                "guidebook.quantumindustries.rotational_science.paragraph_1",
+                "guidebook.quantumindustries.rotational_science.paragraph_2",
+                "guidebook.quantumindustries.rotational_science.paragraph_3",
+                "guidebook.quantumindustries.rotational_science.paragraph_4",
+                "guidebook.quantumindustries.rotational_science.paragraph_5",
+                "guidebook.quantumindustries.rotational_science.paragraph_6"
+            ),
+            "guidebook.quantumindustries.rotational_science.operation"
+        ),
         new Chapter("hydraulic_power", "hydraulic_power", 1,
             "guidebook.quantumindustries.hydraulic_power.title",
             "guidebook.quantumindustries.hydraulic_power.subtitle",
             () -> new ItemStack(ModItems.PRIMITIVE_WATER_WHEEL.get()),
             List.of(
                 "guidebook.quantumindustries.hydraulic_power.paragraph_0",
-                "guidebook.quantumindustries.hydraulic_power.paragraph_1"
+                "guidebook.quantumindustries.hydraulic_power.paragraph_1",
+                "guidebook.quantumindustries.hydraulic_power.paragraph_2"
             ),
             "guidebook.quantumindustries.hydraulic_power.operation"
         ),

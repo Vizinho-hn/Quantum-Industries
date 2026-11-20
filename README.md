@@ -6,7 +6,7 @@ Quantum Industries pretende levar o jogador de processos industriais básicos at
 
 > **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico chumbo-ácido (2.400 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
 
-O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). Engrenagens, volante, polias e rodas 3×3/5×5 ficam para o PR 2; telemetria dos óculos e ampliação dos capítulos de física do Códice ficam para o PR 3.
+O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
 
 ## Visão do projeto
 
@@ -320,6 +320,21 @@ cd Quantum-Industries
 ```
 
 **Requisitos:** JDK 25 e internet para baixar dependências Gradle/NeoForge na primeira execução.
+
+## Quantum Kinetic System
+
+O QKS reúne núcleo de dinâmica angular, solver por componente, sincronização de chunks,
+transmissões por engrenagens 8:16/16:8, volante de ferro, polias/correias e rodas-d'água
+1×1/3×3/5×5. O renderer nativo preserva a geometria existente. Os Óculos de Inspeção
+recebem RPM, aceleração, torques, inércia, potência, razão e motivo de parada do servidor;
+os capítulos de física do Códice são opcionais e não bloqueiam pesquisas.
+
+A suíte `bash tools/verify-qks.sh` usa duas inicializações de servidor dedicado para
+verificar física, produção, transmissões, persistência e isolamento de classes cliente.
+A aceitação dedicada do PR 3 passou nas fases write/read, incluindo persistência após
+reinício completo (`read assertions=30`) e isolamento de classes nas duas JVMs.
+O preview cliente verificou o HUD normal, os diagnósticos com Shift e a paginação do
+Códice com telemetria recebida do servidor. Consulte [evidências e limites da verificação](docs/KINETIC_ENGINE_ARCHITECTURE.md).
 
 ## Como verificar
 
