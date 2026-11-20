@@ -2,7 +2,7 @@ package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.mechanical.HydraulicTorque;
-import br.com.quantumindustries.mechanical.MechanicalNetwork;
+import br.com.quantumindustries.mechanical.KineticNetworkManager;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,9 @@ import net.minecraft.world.level.material.FlowingFluid;
 public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity {
     public static final int CAPACITY = 18;
     private double lastHydraulicTorque;
+    private long cachedTick = Long.MIN_VALUE;
+    private int cachedVersion = Integer.MIN_VALUE;
+    private HydraulicTorque.Result cachedSample;
 
     public PrimitiveWaterWheelBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(), pos, state);
@@ -28,7 +31,6 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
 
     @Override public boolean allowsCrank() { return false; }
 
-    @Override protected boolean usesProceduralRotor() { return true; }
 
     public double hydraulicTorque() {
         if (level instanceof ServerLevel server) {
@@ -38,6 +40,10 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
     }
 
     private HydraulicTorque.Result sampleHydraulicTorque(ServerLevel server) {
+        int version = KineticNetworkManager.topologyVersion(server);
+        if (cachedSample != null && cachedTick == server.getGameTime() && cachedVersion == version) return cachedSample;
+        cachedTick = server.getGameTime();
+        cachedVersion = version;
         Direction.Axis axis = axle();
         Direction tangent = axis == Direction.Axis.X ? Direction.NORTH : Direction.EAST;
         List<HydraulicTorque.Sample> samples = new ArrayList<>(4);
@@ -87,7 +93,8 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
 
             samples.add(new HydraulicTorque.Sample(rx, ry, rz, fx, fy, fz));
         }
-        return HydraulicTorque.evaluate(axis, samples);
+        cachedSample = HydraulicTorque.evaluate(axis, samples);
+        return cachedSample;
     }
 
     @Override public int sourceCapacity() {
@@ -104,11 +111,19 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
         return sample.direction();
     }
 
+    @Override public double kineticInertia() { return 4.5; }
+    @Override public double kineticDrag() {
+        return level instanceof ServerLevel server && sampleHydraulicTorque(server).active() ? 4.5 : .65;
+    }
+    @Override public double kineticDriveTorque() {
+        if (!(level instanceof ServerLevel server)) return 0;
+        var sample = sampleHydraulicTorque(server);
+        return sample.active() ? Math.clamp(sample.torque() * CAPACITY, -27.0, 27.0) : 0;
+    }
     public void tick() {
         if (level instanceof ServerLevel server) {
             lastHydraulicTorque = sampleHydraulicTorque(server).torque();
-            var state = MechanicalNetwork.state(server, worldPosition);
-            setMotion(state.powered(), state.spinDirection());
+            applyKineticSnapshot(KineticNetworkManager.snapshot(server, worldPosition));
         }
     }
 }

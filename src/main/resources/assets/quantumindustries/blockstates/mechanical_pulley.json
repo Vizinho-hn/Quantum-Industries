@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/mechanical_pulley"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/mechanical_pulley",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/mechanical_pulley",
+      "x": 90
+    }
+  }
+}

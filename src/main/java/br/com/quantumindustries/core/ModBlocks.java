@@ -21,6 +21,31 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.SmallCogwheelBlock> SMALL_COGWHEEL =
+            BLOCKS.registerBlock("small_cogwheel", br.com.quantumindustries.block.SmallCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> SMALL_COGWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("small_cogwheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CogwheelBlockEntity::new, Set.of(SMALL_COGWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.LargeCogwheelBlock> LARGE_COGWHEEL =
+            BLOCKS.registerBlock("large_cogwheel", br.com.quantumindustries.block.LargeCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> LARGE_COGWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("large_cogwheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CogwheelBlockEntity::new, Set.of(LARGE_COGWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.IronFlywheelBlock> IRON_FLYWHEEL =
+            BLOCKS.registerBlock("iron_flywheel", br.com.quantumindustries.block.IronFlywheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.IronFlywheelBlockEntity>> IRON_FLYWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("iron_flywheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.IronFlywheelBlockEntity::new, Set.of(IRON_FLYWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalPulleyBlock> MECHANICAL_PULLEY =
+            BLOCKS.registerBlock("mechanical_pulley", br.com.quantumindustries.block.MechanicalPulleyBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity>> MECHANICAL_PULLEY_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_pulley", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity::new, Set.of(MECHANICAL_PULLEY.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.MediumWaterWheelBlock> MEDIUM_WATER_WHEEL =
+            BLOCKS.registerBlock("medium_water_wheel", br.com.quantumindustries.block.MediumWaterWheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MediumWaterWheelBlockEntity>> MEDIUM_WATER_WHEEL_ENTITY =
+            BLOCK_ENTITIES.register("medium_water_wheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MediumWaterWheelBlockEntity::new, Set.of(MEDIUM_WATER_WHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.LargeWaterWheelBlock> LARGE_WATER_WHEEL =
+            BLOCKS.registerBlock("large_water_wheel", br.com.quantumindustries.block.LargeWaterWheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.LargeWaterWheelBlockEntity>> LARGE_WATER_WHEEL_ENTITY =
+            BLOCK_ENTITIES.register("large_water_wheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.LargeWaterWheelBlockEntity::new, Set.of(LARGE_WATER_WHEEL.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.EmpiricalAssayBenchBlock> EMPIRICAL_ASSAY_BENCH = BLOCKS.registerBlock("empirical_assay_bench", br.com.quantumindustries.block.EmpiricalAssayBenchBlock::new, p -> p.strength(2.5F).noOcclusion());
 
     public static final DeferredBlock<br.com.quantumindustries.block.QuantumVaultBlock> QUANTUM_VAULT =

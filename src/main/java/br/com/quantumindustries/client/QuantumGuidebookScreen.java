@@ -6,6 +6,7 @@ import br.com.quantumindustries.research.GuidebookCatalog;
 import br.com.quantumindustries.research.GuidebookCatalog.Chapter;
 import br.com.quantumindustries.research.ResearchCatalog;
 import java.util.List;
+import java.util.ArrayList;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -24,6 +25,9 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
     private int eraFilter = -1; // -1 = All, 0 = Intro, 1 = Era I, 2 = Era II
     private int listPage = 0;
     private int selectedIndex = 0;
+    private int readingPage = 0;
+    private static final int READING_LINES_PER_PAGE = 12;
+    private static final int READING_LINE_HEIGHT = 11;
 
     public QuantumGuidebookScreen(QuantumGuidebookMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, W, H);
@@ -144,15 +148,20 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
         String eraTag = chapter.era() == 0 ? tr("gui.quantumindustries.text.introduction") : tr("gui.quantumindustries.guidebook.era_unlocked", chapter.era() == 1 ? "I" : "II");
         text(g, eraTag, 234, 103, GREEN);
 
-        int y = 124;
-        for (String paragraph : chapter.paragraphs()) {
-            List<FormattedCharSequence> lines = font.split(Component.translatable(paragraph), 310);
-            for (FormattedCharSequence line : lines) {
-                if (y > 272) break;
-                g.text(font, line, 208, y, TEXT, false);
-                y += 11;
-            }
-            y += 6;
+        List<FormattedCharSequence> lines = chapterLines(chapter);
+        int pages = readingPageCount(lines.size());
+        readingPage = Math.clamp(readingPage, 0, pages - 1);
+        int start = readingPage * READING_LINES_PER_PAGE;
+        int end = Math.min(lines.size(), start + READING_LINES_PER_PAGE);
+        for (int i = start; i < end; i++) {
+            g.text(font, lines.get(i), 208, 124 + (i - start) * READING_LINE_HEIGHT, TEXT, false);
+        }
+        if (pages > 1) {
+            theme.frame(g, 208, 260, 32, 20, readingPage > 0 ? CYAN : LINE, PANEL, DARK);
+            text(g, tr("gui.quantumindustries.guidebook.previous_page"), 220, 266, TEXT);
+            text(g, tr("gui.quantumindustries.guidebook.reading_page", readingPage + 1, pages), 250, 266, MUTED);
+            theme.frame(g, 490, 260, 32, 20, readingPage + 1 < pages ? CYAN : LINE, PANEL, DARK);
+            text(g, tr("gui.quantumindustries.guidebook.next_page"), 502, 266, TEXT);
         }
 
         // Practical operation box at bottom
@@ -165,6 +174,19 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
             g.text(font, line, 214, oy, TEXT, false);
             oy += 11;
         }
+    }
+
+    private List<FormattedCharSequence> chapterLines(Chapter chapter) {
+        List<FormattedCharSequence> lines = new ArrayList<>();
+        for (String paragraph : chapter.paragraphs()) {
+            lines.addAll(font.split(Component.translatable(paragraph), 310));
+            lines.add(FormattedCharSequence.EMPTY);
+        }
+        return lines;
+    }
+
+    private static int readingPageCount(int lineCount) {
+        return Math.max(1, (lineCount + READING_LINES_PER_PAGE - 1) / READING_LINES_PER_PAGE);
     }
 
     private void renderLockedChapter(GuiGraphicsExtractor g, Chapter chapter) {
@@ -221,6 +243,7 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
                     if (x >= tx && x < tx + 70) {
                         eraFilter = i - 1;
                         selectedIndex = 0;
+                        readingPage = 0;
                         listPage = 0;
                         return true;
                     }
@@ -237,9 +260,23 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
                 for (int i = start; i < end; i++) {
                     int ry = 90 + (i - start) * 29;
                     if (y >= ry && y < ry + 26) {
+                        if (selectedIndex != i) readingPage = 0;
                         selectedIndex = i;
                         return true;
                     }
+                }
+            }
+
+            Chapter current = chapters.get(selectedIndex);
+            if (menu.isUnlocked(current) && y >= 260 && y < 280) {
+                int pages = readingPageCount(chapterLines(current).size());
+                if (x >= 208 && x < 240 && readingPage > 0) {
+                    readingPage--;
+                    return true;
+                }
+                if (x >= 490 && x < 522 && readingPage + 1 < pages) {
+                    readingPage++;
+                    return true;
                 }
             }
 

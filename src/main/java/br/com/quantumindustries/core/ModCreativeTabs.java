@@ -45,6 +45,13 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.RUSTIC_BREAD.get());
                     output.accept(ModItems.MECHANICAL_SHAFT_BLOCK.get());
                     output.accept(ModItems.PRIMITIVE_WATER_WHEEL.get());
+                    output.accept(ModItems.SMALL_COGWHEEL.get());
+                    output.accept(ModItems.LARGE_COGWHEEL.get());
+                    output.accept(ModItems.IRON_FLYWHEEL.get());
+                    output.accept(ModItems.MECHANICAL_PULLEY.get());
+                    output.accept(ModItems.MEDIUM_WATER_WHEEL.get());
+                    output.accept(ModItems.LARGE_WATER_WHEEL.get());
+                    output.accept(ModItems.DRIVE_BELT.get());
                     output.accept(ModItems.ENERGY_INSPECTION_GOGGLES.get());
                     output.accept(ModItems.MANUAL_DYNAMO.get());
                     output.accept(ModItems.VOLTAIC_PILE.get());

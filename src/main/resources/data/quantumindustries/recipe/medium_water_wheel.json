@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "PWP",
+    "PIP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "I": "minecraft:iron_ingot",
+    "W": "quantumindustries:primitive_water_wheel"
+  },
+  "result": {
+    "id": "quantumindustries:medium_water_wheel",
+    "count": 1
+  }
+}

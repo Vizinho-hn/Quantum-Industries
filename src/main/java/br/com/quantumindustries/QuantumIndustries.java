@@ -30,6 +30,8 @@ public class QuantumIndustries {
         modEventBus.addListener(br.com.quantumindustries.inspection.InspectionNetworking::register);
         NeoForge.EVENT_BUS.addListener(ResearchCommands::register);
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(br.com.quantumindustries.mechanical.KineticNetworkManager.class);
+        modEventBus.addListener(br.com.quantumindustries.mechanical.KineticNetworking::register);
         NeoForge.EVENT_BUS.register(br.com.quantumindustries.world.VaultImpactSpawner.class);
     }
 

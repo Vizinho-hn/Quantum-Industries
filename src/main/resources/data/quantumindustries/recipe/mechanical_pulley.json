@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BIB",
+    "PSP",
+    "BIB"
+  ],
+  "key": {
+    "B": "quantumindustries:bronze_ingot",
+    "I": "minecraft:iron_ingot",
+    "P": "#minecraft:planks",
+    "S": "quantumindustries:mechanical_shaft_block"
+  },
+  "result": {
+    "id": "quantumindustries:mechanical_pulley",
+    "count": 1
+  }
+}

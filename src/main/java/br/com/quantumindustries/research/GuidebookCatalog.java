@@ -69,9 +69,40 @@ public final class GuidebookCatalog {
             () -> new ItemStack(ModItems.MECHANICAL_SAWMILL.get()),
             List.of(
                 "guidebook.quantumindustries.mechanical_transmission.paragraph_0",
-                "guidebook.quantumindustries.mechanical_transmission.paragraph_1"
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_1",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_2",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_3",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_4"
             ),
             "guidebook.quantumindustries.mechanical_transmission.operation"
+        ),
+        // Optional physics lesson: unlocks with existing Mechanical Transmission research.
+        // No new research node, crafting gate, or progression prerequisite.
+        new Chapter("rotation_principles", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotation_principles.title",
+            "guidebook.quantumindustries.rotation_principles.subtitle",
+            () -> new ItemStack(ModItems.MECHANICAL_SHAFT_BLOCK.get()),
+            List.of(
+                "guidebook.quantumindustries.rotation_principles.paragraph_0",
+                "guidebook.quantumindustries.rotation_principles.paragraph_1",
+                "guidebook.quantumindustries.rotation_principles.paragraph_2"
+            ),
+            "guidebook.quantumindustries.rotation_principles.operation"
+        ),
+        new Chapter("rotational_science", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotational_science.title",
+            "guidebook.quantumindustries.rotational_science.subtitle",
+            () -> new ItemStack(ModItems.IRON_FLYWHEEL.get()),
+            List.of(
+                "guidebook.quantumindustries.rotational_science.paragraph_0",
+                "guidebook.quantumindustries.rotational_science.paragraph_1",
+                "guidebook.quantumindustries.rotational_science.paragraph_2",
+                "guidebook.quantumindustries.rotational_science.paragraph_3",
+                "guidebook.quantumindustries.rotational_science.paragraph_4",
+                "guidebook.quantumindustries.rotational_science.paragraph_5",
+                "guidebook.quantumindustries.rotational_science.paragraph_6"
+            ),
+            "guidebook.quantumindustries.rotational_science.operation"
         ),
         new Chapter("hydraulic_power", "hydraulic_power", 1,
             "guidebook.quantumindustries.hydraulic_power.title",
@@ -79,7 +110,8 @@ public final class GuidebookCatalog {
             () -> new ItemStack(ModItems.PRIMITIVE_WATER_WHEEL.get()),
             List.of(
                 "guidebook.quantumindustries.hydraulic_power.paragraph_0",
-                "guidebook.quantumindustries.hydraulic_power.paragraph_1"
+                "guidebook.quantumindustries.hydraulic_power.paragraph_1",
+                "guidebook.quantumindustries.hydraulic_power.paragraph_2"
             ),
             "guidebook.quantumindustries.hydraulic_power.operation"
         ),
