@@ -33,12 +33,14 @@ public final class MechanicalOverlayRenderer {
         Minecraft minecraft = Minecraft.getInstance();
         var player = minecraft.player;
         var level = minecraft.level;
-        if (player == null || level == null) return;
+        if (player == null || level == null || !player.isShiftKeyDown() || minecraft.screen != null) return;
         if (!player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get())) return;
 
         InspectionSnapshot snap = ClientInspectionCache.active();
         if (snap == null || snap.kind() == InspectionSnapshot.Kind.NONE) return;
         if (snap.networkNodes().isEmpty()) return;
+        if (!(player.pick(6, 0, false) instanceof net.minecraft.world.phys.BlockHitResult hit)
+                || hit.getType() != net.minecraft.world.phys.HitResult.Type.BLOCK || !hit.getBlockPos().equals(snap.target())) return;
 
         Vec3 cam = event.getLevelRenderState().cameraRenderState.pos;
         PoseStack pose = event.getPoseStack();
@@ -200,7 +202,7 @@ public final class MechanicalOverlayRenderer {
         line(out, pose, x0, y0, z1, x0, y1, z1, r, g, b, a);
     }
 
-    private static void line(VertexConsumer out, PoseStack.Pose pose,
+    static void line(VertexConsumer out, PoseStack.Pose pose,
             float x0, float y0, float z0, float x1, float y1, float z1,
             int r, int g, int b, int a) {
         float nx = x1 - x0, ny = y1 - y0, nz = z1 - z0;

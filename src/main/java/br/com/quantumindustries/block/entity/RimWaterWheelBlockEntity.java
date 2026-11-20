@@ -18,6 +18,8 @@ public abstract class RimWaterWheelBlockEntity extends RotationalBlockEntity {
     private final int radius, capacity;
     private final double inertia, dryDrag, wetDrag;
     private double lastHydraulicTorque;
+    private List<HydraulicTorque.Sample> telemetrySamples = List.of();
+    private List<HydraulicTorque.Contribution> contributions;
     private long cachedTick = Long.MIN_VALUE;
     private int cachedVersion = Integer.MIN_VALUE;
     private HydraulicTorque.RimResult cachedSample;
@@ -35,6 +37,13 @@ public abstract class RimWaterWheelBlockEntity extends RotationalBlockEntity {
 
     @Override public boolean allowsCrank() { return false; }
 
+
+    public List<HydraulicTorque.Contribution> hydraulicContributions() {
+        if (!(level instanceof ServerLevel server)) return List.of();
+        sampleHydraulicTorque(server);
+        if (contributions == null) contributions = HydraulicTorque.contributions(axle(), telemetrySamples, radius, capacity);
+        return contributions;
+    }
 
     public double hydraulicTorque() {
         if (level instanceof ServerLevel server) {
@@ -101,6 +110,8 @@ public abstract class RimWaterWheelBlockEntity extends RotationalBlockEntity {
         }
         }
         cachedSample = HydraulicTorque.evaluateRim(axis, samples, radius, capacity);
+        telemetrySamples = samples;
+        contributions = null;
         return cachedSample;
     }
 

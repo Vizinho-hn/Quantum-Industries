@@ -29,6 +29,27 @@ public final class HydraulicTorque {
         return new RimResult(active, torque, torque < 0 ? -1 : 1, active ? (int) Math.floor(capacity * fraction) : 0, fraction);
     }
 
+    /** Effective local QKS drive share after existing normalization and saturation. */
+    public record Contribution(int rx, int ry, int rz, double fx, double fy, double fz, double torque) {
+        public boolean effective() { return Math.abs(torque) > 1e-9; }
+    }
+    public static java.util.List<Contribution> contributions(Direction.Axis axis, java.util.List<Sample> samples,
+            int radius, int capacity) {
+        double total = radius == 0 ? evaluate(axis, samples).torque() : evaluateRim(axis, samples, radius, capacity).torque();
+        double scale = radius == 0 ? (Math.abs(total) > EPSILON ? Math.min(capacity, 27.0 / Math.abs(total)) : capacity)
+                : capacity / (double)(8 * radius);
+        double absolute = samples.stream().mapToDouble(s -> Math.abs(contribution(axis, s.rx(), s.ry(), s.rz(), s.fx(), s.fy(), s.fz()))).sum();
+        // Preserve opposing shares at equilibrium; distribute only the primitive dead-band residual.
+        double residual = radius == 0 && Math.abs(total) <= EPSILON ? total * scale : 0;
+        var result = new java.util.ArrayList<Contribution>(samples.size());
+        for (Sample sample : samples) {
+            double raw = contribution(axis, sample.rx(), sample.ry(), sample.rz(), sample.fx(), sample.fy(), sample.fz());
+            double effective = radius == 0 ? raw * scale - (absolute > 0 ? residual * Math.abs(raw) / absolute : 0) : Math.abs(raw) <= EPSILON ? 0 : Math.clamp(raw / radius, -1, 1) * scale;
+            result.add(new Contribution(sample.rx(), sample.ry(), sample.rz(), sample.fx(), sample.fy(), sample.fz(), effective));
+        }
+        return java.util.List.copyOf(result);
+    }
+
     private HydraulicTorque() {}
 
     /** Signed scalar torque contribution around the positive world axis (+X, +Y, or +Z). */

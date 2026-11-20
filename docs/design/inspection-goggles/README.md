@@ -14,7 +14,7 @@ Os Óculos de Inspeção são um **instrumento científico progressivo**, não u
 
 | Domínio | Fonte real no código | Grandezas reais disponíveis hoje | O que NÃO mostrar ainda |
 |---|---|---|---|
-| **Mecânico (Era I)** | `MechanicalNetwork.Result`, `MechanicalParticipant` | `capacity`, `load`, `powered()`, `limited`, `spinDirection` (`+1`/`-1`), `nodes`, `axle()` (`X`/`Y`/`Z`), `sourceCapacity()`, `requestedLoad()` | RPM, torque físico em N·m, força em newtons |
+| **Mecânico (Era I)** | `MechanicalNetwork`, `KineticNetworkManager`, `HydraulicInspection` | Capacidade/carga, estado, RPM, velocidade/aceleração angular, torques e inércia QKS; fluxo e parcelas hidráulicas locais sob demanda | Torque físico em N·m e força em newtons (não calibrados) |
 | **Elétrico (Era II)** | `EnergyInspectable`, `CopperCableBlockEntity`, `CableNetwork`, `EnergyPorts` | Energia armazenada (`energy`/`capacity`), fluxo no tick (`flow`), perda (`loss`), conectividade e portas | Tensão (V), corrente (A), campo elétrico |
 | **Fluido (Era II)** | `FluidInspectable`, `FluidPipeBlockEntity`, `FluidTransfer` | Volume armazenado (`storedFluid`/`fluidCapacity`), último fluxo, ticks de pressão | Pressão em Pascal, viscosidade |
 | **Pneumático (Era II)** | `PneumaticTubeBlockEntity`, `ConfigurableConduit` | Pacote em trânsito, direção de entrada (`inlet`), progresso, modos de conexão (`AUTO`/`PULL`/`PUSH`/`NONE`) | Velocidade em m/s |
@@ -77,3 +77,9 @@ ClientInspectionCache (limpo ao trocar de dimensão ou desequipar)
 | Segurar `Shift` olhando para rede | Overlay 3D destaca apenas nós da rede conectada dentro do raio |
 | Trocar de dimensão / desequipar óculos | `ClientInspectionCache` limpo imediatamente |
 | Servidor dedicado | Nenhuma classe `net.minecraft.client.*` carregada |
+
+## Visualização hidráulica 3D
+
+Shift mirando uma roda acrescenta fluxo e contribuições de torque reais do servidor, sem remover a rede. Setas simples azuis distinguem fluxo de setas duplas de torque; as contribuições favoráveis/contrárias usam verde/vermelho enquanto há movimento, e âmbar em repouso com referência ao eixo positivo mundial. A soma exibida é o acionamento hidráulico local após as escalas da roda, não o torque líquido de toda a rede. Disponível nas rodas 1×1, 3×3 e 5×5.
+
+O protocolo especializado limita-se a 16 amostras e quatro consultas por segundo por jogador, valida o alvo pelo olhar atual e não carrega chunks. O cache correlaciona dimensão, alvo e geração e limpa ao sair da inspeção. [Estrutura, custos, comandos e evidências](../../HYDRAULIC_INSPECTION.md).

@@ -163,6 +163,17 @@ public final class DynamoInspectionHud {
             lines.add(Component.translatable("gui.quantumindustries.mechanical.power", decimal(snap.mechanicalPower())));
             lines.add(Component.translatable("gui.quantumindustries.mechanical.ratio", decimal(snap.effectiveRatio())));
         }
+        var hydraulic = br.com.quantumindustries.client.inspection.ClientHydraulicInspection.active();
+        if (shift && hydraulic != null && hydraulic.target().equals(snap.target())) {
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.title"));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.totals", decimal(hydraulic.positive()), decimal(hydraulic.negative()), decimal(hydraulic.resultant())));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.motion", decimal(br.com.quantumindustries.mechanical.KineticDynamics.toRpm(hydraulic.omega())), decimal(hydraulic.acceleration())));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.direction", hydraulic.axle().getName().toUpperCase(Locale.ROOT),
+                    Math.abs(hydraulic.resultant()) < 1e-6 ? "0" : hydraulic.resultant() > 0 ? "+" : "-"));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.flow_legend"));
+            lines.add(Component.translatable(Math.abs(hydraulic.omega()) < 1e-6
+                    ? "gui.quantumindustries.hydraulic.rest_legend" : "gui.quantumindustries.hydraulic.torque_legend"));
+        }
         lines.add(Component.translatable(shift
                 ? "gui.quantumindustries.mechanical.diagnostics.on"
                 : "gui.quantumindustries.mechanical.diagnostics.hint"));
