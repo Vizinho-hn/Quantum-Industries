@@ -31,6 +31,9 @@ public interface MechanicalParticipant {
         }
         return List.copyOf(links);
     }
+    default List<BlockPos> mechanicalNeighbors(ServerLevel level, BlockPos pos) {
+        return kineticLinks(level, pos).stream().map(KineticLink::target).toList();
+    }
     default void applyKineticSnapshot(KineticSnapshot snapshot) {}
     default double persistedAngleRadians() { return 0.0; }
     default double persistedAngularVelocity() { return 0.0; }

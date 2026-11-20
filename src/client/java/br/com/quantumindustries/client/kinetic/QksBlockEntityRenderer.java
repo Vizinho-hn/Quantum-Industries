@@ -41,7 +41,7 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     private final Identifier texture;
     private final Direction.Axis rotorLocalAxis;
 
-    private QksBlockEntityRenderer(String modelPath, Identifier texture, Direction.Axis rotorLocalAxis) {
+    public QksBlockEntityRenderer(String modelPath, Identifier texture, Direction.Axis rotorLocalAxis) {
         this.modelPath = modelPath;
         this.texture = texture;
         this.rotorLocalAxis = rotorLocalAxis;
@@ -50,6 +50,19 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     @SubscribeEvent
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         ClientKineticTracker.init();
+        event.registerBlockEntityRenderer(ModBlocks.SMALL_COGWHEEL_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("small_cogwheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/small_cogwheel.png"), Direction.Axis.Z));
+        event.registerBlockEntityRenderer(ModBlocks.LARGE_COGWHEEL_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("large_cogwheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/large_cogwheel.png"), Direction.Axis.Z));
+        event.registerBlockEntityRenderer(ModBlocks.IRON_FLYWHEEL_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("iron_flywheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/iron_flywheel.png"), Direction.Axis.Z));
+        event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_PULLEY_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("mechanical_pulley", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/mechanical_pulley.png"), Direction.Axis.Z));
+        event.registerBlockEntityRenderer(ModBlocks.MEDIUM_WATER_WHEEL_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("medium_water_wheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/medium_water_wheel.png"), Direction.Axis.Z));
+        event.registerBlockEntityRenderer(ModBlocks.LARGE_WATER_WHEEL_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("large_water_wheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/large_water_wheel.png"), Direction.Axis.Z));
+
         event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(),
                 context -> new QksBlockEntityRenderer<>("mechanical_shaft_block", WORKSHOP_TEXTURE, Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(),
@@ -94,6 +107,18 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
         } else {
             throw new IllegalArgumentException("Unsupported QKS entity " + entity.getClass().getName());
         }
+        if (entity instanceof br.com.quantumindustries.block.entity.CogwheelBlockEntity gear
+                && ((entity.getBlockPos().getX() + entity.getBlockPos().getY() + entity.getBlockPos().getZ()) & 1) != 0)
+            state.angleDegrees += (float) Math.toDegrees(Math.PI / gear.teeth());
+        state.beltEnd = null;
+        if (entity instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity pulley
+                && pulley.partnerPos() != null && entity.getBlockPos().compareTo(pulley.partnerPos()) < 0
+                && entity.getLevel() != null && entity.getLevel().hasChunkAt(pulley.partnerPos())
+                && entity.getLevel().getBlockEntity(pulley.partnerPos()) instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity other
+                && pulley.validPartner(other)) {
+            state.beltEnd = Vec3.atLowerCornerOf(pulley.partnerPos().subtract(entity.getBlockPos()));
+            state.beltCrossed = pulley.crossed();
+        }
         state.worldAxisSign = worldAxisSign(rotorLocalAxis, state.facing);
     }
 
@@ -108,6 +133,7 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
 
     @Override
     public void submit(QksRenderState state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
+        if (state.beltEnd != null) QksBeltRenderer.submit(state, pose, collector);
         QksCompiledModel model = QksModelCache.get(state.modelPath);
         pose.pushPose();
         if (state.facing == Direction.UP) {
@@ -131,6 +157,15 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
             for (String root : model.rootBoneNames()) submitBone(model, root, state, work, consumer);
         });
         pose.popPose();
+    }
+
+    @Override public net.minecraft.world.phys.AABB getRenderBoundingBox(T entity) {
+        var bounds = new net.minecraft.world.phys.AABB(entity.getBlockPos());
+        if (entity instanceof br.com.quantumindustries.block.entity.RimWaterWheelBlockEntity wheel)
+            return bounds.inflate(wheel.rimRadius() + .5);
+        if (entity instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity pulley && pulley.partnerPos() != null)
+            return bounds.minmax(new net.minecraft.world.phys.AABB(pulley.partnerPos())).inflate(.5);
+        return bounds;
     }
 
     private static void submitBone(QksCompiledModel model, String name, QksRenderState state,

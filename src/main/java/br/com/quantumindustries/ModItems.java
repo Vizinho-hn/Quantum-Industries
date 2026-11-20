@@ -15,6 +15,13 @@ public class ModItems {
 
     public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
 
+    public static final DeferredItem<BlockItem> SMALL_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.SMALL_COGWHEEL);
+    public static final DeferredItem<BlockItem> LARGE_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_COGWHEEL);
+    public static final DeferredItem<BlockItem> IRON_FLYWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.IRON_FLYWHEEL);
+    public static final DeferredItem<BlockItem> MECHANICAL_PULLEY = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_PULLEY);
+    public static final DeferredItem<BlockItem> MEDIUM_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.MEDIUM_WATER_WHEEL);
+    public static final DeferredItem<BlockItem> LARGE_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_WATER_WHEEL);
+    public static final DeferredItem<br.com.quantumindustries.item.DriveBeltItem> DRIVE_BELT = ITEMS.registerItem("drive_belt", br.com.quantumindustries.item.DriveBeltItem::new);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER_TIER_1 =
             ITEMS.registerSimpleBlockItem(ModBlocks.RESEARCH_TABLE_TIER_1);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER = ITEMS.registerSimpleBlockItem(RESEARCH_TABLE);

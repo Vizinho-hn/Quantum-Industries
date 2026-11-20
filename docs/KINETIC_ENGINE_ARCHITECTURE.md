@@ -1,8 +1,8 @@
 # Quantum Kinetic System — implementation and migration
 
-**Status:** PR 1 integrates QKS Core, Network Solver, Chunk Sync and Native Renderer. Component dynamics drive the existing mechanical machines in game, verified with headless mechanics checks, dedicated-server regression suites (`verify-mechanical.sh`, `verify-hydraulic-dynamo.sh`), and client visual previews (`mechanical-preview`, `qa-preview`).
+**Status:** PR 1 integrates QKS Core, Network Solver, Chunk Sync and Native Renderer; PR 2 completes Stage D transmissions and larger wheels. PR 1 component dynamics drive the existing mechanical machines in game, verified with headless mechanics checks, dedicated-server regression suites (`verify-mechanical.sh`, `verify-hydraulic-dynamo.sh`), and client visual previews (`mechanical-preview`, `qa-preview`).
 
-**Scope:** shafts, the existing one-block water wheel, sawmills and dynamos use server-authoritative QKS dynamics and a native renderer without GeckoLib API consumers. Cogwheels, flywheel, pulleys and 3×3/5×5 wheels belong to PR 2. Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` belong to PR 3. The globally declared GeckoLib dependency is outside this delivery.
+**Scope:** shafts, the existing one-block water wheel, sawmills and dynamos use server-authoritative QKS dynamics and a native renderer without GeckoLib API consumers. PR 2 adds cogwheels, flywheel, pulleys/belts and 3×3/5×5 wheels. Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` remain upcoming in PR 3. The globally declared GeckoLib dependency is outside this delivery.
 
 ## 1. Implemented PR 1 components
 
@@ -51,7 +51,7 @@ Ideal gears obey `omega2 / omega1 = -teeth1 / teeth2`; torque and inertia must b
 - Preserve UM, IDs, recipes, saves, per-player research, chunk boundaries and dynamo FE accounting.
 - Retain the legacy topology API during migration; the QKS manager owns runtime motion. `MechanicalNetwork.invalidate` also invalidates QKS topology (`main/java/br/com/quantumindustries/mechanical/MechanicalNetwork.java:86`).
 - A rotating machine is not necessarily powered. Torque/friction helpers describe dynamics; callers must apply stop/overload checks before delivering work. The sawmill checks both power and speed (`main/java/br/com/quantumindustries/block/entity/MechanicalSawmillBlockEntity.java:93`).
-- Keep the existing one-block wheel and original assets. Larger wheels need dedicated geometry, collision, water sampling and inertia work in PR 2.
+- Keep the existing one-block wheel and original assets. PR 2 adds larger wheels with dedicated geometry, collision, water sampling and inertia.
 - Minecraft flow is a gameplay input, not an exact scientific measurement of discharge or hydraulic head. Preserve the established axial torque sign convention.
 - Optional physics reading must not add research or crafting gates. The existing introductory chapter remains available; expanded chapters are PR 3.
 
@@ -78,13 +78,11 @@ Ideal gears obey `omega2 / omega1 = -teeth1 / teeth2`; torque and inertia must b
 - [x] Compiled meshes, resource reload handling, detached render state and hierarchical bone submission.
 - [x] Headless geometry/rotor-sign checks and completed client preview QA for PR 1.
 
-### Stage D — Transmissions and larger wheels (PR 2 upcoming)
+### Stage D — Transmissions and larger wheels (PR 2 complete)
 
-- [ ] Cogwheels with tooth ratios, reversal and speed/torque tradeoffs.
-- [ ] Flywheel and pulley/belt blocks with appropriate losses and inertia.
-- [ ] 3×3 and 5×5 water wheels, multiblock geometry/collision and water sampling.
-- [ ] In-game acceptance of the new transmissions and cycle/energy safety under their actual block topology.
-- [ ] Comparable CPU/MSPT, GPU and network measurements; no performance gain is claimed by PR 1.
+- [x] `small_cogwheel` (Z=8) and `large_cogwheel` (Z=16) with tooth ratios, reversal and speed/torque tradeoffs.
+- [x] `iron_flywheel` and `mechanical_pulley` + `drive_belt` with appropriate losses and inertia.
+- [x] `medium_water_wheel` (3×3) and `large_water_wheel` (5×5), multiblock geometry/collision and water sampling.
 
 ### Stage E — Telemetry and optional physics (PR 3 upcoming)
 
@@ -97,4 +95,6 @@ Ideal gears obey `omega2 / omega1 = -teeth1 / teeth2`; torque and inertia must b
 
 PR 1 verification passes across the Python contract suite (`unittest`), Gradle build & headless checks (`build`, `verifyLegacyResearch`, `verifyMechanicalFoundation` including `QksGeometrySelfCheck` and `1`–`256` node microbenchmarks), dedicated-server suites (`tools/verify-mechanical.sh`, `tools/verify-hydraulic-dynamo.sh`), and client visual previews (`tests/mechanical-preview.init.gradle`, `tests/qa-preview.init.gradle`).
 
-Future acceptance across PR 2 and PR 3 will cover cogwheels, flywheels, pulleys/belts, 3×3/5×5 water wheels, extended multiplayer inspection telemetry (`Inspection Goggles`), and consolidated dedicated-server stress testing (`tools/verify-qks.sh`).
+Stage D implementation is complete. This final polish is checked with the Python contract suite and `git diff --check`; it does not rerun Gradle or in-game acceptance. Remaining verification includes in-game acceptance of the new transmissions and cycle/energy safety under their actual block topology, plus comparable CPU/MSPT, GPU and network measurements; no performance gain is claimed here.
+
+PR 3 remains upcoming: extended multiplayer inspection telemetry (`Inspection Goggles`), expanded optional Codex physics chapters, and consolidated dedicated-server stress testing (`tools/verify-qks.sh`).

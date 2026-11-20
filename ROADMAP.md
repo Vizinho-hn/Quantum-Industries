@@ -42,8 +42,8 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Criar núcleo matemático isolado para aceleração angular/inércia e capítulo **opcional** de física rotacional no Códice, sem bloquear pesquisas existentes.
 - [x] **QKS PR 1 — Core / Network / Chunk Sync:** integrate component dynamics, shared network solving and server-client chunk synchronization, preserving UM and progression; see `docs/KINETIC_ENGINE_ARCHITECTURE.md`.
 - [x] **QKS PR 1 — Native Renderer:** migrate shafts, water wheels, sawmills and dynamos off the GeckoLib API while preserving geometry; client preview and server regression suites completed.
-- [ ] **QKS PR 2:** cogwheels, flywheel, pulleys and 3×3/5×5 water wheels.
-- [ ] **QKS PR 3:** Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` harness.
+- [x] **QKS PR 2 — Stage D:** `small_cogwheel` (Z=8), `large_cogwheel` (Z=16), `iron_flywheel`, `mechanical_pulley` + `drive_belt`, `medium_water_wheel` (3×3) and `large_water_wheel` (5×5).
+- [ ] **QKS PR 3 — Stage E (upcoming):** Inspection Goggles kinetic telemetry, expanded optional Codex physics chapters and the full `verify-qks.sh` harness.
 - [ ] Transmissões mais avançadas e evolução elétrica das máquinas na Era II.
 
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.

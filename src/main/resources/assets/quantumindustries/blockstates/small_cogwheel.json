@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/small_cogwheel"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/small_cogwheel",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/small_cogwheel",
+      "x": 90
+    }
+  }
+}

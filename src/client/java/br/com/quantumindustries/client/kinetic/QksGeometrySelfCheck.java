@@ -42,6 +42,16 @@ public final class QksGeometrySelfCheck {
                 throw new IllegalStateException("Unable to check " + name, exception);
             }
         });
+        for (String name : java.util.List.of("small_cogwheel", "large_cogwheel", "iron_flywheel", "mechanical_pulley", "medium_water_wheel", "large_water_wheel")) {
+            try (InputStream stream = QksGeometrySelfCheck.class.getResourceAsStream(QksModelCache.CLASSPATH_PREFIX + name + QksModelCache.MODEL_SUFFIX)) {
+                // Job 2B may still be producing these resources during a parallel Java check.
+                if (stream == null) continue;
+                var model = QksGeoModelLoader.load(stream);
+                require(model.bone("rotor") != null, name + ": missing rotor");
+                if (!name.endsWith("cogwheel")) require(model.bone("base") != null, name + ": missing base");
+                model.bones().values().forEach(bone -> verifyQuads(bone.quads()));
+            } catch (IOException exception) { throw new IllegalStateException("Unable to check " + name, exception); }
+        }
         verifyRotationAxes();
         verifyRejectedInput();
         verifyCacheAndImmutability();

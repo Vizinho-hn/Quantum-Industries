@@ -72,11 +72,70 @@ public final class MechanicalFoundationCheck {
         check(KineticMath.localRotorSign(Direction.WEST) == -KineticMath.localRotorSign(Direction.EAST),
                 "Opposite facings on X axis must have opposite local rotor signs");
 
+        verifyTransmissions();
         verifyKinetics();
         br.com.quantumindustries.client.kinetic.QksGeometrySelfCheck.verifyAll();
         verifyNativeRotorSigns();
 
         System.out.println("PASS: bounded mechanics, hydraulic torque matrix (A-J), kinetic phase math, conservation of capacity, native geometry, and rotor signs");
+    }
+
+    private static void verifyTransmissions() {
+        BlockPos second = ROOT.east();
+        check(BeltGeometry.validAlignment(ROOT, ROOT.east(2), Direction.Axis.Z), "belt accepts minimum straight perpendicular span");
+        check(BeltGeometry.validAlignment(ROOT, ROOT.above(12), Direction.Axis.X), "belt accepts maximum vertical span");
+        check(!BeltGeometry.validAlignment(ROOT, ROOT.east(), Direction.Axis.Z), "belt rejects adjacent endpoints");
+        check(!BeltGeometry.validAlignment(ROOT, ROOT.east(13), Direction.Axis.Z), "belt rejects excessive distance");
+        check(!BeltGeometry.validAlignment(ROOT, ROOT.east(2).above(), Direction.Axis.Z), "belt rejects diagonal endpoints");
+        check(!BeltGeometry.validAlignment(ROOT, ROOT.east(2), Direction.Axis.X), "belt rejects axial span");
+        for (double ratio : new double[] {-.5, -2, 1, -1}) {
+            double efficiency = Math.abs(ratio) == 1 ? .94 : .96;
+            var graph = Map.of(ROOT, rotor(List.of(new KineticLink(second, ratio, efficiency)), 18, 0, 18, .9, .05, 0),
+                    second, rotor(List.of(new KineticLink(ROOT, 1 / ratio, efficiency)), 0, 0, 0, 2.4, .08, 0));
+            var topology = KineticNetworkManager.evaluate(ROOT, graph::get, 256);
+            check(!topology.jammed() && topology.members().get(second).ratio() == ratio, "reciprocal gears and belts preserve ratio and spin");
+            double reflected = KineticDynamics.reflectLoadTorque(6, ratio, efficiency);
+            check(reflected > 6 * Math.abs(ratio), "transmission efficiency loses power instead of creating energy");
+            check(Math.abs(KineticDynamics.reflectDriveTorque(6, ratio, efficiency)) < 6 * Math.abs(ratio), "drive reflection loses power");
+            var jamGraph = Map.of(ROOT, graph.get(ROOT), second, rotor(List.of(new KineticLink(ROOT, 1, efficiency)), 0, 0, 0, 2.4, .08, 0));
+            if (ratio != 1) check(run(KineticNetworkManager.evaluate(ROOT, jamGraph::get, 256), 1).reason() == StopReason.JAMMED,
+                    "inconsistent transmission cycle must jam");
+        }
+        var light = KineticNetworkManager.evaluate(ROOT, pos -> rotor(List.of(), 18, 0, 18, 1, .06, 0), 256);
+        var heavy = KineticNetworkManager.evaluate(ROOT, pos -> rotor(List.of(), 18, 0, 18, 19, .12, 0), 256);
+        check(run(heavy, 1).omega() < run(light, 1).omega(), "flywheel smooths acceleration");
+        var coastLight = KineticNetworkManager.evaluate(ROOT, pos -> rotor(List.of(), 0, 0, 0, 1, .06, 2), 256);
+        var coastHeavy = KineticNetworkManager.evaluate(ROOT, pos -> rotor(List.of(), 0, 0, 0, 19, .12, 2), 256);
+        check(run(coastHeavy, 20).omega() > run(coastLight, 20).omega(), "flywheel coasts longer");
+        check(!run(coastHeavy, 20).powered() && run(coastHeavy, 20).omega() < 2, "coasting never creates energy or production");
+        check(run(KineticNetworkManager.evaluate(ROOT, pos -> rotor(List.of(), 0, 0, 0, 18, .06, 0), 256), 100).omega() == 0,
+                "unpowered flywheel cannot start itself");
+        for (int radius : new int[] {1, 2}) {
+            int capacity = radius == 1 ? 36 : 54;
+            for (Direction.Axis axis : new Direction.Axis[] {Direction.Axis.X, Direction.Axis.Z}) {
+                var samples = new ArrayList<HydraulicTorque.Sample>();
+                for (int horizontal = -radius; horizontal <= radius; horizontal++) {
+                    for (int vertical = -radius; vertical <= radius; vertical++) {
+                        if (Math.max(Math.abs(horizontal), Math.abs(vertical)) != radius) continue;
+                        double fx = axis == Direction.Axis.Z ? -(double) vertical / radius : 0;
+                        double fz = axis == Direction.Axis.X ? (double) vertical / radius : 0;
+                        double fy = (axis == Direction.Axis.Z ? (double) horizontal : -(double) horizontal) / radius;
+                        samples.add(new HydraulicTorque.Sample(axis == Direction.Axis.Z ? horizontal : 0, vertical,
+                                axis == Direction.Axis.X ? horizontal : 0, fx, fy, fz));
+                    }
+                }
+                var full = HydraulicTorque.evaluateRim(axis, samples, radius, capacity);
+                var partial = HydraulicTorque.evaluateRim(axis, List.of(samples.getFirst()), radius, capacity);
+                check(full.capacity() == capacity && Math.abs(full.torque() - capacity) < 1e-6, "fully wetted rim reaches rated torque and UM");
+                check(partial.capacity() > 0 && partial.capacity() < capacity && partial.torque() > 0 && partial.torque() < full.torque(),
+                        "one water cell gives proportional torque and UM on both wheel axes");
+                check(Math.abs(partial.torque() * 8 * radius - full.torque()) < 1e-6, "one fully driven cell contributes exactly its share of torque");
+                var dry = HydraulicTorque.evaluateRim(axis, List.of(), radius, capacity);
+                check(dry.capacity() == 0 && dry.torque() == 0, "dry rim has no torque or capacity");
+                var opposite = samples.stream().map(v -> new HydraulicTorque.Sample(v.rx(), v.ry(), v.rz(), -v.fx(), -v.fy(), -v.fz())).toList();
+                check(HydraulicTorque.evaluateRim(axis, opposite, radius, capacity).torque() == -full.torque(), "rim flow reversal preserves primitive wheel sign");
+            }
+        }
     }
 
     private static void verifyNativeRotorSigns() {

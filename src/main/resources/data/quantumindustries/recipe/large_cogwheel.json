@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "ISI",
+    "PIP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "I": "minecraft:iron_ingot",
+    "S": "quantumindustries:small_cogwheel"
+  },
+  "result": {
+    "id": "quantumindustries:large_cogwheel",
+    "count": 1
+  }
+}

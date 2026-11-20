@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "B B",
+    "LLL"
+  ],
+  "key": {
+    "L": "minecraft:leather",
+    "B": "quantumindustries:bronze_ingot"
+  },
+  "result": {
+    "id": "quantumindustries:drive_belt",
+    "count": 1
+  }
+}

@@ -11,6 +11,8 @@ public final class QksRenderState extends BlockEntityRenderState {
     public Direction facing = Direction.NORTH;
     public Direction.Axis axle = Direction.Axis.Z;
     public Direction.Axis rotorLocalAxis = Direction.Axis.Z;
+    public net.minecraft.world.phys.Vec3 beltEnd;
+    public boolean beltCrossed;
     public float angleDegrees;
     public boolean crankVisible = true;
     public boolean baseVisible = true;

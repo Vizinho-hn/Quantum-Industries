@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/iron_flywheel"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/iron_flywheel",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/iron_flywheel",
+      "x": 90
+    }
+  }
+}

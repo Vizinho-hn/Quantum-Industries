@@ -42,6 +42,12 @@ public final class ConfigurationWrenchItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
+        if (level.getBlockEntity(pos) instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity pulley
+                && pulley.partnerPos() != null) {
+            if (level instanceof ServerLevel && pulley.unlink(true) && player instanceof ServerPlayer operator) operator.sendOverlayMessage(Component.translatable("message.quantumindustries.belt.unlinked"));
+            return InteractionResult.SUCCESS;
+        }
+
         BlockState state = level.getBlockState(pos);
         if (!isRotatableModBlock(state)) return InteractionResult.PASS;
         BlockState rotated = rotateState(state, player.isShiftKeyDown());
