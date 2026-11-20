@@ -1,0 +1,22 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/hydraulic-inspection-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/hydraulic-inspection-preview')
+            systemProperty 'quantumindustries.previewHydraulicInspection', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'HydraulicQA', '--width', '1600', '--height', '1000'
+        }
+        def previewDir = file('build/hydraulic-inspection-preview')
+        tasks.named('runClient').configure {
+            doFirst {
+                def dir = previewDir; dir.mkdirs()
+                new File(dir,'options.txt').setText('onboardAccessibility:false\npauseOnLostFocus:false\nlang:pt_br\nguiScale:2\ntutorialStep:none\nfov:0.0\n','UTF-8')
+                java.nio.file.Files.deleteIfExists(new File(dir,'preview-result.txt').toPath())
+            }
+            doLast {
+                def report = new File(previewDir,'preview-result.txt')
+                if (!report.isFile() || !report.getText('UTF-8').startsWith('PASS:')) throw new GradleException('Hydraulic preview failed')
+            }
+        }
+    }
+}

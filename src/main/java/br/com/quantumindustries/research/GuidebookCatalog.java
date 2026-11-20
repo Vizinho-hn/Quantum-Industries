@@ -104,6 +104,16 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.rotational_science.operation"
         ),
+        new Chapter("water_moves_wheels", "hydraulic_power", 1,
+            "guidebook.quantumindustries.water_moves_wheels.title",
+            "guidebook.quantumindustries.water_moves_wheels.subtitle",
+            () -> new ItemStack(ModItems.PRIMITIVE_WATER_WHEEL.get()),
+            List.of("guidebook.quantumindustries.water_moves_wheels.paragraph_0",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_1",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_2",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_3"),
+            "guidebook.quantumindustries.water_moves_wheels.operation"
+        ),
         new Chapter("hydraulic_power", "hydraulic_power", 1,
             "guidebook.quantumindustries.hydraulic_power.title",
             "guidebook.quantumindustries.hydraulic_power.subtitle",

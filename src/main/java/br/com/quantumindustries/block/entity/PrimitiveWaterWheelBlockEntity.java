@@ -17,6 +17,8 @@ import net.minecraft.world.level.material.FlowingFluid;
 public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity {
     public static final int CAPACITY = 18;
     private double lastHydraulicTorque;
+    private List<HydraulicTorque.Sample> telemetrySamples = List.of();
+    private List<HydraulicTorque.Contribution> contributions;
     private long cachedTick = Long.MIN_VALUE;
     private int cachedVersion = Integer.MIN_VALUE;
     private HydraulicTorque.Result cachedSample;
@@ -31,6 +33,13 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
 
     @Override public boolean allowsCrank() { return false; }
 
+
+    public List<HydraulicTorque.Contribution> hydraulicContributions() {
+        if (!(level instanceof ServerLevel server)) return List.of();
+        sampleHydraulicTorque(server);
+        if (contributions == null) contributions = HydraulicTorque.contributions(axle(), telemetrySamples, 0, CAPACITY);
+        return contributions;
+    }
 
     public double hydraulicTorque() {
         if (level instanceof ServerLevel server) {
@@ -94,6 +103,8 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
             samples.add(new HydraulicTorque.Sample(rx, ry, rz, fx, fy, fz));
         }
         cachedSample = HydraulicTorque.evaluate(axis, samples);
+        telemetrySamples = samples;
+        contributions = null;
         return cachedSample;
     }
 

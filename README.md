@@ -195,6 +195,16 @@ A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vid
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
 
+## Visualização hidráulica dos óculos
+
+Mire a roda-d'água com os Óculos de Inspeção e segure **Shift**: setas azuis
+mostram o fluxo real; setas duplas verdes/vermelhas indicam torque favorável ou
+contrário à rotação. Em repouso, âmbar identifica a referência positiva do eixo.
+O HUD mostra parcelas positivas, negativas e soma hidráulica local, RPM e
+aceleração em unidades QKS, preservando a inspeção de rede. Funciona nas rodas
+1×1, 3×3 e 5×5. O capítulo opcional **Como a Água Movimenta as Rodas** usa a
+pesquisa hidráulica existente. [Arquitetura, limites e QA](docs/HYDRAULIC_INSPECTION.md).
+
 ## Interfaces de processamento
 
 Abra a **Fundidora de Ligas Elétrica** com botão direito para acessar as duas

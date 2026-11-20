@@ -1072,5 +1072,19 @@
   "guidebook.quantumindustries.rotational_science.paragraph_4": "Rotational kinetic energy is E = ½Iω². A flywheel gains energy only when a source does work, then returns part of that stored energy as it slows. Drag and load dissipate or consume it. Increasing inertia smooths fluctuations but cannot create energy or maintain useful output indefinitely.",
   "guidebook.quantumindustries.rotational_science.paragraph_5": "For ideal meshing gears, ω₂/ω₁ = -Z₁/Z₂, where Z is the tooth count. The minus sign means opposite rotation. Torque changes inversely with speed so ideal power is conserved; real losses reduce output. Inertia reflected through a ratio scales with its square. Neither gears nor belts multiply energy.",
   "guidebook.quantumindustries.rotational_science.paragraph_6": "Reading diagnostics: ω and α describe the inspected axle; drive/load/net torque and I_eq describe the simulated reference rotor, while I_local belongs to the inspected part. The transmission ratio maps reference motion to local motion. Stop reasons distinguish source loss, overload, opposing sources, cycle jams and network limits; coasting is motion without powered production.",
-  "guidebook.quantumindustries.rotational_science.operation": "Optional experiment: compare small/large gears, add a flywheel, then remove the drive. Watch RPM, acceleration and stop reason with Shift. This reference never gates progression."
+  "guidebook.quantumindustries.rotational_science.operation": "Optional experiment: compare small/large gears, add a flywheel, then remove the drive. Watch RPM, acceleration and stop reason with Shift. This reference never gates progression.",
+  "gui.quantumindustries.hydraulic.title": "HYDRAULIC ANALYSIS",
+  "gui.quantumindustries.hydraulic.totals": "τ+ %s | τ− %s | Σ %s QKS u",
+  "gui.quantumindustries.hydraulic.motion": "RPM %s | α %s rad/s²",
+  "gui.quantumindustries.hydraulic.direction": "Reference +%s · resultant direction: %s",
+  "gui.quantumindustries.hydraulic.flow_legend": "-> Blue: flow | >>: local torque",
+  "gui.quantumindustries.hydraulic.rest_legend": "At rest: amber ± relative to positive axis",
+  "gui.quantumindustries.hydraulic.torque_legend": ">> Green: supports | Red: opposes",
+  "guidebook.quantumindustries.water_moves_wheels.title": "How Water Moves Wheels",
+  "guidebook.quantumindustries.water_moves_wheels.subtitle": "Optional reading · flow, torque and inertia",
+  "guidebook.quantumindustries.water_moves_wheels.paragraph_0": "Water acts on specific sampled regions. The lever arm is the oriented displacement from the axle to a sample. QKS uses τ = (r × F) · axis; F approximates Minecraft flow and is not a force calibrated in newtons.",
+  "guidebook.quantumindustries.water_moves_wheels.paragraph_1": "Positive and negative contributions refer to the positive world axis (+X or +Z). They add and can cancel. Larger wheels normalize samples by radius and perimeter; the primitive wheel limits drive. Goggles report these scaled values in internal QKS units.",
+  "guidebook.quantumindustries.water_moves_wheels.paragraph_2": "Acceleration depends on net network torque and total inertia. A flywheel does not create hydraulic torque: it resists speed changes and can coast after water is removed. Loads and friction explain why local water torque differs from net network torque.",
+  "guidebook.quantumindustries.water_moves_wheels.paragraph_3": "Wear goggles, aim at a wheel and hold Shift. Single blue arrows show sampled flow; double arrows show torque. Green supports current motion and red opposes it. At rest, amber uses the positive world axis as reference. With no effective water, arrows disappear even while the wheel coasts.",
+  "guidebook.quantumindustries.water_moves_wheels.operation": "Move the water and compare samples, torque sums, RPM and acceleration."
 }

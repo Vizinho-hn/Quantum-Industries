@@ -22,6 +22,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Persistir conhecimentos por jogador e validar pesquisas, relatórios e crafts no servidor.
 - [x] Configurar seis pontas de tubos de itens, fluidos e cabos elétricos com chave (Puxar/Empurrar/Nenhum), leitura nos óculos, modo automático compatível e persistência.
 - [x] Exibir Entrada e saída no ciclo da chave, permitindo carregar e descarregar baterias pela mesma ponta.
+- [x] Inspeção hidráulica 3D sob demanda: fluxo, parcelas reais de torque e diagnóstico das rodas 1×1/3×3/5×5, com capítulo opcional no Códice.
 - [x] Alimentação inteligente da Fundidora Elétrica: seleção de materiais aceitos no baú, um metal por entrada e devolução segura de excedentes em trânsito.
 - [x] Adicionar interfaces nativas à Fundidora Elétrica e ao Britador, com inventário, slots persistentes, energia, progresso, nome do material e botão de manivela validado no servidor.
 - [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.

@@ -25,6 +25,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 5. Para trabalho compartilhado, confirme a tarefa com a equipe e use uma branch `feat/*`, `fix/*` ou `docs/*`. Abra PR; não faça push direto na `main` sem autorização explícita.
 
 ## Regras de implementação
+- Inspeção hidráulica: `hydraulicContributions()` reutiliza as amostras em cache das rodas, em unidades locais de acionamento QKS após normalização/saturação. Use o protocolo detalhado sob demanda; preserve o codec básico de `InspectionSnapshot`. Veja `docs/HYDRAULIC_INSPECTION.md`.
 - Transporte para fundidoras: use `canInsertIngredient` para consultar capacidade sem mutação; nunca simule inserção alterando inventários. A busca dos tubos é limitada e respeita lados e chunks carregados. A devolução de excedentes só usa um inventário na origem de uma conexão Puxar.
 - Interfaces de processamento: `MachineProcessingMenu` compartilha os slots reais das Block Entities da Fundidora Elétrica e do Britador. Fechar uma tela deve manter entradas, saída e progresso na máquina. Em MC 26.1.2, o desenho dessas telas usa `extractContents(GuiGraphicsExtractor, int, int, float)`; confira o padrão em `MachineProcessingScreen` antes de usar assinaturas de versões antigas.
 - Conexões: `ConnectionMode.AUTO` é o identificador persistido do modo exibido como **Entrada e saída**. Ele permite tráfego nos dois sentidos e participa do ciclo da chave. Preserve o valor salvo e as permissões ao alterar nomes ou incluir novos modos.
