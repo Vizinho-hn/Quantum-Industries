@@ -35,6 +35,9 @@ public abstract class RotationalBlockEntity extends BlockEntity implements Mecha
 
     protected RotationalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) { super(type, pos, state); }
     public abstract Direction.Axis axle();
+    public void tickTransmission() {
+        if (level instanceof ServerLevel server) applyKineticSnapshot(KineticNetworkManager.snapshot(server, worldPosition));
+    }
     public int sourceCapacity() { return level != null && crankInstalled && level.getGameTime() < manualUntil ? MANUAL_CAPACITY : 0; }
     public int sourceDirection() { return 1; }
     public int requestedLoad() { return 0; }

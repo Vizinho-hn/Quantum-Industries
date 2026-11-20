@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "BWB",
+    "PIP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "I": "minecraft:iron_ingot",
+    "B": "quantumindustries:bronze_ingot",
+    "W": "quantumindustries:medium_water_wheel"
+  },
+  "result": {
+    "id": "quantumindustries:large_water_wheel",
+    "count": 1
+  }
+}

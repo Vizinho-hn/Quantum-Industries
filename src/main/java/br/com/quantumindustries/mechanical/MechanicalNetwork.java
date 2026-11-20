@@ -74,13 +74,7 @@ public final class MechanicalNetwork {
     }
     private static Node<BlockPos> node(ServerLevel level, BlockPos pos) {
         if (!level.hasChunkAt(pos) || !(level.getBlockEntity(pos) instanceof MechanicalParticipant current)) return null;
-        var links = new java.util.ArrayList<BlockPos>(2);
-        for (Direction direction : Direction.values()) {
-            if (!current.connectsMechanical(direction)) continue;
-            var next = pos.relative(direction);
-            if (level.hasChunkAt(next) && level.getBlockEntity(next) instanceof MechanicalParticipant other
-                    && other.connectsMechanical(direction.getOpposite())) links.add(next.immutable());
-        }
+        var links = current.mechanicalNeighbors(level, pos);
         return new Node<>(links, current.sourceCapacity(), current.requestedLoad(), current.sourceDirection());
     }
     public static void invalidate(ServerLevel level) {
