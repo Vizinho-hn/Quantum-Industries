@@ -66,6 +66,7 @@ public final class ConnectionVerification {
                 setup();
                 verifyGravityAndPressure();
                 verifyWrenchAndCapabilities();
+                setupSmartSmelter();
             }
             active = true;
         } catch (Throwable error) { finish(error); }
@@ -189,6 +190,60 @@ public final class ConnectionVerification {
         check(lower.storedFluid() + upper.storedFluid() == 50, "pressure creates no fluid");
     }
 
+    private static final BlockPos SMART = new BlockPos(1, 100, 14);
+    private static ElectricAlloySmelterBlockEntity smartSmelter() {
+        return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
+    }
+    private static void setupSmartSmelter() {
+        for (int i = 0; i <= 4; i++) level.setBlock(SMART.east(i), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(SMART, Blocks.CHEST.defaultBlockState(), 3);
+        level.setBlock(SMART.east(4), ModBlocks.ELECTRIC_ALLOY_SMELTER.get().defaultBlockState(), 3);
+        for (int i = 1; i <= 3; i++) {
+            level.setBlock(SMART.east(i), ModBlocks.PNEUMATIC_TUBE.get().defaultBlockState(), 3);
+            for (Direction side : Direction.values()) mode(SMART.east(i), side, ConnectionMode.NONE);
+            mode(SMART.east(i), Direction.WEST, ConnectionMode.PULL);
+            mode(SMART.east(i), Direction.EAST, ConnectionMode.PUSH);
+        }
+        var source = (ChestBlockEntity) level.getBlockEntity(SMART);
+        var machine = smartSmelter();
+        var copper = new ItemStack(Items.COPPER_INGOT, 16);
+        while (!copper.isEmpty()) check(machine.insertIngredient(copper), "stage copper capacity");
+        check(!machine.canInsertIngredient(new ItemStack(Items.COPPER_INGOT)), "full copper cannot use the second slot");
+        var extra = new ItemStack(Items.COPPER_INGOT);
+        check(!machine.insertIngredient(extra) && extra.getCount() == 1 && machine.inputB().isEmpty(), "automation rejects duplicate metal without consuming it");
+        var menu = new br.com.quantumindustries.menu.MachineProcessingMenu(9001, player.getInventory(), SMART.east(4), false);
+        check(!menu.getSlot(1).mayPlace(extra), "manual slot rejects metal already in other input");
+        check(menu.getSlot(1).mayPlace(new ItemStack(ModItems.INGOTS.get("tin").get())), "manual slot permits compatible tin");
+        source.setItem(0, new ItemStack(Items.COPPER_INGOT, 64));
+        source.setItem(1, new ItemStack(ModItems.INGOTS.get("tin").get(), 64));
+        var preview = new ItemStack(Items.COPPER_INGOT);
+        check(!ItemRouting.hasAcceptingRoute(level, SMART.east(1), Direction.WEST, preview), "look-ahead sees full copper across three segments");
+        check(source.getItem(0).getCount() == 64 && machine.inputA().getCount() == 16, "look-ahead has no inventory side effects");
+        // Reproduce an existing saved copper packet blocking a line before the patch.
+        var last = (PneumaticTubeBlockEntity) level.getBlockEntity(SMART.east(3));
+        check(last.accept(preview, Direction.WEST), "stage already blocked copper packet");
+    }
+    private static void verifySmartSmelter() {
+        var source = (ChestBlockEntity) level.getBlockEntity(SMART);
+        var machine = smartSmelter();
+        check(machine.inputA().is(Items.COPPER_INGOT) && machine.inputA().getCount() == 16, "copper remains in just one slot");
+        check(machine.inputB().is(ModItems.INGOTS.get("tin").get()) && machine.inputB().getCount() == 16, "tin behind full copper is selected and delivered");
+        int copper = 0, tin = 0;
+        for (int slot = 0; slot < source.getContainerSize(); slot++) {
+            var stack = source.getItem(slot);
+            if (stack.is(Items.COPPER_INGOT)) copper += stack.getCount();
+            if (stack.is(ModItems.INGOTS.get("tin").get())) tin += stack.getCount();
+        }
+        check(copper == 65 && tin == 48, "excess copper returns and both material totals are conserved");
+        for (int i = 1; i <= 3; i++) check(((PneumaticTubeBlockEntity)level.getBlockEntity(SMART.east(i))).packet().isEmpty(), "no excess packet jams the line");
+        for (int slot = 0; slot < source.getContainerSize(); slot++) source.setItem(slot, new ItemStack(Items.STONE, 64));
+        var rejected = new ItemStack(Items.COPPER_INGOT);
+        check(!ItemRouting.returnToSource(level, SMART.east(3), Direction.WEST, rejected) && rejected.getCount() == 1, "full return inventory cannot destroy or duplicate packet");
+        mode(SMART.east(2), Direction.WEST, ConnectionMode.NONE);
+        source.setItem(0, ItemStack.EMPTY);
+        check(!ItemRouting.returnToSource(level, SMART.east(3), Direction.WEST, rejected) && rejected.getCount() == 1, "recovery respects disabled upstream connection");
+    }
+
     private static int itemTotal() { return chest(0).getItem(0).getCount() + tube(1).packet().getCount() + tube(2).packet().getCount() + chest(3).getItem(0).getCount(); }
     private static int fluidTotal() { return vat(0).storedFluid() + pipe(1).storedFluid() + pipe(2).storedFluid() + vat(3).storedFluid(); }
 
@@ -227,6 +282,7 @@ public final class ConnectionVerification {
                 }
             }
             if (ticks == 200) {
+                verifySmartSmelter();
                 check(chest(3).getItem(0).getCount() == 10, "item tubes pull from a chest and push into another chest");
                 check(vat(3).storedFluid() == 1000, "copper and glass pipes transfer real water");
                 check(energy(0).energy() == 0 && energy(3).energy() == 128, "energy input/output modes preserve real FE");

@@ -50,9 +50,14 @@ public final class MachineProcessingMenu extends AbstractContainerMenu {
             @Override public int getCount() { return 5; }
         };
         for (int index = 0; index < inputCount(); index++) {
+            final int inputSlot = index;
             addSlot(new Slot(items, index, crusher ? 139 : 112 + index * 54, 48) {
                 @Override public int getMaxStackSize() { return crusher ? 64 : 16; }
                 @Override public boolean mayPlace(ItemStack stack) {
+                    if (!crusher) {
+                        ItemStack other = getSlot(1 - inputSlot).getItem();
+                        if (!other.isEmpty() && (other.is(stack.getItem()) || !AlloyCatalog.canPair(other, stack, 2))) return false;
+                    }
                     return (crusher ? br.com.quantumindustries.material.CrushingCatalog.isValidInput(stack) : AlloyCatalog.isValidIngredient(stack, 2))
                             && (!(player.level() instanceof ServerLevel server)
                             || WorldResearchData.get(server).knows(player, crusher ? "mineral_beneficiation" : "electric_alloy_smelting"));
@@ -99,7 +104,9 @@ public final class MachineProcessingMenu extends AbstractContainerMenu {
         if (index < machineSlots) {
             if (!moveItemStackTo(stack, machineSlots, slots.size(), true)) return ItemStack.EMPTY;
         } else {
-            if (!getSlot(0).mayPlace(stack) || !moveItemStackTo(stack, 0, inputCount(), false)) return ItemStack.EMPTY;
+            boolean allowed = false;
+            for (int slotIndex = 0; slotIndex < inputCount(); slotIndex++) allowed |= getSlot(slotIndex).mayPlace(stack);
+            if (!allowed || !moveItemStackTo(stack, 0, inputCount(), false)) return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) slot.setByPlayer(ItemStack.EMPTY); else slot.setChanged();
         slot.onTake(player, stack);

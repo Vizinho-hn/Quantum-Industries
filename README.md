@@ -224,6 +224,13 @@ depois alimente consumidores usando a mesma conexão.
 
 Tubos de itens em Puxar retiram um item por vez de inventários e saídas de
 máquinas adjacentes; as pontas de saída encaminham o pacote até o destino.
+Ao alimentar uma Fundidora Elétrica, o tubo percorre os slots do inventário de
+origem e pula materiais que a máquina não aceita no momento (por exemplo, cobre
+cheio antes do estanho). Cada metal ocupa apenas uma entrada da fundidora,
+tanto pela interface quanto por automação. Pacotes excedentes já em trânsito
+podem voltar ao inventário de origem pela conexão de extração, sem descarte;
+se não houver espaço, permanecem no tubo. A busca respeita as conexões e limita-se
+a 256 estados por tentativa, sem carregar chunks.
 Dutos em Puxar recebem fluidos dos reservatórios adjacentes e Empurrar dirige
 a saída. Trechos ascendentes continuam usando pressão da bomba. Nos cabos,
 Puxar recebe FE da fonte e Empurrar libera FE para o destino, com os limites

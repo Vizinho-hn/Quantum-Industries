@@ -73,10 +73,18 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         }
         if (++progress < HOP_TICKS) return;
         progress = HOP_TICKS;
+        if (!ItemRouting.hasAcceptingRoute(server, worldPosition, inlet, packet)
+                && ItemRouting.returnToSource(server, worldPosition, inlet, packet)) {
+            if (packet.isEmpty()) { packet = ItemStack.EMPTY; progress = 0; }
+            changed();
+            return;
+        }
         // Do not immediately route back into the block that sent the packet.
         for (Direction direction : Direction.values()) {
             if (direction == inlet || !connectionMode(direction).allowsOutput()) continue;
             BlockPos next = worldPosition.relative(direction);
+            if (server.getBlockEntity(next) instanceof PneumaticTubeBlockEntity
+                    && !ItemRouting.hasAcceptingRoute(server, next, direction.getOpposite(), packet)) continue;
             if (ItemRouting.insert(server, next, packet, direction.getOpposite())) {
                 if (packet.isEmpty()) {
                     packet = ItemStack.EMPTY;
@@ -92,8 +100,8 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         for (Direction direction : Direction.values()) {
             if (connectionMode(direction) != ConnectionMode.PULL) continue;
             BlockPos source = worldPosition.relative(direction);
-            if (ItemRouting.preview(server, source, 1).isEmpty()) continue;
-            ItemStack extracted = ItemRouting.extract(server, source, 1);
+            ItemStack extracted = ItemRouting.extractMatching(server, source, 1,
+                    candidate -> ItemRouting.hasAcceptingRoute(server, worldPosition, direction, candidate));
             if (!extracted.isEmpty()) {
                 accept(extracted, direction);
                 return;
