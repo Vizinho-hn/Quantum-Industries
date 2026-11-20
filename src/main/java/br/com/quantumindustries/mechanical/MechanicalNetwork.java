@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 /** Server-only bounded topology evaluation. Capacity is shared once per connected component. */
 public final class MechanicalNetwork {
     public static final int MAX_NODES = 256, MAX_VISITS_PER_TICK = 8192;
+    /** direction is +1 for positive axial drive and -1 for drive in the opposite axial direction. */
     public record Node<N>(List<N> neighbors, int capacity, int load, int direction) {
         public Node {
             neighbors = List.copyOf(neighbors);
@@ -55,7 +56,7 @@ public final class MechanicalNetwork {
             if (node.capacity() > 0) signedTorque += node.capacity() * node.direction();
             for (N next : node.neighbors()) if (queued.add(next)) pending.addLast(next);
         }
-        return new Result<>(visited, capacity, load, false, signedTorque < 0 ? -1 : 1);
+        return new Result<>(visited, capacity, load, capacity > 0 && signedTorque == 0, signedTorque < 0 ? -1 : 1);
     }
 
     public static Result<BlockPos> state(ServerLevel level, BlockPos start) {
@@ -83,6 +84,7 @@ public final class MechanicalNetwork {
         return new Node<>(links, current.sourceCapacity(), current.requestedLoad(), current.sourceDirection());
     }
     public static void invalidate(ServerLevel level) {
+        KineticNetworkManager.invalidate(level);
         Cache cache = CACHES.get(level);
         if (cache != null) cache.components.clear();
     }

@@ -39,6 +39,12 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
+## Quantum Kinetic System — PR 1 integrado
+- Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
+- O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. Engrenagens, volante, polias e rodas 3×3/5×5 ficam para o PR 2; telemetria dos óculos, capítulos de física do Códice e `verify-qks.sh` completo ficam para o PR 3.
+- O renderer mecânico nativo é `client/kinetic/QksBlockEntityRenderer`; `ClientKineticTracker.init()` deve instalar o sink antes da entrada no mundo. O diretório legado dos assets não implica dependência da API GeckoLib. O PR 1 foi verificado em preview do cliente e suítes de servidor, incluindo serraria/dínamo, sem API GeckoLib no subsistema mecânico. Preserve essas regressões em mudanças futuras; veja `docs/adr/0001-qks-native-renderer.md`.
+- Não importar RPM/torque físico em SI como se as unidades UM já fossem N·m, não duplicar energia, não bloquear pesquisas por conteúdo opcional do livro, e não trocar modelos existentes por placeholders.
+
 ## Direção artística e produção de assets (obrigatório)
 - **Leia `docs/ART_DIRECTION.md` antes de criar ou alterar itens, blocos, modelos 3D, texturas ou animações.** Para assets das Eras I e II, siga também `docs/ERA1_VISUAL_STYLE_GUIDE.md` ou `docs/ERA2_VISUAL_STYLE_GUIDE.md`, respectivamente. `docs/MOD_REFERENCES.md` registra referências externas verificadas, mas não substitui as regras do projeto.
 - **Confirme a era real** no `ROADMAP.md`, no catálogo de pesquisas/desbloqueios e na documentação existente; não classifique pelo nome, aparência ou tipo de energia. As cinco eras são as definidas no roadmap. **`wire_drawing_bench` pertence à Era II** conforme o guia atual, embora tenha acionamento manual/FE. Não invente paletas oficiais para as Eras III–V.

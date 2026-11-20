@@ -73,6 +73,19 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.mechanical_transmission.operation"
         ),
+        // Optional physics lesson: unlocks with existing Mechanical Transmission research.
+        // No new research node, crafting gate, or progression prerequisite.
+        new Chapter("rotation_principles", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotation_principles.title",
+            "guidebook.quantumindustries.rotation_principles.subtitle",
+            () -> new ItemStack(ModItems.MECHANICAL_SHAFT_BLOCK.get()),
+            List.of(
+                "guidebook.quantumindustries.rotation_principles.paragraph_0",
+                "guidebook.quantumindustries.rotation_principles.paragraph_1",
+                "guidebook.quantumindustries.rotation_principles.paragraph_2"
+            ),
+            "guidebook.quantumindustries.rotation_principles.operation"
+        ),
         new Chapter("hydraulic_power", "hydraulic_power", 1,
             "guidebook.quantumindustries.hydraulic_power.title",
             "guidebook.quantumindustries.hydraulic_power.subtitle",
