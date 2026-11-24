@@ -222,7 +222,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         text(g, entry.name(), 163, 252, CYAN);
         if (complete(selected)) drawOutputs(g, outputs(selected), 548, 246);
         clipped(g, entry.description(), 163, 265, 386, TEXT);
-        clipped(g, tr("gui.quantumindustries.text.unlocks") + entry.reward(), 163, 278, 386, GREEN);
+        clipped(g, tr("gui.quantumindustries.text.unlocks") + ": " + entry.reward(), 163, 278, 386, GREEN);
         var study = ResearchCatalog.STUDIES.get(selected);
         var dependencies = study.prerequisites();
         int dependencyY = study.evidence().isEmpty() ? 294 : 288;
@@ -294,7 +294,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.fill(g,17, 163, 133, 164, LINE);
         text(g, tr("gui.quantumindustries.text.selected_research"), 17, 173, MUTED);
         clipped(g, ENTRIES[selected].name(), 17, 192, 115, TEXT);
-        clipped(g, states[selected].label, 17, 207, 115, states[selected].color);
+        clipped(g, tr(states[selected].label), 17, 207, 115, states[selected].color);
         theme.fill(g,17, 223, 133, 224, LINE);
         text(g, tr("gui.quantumindustries.text.unlocks"), 17, 234, MUTED);
         var prerequisites = ResearchCatalog.STUDIES.get(selected).prerequisites();
@@ -552,7 +552,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             if (state != State.DONE) theme.fill(g,x + 1, 355, x + 7, 361, DARK);
         }
         text(g, state == State.DONE ? "100%" : "0%", 500, 354, TEXT);
-        text(g, state.label, 327, 369, state.color);
+        text(g, tr(state.label), 327, 369, state.color);
 
         theme.frame(g, 4, 396, 568, 32, LINE, PANEL, DARK);
         text(g, tr("gui.quantumindustries.text.operator_inventory"), 15, 408, MUTED);

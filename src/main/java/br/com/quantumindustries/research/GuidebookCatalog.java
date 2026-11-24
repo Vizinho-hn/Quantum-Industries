@@ -216,6 +216,9 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.electromechanical_forming.operation"
         ),
+        new Chapter("electric_sawmill", "electric_wood_processing", 2,
+            "guidebook.quantumindustries.electric_sawmill.title", "guidebook.quantumindustries.electric_sawmill.subtitle",
+            () -> new ItemStack(ModItems.ELECTRIC_SAWMILL.get()), List.of("guidebook.quantumindustries.electric_sawmill.paragraph_0", "guidebook.quantumindustries.electric_sawmill.paragraph_1"), "guidebook.quantumindustries.electric_sawmill.operation"),
         new Chapter("electric_alloy_smelting", "electric_alloy_smelting", 2,
             "guidebook.quantumindustries.electric_alloy_smelting.title",
             "guidebook.quantumindustries.electric_alloy_smelting.subtitle",

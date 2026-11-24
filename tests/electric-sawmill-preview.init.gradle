@@ -1,0 +1,21 @@
+// Opt-in native client fixture; no production source-set changes without this init script.
+allprojects { afterEvaluate {
+    sourceSets.main.java.srcDir('tests/electric-sawmill-preview')
+    neoForge.runs.client {
+        gameDirectory=file('build/electric-sawmill-preview')
+        systemProperty 'quantumindustries.previewElectricSaw','true'
+        programArguments.addAll '--quickPlaySingleplayer','ElectricSawQA','--width','1600','--height','1000'
+    }
+    def dir=file('build/electric-sawmill-preview')
+    def result=new File(dir,'result.txt')
+    tasks.named('runClient').configure {
+        doFirst {
+            dir.mkdirs()
+            java.nio.file.Files.deleteIfExists(result.toPath())
+            new File(dir,'options.txt').setText('onboardAccessibility:false\npauseOnLostFocus:false\nlang:pt_br\nguiScale:2\ntutorialStep:none\n','UTF-8')
+        }
+        doLast {
+            if(!result.isFile()||!result.getText('UTF-8').startsWith('PASS:'))throw new GradleException('Electric sawmill preview failed; inspect build/electric-sawmill-preview/result.txt')
+        }
+    }
+} }

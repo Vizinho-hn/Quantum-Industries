@@ -25,6 +25,8 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 5. Para trabalho compartilhado, confirme a tarefa com a equipe e use uma branch `feat/*`, `fix/*` ou `docs/*`. Abra PR; não faça push direto na `main` sem autorização explícita.
 
 ## Regras de implementação
+- Serraria Elétrica: reutiliza `MechanicalProcesses` para espécies/variantes, com rendimento elétrico de 8 tábuas. Menu expõe o `SimpleContainer` real (0–3 entrada, 4–7 saída). Preserve progresso/receita/slot reservado durante NBT load; callbacks de alteração do inventário não devem invalidar a reserva enquanto o próprio save está sendo restaurado. O limite de recebimento FE é acumulado por tick, não por chamada.
+
 - Serraria: automação usa o UUID persistido `automation_operator` e valida a pesquisa por jogador em `canInsertAutomated`; extraia apenas `output`. Máquinas antigas sem vínculo exigem interação autorizada. O HUD usa os estoques e estados do update tag do servidor.
 - Cabos de cobre são condutores sem buffer FE: `energy()` legado representa fluxo. Não some esse valor como reserva; os snapshots de cabos separam reserva/capacidade dos equipamentos conectados (`load`/`capacity`) de fluxo/limite local (`localCapacity`/`localLoad`).
 - Inspeção hidráulica: `hydraulicContributions()` reutiliza as amostras em cache das rodas, em unidades locais de acionamento QKS após normalização/saturação. Use o protocolo detalhado sob demanda; preserve o codec básico de `InspectionSnapshot`. Veja `docs/HYDRAULIC_INSPECTION.md`.

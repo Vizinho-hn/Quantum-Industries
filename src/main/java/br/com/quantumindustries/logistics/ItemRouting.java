@@ -8,6 +8,7 @@ import br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity;
 import br.com.quantumindustries.block.entity.JawCrusherBlockEntity;
 import br.com.quantumindustries.block.entity.ManualGrainMillBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity;
+import br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
 import br.com.quantumindustries.block.entity.SettlingVatBlockEntity;
 import br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity;
@@ -27,7 +28,7 @@ public final class ItemRouting {
 
     public static boolean isEndpoint(BlockGetter level, BlockPos pos) {
         BlockEntity entity = level.getBlockEntity(pos);
-        return entity instanceof PneumaticTubeBlockEntity
+        return entity instanceof ElectricSawmillBlockEntity || entity instanceof PneumaticTubeBlockEntity
                 || entity instanceof GravitationalSorterBlockEntity
                 || entity instanceof ElectromechanicalPressBlockEntity
                 || entity instanceof JawCrusherBlockEntity
@@ -55,6 +56,7 @@ public final class ItemRouting {
     public static ItemStack preview(ServerLevel level, BlockPos pos, int maximum) {
         if (!level.hasChunkAt(pos) || maximum <= 0) return ItemStack.EMPTY;
         BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof ElectricSawmillBlockEntity saw) return previewStack(saw.previewOutput(), maximum);
         if (blockEntity instanceof MechanicalSawmillBlockEntity saw) return previewStack(saw.output(), maximum);
         if (blockEntity instanceof ElectromechanicalPressBlockEntity press) {
             return previewStack(press.output(), maximum);
@@ -130,6 +132,9 @@ public final class ItemRouting {
                 } else if (target instanceof ElectricAlloySmelterBlockEntity smelter) {
                     foundSmelter = true;
                     if (smelter.canInsertIngredient(candidate)) return true;
+                } else if (target instanceof ElectricSawmillBlockEntity saw) {
+                    foundSmelter = true;
+                    if (saw.canInsert(candidate)) return true;
                 } else if (target instanceof MechanicalSawmillBlockEntity saw) {
                     foundSmelter = true;
                     if (saw.canInsertAutomated(candidate)) return true;
@@ -171,6 +176,7 @@ public final class ItemRouting {
     public static ItemStack extract(ServerLevel level, BlockPos pos, int maximum) {
         if (!level.hasChunkAt(pos) || maximum <= 0) return ItemStack.EMPTY;
         BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof ElectricSawmillBlockEntity saw) return saw.extractOutput(maximum);
         if (blockEntity instanceof MechanicalSawmillBlockEntity saw) return saw.extractOutput(maximum);
         if (blockEntity instanceof ElectromechanicalPressBlockEntity press) return press.extractOutput(maximum);
         if (blockEntity instanceof JawCrusherBlockEntity crusher) return crusher.extractOutput(maximum);
@@ -203,6 +209,7 @@ public final class ItemRouting {
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof PneumaticTubeBlockEntity tube) return tube.accept(packet, from);
         if (entity instanceof GravitationalSorterBlockEntity sorter) return sorter.accept(packet, from);
+        if (entity instanceof ElectricSawmillBlockEntity saw) return insertLoop(packet, saw::insert);
         if (entity instanceof MechanicalSawmillBlockEntity saw) return insertLoop(packet, saw::insertAutomated);
         if (entity instanceof ElectromechanicalPressBlockEntity press) return insertLoop(packet, press::insertIngot);
         if (entity instanceof JawCrusherBlockEntity crusher) return insertLoop(packet, crusher::insert);

@@ -8,6 +8,12 @@ Quantum Industries pretende levar o jogador de processos industriais básicos at
 
 O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
 
+## Serraria Elétrica — Era II
+
+Nova `electric_sawmill`: quatro entradas e quatro saídas reais (2×2), uma câmara com seleção circular, **1 tora → 8 tábuas em 40 ticks**, consumindo **160 FE** (4 FE/t). Buffer de 1.200 FE, recebimento limitado a 64 FE por tick. Integra cabos, tubos, óculos, JEI e Códice. A pesquisa **Processamento Eletromecânico de Madeira** exige Transmissão Mecânica, Indução Eletromagnética, Conformação Eletromecânica e os ensaios indicados no caderno. A Serraria Mecânica permanece disponível.
+
+Implementação em revisão na branch `feat/electric-sawmill-era2`, sem merge automático. Veja [arquitetura, reprodução e evidências](docs/ELECTRIC_SAWMILL.md).
+
 ## Visão do projeto
 
 O códice, o caderno de pesquisas, os nomes e descrições dos itens e os relatórios acompanham o idioma do Minecraft: português em `pt_br` e inglês em `en_us`. As traduções ficam em `assets/quantumindustries/lang/`. A troca de idioma é verificada com `bash tools/verify-localization.sh`, em servidor isolado.

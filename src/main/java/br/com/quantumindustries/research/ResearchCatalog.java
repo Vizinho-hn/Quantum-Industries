@@ -123,7 +123,8 @@ public final class ResearchCatalog {
                 List.of(new ResearchEvidence.AnyOf(List.of(
                                 new ResearchEvidence.Assay(Material.LEAD, Method.REACTION),
                                 new ResearchEvidence.Assay(Material.ZINC, Method.REACTION),
-                                new ResearchEvidence.Assay(Material.LAPIS, Method.REACTION)))))
+                                new ResearchEvidence.Assay(Material.LAPIS, Method.REACTION))))),
+        new Study("electric_wood_processing", "research.quantumindustries.electric_wood_processing.name", "research.quantumindustries.electric_wood_processing.description", "research.quantumindustries.electric_wood_processing.reward", Items.IRON_AXE, 2, List.of("mechanical_transmission", "electromagnetic_induction", "electromechanical_forming"), List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"), new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre")), List.of(new ResearchEvidence.Assay(Material.IRON, Method.MECHANICAL), new ResearchEvidence.Assay(Material.COPPER, Method.REACTION)))
     );
 
     public record Branch(String title, List<String> studies, String knowledge, String application) {}

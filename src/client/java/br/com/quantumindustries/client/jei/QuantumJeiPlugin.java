@@ -33,7 +33,7 @@ import net.minecraft.world.level.material.Fluids;
 /** Optional client-only recipe viewer; processing and research remain server-owned. */
 @JeiPlugin
 public final class QuantumJeiPlugin implements IModPlugin {
-    private static final List<String> MACHINES = List.of("mechanical_sawmill", "jaw_crusher",
+    private static final List<String> MACHINES = List.of("electric_sawmill", "mechanical_sawmill", "jaw_crusher",
             "bellows_alloy_kiln", "electric_alloy_smelter", "forming_bench",
             "electromechanical_press", "wire_drawing_bench", "bellows_brazier",
             "settling_vat", "manual_grain_mill");
@@ -64,6 +64,8 @@ public final class QuantumJeiPlugin implements IModPlugin {
         registration.addRecipes(type("mechanical_sawmill"), MechanicalRecipeCache.all().stream()
                 .map(recipe -> new Process(List.of(recipe.inputs().stream().map(ItemStack::new).toList()), recipe.result()))
                 .toList());
+        registration.addRecipes(type("electric_sawmill"), MechanicalRecipeCache.all().stream()
+                .map(recipe -> new Process(List.of(recipe.inputs().stream().map(ItemStack::new).toList()), recipe.result().copyWithCount(8))).toList());
         for (String name : List.of("bellows_alloy_kiln", "electric_alloy_smelter")) {
             registration.addRecipes(type(name), AlloyCatalog.RECIPES.stream()
                     .filter(recipe -> name.equals("electric_alloy_smelter") || recipe.tier() == 1)
@@ -106,11 +108,12 @@ public final class QuantumJeiPlugin implements IModPlugin {
         @Override public IRecipeType<Process> getRecipeType() { return type(name); }
         @Override public Component getTitle() { return Component.translatable("block.quantumindustries." + name); }
         @Override public int getWidth() { return 156; }
-        @Override public int getHeight() { return 38; }
+        @Override public int getHeight() { return name.equals("electric_sawmill")?48:38; }
         @Override public IDrawable getIcon() { return gui.createDrawableItemLike(machine(name)); }
         @Override public void createRecipeExtras(mezz.jei.api.gui.widgets.IRecipeExtrasBuilder builder,
                 Process recipe, IFocusGroup focuses) {
             builder.addDrawable(gui.getRecipeArrow()).setPosition(77, 10);
+            if(name.equals("electric_sawmill"))builder.addText(Component.literal("2 s | 160 FE | 4 FE/t"),146,10).setPosition(5,32);
         }
         @Override public void setRecipe(IRecipeLayoutBuilder builder, Process recipe, IFocusGroup focuses) {
             for (int i = 0; i < recipe.inputs().size(); i++) {

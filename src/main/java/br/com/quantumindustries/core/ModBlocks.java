@@ -223,6 +223,14 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsAlloyKilnBlockEntity::new,
                             Set.of(BELLOWS_ALLOY_KILN.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricSawmillBlock> ELECTRIC_SAWMILL =
+            BLOCKS.registerBlock("electric_sawmill", br.com.quantumindustries.block.ElectricSawmillBlock::new,
+                    props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 2 : 0));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity>> ELECTRIC_SAWMILL_ENTITY =
+            BLOCK_ENTITIES.register("electric_sawmill",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity::new,
+                            Set.of(ELECTRIC_SAWMILL.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.ElectricAlloySmelterBlock> ELECTRIC_ALLOY_SMELTER =
             BLOCKS.registerBlock("electric_alloy_smelter", br.com.quantumindustries.block.ElectricAlloySmelterBlock::new,
                     props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 12 : 0));

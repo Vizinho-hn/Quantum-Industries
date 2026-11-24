@@ -50,6 +50,7 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     @SubscribeEvent
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         ClientKineticTracker.init();
+        event.registerBlockEntityRenderer(ModBlocks.ELECTRIC_SAWMILL_ENTITY.get(), context -> new QksBlockEntityRenderer<>("electric_sawmill", Identifier.fromNamespaceAndPath(MOD_ID,"textures/block/electric_sawmill.png"), Direction.Axis.X));
         event.registerBlockEntityRenderer(ModBlocks.SMALL_COGWHEEL_ENTITY.get(),
                 context -> new QksBlockEntityRenderer<>("small_cogwheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/small_cogwheel.png"), Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.LARGE_COGWHEEL_ENTITY.get(),
@@ -104,6 +105,11 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
             state.baseVisible = true;
             state.cutting = false;
             state.carriageOffsetZ = 0.0f;
+        } else if (entity instanceof br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity saw) {
+            state.axle = Direction.Axis.X; state.facing = saw.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+            state.angleDegrees = saw.visualProgress(partialTick) * 36;
+            state.crankVisible = false; state.baseVisible = true; state.cutting = saw.working();
+            state.carriageOffsetZ = saw.working() ? saw.visualProgress(partialTick) / 40f * .25f : 0;
         } else {
             throw new IllegalArgumentException("Unsupported QKS entity " + entity.getClass().getName());
         }
@@ -171,6 +177,7 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     private static void submitBone(QksCompiledModel model, String name, QksRenderState state,
             PoseStack work, VertexConsumer consumer) {
         if (name.equals(CRANK) && !state.crankVisible) return;
+        if (state.modelPath.equals("electric_sawmill") && name.equals(CARRIAGE) && !state.cutting) return;
         var bone = model.bone(name);
         work.pushPose();
         if (name.equals(CARRIAGE)) work.translate(0.0f, 0.0f, state.carriageOffsetZ);

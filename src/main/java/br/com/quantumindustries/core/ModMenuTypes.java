@@ -12,6 +12,7 @@ public class ModMenuTypes {
     public static final net.neoforged.neoforge.registries.DeferredHolder<MenuType<?>, MenuType<br.com.quantumindustries.menu.MachineProcessingMenu>> ELECTRIC_ALLOY_SMELTER_MENU;
     public static final net.neoforged.neoforge.registries.DeferredHolder<MenuType<?>, MenuType<br.com.quantumindustries.menu.MachineProcessingMenu>> JAW_CRUSHER_MENU;
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(net.minecraft.core.registries.Registries.MENU, "quantumindustries");
+    public static final net.neoforged.neoforge.registries.DeferredHolder<MenuType<?>, MenuType<br.com.quantumindustries.menu.ElectricSawmillMenu>> ELECTRIC_SAWMILL_MENU = MENU_TYPES.register("electric_sawmill", () -> IMenuTypeExtension.create((id, inv, buf) -> new br.com.quantumindustries.menu.ElectricSawmillMenu(id, inv, buf.readBlockPos())));
     static {
         JAW_CRUSHER_MENU = MENU_TYPES.register("jaw_crusher", () -> IMenuTypeExtension.create((id, inv, buf) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inv, buf.readBlockPos(), true)));
         ELECTRIC_ALLOY_SMELTER_MENU = MENU_TYPES.register("electric_alloy_smelter", () -> IMenuTypeExtension.create((id, inv, buf) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inv, buf.readBlockPos(), false)));
