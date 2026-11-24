@@ -1445,4 +1445,8 @@
   "gui.quantumindustries.alternator_hud.hint.optimal": "Faixa ideal (50–60 RPM): 8 FE/t máx. sem aquecer!",
   "gui.quantumindustries.alternator_hud.hint.low_rpm": "Abaixo de 12 RPM não gera. Suba até 50–60 RPM.",
   "gui.quantumindustries.alternator_hud.hint.tune": "Ajuste engrenagens para 50–60 RPM para atingir 8 FE/t."
+,
+  "message.quantumindustries.instrumental.paper": "Coloque papel na mão secundária para registrar a primeira análise instrumental.",
+  "message.quantumindustries.instrumental.research": "Pesquisa do Analisador Científico Tier 2 necessária.",
+  "message.quantumindustries.instrumental.result": "%s | Índices de jogo (0–100): condutividade %s, dureza %s, estabilidade térmica %s"
 }
