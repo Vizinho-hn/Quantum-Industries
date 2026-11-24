@@ -49,6 +49,8 @@ public final class KineticNetworkManager {
         final Set<BlockPos> active = new TreeSet<>();
         final Map<BlockPos, Component> components = new HashMap<>();
         final Map<BlockPos, KineticSnapshot> snapshots = new HashMap<>();
+        final Map<BlockPos, Double> loadWork = new HashMap<>();
+        final Set<BlockPos> claimedWork = new HashSet<>();
         final Map<BlockPos, KineticSnapshot> sent = new HashMap<>();
     }
     private static final Map<ServerLevel, LevelRuntime> LEVELS = new WeakHashMap<>();
@@ -155,6 +157,13 @@ public final class KineticNetworkManager {
         }
         return runtime.snapshots.getOrDefault(pos, KineticSnapshot.EMPTY);
     }
+    /** Claim only the resisting work actually included in this tick's solver step. */
+    public static double claimLoadWork(ServerLevel level, BlockPos pos) {
+        var runtime = LEVELS.get(level);
+        if (runtime == null || runtime.time != level.getGameTime() || !runtime.claimedWork.add(pos)) return 0;
+        return runtime.loadWork.getOrDefault(pos, 0.0);
+    }
+
     public static void invalidate(ServerLevel level) {
         // Membership is revalidated cleanly; retain momentum until the replacement topology is known.
         var runtime = LEVELS.computeIfAbsent(level, ignored -> new LevelRuntime());
@@ -169,6 +178,8 @@ public final class KineticNetworkManager {
         long now = level.getGameTime();
         boolean freshTick = runtime.time != now;
         boolean rebuildAll = freshTick || runtime.dirty;
+        if (freshTick) { runtime.loadWork.clear(); runtime.claimedWork.clear(); }
+        else if (runtime.dirty) runtime.loadWork.clear();
         runtime.time = now;
         runtime.dirty = false;
         runtime.active.removeIf(pos -> !level.hasChunkAt(pos)
@@ -192,9 +203,12 @@ public final class KineticNetworkManager {
                 continue;
             }
             boolean[] boundary = {false};
+            var localResistance = new HashMap<BlockPos, Double>();
             var topology = evaluate(root, pos -> {
                 if (runtime.components.containsKey(pos)) { boundary[0] = true; return null; }
-                return node(level, pos);
+                var participant = node(level, pos);
+                if (participant != null) localResistance.put(pos, participant.resistance());
+                return participant;
             }, Math.min(MAX_NODES, budget));
             if (boundary[0]) topology = new Topology(topology.members(), topology.inertia(), topology.drag(),
                     topology.drive(), topology.resistance(), topology.friction(), topology.maxSpeed(),
@@ -223,6 +237,11 @@ public final class KineticNetworkManager {
             component.steppedTick = runtime.time;
             for (var entry : topology.members().entrySet()) {
                 var pos = entry.getKey(); double r = entry.getValue().ratio(); var m = component.motion;
+                if (needsStep && m.powered() && initial.omega() * m.omega() > 0) {
+                    double work = localResistance.getOrDefault(pos, 0.0) * Math.abs(r)
+                            * Math.min(Math.abs(initial.omega()), Math.abs(m.omega())) * STEP_SECONDS;
+                    if (!runtime.claimedWork.contains(pos)) runtime.loadWork.put(pos, Math.max(0, work));
+                }
                 var snap = new KineticSnapshot(component.id, component.version, runtime.time,
                         KineticDynamics.wrap(m.unwrappedAngle() * r), m.omega() * r, m.alpha() * r,
                         topology.drive(), topology.resistance(), m.netTorque(), topology.inertia(), r,
