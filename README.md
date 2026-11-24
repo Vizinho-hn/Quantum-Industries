@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico chumbo-ácido (2.400 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
 
 O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
 
@@ -154,8 +154,8 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 ### Química Mineral Aplicada (Fluorita, Halita, Grafite e Apatita)
 
 - A pesquisa **Reagentes Ácidos e Química Mineral** (`chemical_leaching` — Era II) e o beneficiamento mineral dão função prática aos minerais não-metálicos do mod:
-  - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando ácido clorídrico engarrafado e sedimento mineral.
-  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** no Forno a Fole, uma unidade opcional reduz em 40 o limiar de calor relativo de um lote complexo, sem adicionar combustível nem calor. O Braseiro mantém seu comportamento anterior, sujeito a revisão.
+  - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (abstração de gameplay) (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando um reagente engarrafado e sedimento mineral. Essa receita é uma abstração de gameplay; dissolver halita em água não produz HCl.
+  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** no Forno a Fole, uma unidade opcional reduz em 40 o limiar de calor relativo de um lote complexo, sem adicionar combustível nem calor. O Braseiro usa fontes térmicas externas e não consome fluorita.
   - **Grafite (`graphite_dust`) → Tijolo Refratário (`refractory_brick`):** usado na construção da Fundidora de Ligas Elétrica e como núcleo isolante da **Bobina Térmica de Constantan**.
   - **Apatita (`apatite_gem`) + Enxofre (`sulfur_dust`) → Fertilizante Fosfatado (`phosphate_fertilizer`):** fertilizante químico de alta eficiência que acelera o crescimento de plantações ao clicar com o botão direito.
 
@@ -185,7 +185,7 @@ Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre 
 
 ### Recozimento térmico
 
-A Forja de Recozimento recebe carvão (ou Fluorita como fluxo térmico) e um lingote de **ferro, cobre, bronze, latão ou aço**, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo (`heated_*_ingot`). Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
+A Forja de Recozimento utiliza uma fonte térmica válida abaixo do bloco e recebe um lingote de **ferro, cobre, bronze, latão ou aço**, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo (`heated_*_ingot`). Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
 
 ### Instrumentação da Era II
 
@@ -199,7 +199,7 @@ A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o
 
 A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
 
-A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
+A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, produz **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**, por uma abstração de gameplay, não uma reação química real.
 
 ## Serraria automática e reserva elétrica nos óculos
 
