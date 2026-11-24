@@ -1137,5 +1137,17 @@
   "gui.quantumindustries.electric_sawmill.state.4": "Material incompatível",
   "gui.quantumindustries.electric_sawmill.state.5": "Pesquisa necessária",
   "gui.quantumindustries.electric_sawmill.logistics": "Entrada %s | Saída %s",
-  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%"
+  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%",
+  "block.quantumindustries.industrial_circuit_switch": "Interruptor Elétrico Industrial",
+  "item.quantumindustries.industrial_circuit_switch": "Interruptor Elétrico Industrial",
+  "message.quantumindustries.industrial_circuit_switch.status": "Circuito %s | Controle: %s",
+  "message.quantumindustries.industrial_circuit_switch.closed": "fechado",
+  "message.quantumindustries.industrial_circuit_switch.open": "aberto",
+  "message.quantumindustries.industrial_circuit_switch.redstone": "redstone",
+  "message.quantumindustries.industrial_circuit_switch.manual": "manual",
+  "message.quantumindustries.industrial_circuit_switch.inspect": "Circuito %s | Fluxo: %s/%s FE/t",
+  "block.quantumindustries.compact_gearbox": "Caixa de Transmissão Compacta",
+  "item.quantumindustries.compact_gearbox": "Caixa de Transmissão Compacta",
+  "block.quantumindustries.mechanical_conveyor": "Esteira Mecânica",
+  "message.quantumindustries.mechanical_conveyor.status": "Carga: %s | Posição: %s%% | Rotação: %s RPM"
 }

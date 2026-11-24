@@ -21,6 +21,18 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalConveyorBlock> MECHANICAL_CONVEYOR =
+            BLOCKS.registerBlock("mechanical_conveyor", br.com.quantumindustries.block.MechanicalConveyorBlock::new,
+                    props -> props.strength(1.8F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity>> MECHANICAL_CONVEYOR_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_conveyor", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity::new, Set.of(MECHANICAL_CONVEYOR.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.CompactGearboxBlock> COMPACT_GEARBOX =
+            BLOCKS.registerBlock("compact_gearbox", br.com.quantumindustries.block.CompactGearboxBlock::new,
+                    props -> props.strength(2.2F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CompactGearboxBlockEntity>> COMPACT_GEARBOX_ENTITY =
+            BLOCK_ENTITIES.register("compact_gearbox", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CompactGearboxBlockEntity::new, Set.of(COMPACT_GEARBOX.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.SmallCogwheelBlock> SMALL_COGWHEEL =
             BLOCKS.registerBlock("small_cogwheel", br.com.quantumindustries.block.SmallCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> SMALL_COGWHEEL_ENTITY =
@@ -108,10 +120,14 @@ public class ModBlocks {
                     props -> new br.com.quantumindustries.block.CopperCableBlock(props, true),
                     props -> props.strength(0.8F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialCircuitSwitchBlock> INDUSTRIAL_CIRCUIT_SWITCH =
+            BLOCKS.registerBlock("industrial_circuit_switch", br.com.quantumindustries.block.IndustrialCircuitSwitchBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CopperCableBlockEntity>> COPPER_CABLE_ENTITY =
             BLOCK_ENTITIES.register("copper_cable",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
-                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
+                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get(), INDUSTRIAL_CIRCUIT_SWITCH.get()), false));
 
     public static final DeferredBlock<br.com.quantumindustries.block.PneumaticTubeBlock> PNEUMATIC_TUBE =
             BLOCKS.registerBlock("pneumatic_tube",br.com.quantumindustries.block.PneumaticTubeBlock::new,

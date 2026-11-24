@@ -30,7 +30,8 @@ public final class ConfigurationWrenchItem extends Item {
         if (player == null || !player.mayBuild() || player.distanceToSqr(pos.getCenter()) > 64
                 || !level.mayInteract(player, pos)) return InteractionResult.FAIL;
 
-        if (level.getBlockEntity(pos) instanceof ConfigurableConduit conduit) {
+        if (level.getBlockEntity(pos) instanceof ConfigurableConduit conduit
+                && !(level.getBlockState(pos).getBlock() instanceof br.com.quantumindustries.block.IndustrialCircuitSwitchBlock)) {
             if (level instanceof ServerLevel && player instanceof ServerPlayer operator) {
                 var side = ConnectionTarget.face(pos, context.getClickLocation(), context.getClickedFace());
                 var mode = player.isShiftKeyDown() ? ConnectionMode.AUTO : conduit.connectionMode(side).next();

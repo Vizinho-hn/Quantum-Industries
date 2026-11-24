@@ -1,0 +1,993 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "atlas": "quantumindustries:block/era1_artisan_machines",
+    "particle": "quantumindustries:block/era1_artisan_machines"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "elements": [
+    {
+      "name": "west oak frame",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        3,
+        6,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "east oak frame",
+      "from": [
+        13,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        6,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "undertray",
+      "from": [
+        3,
+        1,
+        1
+      ],
+      "to": [
+        13,
+        3,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "leather upper run",
+      "from": [
+        3,
+        6.5,
+        0
+      ],
+      "to": [
+        13,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "leather return run",
+      "from": [
+        3,
+        3,
+        0
+      ],
+      "to": [
+        13,
+        4.5,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            8.25,
+            11.75,
+            11.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "iron roller",
+      "from": [
+        2.5,
+        4.5,
+        1
+      ],
+      "to": [
+        13.5,
+        6.5,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "west bronze bearing",
+      "from": [
+        0,
+        4,
+        1
+      ],
+      "to": [
+        2.5,
+        7,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "east bronze bearing",
+      "from": [
+        13.5,
+        4,
+        1
+      ],
+      "to": [
+        16,
+        7,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "iron roller",
+      "from": [
+        2.5,
+        4.5,
+        13
+      ],
+      "to": [
+        13.5,
+        6.5,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "west bronze bearing",
+      "from": [
+        0,
+        4,
+        13
+      ],
+      "to": [
+        2.5,
+        7,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "east bronze bearing",
+      "from": [
+        13.5,
+        4,
+        13
+      ],
+      "to": [
+        16,
+        7,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "west axle connector",
+      "from": [
+        0,
+        4.25,
+        6.5
+      ],
+      "to": [
+        3,
+        6.75,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "east axle connector",
+      "from": [
+        13,
+        4.25,
+        6.5
+      ],
+      "to": [
+        16,
+        6.75,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    }
+  ]
+}

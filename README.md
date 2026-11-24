@@ -420,3 +420,17 @@ Na primeira execução, o Gradle pode baixar dependências. No Linux, o script u
 `/mnt/dados/cache/quantum-gradle` quando esse volume existe e evita abrir outra
 instância do cliente do projeto. `./Jogar.sh --check` verifica os pré-requisitos
 sem abrir o Minecraft. Feche e reabra o jogo para carregar alterações no código.
+
+
+### Interruptor Elétrico Industrial (Era II)
+
+O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de FE, com dois terminais horizontais e limite de 64 FE por tick. Clique com a mão vazia para abrir/fechar; Shift + clique alterna entre controle manual e redstone (sinal fecha o circuito). A chave gira o eixo horizontal. Rotas alternativas de cabos continuam independentes. Pilha Voltaica (2.400 FE) e Acumulador Chumbo-Ácido (50.000 FE) possuem orçamentos agregados de carga e descarga de 48 e 256 FE/t, respectivamente, compartilhados entre conexões diretas e cabos. Integração em validação; ainda não é uma entrega final da Era II.
+
+
+### Caixa de Transmissão Compacta (Era I)
+
+`compact_gearbox` conecta dois eixos perpendiculares (quatro faces) em relação de módulo 1:1. O eixo indicado na colocação/chave é o eixo excluído; os outros dois são ligados por engrenagens cônicas internas. O QKS mantém um único rotor, com inversão de sinal entre eixos, inércia própria e eficiência de porta de 98% (aproximadamente 96% em uma passagem entre duas portas). Não fornece UM nem FE. Requer Transmissão Mecânica e Chapas Metálicas. Modelo de carcaça fechada com encaixes visíveis; validação in-game pendente.
+
+### Esteira Mecânica (Era I)
+
+`mechanical_conveyor` transporta uma unidade de item por segmento, movida pelo QKS. Ligue um eixo perpendicular à direção da esteira e alinhe segmentos horizontalmente. A rotação define velocidade e sentido; uma saída obstruída retém a carga. A interação vincula um operador com Transmissão Mecânica; clique com o item para inserir e agache com a mão vazia para retirar. Baús, barris, funis e máquinas compatíveis podem servir de entrada/saída, respeitando pesquisas. A carga e sua posição são persistidas; o renderizador mostra o item em trânsito. A geometria da correia é estática nesta implementação inicial. Validação em jogo pendente.

@@ -47,6 +47,8 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.MECHANICAL_SHAFT_BLOCK.get());
                     output.accept(ModItems.PRIMITIVE_WATER_WHEEL.get());
                     output.accept(ModItems.SMALL_COGWHEEL.get());
+                    output.accept(ModItems.COMPACT_GEARBOX.get());
+                    output.accept(ModItems.MECHANICAL_CONVEYOR.get());
                     output.accept(ModItems.LARGE_COGWHEEL.get());
                     output.accept(ModItems.IRON_FLYWHEEL.get());
                     output.accept(ModItems.MECHANICAL_PULLEY.get());
@@ -67,6 +69,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.BELLOWS_BRAZIER.get());
                     output.accept(ModItems.PIEZO_SWITCH.get());
                     output.accept(ModItems.LOAD_RELAY.get());
+                    output.accept(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get());
                     output.accept(ModItems.PNEUMATIC_TUBE.get());
                     output.accept(ModItems.BELLOWS_EJECTOR.get());
                     output.accept(ModItems.GRAVITATIONAL_SORTER.get());

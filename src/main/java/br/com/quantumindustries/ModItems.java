@@ -15,6 +15,8 @@ public class ModItems {
 
     public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
 
+    public static final DeferredItem<BlockItem> MECHANICAL_CONVEYOR = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_CONVEYOR);
+    public static final DeferredItem<BlockItem> COMPACT_GEARBOX = ITEMS.registerSimpleBlockItem(ModBlocks.COMPACT_GEARBOX);
     public static final DeferredItem<BlockItem> SMALL_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.SMALL_COGWHEEL);
     public static final DeferredItem<BlockItem> LARGE_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_COGWHEEL);
     public static final DeferredItem<BlockItem> IRON_FLYWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.IRON_FLYWHEEL);
@@ -181,6 +183,7 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> PIEZO_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.PIEZO_SWITCH);
     public static final DeferredItem<BlockItem> LOAD_RELAY = ITEMS.registerSimpleBlockItem(ModBlocks.LOAD_RELAY);
+    public static final DeferredItem<BlockItem> INDUSTRIAL_CIRCUIT_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH);
 
     public static final DeferredItem<BlockItem> BELLOWS_BRAZIER = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_BRAZIER);
 

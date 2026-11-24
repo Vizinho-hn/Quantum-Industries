@@ -39,7 +39,7 @@ public final class HydraulicDynamoVerification {
     private static ManualDynamoBlockEntity dynamo;
     private static FakePlayer player;
     private static int ticks, checks, stage, previousEnergy, serverTicks;
-    private static boolean active;
+    private static boolean active, waterEnabled = true;
 
     private static void check(boolean condition, String message) {
         checks++;
@@ -82,12 +82,31 @@ public final class HydraulicDynamoVerification {
         MechanicalNetwork.invalidate(level);
     }
 
+    // Keep the fixture deterministic under Minecraft fluid ticks, as in QksRuntimeVerification.
+    // A falling lateral contact has a nonzero tangential torque; a falling block below
+    // the wheel may instead exert radial force or be replaced by a scheduled fluid update.
     private static void water(boolean flowing) {
-        level.setBlock(WHEEL.below(), flowing
-                ? Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 8)
-                : Blocks.STONE.defaultBlockState(), 3);
-        level.setBlock(WHEEL.below().north(), flowing ? Blocks.WATER.defaultBlockState() : Blocks.STONE.defaultBlockState(), 3);
+        waterEnabled = flowing;
+        refreshWater();
+    }
+
+    private static void refreshWater() {
+        for (Direction side : java.util.List.of(Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH)) {
+            var cell = WHEEL.relative(side);
+            for (int offset = -2; offset <= 2; offset++) {
+                var pos = cell.south(offset);
+                if (!pos.equals(WHEEL)) level.setBlock(pos, Blocks.STONE.defaultBlockState(), 2);
+            }
+        }
+        if (waterEnabled) {
+            level.setBlock(WHEEL.south().above(), Blocks.WATER.defaultBlockState(), 2);
+            level.setBlock(WHEEL.south(), Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 8), 2);
+        }
         MechanicalNetwork.invalidate(level);
+    }
+
+    @SubscribeEvent public static void beforeTick(ServerTickEvent.Pre event) {
+        if (active) refreshWater();
     }
 
     @SubscribeEvent public static void tick(ServerTickEvent.Post event) throws Exception {
@@ -123,7 +142,7 @@ public final class HydraulicDynamoVerification {
             if (ticks == 32) {
                 check(dynamo.energy() == 24 && dynamo.isTurning(), "water and shaft generate 12 FE per eight ticks without a crank: FE="
                         + dynamo.energy() + ", network=" + MechanicalNetwork.state(level, DYNAMO)
-                        + ", fluid=" + level.getFluidState(WHEEL.below()));
+                        + ", fluid=" + level.getFluidState(WHEEL.south()));
                 previousEnergy = dynamo.energy();
                 level.setBlock(SHAFT, Blocks.AIR.defaultBlockState(), 3);
             }
