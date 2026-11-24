@@ -14,6 +14,10 @@ Nova `electric_sawmill`: quatro entradas e quatro saídas reais (2×2), uma câm
 
 Implementação em revisão na branch `feat/electric-sawmill-era2`, sem merge automático. Veja [arquitetura, reprodução e evidências](docs/ELECTRIC_SAWMILL.md).
 
+## Estabilização das Eras I e II
+
+Veja [autorização de máquinas, orçamento de cabos e análise instrumental Tier 2](docs/ERA2_STABILIZATION.md), incluindo uso e testes pendentes.
+
 ## Visão do projeto
 
 O códice, o caderno de pesquisas, os nomes e descrições dos itens e os relatórios acompanham o idioma do Minecraft: português em `pt_br` e inglês em `en_us`. As traduções ficam em `assets/quantumindustries/lang/`. A troca de idioma é verificada com `bash tools/verify-localization.sh`, em servidor isolado.
