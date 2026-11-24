@@ -8,6 +8,7 @@ import br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity;
 import br.com.quantumindustries.block.entity.JawCrusherBlockEntity;
 import br.com.quantumindustries.block.entity.ManualGrainMillBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity;
+import br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity;
 import br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
 import br.com.quantumindustries.block.entity.SettlingVatBlockEntity;
@@ -28,7 +29,7 @@ public final class ItemRouting {
 
     public static boolean isEndpoint(BlockGetter level, BlockPos pos) {
         BlockEntity entity = level.getBlockEntity(pos);
-        return entity instanceof ElectricSawmillBlockEntity || entity instanceof PneumaticTubeBlockEntity
+        return entity instanceof MechanicalConveyorBlockEntity || entity instanceof ElectricSawmillBlockEntity || entity instanceof PneumaticTubeBlockEntity
                 || entity instanceof GravitationalSorterBlockEntity
                 || entity instanceof ElectromechanicalPressBlockEntity
                 || entity instanceof JawCrusherBlockEntity
@@ -207,6 +208,7 @@ public final class ItemRouting {
     public static boolean insert(ServerLevel level, BlockPos pos, ItemStack packet, Direction from) {
         if (packet.isEmpty() || !level.hasChunkAt(pos)) return false;
         BlockEntity entity = level.getBlockEntity(pos);
+        if (entity instanceof MechanicalConveyorBlockEntity conveyor) return conveyor.accept(packet, from);
         if (entity instanceof PneumaticTubeBlockEntity tube) return tube.accept(packet, from);
         if (entity instanceof GravitationalSorterBlockEntity sorter) return sorter.accept(packet, from);
         if (entity instanceof ElectricSawmillBlockEntity saw) return insertLoop(packet, saw::insert);
