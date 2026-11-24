@@ -65,6 +65,7 @@ public final class ConnectionVerification {
             } else {
                 setup();
                 verifyGravityAndPressure();
+                verifyPumpBottomIntake();
                 verifyWrenchAndCapabilities();
                 setupSmartSmelter();
             }
@@ -188,6 +189,55 @@ public final class ConnectionVerification {
         lower.tick();
         check(upper.storedFluid() == 50, "pressurized pipe can push uphill through an input port");
         check(lower.storedFluid() + upper.storedFluid() == 50, "pressure creates no fluid");
+    }
+
+    private static void verifyPumpBottomIntake() {
+        var pos=new BlockPos(11,100,10);
+        var facing=net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+        level.setBlock(pos,ModBlocks.PERISTALTIC_PUMP.get().defaultBlockState().setValue(facing,Direction.EAST),3);
+        level.setBlock(pos.east(),ModBlocks.SETTLING_VAT.get().defaultBlockState(),3);
+        level.setBlock(pos.west(),Blocks.AIR.defaultBlockState(),3);
+        var pump=(PeristalticPumpBlockEntity)level.getBlockEntity(pos);
+        var target=(SettlingVatBlockEntity)level.getBlockEntity(pos.east());
+        var bottom=pos.below();
+        level.setBlock(bottom,Blocks.WATER.defaultBlockState(),3);
+        check(pump.receiveEnergy(32)==32,"stage pump FE");
+        check(!pump.pump(true)&&pump.energy()==32&&target.storedFluid()==0,"isolated source below does not generate water");
+        level.setBlock(bottom.west(),Blocks.WATER.defaultBlockState(),3);
+        level.setBlock(bottom.north(),Blocks.WATER.defaultBlockState(),3);
+        check(pump.pump(true)&&pump.energy()==30&&target.storedFluid()==50,"bottom renewable water feeds pump at existing rate and cost");
+        check(level.getFluidState(bottom).isSource(),"renewable source remains");
+        level.setBlock(pos.west(),ModBlocks.SETTLING_VAT.get().defaultBlockState(),3);
+        var rear=(SettlingVatBlockEntity)level.getBlockEntity(pos.west());
+        try(var tx=Transaction.openRoot()){
+            check(rear.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage rear water");
+            tx.commit();
+        }
+        check(pump.pump(true)&&rear.storedFluid()==0&&target.storedFluid()==100&&pump.energy()==28,
+                "rear input retains priority and one operation cannot double flow");
+        level.setBlock(bottom,ModBlocks.GLASS_PIPE.get().defaultBlockState(),3);
+        var lower=(FluidPipeBlockEntity)level.getBlockEntity(bottom);
+        for(Direction side:Direction.values())mode(bottom,side,ConnectionMode.NONE);
+        mode(bottom,Direction.UP,ConnectionMode.PUSH);
+        check(lower.getBlockState().getValue(br.com.quantumindustries.block.FluidPipeBlock.UP),"bottom pipe visibly connects to pump");
+        try(var tx=Transaction.openRoot()){
+            check(lower.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage bottom pipe water");
+            tx.commit();
+        }
+        check(pump.pump(true)&&lower.storedFluid()==0&&target.storedFluid()==150&&pump.energy()==26,
+                "pump draws stored water from bottom pipe without prior pressure");
+        check(!pump.pump(true)&&pump.energy()==26&&target.storedFluid()==150,"empty sources consume no energy");
+        try(var tx=Transaction.openRoot()){
+            check(lower.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage water for blocked outlet");
+            tx.commit();
+        }
+        mode(bottom,Direction.UP,ConnectionMode.NONE);
+        check(!pump.pump(true)&&lower.storedFluid()==50&&pump.energy()==26,"disabled bottom pipe respects port configuration");
+        mode(bottom,Direction.UP,ConnectionMode.PUSH);
+        level.setBlock(pos.east(),Blocks.AIR.defaultBlockState(),3);
+        check(!pump.pump(true)&&lower.storedFluid()==50&&pump.energy()==26,"blocked outlet consumes neither water nor FE");
+        for(var cell:new BlockPos[]{pos,pos.west(),bottom,bottom.west(),bottom.north()})
+            level.setBlock(cell,Blocks.AIR.defaultBlockState(),3);
     }
 
     private static final BlockPos SMART = new BlockPos(1, 100, 14);
