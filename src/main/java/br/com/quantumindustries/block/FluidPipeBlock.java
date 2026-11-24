@@ -95,7 +95,7 @@ public final class FluidPipeBlock extends BaseEntityBlock {
         if (state.getBlock() instanceof FluidPipeBlock) return true;
         if (state.getFluidState().is(net.minecraft.tags.FluidTags.WATER) && state.getFluidState().isSource()) return true;
         if (state.getBlock() instanceof PeristalticPumpBlock) {
-            return fromSide.getAxis() == state.getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
+            return fromSide == Direction.DOWN || fromSide.getAxis() == state.getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
         }
         if (state.getBlock() instanceof IndustrialConversionBlock conversion && conversion.kind() == IndustrialConversionBlock.Kind.BOILER)
             return fromSide != IndustrialConversionBlock.facing(state);
