@@ -1374,5 +1374,20 @@
   "guidebook.quantumindustries.glass_pipe.subtitle": "Application and operation",
   "guidebook.quantumindustries.glass_pipe.paragraph_0": "Pipe for conducting and observing fluid, integrated with the pipe network.",
   "guidebook.quantumindustries.glass_pipe.paragraph_1": "Check requirements and the recipe in the research tree or JEI.",
-  "guidebook.quantumindustries.glass_pipe.operation": "Connect to a compatible network; configure with the wrench."
+  "guidebook.quantumindustries.glass_pipe.operation": "Connect to a compatible network; configure with the wrench.",
+  "item.quantumindustries.copper_heatsink": "Copper Heatsink",
+  "item.quantumindustries.aluminum_heatsink": "Aluminum Heatsink",
+  "item.quantumindustries.thermal_fan": "Thermal Fan",
+  "message.quantumindustries.thermal.telemetry": " | Ambient: %s °C | Gross η: %s%% | Net: %s FE/t | Heat rejection: %s u/t",
+  "gui.quantumindustries.thermal.hot": "Hot: %s °C",
+  "gui.quantumindustries.thermal.cold": "Cold: %s °C",
+  "gui.quantumindustries.thermal.ambient": "Biome: %s °C",
+  "gui.quantumindustries.thermal.efficiency": "Gross efficiency: %s%%",
+  "gui.quantumindustries.thermal.net": "Net: %s FE/t",
+  "gui.quantumindustries.thermal.temperature_graph": "Temperatures · 60 s",
+  "gui.quantumindustries.thermal.performance_graph": "Efficiency / FE · 60 s",
+  "gui.quantumindustries.thermal.modules": "Thermal modules",
+  "gui.quantumindustries.thermal.buffer": "Buffer: %s/480 FE",
+  "gui.quantumindustries.thermal.coolant": "Cold capacity: %s%%",
+  "gui.quantumindustries.thermal.exchange": "Q input: %s | Q ambient: %s u/t"
 }
