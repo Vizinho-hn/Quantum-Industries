@@ -34,7 +34,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** Cable graph endpoints are traversed by the source, never manufacture FE. */
-public final class CopperCableBlock extends BaseEntityBlock {
+public class CopperCableBlock extends BaseEntityBlock {
     public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
     public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
     public static final BooleanProperty EAST = BlockStateProperties.EAST;
@@ -85,6 +85,7 @@ public final class CopperCableBlock extends BaseEntityBlock {
     }
 
     public static BlockState computeState(BlockGetter level, BlockPos pos, BlockState base) {
+        if (base.getBlock() instanceof IndustrialCircuitSwitchBlock) return base;
         for (Direction direction : Direction.values()) {
             BlockPos neighbor = pos.relative(direction);
             boolean loaded = !(level instanceof Level world) || world.hasChunkAt(neighbor);
