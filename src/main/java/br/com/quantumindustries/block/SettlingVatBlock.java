@@ -26,6 +26,13 @@ import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 
 public final class SettlingVatBlock extends BaseEntityBlock {
     public SettlingVatBlock(Properties properties){super(properties);}
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof SettlingVatBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec(){return simpleCodec(SettlingVatBlock::new);}
     @Override protected RenderShape getRenderShape(BlockState s){return RenderShape.MODEL;}
     @Override public BlockEntity newBlockEntity(BlockPos pos,BlockState s){return new SettlingVatBlockEntity(pos,s);}
@@ -39,8 +46,9 @@ public final class SettlingVatBlock extends BaseEntityBlock {
             op.sendOverlayMessage(Component.translatable("message.quantumindustries.vat.research"));
             return InteractionResult.SUCCESS;
         }
+        if (!(server.getBlockEntity(pos) instanceof SettlingVatBlockEntity vat) || !vat.bindAutomation(player)) return InteractionResult.SUCCESS;
         if(SettlingVatBlockEntity.isReagentItem(stack)||stack.is(Items.GLASS_BOTTLE)){
-            if(server.getBlockEntity(pos) instanceof SettlingVatBlockEntity vat)vat.addIngredient(stack);
+            vat.addIngredient(stack);
             return InteractionResult.SUCCESS;
         }
         if(FluidUtil.interactWithFluidHandler(player,hand,level,pos,hit.getDirection(),null))
@@ -50,6 +58,7 @@ public final class SettlingVatBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state,Level level,BlockPos pos,
             Player player,BlockHitResult hit){
         if(level instanceof ServerLevel server&&server.getBlockEntity(pos) instanceof SettlingVatBlockEntity vat){
+            vat.bindAutomation(player);
             ItemStack result=vat.collect();
             if(!result.isEmpty())player.getInventory().placeItemBackInInventory(result);
             else if(player instanceof ServerPlayer op)op.sendOverlayMessage(vat.fluidDetail());
