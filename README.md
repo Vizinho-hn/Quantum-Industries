@@ -444,3 +444,7 @@ O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de F
 - **Gerador Termoelétrico:** fonte quente embaixo e água/gelo em cima; produz 1–3 FE/t, com reserva de 480 FE e saída frontal. Taxas são valores de balanceamento, não medidas termodinâmicas reais.
 
 Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a rede elétrica e o QKS. Não introduzem um sistema de energia paralelo. Os modelos são editáveis no Blockbench; revisão visual, testes de servidor e balanceamento permanecem necessários.
+
+### Códice — máquinas das Eras I e II
+
+O Códice inclui capítulos próprios para Caixa de Transmissão Compacta, Esteira Mecânica, Interruptor Elétrico Industrial, Gerador Eletromagnético, Motor Elétrico, Caldeira, Motor a Vapor e Gerador Termoelétrico. Os capítulos exigem as pesquisas aplicáveis, inclusive Chapas Metálicas ou Recozimento Térmico quando necessário. Textos PT-BR/EN-US descrevem a operação, os limites e as portas; receitas continuam na mesa de pesquisa/JEI. Não altera pesquisas já concluídas nem dados de saves.
