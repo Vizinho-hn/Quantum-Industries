@@ -47,7 +47,7 @@ public final class ThermoelectricMenu extends AbstractContainerMenu {
         for(int c=0;c<9;c++)addSlot(new Slot(inv,c,83+c*18,214));
         addDataSlots(data);
     }
-    private boolean allowed(Player p){return p.level().isClientSide()||machine!=null&&machine.canConfigure(p);}
+    private boolean allowed(Player p){return p.level().isClientSide()||machine!=null&&p.level().getBlockEntity(machine.getBlockPos())==machine&&machine.canConfigure(p);}
     public int value(int index){return data.get(index);}
     public int count(){return Math.clamp(data.get(10),0,ThermalHistory.SIZE);}
     public int sample(int channel,int index){
