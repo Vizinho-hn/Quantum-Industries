@@ -46,7 +46,7 @@ public final class FoundationRecipe extends ShapedRecipe {
     private record Pattern(String study, DeferredItem<?> output, int count, int width, ItemLike... cells) {
         String id() { return output.getId().getPath(); }
         List<String> requirements() {
-            return (id().equals("mechanical_sawmill") || id().equals("compact_gearbox")) ? List.of(study, "metal_sheets") : List.of(study);
+            return (id().equals("mechanical_sawmill") || id().equals("compact_gearbox") || id().equals("mechanical_conveyor")) ? List.of(study, "metal_sheets") : List.of(study);
         }
 
         boolean fits(CraftingInput grid) {
@@ -126,6 +126,10 @@ public final class FoundationRecipe extends ShapedRecipe {
             new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT, 2, 1, iron,iron),
             new Pattern("mechanical_transmission", ModItems.HAND_CRANK, 1, 2, shaft,gear, null,stick),
             new Pattern("mechanical_transmission", ModItems.MECHANICAL_SHAFT_BLOCK, 2, 3, plank,shaft,plank, plank,shaft,plank),
+            new Pattern("mechanical_transmission", ModItems.MECHANICAL_CONVEYOR, 2, 3,
+                Items.LEATHER, Items.LEATHER, Items.LEATHER,
+                gear, shaft, gear,
+                plank, sheet, plank),
             new Pattern("mechanical_transmission", ModItems.COMPACT_GEARBOX, 1, 3,
                 sheet, shaft, sheet,
                 gear, plank, gear,
