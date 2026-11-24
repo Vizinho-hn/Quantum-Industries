@@ -23,6 +23,19 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Wire drawing: four wires per sheet, either hand-cranked or powered by FE. */
 public final class WireDrawingBenchBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "wire_drawing");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "wire_drawing")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     public static final int CAPACITY = 240, MAX_RECEIVE = 32, WORK_TICKS = 20, FE_PER_TICK = 3;
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_RECEIVE, FE_PER_TICK);
     private ItemStack input = ItemStack.EMPTY, output = ItemStack.EMPTY;
@@ -95,6 +108,7 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
                 && output.getCount() + result.getCount() <= output.getMaxStackSize());
     }
     public boolean insert(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel) || resultFor(stack).isEmpty()) return false;
         if (!input.isEmpty() && (!ItemStack.isSameItemSameComponents(input, stack)
                 || input.getCount() >= input.getMaxStackSize())) return false;
@@ -105,6 +119,7 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         return true;
     }
     public boolean manualStroke() {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel server) || !canRun() || server.getGameTime() - lastStroke < 10) return false;
         lastStroke = server.getGameTime();
         progress = Math.min(WORK_TICKS, progress + 7);
@@ -141,7 +156,7 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
-        if (!canRun() || energy() < FE_PER_TICK) {
+        if (!automationAuthorized() || !canRun() || energy() < FE_PER_TICK) {
             setLit(server, false);
             return;
         }
@@ -182,7 +197,7 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
     @Override protected void saveAdditional(ValueOutput out) {
-        super.saveAdditional(out);
+        super.saveAdditional(out); out.putString("automation_operator", automationOperator);
         out.putInt("stored_fe", energy());
         out.putInt("progress", progress);
         out.putLong("last_stroke", lastStroke);
@@ -190,7 +205,7 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
         if (!output.isEmpty()) out.store("output", ItemStack.CODEC, output);
     }
     @Override protected void loadAdditional(ValueInput in) {
-        super.loadAdditional(in);
+        super.loadAdditional(in); automationOperator = in.getStringOr("automation_operator", "");
         battery.set(Math.clamp(in.getIntOr("stored_fe", 0), 0, CAPACITY));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, WORK_TICKS);
         lastStroke = in.getLongOr("last_stroke", -10);
