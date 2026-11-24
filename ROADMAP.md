@@ -110,3 +110,5 @@ Uma fase não deve avançar apenas porque os blocos existem. Os sistemas centrai
 - persistir dados corretamente;
 - ter receitas, custos e feedback compreensíveis;
 - ser testáveis sem depender de comandos administrativos.
+
+- [ ] Validar Interruptor Elétrico Industrial (`industrial_circuit_switch`) em servidor e cliente: manual, redstone, rotação, circuito aberto/fechado, rota alternativa, limites de transferência e persistência. Validar orçamento agregado de baterias (48/256 FE/t).
