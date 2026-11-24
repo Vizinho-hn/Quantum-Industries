@@ -19,6 +19,19 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 
 /** A simple hand-driven mill: four strokes convert one wheat into one flour. */
 public final class ManualGrainMillBlockEntity extends BlockEntity implements MachineStatusInspectable {
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "material_observation");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "material_observation")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     public static final int STROKES = 4;
     private ItemStack input = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
@@ -30,6 +43,7 @@ public final class ManualGrainMillBlockEntity extends BlockEntity implements Mac
     }
 
     public boolean insert(ItemStack held) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel) || !held.is(Items.WHEAT)
                 || input.getCount() >= held.getMaxStackSize()) return false;
         if (input.isEmpty()) input = held.copyWithCount(1);
@@ -40,6 +54,7 @@ public final class ManualGrainMillBlockEntity extends BlockEntity implements Mac
     }
 
     public boolean stroke() {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel server) || input.isEmpty()
                 || server.getGameTime() - lastStroke < 6) return false;
         if (!output.isEmpty() && (!output.is(ModItems.FLOUR.get())
@@ -110,14 +125,14 @@ public final class ManualGrainMillBlockEntity extends BlockEntity implements Mac
     }
 
     @Override protected void saveAdditional(ValueOutput out) {
-        super.saveAdditional(out);
+        super.saveAdditional(out); out.putString("automation_operator", automationOperator);
         if (!input.isEmpty()) out.store("input", ItemStack.CODEC, input);
         if (!output.isEmpty()) out.store("output", ItemStack.CODEC, output);
         out.putInt("progress", progress);
     }
 
     @Override protected void loadAdditional(ValueInput in) {
-        super.loadAdditional(in);
+        super.loadAdditional(in); automationOperator = in.getStringOr("automation_operator", "");
         input = in.read("input", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         output = in.read("output", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         progress = Math.clamp(in.getIntOr("progress", 0), 0, STROKES - 1);
