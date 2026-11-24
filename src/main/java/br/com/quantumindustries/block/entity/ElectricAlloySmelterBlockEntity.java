@@ -32,6 +32,19 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
     private ItemStack inputB = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
     private int progress;
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "electric_alloy_smelting");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "electric_alloy_smelting")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
 
     public ElectricAlloySmelterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.ELECTRIC_ALLOY_SMELTER_ENTITY.get(), pos, state);
@@ -130,10 +143,11 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
     }
 
     public boolean canInsertIngredient(ItemStack stack) {
-        return canInsertIngredient(0, stack) || canInsertIngredient(1, stack);
+        return automationAuthorized() && (canInsertIngredient(0, stack) || canInsertIngredient(1, stack));
     }
 
     public boolean insertIngredient(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel)) return false;
         for (int slot = 0; slot < 2; slot++) {
             if (!canInsertIngredient(slot, stack)) continue;
@@ -187,6 +201,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
     }
 
     private boolean canProcess(AlloyCatalog.Recipe recipe) {
+        if (!automationAuthorized()) return false;
         if (recipe == null) return false;
         ItemStack result = recipe.assemble();
         if (output.isEmpty()) return true;
@@ -203,6 +218,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        if (!automationAuthorized()) { setLit(server, false); return; }
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (!canProcess(recipe)) {
             setLit(server, false);
@@ -259,6 +275,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
 
     @Override protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
+        out.putString("automation_operator", automationOperator);
         out.putInt("stored_fe", energy());
         out.putInt("progress", progress);
         if (!inputA.isEmpty()) out.store("input_a", ItemStack.CODEC, inputA);
@@ -268,6 +285,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
 
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
+        automationOperator = in.getStringOr("automation_operator", "");
         battery.set(Math.clamp(in.getIntOr("stored_fe", 0), 0, CAPACITY));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, 200);
         inputA = in.read("input_a", ItemStack.CODEC).orElse(ItemStack.EMPTY);
