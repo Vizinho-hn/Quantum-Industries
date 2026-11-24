@@ -134,7 +134,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
         if (!(level instanceof ServerLevel server) || !isLit() || server.getGameTime() - lastPuff < 10) return false;
         lastPuff = server.getGameTime();
         heat = Math.min(MAX_HEAT, Math.max(heat, 100) + 100);
-        if (automationAuthorized() && !input.isEmpty() && output.isEmpty()) {
+        if (!input.isEmpty() && output.isEmpty()) {
             progress = Math.min(HEATING_TICKS - 1, progress + 20);
         }
         server.sendParticles(ParticleTypes.FLAME, worldPosition.getX() + 0.5, worldPosition.getY() + 0.78,
@@ -183,7 +183,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
             return;
         }
 
-        if (!input.isEmpty() && output.isEmpty()) {
+        if (automationAuthorized() && !input.isEmpty() && output.isEmpty()) {
             int step = belowHeat >= 2 || heat > 180 ? 2 : 1;
             progress += step;
             if (server.getGameTime() % 6 == 0) {
