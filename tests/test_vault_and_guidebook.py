@@ -12,7 +12,7 @@ class VaultAndGuidebookTest(unittest.TestCase):
         mod_blocks = (ROOT / "src/main/java/br/com/quantumindustries/core/ModBlocks.java").read_text(encoding="utf-8")
         mod_items = (ROOT / "src/main/java/br/com/quantumindustries/ModItems.java").read_text(encoding="utf-8")
         mod_menus = (ROOT / "src/main/java/br/com/quantumindustries/core/ModMenuTypes.java").read_text(encoding="utf-8")
-        client_menus = (ROOT / "src/main/java/br/com/quantumindustries/client/ClientMenus.java").read_text(encoding="utf-8")
+        client_menus = (ROOT / "src/client/java/br/com/quantumindustries/client/ClientMenus.java").read_text(encoding="utf-8")
 
         self.assertIn('"quantum_vault"', mod_blocks)
         self.assertIn("QUANTUM_VAULT_ENTITY", mod_blocks)
@@ -33,7 +33,7 @@ class VaultAndGuidebookTest(unittest.TestCase):
 
     def test_guidebook_catalog_And_obfuscation_contract(self):
         catalog = (ROOT / "src/main/java/br/com/quantumindustries/research/GuidebookCatalog.java").read_text(encoding="utf-8")
-        screen = (ROOT / "src/main/java/br/com/quantumindustries/client/QuantumGuidebookScreen.java").read_text(encoding="utf-8")
+        screen = (ROOT / "src/client/java/br/com/quantumindustries/client/QuantumGuidebookScreen.java").read_text(encoding="utf-8")
         spawner = (ROOT / "src/main/java/br/com/quantumindustries/world/VaultImpactSpawner.java").read_text(encoding="utf-8")
 
         self.assertIn('"intro_vault"', catalog)
@@ -48,7 +48,7 @@ class VaultAndGuidebookTest(unittest.TestCase):
     def test_industrial_chapters_match_research_gates_and_localization(self):
         catalog = (ROOT / "src/main/java/br/com/quantumindustries/research/GuidebookCatalog.java").read_text(encoding="utf-8")
         menu = (ROOT / "src/main/java/br/com/quantumindustries/menu/QuantumGuidebookMenu.java").read_text(encoding="utf-8")
-        screen = (ROOT / "src/main/java/br/com/quantumindustries/client/QuantumGuidebookScreen.java").read_text(encoding="utf-8")
+        screen = (ROOT / "src/client/java/br/com/quantumindustries/client/QuantumGuidebookScreen.java").read_text(encoding="utf-8")
         expected = [
             ('compact_gearbox', 'mechanical_transmission', 1, 'COMPACT_GEARBOX', 'metal_sheets'),
             ('mechanical_conveyor', 'mechanical_transmission', 1, 'MECHANICAL_CONVEYOR', 'metal_sheets'),

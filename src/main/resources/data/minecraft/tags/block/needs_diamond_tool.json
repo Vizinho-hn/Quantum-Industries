@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "quantumindustries:deepslate_osmiridium_ore",
+    "quantumindustries:deepslate_wolframite_ore",
+    "quantumindustries:osmiridium_ore",
+    "quantumindustries:wolframite_ore"
+  ]
+}

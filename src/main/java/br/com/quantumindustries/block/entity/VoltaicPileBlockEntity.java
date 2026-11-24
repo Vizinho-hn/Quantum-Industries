@@ -24,6 +24,11 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
     private final br.com.quantumindustries.energy.TransferBudget transferBudget = new br.com.quantumindustries.energy.TransferBudget(MAX_TRANSFER);
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_TRANSFER, MAX_TRANSFER);
 
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> true, transferBudget, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public VoltaicPileBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.VOLTAIC_PILE_ENTITY.get(), pos, state);
     }

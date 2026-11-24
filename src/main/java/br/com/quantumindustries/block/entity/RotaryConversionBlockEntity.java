@@ -32,6 +32,11 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     private int lastGenerated;
     private int excitation, field, generationRemainder, rotorHeat;
     private boolean thermalTrip;
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, this::isMotor, this::generator, budget, this::setChanged);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public RotaryConversionBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.ROTARY_CONVERSION_ENTITY.get(),pos,state); }
     public Kind kind() { return ((IndustrialConversionBlock)getBlockState().getBlock()).kind(); }
     public boolean isMotor() { return kind()==Kind.MOTOR; }

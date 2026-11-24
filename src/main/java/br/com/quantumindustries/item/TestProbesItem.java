@@ -1,5 +1,9 @@
 package br.com.quantumindustries.item;
 
+import br.com.quantumindustries.block.entity.EnergyInspectable;
+import br.com.quantumindustries.block.entity.MachineStatusInspectable;
+import br.com.quantumindustries.inspection.InspectionRegistry;
+import br.com.quantumindustries.inspection.InspectionSnapshot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Consumer;
 
 /**
@@ -28,15 +31,38 @@ public class TestProbesItem extends Item {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
-        BlockState state = level.getBlockState(pos);
-
-        if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
-            serverPlayer.sendOverlayMessage(Component.translatable("message.quantumindustries.probe.target", state.getBlock().getName(), pos.getX(), pos.getY(), pos.getZ()));
-            ItemStack stack = context.getItemInHand();
-            stack.hurtAndBreak(1, serverPlayer, player.getEquipmentSlotForItem(stack));
+        if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer serverPlayer)) {
             return InteractionResult.SUCCESS;
         }
 
+        var snapshot = InspectionRegistry.inspect(server, pos, false);
+        var entity = server.getBlockEntity(pos);
+        Component detail = entity instanceof MachineStatusInspectable machine ? machine.statusDetail()
+                : entity instanceof EnergyInspectable energy ? energy.inspectDetail() : null;
+        if (snapshot.kind() == InspectionSnapshot.Kind.NONE && detail == null) {
+            serverPlayer.sendOverlayMessage(Component.translatable("message.quantumindustries.probe.no_reading"));
+            return InteractionResult.SUCCESS;
+        }
+
+        var report = Component.empty();
+        switch (snapshot.kind()) {
+            case ENERGY -> report.append(Component.translatable("message.quantumindustries.probe.energy",
+                    snapshot.localCapacity(), snapshot.localLoad(), snapshot.nodeCount()));
+            case FLUID -> report.append(Component.translatable("message.quantumindustries.probe.fluid",
+                    snapshot.localCapacity(), snapshot.localLoad(), snapshot.nodeCount()));
+            case MECHANICAL -> report.append(Component.translatable("message.quantumindustries.probe.mechanical",
+                    Math.round(snapshot.rpm()), snapshot.load(), snapshot.capacity(), snapshot.nodeCount()));
+            case PNEUMATIC -> report.append(Component.translatable("message.quantumindustries.probe.pneumatic",
+                    snapshot.localCapacity(), snapshot.nodeCount()));
+            case NONE -> { }
+        }
+        if (detail != null) {
+            if (snapshot.kind() != InspectionSnapshot.Kind.NONE) report.append(" / ");
+            report.append(detail);
+        }
+        serverPlayer.sendOverlayMessage(report);
+        ItemStack stack = context.getItemInHand();
+        stack.hurtAndBreak(1, serverPlayer, player.getEquipmentSlotForItem(stack));
         return InteractionResult.SUCCESS;
     }
 

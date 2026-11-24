@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -37,6 +42,14 @@ public final class ManualGrainMillBlockEntity extends BlockEntity implements Mac
     private ItemStack output = ItemStack.EMPTY;
     private int progress;
     private long lastStroke = -10;
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    stack -> automationAuthorized() && stack.is(Items.WHEAT), 64, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public ManualGrainMillBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_GRAIN_MILL_ENTITY.get(), pos, state);

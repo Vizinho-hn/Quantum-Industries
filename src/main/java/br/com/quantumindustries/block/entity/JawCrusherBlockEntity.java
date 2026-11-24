@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.CrushingCatalog;
 import net.minecraft.core.BlockPos;
@@ -50,6 +55,19 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     }
 
     private long lastStroke = -10;
+
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    stack -> automationAuthorized() && CrushingCatalog.isValidInput(stack), 64, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public JawCrusherBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.JAW_CRUSHER_ENTITY.get(), pos, state);

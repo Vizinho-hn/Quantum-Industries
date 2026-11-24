@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.recipe.MechanicalProcesses;
 import br.com.quantumindustries.research.*;
@@ -55,11 +60,27 @@ public final class ElectricSawmillBlockEntity extends BlockEntity
       };
   private int progress, active = -1, next, clientState = 1;
   private boolean loading;
-  private long receivedTick = Long.MIN_VALUE;
-  private int received;
+  private final br.com.quantumindustries.energy.TransferBudget transferBudget =
+      new br.com.quantumindustries.energy.TransferBudget(64);
   private long progressSyncTime;
   private ItemStack reserved = ItemStack.EMPTY;
   private String owner = "", recipeId = "";
+
+  private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+      new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, transferBudget, this::changed);
+
+  public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
+  private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+      java.util.stream.IntStream.range(0, 8).mapToObj(this::automationSlot).toList());
+
+  private MachineItemSlot automationSlot(int slot) {
+    return new MachineItemSlot(this, () -> inventory.getItem(slot),
+        stack -> inventory.setItem(slot, stack, true),
+        slot < 4 ? this::canInsert : null, 64, before -> changed());
+  }
+
+  public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
   public ElectricSawmillBlockEntity(BlockPos p, BlockState s) {
     super(ModBlocks.ELECTRIC_SAWMILL_ENTITY.get(), p, s);
@@ -301,18 +322,10 @@ public final class ElectricSawmillBlockEntity extends BlockEntity
 
   public int receiveEnergy(int max) {
     if (!(level instanceof ServerLevel) || max <= 0) return 0;
-    if (receivedTick != level.getGameTime()) {
-      receivedTick = level.getGameTime();
-      received = 0;
-    }
     try (var tx = Transaction.openRoot()) {
-      int n = battery.insert(Math.min(64 - received, max), tx);
-      if (n > 0) {
-        tx.commit();
-        received += n;
-        changed();
-      }
-      return n;
+      int accepted = energyPort.insert(max, tx);
+      if (accepted > 0) tx.commit();
+      return accepted;
     }
   }
 

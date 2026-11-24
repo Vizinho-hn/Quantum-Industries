@@ -38,6 +38,11 @@ public final class PiezoSwitchBlockEntity extends BlockEntity implements EnergyI
     private record Contact(double x, double z, long seen, long pulse, double distance) {}
     private long lastPistonImpact = -20;
 
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> false, () -> true, transferBudget, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public PiezoSwitchBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.PIEZO_SWITCH_ENTITY.get(), pos, state);
     }

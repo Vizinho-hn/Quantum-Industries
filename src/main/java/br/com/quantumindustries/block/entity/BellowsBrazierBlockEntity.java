@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.HeatTreatment;
 import net.minecraft.core.BlockPos;
@@ -43,6 +48,14 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     private int heat, progress;
     private long lastPuff = -10;
     private ItemStack input = ItemStack.EMPTY, output = ItemStack.EMPTY;
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    stack -> automationAuthorized() && output.isEmpty() && HeatTreatment.canHeat(stack), 1, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 1, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public BellowsBrazierBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BELLOWS_BRAZIER_ENTITY.get(), pos, state);

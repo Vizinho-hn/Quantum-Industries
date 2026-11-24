@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -54,9 +55,24 @@ public final class FoundationRecipe extends ShapedRecipe {
             if (grid.width() != width || grid.height() != cells.length / width) return false;
             for (int i = 0; i < cells.length; i++) {
                 var stack = grid.getItem(i % width, i / width);
-                if (cells[i] == null ? !stack.isEmpty() : !stack.is(cells[i].asItem())) return false;
+                var expected = cells[i];
+                if (expected == null ? !stack.isEmpty() : !matchesItem(stack, expected.asItem())) return false;
             }
             return true;
+        }
+
+        private boolean matchesItem(ItemStack stack, net.minecraft.world.item.Item expected) {
+            if (expected == Items.OAK_PLANKS || expected == Items.DARK_OAK_PLANKS) return stack.is(ItemTags.PLANKS);
+            if (expected == Items.OAK_LOG) return stack.is(ItemTags.LOGS);
+            if (id().equals("configuration_wrench") && expected == Items.IRON_INGOT
+                    && (stack.is(ModItems.ALLOY_SHEETS.get("steel").get())
+                        || stack.is(ModItems.INGOTS.get("titanium").get()))) return true;
+            if (id().equals("permanent_magnet") && expected == Items.IRON_INGOT
+                    && (stack.is(ModItems.INGOTS.get("cobalt").get())
+                        || stack.is(ModItems.ALLOY_SHEETS.get("invar").get()))) return true;
+            if (expected == Items.BONE_MEAL && stack.is(ModItems.CHEMICAL_PRODUCTS.get("apatite").get())) return true;
+            if (expected == Items.MAGMA_BLOCK && stack.is(ModItems.CHEMICAL_PRODUCTS.get("graphite").get())) return true;
+            return stack.is(expected);
         }
 
         ShapedRecipePattern shape() {
@@ -72,7 +88,8 @@ public final class FoundationRecipe extends ShapedRecipe {
     }
 
     private static final class Patterns {
-        private static final List<Pattern> ALL = createPatterns();
+        private static final List<Pattern> ALL = java.util.stream.Stream.concat(
+                createPatterns().stream(), mechanicalPatterns().stream()).toList();
         private static final Map<String, Pattern> BY_RESULT = ALL.stream()
                 .collect(Collectors.toUnmodifiableMap(Pattern::id, Function.identity()));
     }
@@ -97,12 +114,11 @@ public final class FoundationRecipe extends ShapedRecipe {
 
     public static List<Preview> previews(int research) {
         String key = ResearchCatalog.STUDIES.get(research).key();
-        return java.util.stream.Stream.concat(Patterns.ALL.stream(), legacyPreviews().stream())
+        return Patterns.ALL.stream()
                 .filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
     }
 
-    // Preview-only: vanilla recipes retain their plank tags and crafting behavior.
-    private static List<Pattern> legacyPreviews() {
+    private static List<Pattern> mechanicalPatterns() {
         var p=Items.OAK_PLANKS;var i=Items.IRON_INGOT;var b=ModItems.ALLOY_INGOTS.get("bronze").get();
         var s=ModItems.MECHANICAL_SHAFT_BLOCK.get();var g=ModItems.IRON_GEAR.get();
         return List.of(
@@ -225,7 +241,7 @@ public final class FoundationRecipe extends ShapedRecipe {
             // Era II - Lead-Acid Accumulator (rechargeable, connects to cable network)
             new Pattern("galvanic_storage", ModItems.LEAD_ACID_ACCUMULATOR, 1, 3,
                 ModItems.LEAD_SHEET.get(), insulated, ModItems.COPPER_SHEET.get(),
-                plank, ModItems.GALVANIC_ELECTROLYTE.get(), plank,
+                plank, ModItems.SULFURIC_ACID.get(), plank,
                 ModItems.LEAD_SHEET.get(), coil, sheet),
             new Pattern("basic_magnetism", ModItems.PERMANENT_MAGNET, 1, 3,
                 iron, Items.REDSTONE, iron),
@@ -289,9 +305,9 @@ public final class FoundationRecipe extends ShapedRecipe {
                 Items.BRICKS, Items.CAMPFIRE, Items.BRICKS,
                 Items.SMOOTH_STONE, Items.FURNACE, Items.SMOOTH_STONE),
             new Pattern("alloy_metallurgy", ModItems.BRONZE_GEAR, 2, 3,
-                null, ModItems.ALLOY_INGOTS.get("bronze").get(), null,
-                ModItems.ALLOY_INGOTS.get("bronze").get(), ModItems.PRIMITIVE_MECHANICAL_CORE.get(), ModItems.ALLOY_INGOTS.get("bronze").get(),
-                null, ModItems.ALLOY_INGOTS.get("bronze").get(), null),
+                null, ModItems.ALLOY_SHEETS.get("bronze").get(), null,
+                ModItems.ALLOY_SHEETS.get("bronze").get(), ModItems.PRIMITIVE_MECHANICAL_CORE.get(), ModItems.ALLOY_SHEETS.get("bronze").get(),
+                null, ModItems.ALLOY_SHEETS.get("bronze").get(), null),
             new Pattern("electric_wood_processing", ModItems.ELECTRIC_SAWMILL, 1, 3,
                 sheet, coil, sheet,
                 ModItems.BRONZE_GEAR.get(), ModItems.MECHANICAL_SAWMILL.get(), ModItems.PRIMITIVE_MECHANICAL_CORE.get(),
@@ -308,6 +324,11 @@ public final class FoundationRecipe extends ShapedRecipe {
                 sheet, Items.PISTON, sheet,
                 gear, ModItems.FORMING_BENCH.get(), gear,
                 sheet, shaft, sheet),
+            new Pattern("galvanic_storage", ModItems.SULFURIC_ACID, 1, 3,
+                ModItems.GALVANIC_ELECTROLYTE.get(), ModItems.CHEMICAL_PRODUCTS.get("sulfur").get(), Items.GLASS_BOTTLE),
+            new Pattern("chemical_leaching", ModItems.EBONITE_ROD, 2, 2,
+                ModItems.CHEMICAL_PRODUCTS.get("sulfur").get(), ModItems.CHEMICAL_PRODUCTS.get("graphite").get(),
+                ModItems.CHEMICAL_PRODUCTS.get("graphite").get(), ModItems.CHEMICAL_PRODUCTS.get("sulfur").get()),
             new Pattern("thermal_annealing", ModItems.REFRACTORY_BRICK, 4, 3,
                 Items.BRICK, Items.CLAY_BALL, Items.BRICK,
                 Items.CLAY_BALL, Items.MAGMA_BLOCK, Items.CLAY_BALL,

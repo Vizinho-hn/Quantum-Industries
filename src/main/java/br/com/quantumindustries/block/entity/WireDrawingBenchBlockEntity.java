@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -41,6 +46,19 @@ public final class WireDrawingBenchBlockEntity extends BlockEntity implements En
     private ItemStack input = ItemStack.EMPTY, output = ItemStack.EMPTY;
     private int progress;
     private long lastStroke = -10;
+
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    stack -> automationAuthorized() && !resultFor(stack).isEmpty(), 64, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public WireDrawingBenchBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.WIRE_DRAWING_BENCH_ENTITY.get(), pos, state);

@@ -24,6 +24,11 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
     private static final int CAPACITY = 96, TRANSFER = 48;
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, TRANSFER, TRANSFER);
     private boolean enabled = true;
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> true, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public LoadRelayBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.LOAD_RELAY_ENTITY.get(), pos, state);
     }

@@ -241,9 +241,14 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         int total = 0;
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack stack = inventory.getItem(i);
-            if (stack.is(item)) total += stack.getCount();
+            if (matchesCost(stack, item)) total += stack.getCount();
         }
         return total;
+    }
+
+    private static boolean matchesCost(ItemStack stack, Item item) {
+        return item == net.minecraft.world.item.Items.OAK_PLANKS
+                ? stack.is(net.minecraft.tags.ItemTags.PLANKS) : stack.is(item);
     }
 
     record Cost(Item item, int amount) {}
@@ -293,10 +298,10 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
             long remaining = entry.getValue();
             for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
                 ItemStack stack = inventory.getItem(slot);
-                if (!stack.is(entry.getKey())) continue;
+                if (!matchesCost(stack, entry.getKey())) continue;
                 int amount = (int) Math.min(remaining, stack.getCount());
                 if (amount > 0) {
-                    debits.add(new Debit(slot, entry.getKey(), amount, stack.copy()));
+                    debits.add(new Debit(slot, stack.getItem(), amount, stack.copy()));
                     remaining -= amount;
                 }
             }
