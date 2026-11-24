@@ -19,7 +19,7 @@ public final class ElectricalNetworkAnalyzerBlockEntity extends BlockEntity {
         super(ModBlocks.ELECTRICAL_NETWORK_ANALYZER_ENTITY.get(),pos,state);
     }
     public void tick(){
-        if(!(level instanceof ServerLevel server)||server.getGameTime()%20!=0)return;
+        if(!(level instanceof ServerLevel server)||Math.floorMod(server.getGameTime(),20)!=Math.floorMod(worldPosition.asLong(),20))return;
         BlockPos anchor=worldPosition.relative(getBlockState().getValue(BlockStateProperties.FACING).getOpposite());
         snapshot=ElectricalNetworkTelemetry.scan(server,worldPosition,anchor);
         history[0][cursor]=snapshot.injected();
