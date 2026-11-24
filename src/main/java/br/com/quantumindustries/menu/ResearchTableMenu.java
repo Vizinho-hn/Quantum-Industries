@@ -39,7 +39,8 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     private static final Item[] SUPPLIES = {Items.BLACK_DYE, Items.FEATHER, Items.PAPER};
 
     private static final int EVIDENCE_OFFSET = 3 + 2 * ResearchCatalog.STUDIES.size();
-    public static final int DATA_SIZE = EVIDENCE_OFFSET + ResearchCatalog.STUDIES.size();
+    private static final int INSTRUMENTAL_OFFSET = EVIDENCE_OFFSET + ResearchCatalog.STUDIES.size();
+    public static final int DATA_SIZE = INSTRUMENTAL_OFFSET + br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size();
     private final ResearchTableBlockEntity entity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
@@ -59,6 +60,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
                 if (!(inventory.player.level() instanceof ServerLevel server)) return data.get(index);
                 if (index < 3) return entity == null ? 0 : entity.reportSupplies().getItem(index).getCount();
                 WorldResearchData research = WorldResearchData.get(server);
+                if (index >= INSTRUMENTAL_OFFSET) {
+                    if (entity == null || !entity.getBlockState().is(ModBlocks.RESEARCH_TABLE.get())) return 0;
+                    var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().get(index - INSTRUMENTAL_OFFSET);
+                    return br.com.quantumindustries.assay.InstrumentalAnalysis.known(inventory.player, profile) ? 1 : 0;
+                }
                 if (index >= EVIDENCE_OFFSET) {
                     var study = ResearchCatalog.STUDIES.get(index - EVIDENCE_OFFSET);
                     int mask = 0;
@@ -139,6 +145,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         }
         broadcastChanges();
         return true;
+    }
+
+    public boolean instrumentalKnown(int index) {
+        return !isTierOne() && index >= 0 && index < br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size()
+                && data.get(INSTRUMENTAL_OFFSET + index) != 0;
     }
 
     public int supply(int index) { return data.get(index); }
