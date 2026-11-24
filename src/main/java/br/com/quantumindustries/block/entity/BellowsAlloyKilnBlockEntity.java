@@ -23,6 +23,19 @@ import net.minecraft.world.level.storage.ValueOutput;
 public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements MachineStatusInspectable {
     public static final int FUEL_PER_COAL = 1200, HEAT_PER_PUFF = 100, MAX_HEAT = 400, SMELT_TICKS = 80;
     private int fuel, heat, progress;
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "alloy_metallurgy");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "alloy_metallurgy")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     private boolean fluxReserved;
     private long lastPuff = -10;
     private ItemStack inputA = ItemStack.EMPTY;
@@ -71,6 +84,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
     }
 
     public boolean insert(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel)) return false;
         // Coal is a steel ingredient when iron has been inserted first; charcoal always fuels the kiln.
         boolean coalForSteel = stack.is(Items.COAL)
@@ -123,6 +137,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
     }
 
     public boolean puff() {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel server) || fuel <= 0 || server.getGameTime() - lastPuff < 10) return false;
         lastPuff = server.getGameTime();
         heat = Math.min(MAX_HEAT, heat + HEAT_PER_PUFF);
@@ -174,6 +189,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
     }
 
     private boolean canOutput(AlloyCatalog.Recipe recipe) {
+        if (!automationAuthorized()) return false;
         if (recipe == null) return false;
         ItemStack result = recipe.assemble();
         if (output.isEmpty()) return true;
@@ -219,6 +235,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
 
     @Override protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
+        out.putString("automation_operator", automationOperator);
         out.putInt("fuel", fuel);
         out.putInt("heat", heat);
         out.putInt("progress", progress);
@@ -231,6 +248,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
 
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
+        automationOperator = in.getStringOr("automation_operator", "");
         fuel = Math.max(0, in.getIntOr("fuel", 0));
         heat = Math.clamp(in.getIntOr("heat", 0), 0, MAX_HEAT);
         progress = Math.max(0, in.getIntOr("progress", 0));
