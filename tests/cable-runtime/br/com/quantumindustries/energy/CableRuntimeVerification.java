@@ -175,6 +175,35 @@ public final class CableRuntimeVerification {
         check(!level.getBlockState(POS).getValue(closedProperty), "redstone removal opens switch");
     }
 
+    private static void verifyAnalyzerTopology(ServerLevel level){
+        clear(level);
+        var wire=ModBlocks.INSULATED_CONDUIT.get().defaultBlockState();
+        var battery=ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState();
+        place(level,POS,wire);
+        place(level,POS.north(),wire);
+        place(level,POS.north().east(),wire);
+        place(level,POS.east(),battery);
+        place(level,POS.south(2),battery);
+        place(level,POS.south(),ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING,Direction.NORTH));
+        place(level,POS.west().north(2),wire);
+        BlockPos analyzer=POS.above();
+        place(level,analyzer,ModBlocks.ELECTRICAL_NETWORK_ANALYZER.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING,Direction.UP));
+        check(level.getBlockState(POS).getValue(CopperCableBlock.UP),"passive probe has visual contact");
+        ((LeadAcidAccumulatorBlockEntity)level.getBlockEntity(POS.east())).setStoredEnergy(123);
+        ((LeadAcidAccumulatorBlockEntity)level.getBlockEntity(POS.south(2))).setStoredEnergy(456);
+        var open=ElectricalNetworkTelemetry.scan(level,analyzer,POS);
+        check(open.connected()&&open.cables()==3&&open.endpoints()==1,"open switch and isolated cable excluded");
+        check(open.stored()==123&&open.capacity()==50000,"shared endpoint counted once, no analyzer buffer");
+        level.setBlock(POS.south(),level.getBlockState(POS.south()).setValue(
+                br.com.quantumindustries.block.IndustrialCircuitSwitchBlock.CLOSED,true),Block.UPDATE_ALL);
+        var closed=ElectricalNetworkTelemetry.scan(level,analyzer,POS);
+        check(closed.cables()==4&&closed.endpoints()==2&&closed.stored()==579,"closed switch expands measured scope");
+        check(closed.nodes().size()==6,"map contains only reachable nodes");
+        check(closed.busiest().size()==4,"bottlenecks are cable nodes only");
+    }
+
     private static void verifyBatteryBudget(ServerLevel level) {
         clear(level);
         place(level, POS, ModBlocks.VOLTAIC_PILE.get().defaultBlockState());
@@ -210,7 +239,8 @@ public final class CableRuntimeVerification {
             }
             verifyIndustrialSwitch(level);
             verifyBatteryBudget(level);
-            result = "PASS: both cables, 128 masks, shapes, neighbor updates, diagonals, reload, vertical FE, switch and battery budgets\n";
+            verifyAnalyzerTopology(level);
+            result = "PASS: both cables, 128 masks, shapes, neighbor updates, diagonals, reload, vertical FE, switch, battery budgets and analyzer topology\n";
         } catch (Throwable error) {
             error.printStackTrace();
             result = "FAIL: " + error + "\n";
