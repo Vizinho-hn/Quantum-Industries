@@ -66,6 +66,7 @@ public final class ConnectionVerification {
                 setup();
                 verifyGravityAndPressure();
                 verifyPumpBottomIntake();
+                setupPiezo();
                 verifyWrenchAndCapabilities();
                 setupSmartSmelter();
             }
@@ -240,6 +241,40 @@ public final class ConnectionVerification {
             level.setBlock(cell,Blocks.AIR.defaultBlockState(),3);
     }
 
+    private static final BlockPos PIEZO=new BlockPos(11,100,13);
+    private static void setupPiezo(){
+        level.setBlock(PIEZO,ModBlocks.PIEZO_SWITCH.get().defaultBlockState(),3);
+        level.setBlock(PIEZO.east(),ModBlocks.INSULATED_CONDUIT.get().defaultBlockState(),3);
+        level.setBlock(PIEZO.east(2),ModBlocks.VOLTAIC_PILE.get().defaultBlockState(),3);
+        for(Direction side:Direction.values())mode(PIEZO.east(),side,ConnectionMode.NONE);
+        mode(PIEZO.east(),Direction.WEST,ConnectionMode.PULL);
+        mode(PIEZO.east(),Direction.EAST,ConnectionMode.PUSH);
+        var plate=(PiezoSwitchBlockEntity)level.getBlockEntity(PIEZO);
+        player.setPos(PIEZO.getX()+.30,PIEZO.getY()+.125,PIEZO.getZ()+.5);
+        player.setDeltaMovement(Vec3.ZERO);
+        plate.impact(player);
+        check(plate.energy()==40,"real contact generates without reported player velocity");
+        plate.impact(player);
+        check(plate.energy()==40,"repeated callback cannot double a pulse");
+        plate.tick();
+        check(plate.energy()==0&&((VoltaicPileBlockEntity)level.getBlockEntity(PIEZO.east(2))).energy()==40,
+                "pulse transfers through insulated cable to battery");
+    }
+    private static void verifyPiezoContact(){
+        if(ticks>31)return;
+        var plate=(PiezoSwitchBlockEntity)level.getBlockEntity(PIEZO);
+        var pile=(VoltaicPileBlockEntity)level.getBlockEntity(PIEZO.east(2));
+        player.setPos(PIEZO.getX()+(ticks==31?.65:.30),PIEZO.getY()+.125,PIEZO.getZ()+.5);
+        player.setDeltaMovement(Vec3.ZERO);
+        plate.impact(player);
+        if(ticks<=30)check(plate.energy()+pile.energy()==40,"stationary contact does not generate after cooldown");
+        if(ticks==31){
+            check(plate.energy()+pile.energy()==80,"actual displacement generates even with zero velocity");
+            plate.impact(player);
+            check(plate.energy()+pile.energy()==80,"same-tick callback does not duplicate movement pulse");
+        }
+    }
+
     private static final BlockPos SMART = new BlockPos(1, 100, 14);
     private static ElectricAlloySmelterBlockEntity smartSmelter() {
         return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
@@ -322,6 +357,7 @@ public final class ConnectionVerification {
                 }
                 return;
             }
+            verifyPiezoContact();
             check(itemTotal() == (ticks <= 200 ? 10 : 11), "item conservation on every server tick");
             check(fluidTotal() == (ticks <= 200 ? 1000 : 1200), "fluid conservation on every server tick");
             if (ticks == 30) {
