@@ -88,6 +88,12 @@ public final class IndustrialConversionBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player instanceof ServerPlayer operator) {
             var be=level.getBlockEntity(pos);
+            if(be instanceof ThermoelectricGeneratorBlockEntity thermal && !operator.isShiftKeyDown() && thermal.bind(operator)){
+                operator.openMenu(new net.minecraft.world.SimpleMenuProvider(
+                    (id, inv, p)->new br.com.quantumindustries.menu.ThermoelectricMenu(id,inv,pos),
+                    thermal.statusTitle()),pos);
+                return InteractionResult.SUCCESS;
+            }
             if (bind(be,operator) && operator.isShiftKeyDown() && be instanceof RotaryConversionBlockEntity rotor)
                 rotor.toggle(operator);
             if (be instanceof MachineStatusInspectable machine) operator.sendOverlayMessage(machine.statusDetail());

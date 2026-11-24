@@ -7,6 +7,7 @@ package br.com.quantumindustries.energy;
  */
 public final class ThermoelectricModel {
     public static final int AMBIENT = 20;
+    public static final int LIT_APPLIANCE = 140, MAGMA = 180, FIRE = 220, LAVA = 300;
     public static final int MAX_HOT = 250;
     public static final int MAX_FE = 6;
     public static final int POWER_SCALE = 12000;
@@ -31,9 +32,16 @@ public final class ThermoelectricModel {
         }
         public boolean finite() { return this != NONE && this != FLOWING_WATER; }
         public int initialHeat() { return initialHeat; }
+        public int minHeat() {
+            if (this == WATER) return -12000; // latent heat released during freezing
+            return finite() ? (-60 - start) * capacity : 0;
+        }
+        public boolean frozen(int heat) { return this == WATER && heat <= minHeat(); }
         public int maxHeat() { return (phaseTemperature - start) * capacity + latentHeat; }
         public int temperature(int heat) {
-            return Math.min(phaseTemperature, start + Math.clamp(heat, 0, maxHeat()) / capacity);
+            int sensible = Math.clamp(heat, minHeat(), maxHeat());
+            if (this == WATER) sensible = Math.max(0, sensible);
+            return Math.min(phaseTemperature, start + Math.floorDiv(sensible, capacity));
         }
         public boolean exhausted(int heat) { return finite() && heat >= maxHeat(); }
         public static Coolant fromId(int id) {
@@ -43,6 +51,10 @@ public final class ThermoelectricModel {
     }
 
     public static int gradient(int hot, int cold) { return Math.max(0, hot - cold); }
+
+    public static int initialPowerNumerator(int hot, Coolant coolant) {
+        return powerNumerator(hot, coolant.temperature(coolant.initialHeat()), coolant);
+    }
 
     /** Matched-load Seebeck power is proportional to delta T squared.
      * Numerator is in 1/POWER_SCALE FE/t, allowing fractional production. */
