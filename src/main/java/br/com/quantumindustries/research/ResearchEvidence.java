@@ -28,6 +28,20 @@ public interface ResearchEvidence {
         }
     }
 
+    record Instrumental(String material) implements ResearchEvidence {
+        public Instrumental {
+            if (br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().stream().noneMatch(p -> p.id().equals(material)))
+                throw new IllegalArgumentException("Unknown instrumental material: " + material);
+        }
+        @Override public boolean satisfied(Player player) {
+            return br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, material);
+        }
+        @Override public Component description() {
+            return Component.translatable("gui.quantumindustries.instrumental.evidence",
+                    Component.translatable("gui.quantumindustries.instrumental.material." + material));
+        }
+    }
+
     record AnyOf(List<ResearchEvidence> alternatives) implements ResearchEvidence {
         public AnyOf {
             alternatives = List.copyOf(alternatives);
