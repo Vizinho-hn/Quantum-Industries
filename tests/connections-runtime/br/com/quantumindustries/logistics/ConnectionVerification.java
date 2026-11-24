@@ -68,6 +68,7 @@ public final class ConnectionVerification {
                 verifyPumpBottomIntake();
                 setupPiezo();
                 verifyWrenchAndCapabilities();
+                verifyLossBudget();
                 setupSmartSmelter();
             }
             active = true;
@@ -279,6 +280,30 @@ public final class ConnectionVerification {
     private static ElectricAlloySmelterBlockEntity smartSmelter() {
         return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
     }
+    private static void verifyLossBudget() {
+        var origin = new BlockPos(1, 110, 2);
+        level.setBlock(origin, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState(), 3);
+        level.setBlock(origin.east(5), ModBlocks.VOLTAIC_PILE.get().defaultBlockState(), 3);
+        for (int x = 1; x <= 4; x++) {
+            level.setBlock(origin.east(x), ModBlocks.COPPER_BUSBAR.get().defaultBlockState(), 3);
+            for (Direction side : Direction.values()) mode(origin.east(x), side, ConnectionMode.NONE);
+            mode(origin.east(x), Direction.WEST, ConnectionMode.PULL);
+            mode(origin.east(x), Direction.EAST, ConnectionMode.PUSH);
+        }
+        var source = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(origin);
+        var target = (VoltaicPileBlockEntity) level.getBlockEntity(origin.east(5));
+        source.setStoredEnergy(64);
+        br.com.quantumindustries.energy.CableNetwork.transfer(level, origin, source::energy, source::extractEnergy, 64);
+        check(source.energy() == 32 && target.energy() == 31, "lossy route conserves FE: 32 extracted = 31 delivered + 1 lost");
+        for (int x = 1; x <= 4; x++) {
+            var cable = (CopperCableBlockEntity) level.getBlockEntity(origin.east(x));
+            check(cable.availableThisTick(level.getGameTime()) == 0, "loss counts against every cable throughput limit");
+        }
+        br.com.quantumindustries.energy.CableNetwork.transfer(level, origin, source::energy, source::extractEnergy, 64);
+        check(source.energy() == 32 && target.energy() == 31, "second transfer in same tick cannot exceed bare cable limit");
+        for (int x = 0; x <= 5; x++) level.setBlock(origin.east(x), Blocks.AIR.defaultBlockState(), 3);
+    }
+
     private static void setupSmartSmelter() {
         for (int i = 0; i <= 4; i++) level.setBlock(SMART.east(i), Blocks.AIR.defaultBlockState(), 3);
         level.setBlock(SMART, Blocks.CHEST.defaultBlockState(), 3);
@@ -291,6 +316,14 @@ public final class ConnectionVerification {
         }
         var source = (ChestBlockEntity) level.getBlockEntity(SMART);
         var machine = smartSmelter();
+        var probe = new ItemStack(Items.COPPER_INGOT);
+        check(!machine.insertIngredient(probe) && probe.getCount() == 1, "unbound automation does not consume material");
+        var guest = new FakePlayer(level, new GameProfile(UUID.fromString("bd7932cb-0472-4dda-997f-0e6a98116c18"), "UnauthorizedQA"));
+        guest.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        guest.setPos(SMART.east(4).getX()+.5, SMART.getY(), SMART.getZ()+1.5);
+        check(!machine.bindAutomation(guest), "unresearched player cannot authorize smelter");
+        player.setPos(SMART.east(4).getX()+.5, SMART.getY(), SMART.getZ()+1.5);
+        check(machine.bindAutomation(player), "researched player authorizes automation");
         var copper = new ItemStack(Items.COPPER_INGOT, 16);
         while (!copper.isEmpty()) check(machine.insertIngredient(copper), "stage copper capacity");
         check(!machine.canInsertIngredient(new ItemStack(Items.COPPER_INGOT)), "full copper cannot use the second slot");
