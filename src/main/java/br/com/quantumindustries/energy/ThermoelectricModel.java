@@ -7,6 +7,7 @@ package br.com.quantumindustries.energy;
  */
 public final class ThermoelectricModel {
     public static final int AMBIENT = 20;
+    public static final int LIT_APPLIANCE = 140, MAGMA = 180, FIRE = 220, LAVA = 300;
     public static final int MAX_HOT = 250;
     public static final int MAX_FE = 6;
     public static final int POWER_SCALE = 12000;
@@ -50,6 +51,10 @@ public final class ThermoelectricModel {
     }
 
     public static int gradient(int hot, int cold) { return Math.max(0, hot - cold); }
+
+    public static int initialPowerNumerator(int hot, Coolant coolant) {
+        return powerNumerator(hot, coolant.temperature(coolant.initialHeat()), coolant);
+    }
 
     /** Matched-load Seebeck power is proportional to delta T squared.
      * Numerator is in 1/POWER_SCALE FE/t, allowing fractional production. */

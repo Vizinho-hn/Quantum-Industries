@@ -47,12 +47,14 @@ public final class QuantumJeiPlugin implements IModPlugin {
     @Override public Identifier getPluginUid() { return id("jei"); }
 
     @Override public void registerCategories(IRecipeCategoryRegistration registration) {
+        registration.addRecipeCategories(new ThermoelectricCategory(registration.getJeiHelpers().getGuiHelper()));
         for (String name : MACHINES) {
             registration.addRecipeCategories(new Category(name, registration.getJeiHelpers().getGuiHelper()));
         }
     }
 
     @Override public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        registration.addCraftingStation(ThermoelectricCategory.TYPE, ModItems.THERMOELECTRIC_GENERATOR.get());
         for (String name : MACHINES) registration.addCraftingStation(type(name), machine(name));
     }
 
@@ -61,6 +63,7 @@ public final class QuantumJeiPlugin implements IModPlugin {
     }
 
     @Override public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(ThermoelectricCategory.TYPE, List.of(ThermoelectricCategory.Table.INSTANCE));
         registration.addRecipes(type("mechanical_sawmill"), MechanicalRecipeCache.all().stream()
                 .map(recipe -> new Process(List.of(recipe.inputs().stream().map(ItemStack::new).toList()), recipe.result()))
                 .toList());

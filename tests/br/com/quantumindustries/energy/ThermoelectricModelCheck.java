@@ -7,6 +7,13 @@ public final class ThermoelectricModelCheck {
         if (!ok) throw new AssertionError(message);
     }
     public static void main(String[] args) {
+        check(ThermoelectricModel.initialPowerNumerator(ThermoelectricModel.FIRE, Coolant.BLUE_ICE) == 62500,
+                "fresh blue ice with fire yields about 5.21 FE/t");
+        check(ThermoelectricModel.initialPowerNumerator(ThermoelectricModel.LAVA, Coolant.BLUE_ICE) == 0,
+                "lava overheats even with fresh blue ice");
+        check(ThermoelectricModel.initialPowerNumerator(ThermoelectricModel.MAGMA, Coolant.WATER)
+                        == ThermoelectricModel.initialPowerNumerator(ThermoelectricModel.MAGMA, Coolant.FLOWING_WATER),
+                "source and flowing water have the same initial output");
         check(ThermoelectricModel.powerNumerator(180, -15, Coolant.PACKED_ICE)
                 > ThermoelectricModel.powerNumerator(180, 20, Coolant.WATER), "colder coolant increases output");
         check(ThermoelectricModel.powerNumerator(20, -30, Coolant.BLUE_ICE) == 0, "requires hot source");

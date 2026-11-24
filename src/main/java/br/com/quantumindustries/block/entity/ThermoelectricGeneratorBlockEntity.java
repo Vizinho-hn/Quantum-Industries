@@ -94,10 +94,10 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
     }
 
     private static int contactTemperature(BlockState below) {
-        if(below.getFluidState().is(FluidTags.LAVA))return 300;
-        if(below.is(Blocks.FIRE)||below.is(Blocks.SOUL_FIRE))return 220;
-        if(below.is(Blocks.MAGMA_BLOCK))return 180;
-        return BellowsBrazierBlockEntity.classifyHeatSource(below)>0?140:ThermoelectricModel.AMBIENT;
+        if(below.getFluidState().is(FluidTags.LAVA))return ThermoelectricModel.LAVA;
+        if(below.is(Blocks.FIRE)||below.is(Blocks.SOUL_FIRE))return ThermoelectricModel.FIRE;
+        if(below.is(Blocks.MAGMA_BLOCK))return ThermoelectricModel.MAGMA;
+        return BellowsBrazierBlockEntity.classifyHeatSource(below)>0?ThermoelectricModel.LIT_APPLIANCE:ThermoelectricModel.AMBIENT;
     }
 
     public void tick(){
