@@ -268,6 +268,7 @@ public final class MachinesQaSetup {
 
     private static void runImmediateTests(ServerLevel level, ServerPlayer player) {
         // 1. Bellows Brazier (heated by Magma Block underneath, no coal required)
+        player.setPos(BRAZIER_POS.getX()+.5, BRAZIER_POS.getY(), BRAZIER_POS.getZ()+1.5);
         var brazierState = level.getBlockState(BRAZIER_POS);
         var gold = new ItemStack(Items.GOLD_INGOT, 1);
         var goldRes = brazierState.useItemOn(gold, level, player, InteractionHand.MAIN_HAND, hit(BRAZIER_POS));
@@ -301,6 +302,7 @@ public final class MachinesQaSetup {
         player.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
 
         // 3. Manual Grain Mill
+        player.setPos(MILL_POS.getX()+.5, MILL_POS.getY(), MILL_POS.getZ()+1.5);
         var millState = level.getBlockState(MILL_POS);
         var wheat = new ItemStack(Items.WHEAT, 1);
         millState.useItemOn(wheat, level, player, InteractionHand.MAIN_HAND, hit(MILL_POS));
@@ -349,11 +351,15 @@ public final class MachinesQaSetup {
         var pressBat = (VoltaicPileBlockEntity) level.getBlockEntity(PRESS_BAT_POS);
         pressBat.setStoredEnergy(500);
         var press = (ElectromechanicalPressBlockEntity) level.getBlockEntity(PRESS_POS);
+        player.setPos(PRESS_POS.getX()+.5, PRESS_POS.getY(), PRESS_POS.getZ()+1.5);
+        if (!press.bindAutomation(player)) throw new AssertionError("QA authorization: press");
         boolean pressIn = press.insertIngot(new ItemStack(ModItems.ALLOY_INGOTS.get("bronze").get(), 1));
         log("ElectromechanicalPress: bronze_ingot inserted=" + pressIn + ", bat FE=" + pressBat.energy());
 
         // 8. Wire Drawing Bench
         var wire = (WireDrawingBenchBlockEntity) level.getBlockEntity(WIRE_POS);
+        player.setPos(WIRE_POS.getX()+.5, WIRE_POS.getY(), WIRE_POS.getZ()+1.5);
+        if (!wire.bindAutomation(player)) throw new AssertionError("QA authorization: wire");
         boolean wireIn = wire.insert(new ItemStack(ModItems.ALLOY_SHEETS.get("constantan").get(), 1));
         wire.manualStroke();
         log("WireDrawingBench: constantan_sheet inserted=" + wireIn);
@@ -397,6 +403,8 @@ public final class MachinesQaSetup {
 
         // 14. Settling Vat (water + sulfur_dust + glass_bottle) + break drop bug
         var vat = (SettlingVatBlockEntity) level.getBlockEntity(VAT_POS);
+        player.setPos(VAT_POS.getX()+.5, VAT_POS.getY(), VAT_POS.getZ()+1.5);
+        if (!vat.bindAutomation(player)) throw new AssertionError("QA authorization: vat");
         try (var tx = Transaction.openRoot()) {
             vat.tank().insert(FluidResource.of(Fluids.WATER), 1000, tx);
             tx.commit();
@@ -405,6 +413,8 @@ public final class MachinesQaSetup {
         vat.addIngredient(new ItemStack(Items.GLASS_BOTTLE, 1));
 
         var vatBreak = (SettlingVatBlockEntity) level.getBlockEntity(VAT_BREAK_POS);
+        player.setPos(VAT_BREAK_POS.getX()+.5, VAT_BREAK_POS.getY(), VAT_BREAK_POS.getZ()+1.5);
+        if (!vatBreak.bindAutomation(player)) throw new AssertionError("QA authorization: vatBreak");
         vatBreak.addIngredient(new ItemStack(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get(), 1));
         level.destroyBlock(VAT_BREAK_POS, true);
         List<String> vatBreakDrops = level.getEntitiesOfClass(ItemEntity.class, new AABB(VAT_BREAK_POS).inflate(2))
