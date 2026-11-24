@@ -108,10 +108,14 @@ public class ModBlocks {
                     props -> new br.com.quantumindustries.block.CopperCableBlock(props, true),
                     props -> props.strength(0.8F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialCircuitSwitchBlock> INDUSTRIAL_CIRCUIT_SWITCH =
+            BLOCKS.registerBlock("industrial_circuit_switch", br.com.quantumindustries.block.IndustrialCircuitSwitchBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CopperCableBlockEntity>> COPPER_CABLE_ENTITY =
             BLOCK_ENTITIES.register("copper_cable",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
-                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
+                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get(), INDUSTRIAL_CIRCUIT_SWITCH.get()), false));
 
     public static final DeferredBlock<br.com.quantumindustries.block.PneumaticTubeBlock> PNEUMATIC_TUBE =
             BLOCKS.registerBlock("pneumatic_tube",br.com.quantumindustries.block.PneumaticTubeBlock::new,
