@@ -38,6 +38,30 @@ public final class ThermoelectricModelCheck {
             heat += Math.max(0, ThermoelectricModel.heatFlow(180, cold, Coolant.PACKED_ICE) - fe);
         }
         check(produced > 0 && Coolant.PACKED_ICE.exhausted(heat), "generation consumes finite ice");
+        check(ThermalExchange.exchange(-30,25,ThermalExchange.COPPER)<0,"warm air heats ice");
+        check(ThermalExchange.exchange(0,-40,ThermalExchange.COPPER)>0,"cold air removes heat");
+        check(ThermalExchange.exchange(20,20,ThermalExchange.COPPER)==0,"equilibrium has no exchange");
+        check(ThermalExchange.efficiencyBasisPoints(3,20)==1500,"gross energy ratio");
+        check(ThermalExchange.efficiencyBasisPoints(0,0)==0,"no heat no efficiency");
+        check(Coolant.BLUE_ICE.temperature(-1000)==-40,"subzero cooling extends sensible heat");
+        check(Coolant.WATER.temperature(-6000)==0&&!Coolant.WATER.frozen(-6000),"freezing plateau");
+        check(Coolant.WATER.frozen(Coolant.WATER.minHeat()),"water freezes after releasing latent heat");
+        check(ThermalExchange.ambient(-0.7f,false)<0&&ThermalExchange.ambient(2f,false)>20,"biome temperatures differ");
+        int frozenHeat=0;
+        for(int t=0;t<20000;t++){
+            int temperature=Coolant.BLUE_ICE.temperature(frozenHeat);
+            int incoming=ThermoelectricModel.heatFlow(180,temperature,Coolant.BLUE_ICE);
+            int outgoing=ThermalExchange.exchange(temperature,-40,4*ThermalExchange.COPPER);
+            frozenHeat=Math.clamp(frozenHeat+incoming-outgoing,Coolant.BLUE_ICE.minHeat(),Coolant.BLUE_ICE.maxHeat());
+        }
+        check(Coolant.BLUE_ICE.temperature(frozenHeat)<0&&!Coolant.BLUE_ICE.exhausted(frozenHeat),"cold biome can preserve blue ice even without electrical extraction");
+        ThermalHistory history=new ThermalHistory();
+        for(int second=0;second<65;second++){
+            for(int tick=0;tick<20;tick++)history.tick(180,-10,20,3,1);
+        }
+        check(history.count()==60&&history.cursor()==5,"history bounded to sixty samples");
+        check(history.latest(0)==180&&history.latest(1)==-10,"temperature history");
+        check(history.latest(2)==1500&&history.latest(3)==200,"efficiency and fan net power");
         System.out.println("Thermoelectric model checks passed");
     }
 }
