@@ -17,6 +17,18 @@ public final class GeneratorModelCheck {
             int gross=GeneratorModel.grossRate(rpm),net=GeneratorModel.netRate(rpm);
             check(net>=0&&net<=8000&&net<=gross,"bounded conversion");
         }
+        check(GeneratorModel.workLimitedRate(8000, 0) == 0, "RPM without accepted work generates nothing");
+        check(GeneratorModel.workLimitedRate(8000, 1) == 1800, "one work unit cannot generate more than 1.8 FE");
+        check(GeneratorModel.workLimitedRate(1500, 10) == 1500, "dynamo curve still caps conversion");
+        for (int motors=1;motors<=16;motors++) {
+            double maxWork=motors*18*12*.05;
+            check(maxWork*GeneratorModel.MOTOR_FE_PER_WORK <= motors*24, "prepaid motor covers bounded work");
+            for(int generators=1;generators<=64;generators++) {
+                int produced=0;
+                for(int i=0;i<generators;i++) produced+=GeneratorModel.workLimitedRate(8000,maxWork/generators);
+                check(produced <= motors*24000,"shared work cannot multiply when split among generators");
+            }
+        }
         System.out.println("Generator model checks passed");
     }
 }
