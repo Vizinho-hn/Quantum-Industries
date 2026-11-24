@@ -312,6 +312,8 @@ public final class MachinesQaSetup {
 
         // 4. Bellows Alloy Kiln (Bronze: 3 copper + 1 tin, insert takes 1 item per call)
         var kiln = (BellowsAlloyKilnBlockEntity) level.getBlockEntity(KILN_POS);
+        player.setPos(KILN_POS.getX()+.5, KILN_POS.getY(), KILN_POS.getZ()+1.5);
+        if (!kiln.bindAutomation(player)) throw new AssertionError("QA machine authorization: kiln");
         kiln.insert(new ItemStack(Items.COAL, 1));
         for (int i = 0; i < 3; i++) kiln.insert(new ItemStack(Items.COPPER_INGOT, 1));
         kiln.insert(new ItemStack(ModItems.INGOTS.get("tin").get(), 1));
@@ -323,12 +325,16 @@ public final class MachinesQaSetup {
         smelterBat.setStoredEnergy(2000);
         smelterStartFe = smelterBat.energy();
         var smelter = (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMELTER_POS);
+        player.setPos(SMELTER_POS.getX()+.5, SMELTER_POS.getY(), SMELTER_POS.getZ()+1.5);
+        if (!smelter.bindAutomation(player)) throw new AssertionError("QA machine authorization: smelter");
         smelter.insertIngredient(new ItemStack(Items.IRON_INGOT, 1));
         for (int i = 0; i < 2; i++) smelter.insertIngredient(new ItemStack(Items.COAL, 1));
         log("ElectricAlloySmelter: staged 1 iron + 2 coal (steel), bat start FE=" + smelterStartFe);
 
         // 6. Jaw Crusher (Tin via hand crank + testing 7 advanced metals)
         var crusher = (JawCrusherBlockEntity) level.getBlockEntity(CRUSHER_POS);
+        player.setPos(CRUSHER_POS.getX()+.5, CRUSHER_POS.getY(), CRUSHER_POS.getZ()+1.5);
+        if (!crusher.bindAutomation(player)) throw new AssertionError("QA machine authorization: crusher");
         var rawTin = new ItemStack(ModItems.RAW_MATERIALS.get("tin").get(), 1);
         boolean tinAccepted = crusher.insert(rawTin);
         boolean crank1 = crusher.manualStroke();
