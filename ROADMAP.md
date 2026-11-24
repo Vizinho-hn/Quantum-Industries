@@ -111,4 +111,4 @@ Uma fase não deve avançar apenas porque os blocos existem. Os sistemas centrai
 - ter receitas, custos e feedback compreensíveis;
 - ser testáveis sem depender de comandos administrativos.
 
-- [ ] Validar Caixa de Transmissão Compacta em todas as orientações, transmissão 1:1, perdas, divisão de carga e persistência. Esteira logística permanece pendente.
+- [ ] Validar Caixa de Transmissão Compacta em todas as orientações, transmissão 1:1, perdas, divisão de carga e persistência. Validar também esteira logística: transporte, reversão, bloqueio, conservação e persistência.
