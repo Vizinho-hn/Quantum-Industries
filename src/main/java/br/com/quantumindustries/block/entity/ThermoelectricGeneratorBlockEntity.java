@@ -7,6 +7,7 @@ import br.com.quantumindustries.energy.TransferBudget;
 import br.com.quantumindustries.energy.ThermoelectricModel;
 import br.com.quantumindustries.energy.ThermoelectricModel.Coolant;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/** Seebeck conversion: hot bottom, cold top and the existing front FE output. */
+/** Seebeck conversion across opposing faces, retaining the existing front FE output. */
 public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY=480,TRANSFER=32;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(CAPACITY,TRANSFER,TRANSFER);
@@ -33,10 +34,14 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
     private int generation;
     private Coolant coolant=Coolant.NONE;
     private int coolantHeat, powerRemainder;
+    private static final Direction[] FACES = Direction.values();
+    private final Coolant[] faceCoolants = new Coolant[FACES.length];
+    private final int[] faceHeat = new int[FACES.length];
+    private Direction coolantFace = Direction.UP;
     private int hot=ThermoelectricModel.AMBIENT, cold=ThermoelectricModel.AMBIENT;
     private Condition condition=Condition.NO_HEAT;
     private enum Condition { NO_HEAT, NO_COOLANT, OVERHEAT, LOCKED, NO_GRADIENT, FULL, GENERATING }
-    public ThermoelectricGeneratorBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.THERMOELECTRIC_GENERATOR_ENTITY.get(),pos,state);}
+    public ThermoelectricGeneratorBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.THERMOELECTRIC_GENERATOR_ENTITY.get(),pos,state);java.util.Arrays.fill(faceCoolants,Coolant.NONE);}
     public boolean bind(Player player){
         if(!ConversionAuthorization.canBind(level,worldPosition,player,Kind.THERMOELECTRIC))return false;
         if(operator.isEmpty()){operator=player.getUUID().toString();setChanged();}
@@ -64,12 +69,11 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         return Coolant.NONE;
     }
 
-    private int contactTemperature(ServerLevel server) {
-        var below=server.getBlockState(worldPosition.below());
+    private static int contactTemperature(BlockState below) {
         if(below.getFluidState().is(FluidTags.LAVA))return 300;
         if(below.is(Blocks.FIRE)||below.is(Blocks.SOUL_FIRE))return 220;
         if(below.is(Blocks.MAGMA_BLOCK))return 180;
-        return BellowsBrazierBlockEntity.heatSourceLevel(server,worldPosition)>0?140:ThermoelectricModel.AMBIENT;
+        return BellowsBrazierBlockEntity.classifyHeatSource(below)>0?140:ThermoelectricModel.AMBIENT;
     }
 
     public void tick(){
@@ -79,14 +83,41 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         Coolant previousCoolant=coolant;
         Condition previousCondition=condition;
         generation=0;
-        var coolantPos=worldPosition.above();
-        var current=coolantAt(server.getBlockState(coolantPos));
-        if(current!=coolant){
-            coolant=current;
-            coolantHeat=current.initialHeat();
-            powerRemainder=0;
+        // Keep each face's accumulated heat separately: selecting another pair
+        // must never restore the thermal capacity of a previously heated block.
+        Direction previousFace=coolantFace;
+        Direction bestFace=coolantFace;
+        int bestScore=-1, bestHot=ThermoelectricModel.AMBIENT;
+        for(Direction face:FACES){
+            int i=face.ordinal();
+            var cp=worldPosition.relative(face);
+            var hp=worldPosition.relative(face.getOpposite());
+            if(!server.hasChunkAt(cp)||!server.hasChunkAt(hp))continue;
+            Coolant current=coolantAt(server.getBlockState(cp));
+            if(current!=faceCoolants[i]){
+                faceCoolants[i]=current;
+                faceHeat[i]=current.initialHeat();
+                if(face==previousFace)powerRemainder=0;
+                setChanged();
+            }
+            int candidateHot=contactTemperature(server.getBlockState(hp));
+            int candidateCold=current.temperature(faceHeat[i]);
+            int potential=ThermoelectricModel.powerNumerator(candidateHot,candidateCold,current);
+            // Prefer usable gradients; otherwise retain a meaningful diagnostic.
+            int score=potential>0?1000+potential:
+                    candidateHot>ThermoelectricModel.AMBIENT?(current!=Coolant.NONE?500:100)+candidateHot:
+                    current!=Coolant.NONE?1:0;
+            if(score>bestScore||(score==bestScore&&face==previousFace)){
+                bestScore=score;bestFace=face;bestHot=candidateHot;
+            }
         }
-        hot=contactTemperature(server);
+        coolantFace=bestFace;
+        if(previousFace!=coolantFace)powerRemainder=0;
+        var coolantPos=worldPosition.relative(coolantFace);
+        int selected=coolantFace.ordinal();
+        coolant=bestScore<0?Coolant.NONE:faceCoolants[selected];
+        coolantHeat=bestScore<0?0:faceHeat[selected];
+        hot=bestHot;
         cold=coolant.temperature(coolantHeat);
         int potential=ThermoelectricModel.powerNumerator(hot,cold,coolant);
         boolean authorized=ConversionAuthorization.permitted(level,operator,Kind.THERMOELECTRIC);
@@ -113,7 +144,7 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
 
         // Heat passes through an idle/full module too. World heat sources are
         // idealized hot reservoirs; still water and ice have finite heat capacity.
-        if(authorized&&coolant.finite()){
+        if(authorized&&bestScore>=0&&coolant.finite()){
             int absorbed=Math.max(0,ThermoelectricModel.heatFlow(hot,cold,coolant)-generation);
             coolantHeat=Math.min(coolant.maxHeat(),coolantHeat+absorbed);
             if(coolant.exhausted(coolantHeat)){
@@ -127,12 +158,14 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
                     powerRemainder=0;
                 }
             }
+            faceCoolants[selected]=coolant;
+            faceHeat[selected]=coolantHeat;
             cold=coolant.temperature(coolantHeat);
         }
         ConversionPower.distribute(server,worldPosition,this::energy,this::extractEnergy,budget);
         if(previousGeneration!=generation||generation>0||previousHot!=hot||previousCold!=cold
                 ||previousHeat!=coolantHeat||previousRemainder!=powerRemainder
-                ||previousCoolant!=coolant||previousCondition!=condition)setChanged();
+                ||previousCoolant!=coolant||previousCondition!=condition||previousFace!=coolantFace)setChanged();
         if(server.getGameTime()%10==0)server.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);
     }
     @Override public Component statusTitle(){return inspectTitle();}
@@ -148,6 +181,12 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         out.putInt("coolant_type",coolant.ordinal());out.putInt("coolant_heat",coolantHeat);
         out.putInt("power_remainder",powerRemainder);out.putInt("hot_contact",hot);out.putInt("cold_contact",cold);
         out.putInt("thermal_condition",condition.ordinal());
+        out.putInt("coolant_face",coolantFace.ordinal());
+        for(Direction face:FACES){
+            int i=face.ordinal();
+            out.putInt("face_coolant_"+i,faceCoolants[i].ordinal());
+            out.putInt("face_heat_"+i,faceHeat[i]);
+        }
     }
     @Override protected void loadAdditional(ValueInput in){
         super.loadAdditional(in);
@@ -155,6 +194,13 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         generation=Math.clamp(in.getIntOr("generation",0),0,ThermoelectricModel.MAX_FE);
         coolant=Coolant.fromId(in.getIntOr("coolant_type",0));
         coolantHeat=Math.clamp(in.getIntOr("coolant_heat",coolant.initialHeat()),0,coolant.maxHeat());
+        coolantFace=FACES[Math.clamp(in.getIntOr("coolant_face",Direction.UP.ordinal()),0,FACES.length-1)];
+        // Old saves used the top face exclusively; preserve their thermal state.
+        for(Direction face:FACES){
+            int i=face.ordinal();
+            faceCoolants[i]=Coolant.fromId(in.getIntOr("face_coolant_"+i,face==coolantFace?coolant.ordinal():0));
+            faceHeat[i]=Math.clamp(in.getIntOr("face_heat_"+i,face==coolantFace?coolantHeat:faceCoolants[i].initialHeat()),0,faceCoolants[i].maxHeat());
+        }
         powerRemainder=Math.clamp(in.getIntOr("power_remainder",0),0,ThermoelectricModel.POWER_SCALE-1);
         hot=Math.clamp(in.getIntOr("hot_contact",ThermoelectricModel.AMBIENT),ThermoelectricModel.AMBIENT,300);
         cold=coolant.temperature(coolantHeat);

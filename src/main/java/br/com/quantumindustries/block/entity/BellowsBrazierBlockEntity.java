@@ -38,7 +38,10 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     /** Returns 2 for intense heat (lava/fire), 1 for standard heat (magma/lit campfire/lit furnace), or 0 if unheated. */
     public static int heatSourceLevel(Level level, BlockPos pos) {
         if (level == null) return 0;
-        BlockState below = level.getBlockState(pos.below());
+        return classifyHeatSource(level.getBlockState(pos.below()));
+    }
+
+    static int classifyHeatSource(BlockState below) {
         if (below.getFluidState().is(FluidTags.LAVA) || below.is(Blocks.FIRE) || below.is(Blocks.SOUL_FIRE)) {
             return 2;
         }
