@@ -97,7 +97,24 @@ public final class FoundationRecipe extends ShapedRecipe {
 
     public static List<Preview> previews(int research) {
         String key = ResearchCatalog.STUDIES.get(research).key();
-        return Patterns.ALL.stream().filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
+        return java.util.stream.Stream.concat(Patterns.ALL.stream(), legacyPreviews().stream())
+                .filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
+    }
+
+    // Preview-only: vanilla recipes retain their plank tags and crafting behavior.
+    private static List<Pattern> legacyPreviews() {
+        var p=Items.OAK_PLANKS;var i=Items.IRON_INGOT;var b=ModItems.ALLOY_INGOTS.get("bronze").get();
+        var s=ModItems.MECHANICAL_SHAFT_BLOCK.get();var g=ModItems.IRON_GEAR.get();
+        return List.of(
+            new Pattern("mechanical_transmission", ModItems.SMALL_COGWHEEL,1,3,null,p,null,i,s,i,null,p,null),
+            new Pattern("mechanical_transmission", ModItems.LARGE_COGWHEEL,1,3,p,i,p,i,ModItems.SMALL_COGWHEEL.get(),i,p,i,p),
+            new Pattern("mechanical_transmission", ModItems.IRON_FLYWHEEL,1,3,i,b,i,g,s,g,i,b,i),
+            new Pattern("mechanical_transmission", ModItems.MECHANICAL_PULLEY,1,3,b,i,b,p,s,p,b,i,b),
+            new Pattern("mechanical_transmission", ModItems.DRIVE_BELT,1,3,Items.LEATHER,Items.LEATHER,Items.LEATHER,b,null,b,Items.LEATHER,Items.LEATHER,Items.LEATHER),
+            new Pattern("hydraulic_power", ModItems.MEDIUM_WATER_WHEEL,1,3,p,i,p,p,ModItems.PRIMITIVE_WATER_WHEEL.get(),p,p,i,p),
+            new Pattern("hydraulic_power", ModItems.LARGE_WATER_WHEEL,1,3,p,i,p,b,ModItems.MEDIUM_WATER_WHEEL.get(),b,p,i,p),
+            new Pattern("conductivity", ModItems.ENERGY_INSPECTION_GOGGLES,1,3,Items.COPPER_INGOT,ModItems.COPPER_WIRE.get(),Items.COPPER_INGOT,Items.GLASS,Items.LEATHER,Items.GLASS)
+        );
     }
 
     private static List<Pattern> createPatterns() {
@@ -148,7 +165,7 @@ public final class FoundationRecipe extends ShapedRecipe {
                 nugget, ModItems.ELECTROMECHANICAL_FRAME.get(), nugget,
                 null, shaft, null),
             new Pattern("manual_dynamo_design", ModItems.MANUAL_DYNAMO, 1, 3,
-                coil, gear, coil,
+                coil, ModItems.PERMANENT_MAGNET.get(), coil,
                 sheet, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), sheet,
                 insulated, shaft, insulated),
             new Pattern("electromagnetic_induction", ModItems.COPPER_BUSBAR, 4, 3,
@@ -206,10 +223,34 @@ public final class FoundationRecipe extends ShapedRecipe {
                 ModItems.LEAD_SHEET.get(), insulated, ModItems.COPPER_SHEET.get(),
                 plank, ModItems.GALVANIC_ELECTROLYTE.get(), plank,
                 ModItems.LEAD_SHEET.get(), coil, sheet),
-            new Pattern("electromagnetic_induction", ModItems.ELECTROMAGNETIC_GENERATOR, 1, 3,
-                sheet, coil, sheet,
-                shaft, ModItems.MANUAL_DYNAMO.get(), gear,
+            new Pattern("basic_magnetism", ModItems.PERMANENT_MAGNET, 1, 3,
+                iron, Items.REDSTONE, iron),
+            new Pattern("electromagnetic_excitation", ModItems.LAMINATED_IRON_CORE, 1, 3,
+                sheet, paper, sheet, sheet, paper, sheet),
+            new Pattern("electromagnetic_excitation", ModItems.EXCITATION_COIL, 1, 3,
+                insulated, ModItems.LAMINATED_IRON_CORE.get(), insulated,
                 insulated, coil, insulated),
+            new Pattern("electromagnetic_excitation", ModItems.ELECTROMAGNETIC_ROTOR, 1, 3,
+                sheet, shaft, sheet, coil, ModItems.EXCITATION_COIL.get(), coil),
+            new Pattern("electromagnetic_excitation", ModItems.GENERATOR_STATOR, 1, 3,
+                coil, ModItems.LAMINATED_IRON_CORE.get(), coil,
+                sheet, null, sheet, coil, sheet, coil),
+            new Pattern("alternating_current", ModItems.PRIMITIVE_RECTIFIER, 1, 3,
+                wire, Items.QUARTZ, wire, ModItems.COPPER_SHEET.get(), Items.REDSTONE, ModItems.COPPER_SHEET.get()),
+            new Pattern("alternating_current", ModItems.VOLTAGE_REGULATOR, 1, 3,
+                insulated, Items.REDSTONE, insulated, coil, ModItems.PRIMITIVE_RECTIFIER.get(), coil),
+            new Pattern("industrial_generation", ModItems.ELECTROMAGNETIC_GENERATOR, 1, 3,
+                sheet, ModItems.GENERATOR_STATOR.get(), sheet,
+                shaft, ModItems.ELECTROMAGNETIC_ROTOR.get(), gear,
+                ModItems.PRIMITIVE_RECTIFIER.get(), ModItems.VOLTAGE_REGULATOR.get(), insulated),
+            new Pattern("mechanical_energy_storage", ModItems.GRAVITY_WINCH, 1, 3,
+                Items.DARK_OAK_PLANKS, shaft, Items.DARK_OAK_PLANKS,
+                sheet, ModItems.MECHANICAL_PULLEY.get(), sheet,
+                Items.DARK_OAK_PLANKS, null, Items.DARK_OAK_PLANKS),
+            new Pattern("mechanical_energy_storage", ModItems.MAINSPRING_DRUM, 1, 3,
+                ModItems.COPPER_SHEET.get(), sheet, ModItems.COPPER_SHEET.get(),
+                ModItems.BRONZE_GEAR.get(), shaft, gear,
+                Items.DARK_OAK_PLANKS, Items.DARK_OAK_PLANKS, Items.DARK_OAK_PLANKS),
             new Pattern("electromechanical_forming", ModItems.ELECTRIC_MOTOR, 1, 3,
                 sheet, coil, sheet,
                 shaft, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), coil,

@@ -35,6 +35,13 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.MECHANICAL_SHAFT.get());
                     output.accept(ModItems.HAND_CRANK.get());
                     output.accept(ModItems.COPPER_COIL.get());
+                    output.accept(ModItems.PERMANENT_MAGNET.get());
+                    output.accept(ModItems.LAMINATED_IRON_CORE.get());
+                    output.accept(ModItems.EXCITATION_COIL.get());
+                    output.accept(ModItems.ELECTROMAGNETIC_ROTOR.get());
+                    output.accept(ModItems.GENERATOR_STATOR.get());
+                    output.accept(ModItems.PRIMITIVE_RECTIFIER.get());
+                    output.accept(ModItems.VOLTAGE_REGULATOR.get());
                     output.accept(ModItems.ELECTROMECHANICAL_FRAME.get());
                     output.accept(ModItems.PRIMITIVE_MECHANICAL_CORE.get());
                     output.accept(ModItems.FORMING_BENCH.get());

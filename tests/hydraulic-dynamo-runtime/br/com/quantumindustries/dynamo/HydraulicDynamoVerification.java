@@ -140,11 +140,11 @@ public final class HydraulicDynamoVerification {
                 check(dynamo.connectsMechanical(Direction.WEST) && !dynamo.connectsMechanical(Direction.EAST), "only the crank socket accepts the shaft");
             }
             if (ticks == 48) {
-                check(dynamo.energy() >= 24 && dynamo.energy() % 12 == 0 && dynamo.isTurning(), "authorized hydraulic drive starts generating full 12 FE pulses");
+                check(dynamo.energy() > 0 && dynamo.energy() <= 48 && dynamo.isTurning(), "authorized hydraulic drive produces bounded speed-dependent FE");
                 previousEnergy = dynamo.energy();
             }
             if (ticks == 64) {
-                check(dynamo.energy() == previousEnergy + 24 && dynamo.isTurning(), "water and shaft generate 12 FE per eight ticks without a crank: FE="
+                check(dynamo.energy() > previousEnergy && dynamo.energy() <= previousEnergy + 24 && dynamo.isTurning(), "water and shaft generate speed-dependent FE without a crank: FE="
                         + dynamo.energy() + ", network=" + MechanicalNetwork.state(level, DYNAMO)
                         + ", fluid=" + level.getFluidState(WHEEL.south()));
                 previousEnergy = dynamo.energy();
@@ -178,11 +178,11 @@ public final class HydraulicDynamoVerification {
                 MechanicalNetwork.invalidate(level);
             }
             if (ticks == 128) {
-                check(dynamo.energy() > previousEnergy && (dynamo.energy()-previousEnergy)%12==0, "generation resumes after overload and kinetic startup");
+                check(dynamo.energy() > previousEnergy && dynamo.energy() <= previousEnergy + 36, "generation resumes after overload and kinetic startup");
                 previousEnergy = dynamo.energy();
             }
             if (ticks == 144) {
-                check(dynamo.energy() == previousEnergy + 24, "removing excess load resumes generation at the same rate");
+                check(dynamo.energy() > previousEnergy && dynamo.energy() <= previousEnergy + 24, "removing excess load resumes bounded generation");
                 WorldResearchData.get(level).clearAll(player);
                 previousEnergy = dynamo.energy();
             }

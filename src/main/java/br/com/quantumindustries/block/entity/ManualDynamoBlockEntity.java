@@ -41,6 +41,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     private long lastTurn = -(TURN_TICKS + TURNING_GRACE_TICKS);
     private String mechanicalOperator = "";
     private int mechanicalTicks;
+    private int mechanicalRemainder;
     private boolean mechanicallyDriven;
     private int spinDirection = 1;
     private double angleRadians, angularVelocity, angularAcceleration;
@@ -140,6 +141,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         if (!operator.equals(mechanicalOperator)) {
             mechanicalOperator = operator;
             mechanicalTicks = 0;
+        mechanicalRemainder = 0;
             changed();
         }
         return true;
@@ -169,6 +171,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         installed = true;
         refundable = paid;
         mechanicalTicks = 0;
+        mechanicalRemainder = 0;
         mechanicallyDriven = false;
         changed();
         return true;
@@ -237,20 +240,22 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         boolean generating = !installed && mechanicallyDriven && requestedLoad() > 0
                 && Math.abs(snap.angularVelocity()) > 1e-3;
         if (!generating) {
-            if (mechanicalTicks != 0) {
+            if (mechanicalTicks != 0 || mechanicalRemainder != 0) {
                 mechanicalTicks = 0;
+        mechanicalRemainder = 0;
                 setChanged();
             }
             return;
         }
-        mechanicalTicks++;
-        setChanged();
-        if (mechanicalTicks < TURN_TICKS) return;
-        mechanicalTicks = 0;
-        try (var transaction = Transaction.openRoot()) {
-            if (battery.insert(PER_TURN, transaction) > 0) transaction.commit();
+        int scaled=mechanicalRemainder+br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm());
+        int produced=scaled/br.com.quantumindustries.energy.GeneratorModel.SCALE;
+        mechanicalRemainder=scaled%br.com.quantumindustries.energy.GeneratorModel.SCALE;
+        if(produced>0)try(var transaction=Transaction.openRoot()){
+            if(battery.insert(produced,transaction)>0)transaction.commit();
         }
-        changed();
+        if(energy()>=CAPACITY)mechanicalRemainder=0;
+        setChanged();
+        if(server.getGameTime()%5==0)server.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);
     }
 
     private void changed() {
@@ -270,6 +275,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         output.putLong("last_turn", lastTurn);
         output.putString("mechanical_operator", mechanicalOperator);
         output.putInt("mechanical_ticks", mechanicalTicks);
+        output.putInt("mechanical_remainder",mechanicalRemainder);
         output.putBoolean("mechanically_driven", mechanicallyDriven);
         output.putInt("spin_direction", spinDirection);
         output.putDouble("qks_angle", angleRadians);
@@ -284,7 +290,8 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         refundable = installed && input.getBooleanOr("crank_refundable", false);
         lastTurn = input.getLongOr("last_turn", -(TURN_TICKS + TURNING_GRACE_TICKS));
         mechanicalOperator = input.getStringOr("mechanical_operator", "");
-        mechanicalTicks = Math.clamp(input.getIntOr("mechanical_ticks", 0), 0, TURN_TICKS - 1);
+        mechanicalTicks = 0;
+        mechanicalRemainder=Math.clamp(input.getIntOr("mechanical_remainder",0),0,br.com.quantumindustries.energy.GeneratorModel.SCALE-1);
         mechanicallyDriven = input.getBooleanOr("mechanically_driven", false);
         spinDirection = input.getIntOr("spin_direction", 1) < 0 ? -1 : 1;
         angleRadians = input.getDoubleOr("qks_angle", 0);
