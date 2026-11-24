@@ -80,7 +80,7 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricSawmillBlockEntity
-                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor());
+                        || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()));
         for (Direction direction : Direction.values()) {
             if (energy() <= 0) break;
             if (server.hasChunkAt(worldPosition.relative(direction))
@@ -93,7 +93,7 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricSawmillBlockEntity
-                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor())) {
+                        || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()))) {
                 int accepted = target.receiveEnergy(Math.min(TRANSFER, energy()));
                 if (accepted > 0) extractEnergy(accepted);
             }

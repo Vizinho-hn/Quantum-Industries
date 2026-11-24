@@ -4,7 +4,7 @@
 
 | Equipamento | Entrada | Saída | Pesquisa |
 |---|---|---|---|
-| Gerador eletromagnético | QKS, 12 UM de carga | até 8 FE/t; reserva 1.200 FE | Indução eletromagnética |
+| Alternador eletromagnético | QKS, 2–12 UM; 24 FE iniciais | até 8 FE/t líquidos; reserva 1.200 FE | Geração eletromagnética industrial |
 | Motor elétrico | 24 FE/t | 18 UM | Conformação eletromecânica |
 | Caldeira | Água, carvão/carvão vegetal | 10 unidades de vapor/t; reserva 2.000 | Hidrostática + recozimento térmico |
 | Motor a vapor | 10 unidades de vapor/t | 24 UM | Hidrostática + recozimento térmico |
@@ -23,3 +23,7 @@ O modelo termoelétrico seleciona o melhor par oposto nos três eixos, sem somar
 - Reservas e combustível persistidos, sem duplicação e sem geração após coasting ou sobrecarga.
 - Portas corretas em cada orientação; transferência por cabos e adjacência; não misturar FE, UM e vapor.
 - Testar servidor dedicado e cliente; revisar texturas, colisões e conexões no Blockbench/Minecraft. Valores sujeitos a balanceamento survival.
+
+### Alternador e dínamo
+
+Curvas de jogo, não grandezas SI: dínamo por eixo cresce de 0 a 1,5 FE/t entre 0–12 RPM; manivela preservada. Alternador bruto cresce de 0 a 9 FE/t entre 12–50 RPM, mantém 9 até 60 RPM e decresce até zero a 90 RPM. Desconta 1 FE/t de excitação. Campo inicial exige 24 FE externos; a reserva de campo decai quando não sustentada. O calor cresce acima de 65 RPM e desarma a 100, com retorno a 40. O buffer e a carga dinâmica usam o sistema FE/QKS existente. CA e frequência são conceituais; não há rede CA separada. IDs existentes preservados.

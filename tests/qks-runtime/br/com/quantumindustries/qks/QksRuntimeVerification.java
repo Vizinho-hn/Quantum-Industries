@@ -224,11 +224,12 @@ public final class QksRuntimeVerification {
         wheel(CONVERSION_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.SOUTH);
         bindConversion(MOTOR);bindConversion(CONVERSION_GENERATOR);
         check(conversion(MOTOR).sourceCapacity()==0,"unpaid motor adds no torque");
-        check(conversion(CONVERSION_GENERATOR).receiveEnergy(100)==0,"generator is not an electrical sink");
+        check(conversion(CONVERSION_GENERATOR).receiveEnergy(100)==24,"alternator accepts only its initial 24 FE excitation");
         wheel(HYDRO_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.NORTH);
         wheel(HYDRO_GENERATOR.east(),ModBlocks.PRIMITIVE_WATER_WHEEL.get(),Direction.EAST);
         feed(HYDRO_GENERATOR.east(),Direction.EAST,1);
         bindConversion(HYDRO_GENERATOR);
+        check(conversion(HYDRO_GENERATOR).receiveEnergy(100)==24,"hydraulic alternator receives excitation");
         wheel(BOILER,ModBlocks.STEAM_BOILER.get(),Direction.NORTH);
         wheel(STEAM_ENGINE,ModBlocks.STEAM_ENGINE.get(),Direction.NORTH);
         bindConversion(STEAM_ENGINE);
@@ -293,7 +294,7 @@ public final class QksRuntimeVerification {
         var thermal=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL);
         var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(BOILER);
         if(ticks<=20) motorInput+=motor.receiveEnergy(64);
-        check(motor.energy()+generator.energy()<=motorInput,"motor-generator cycle never manufactures FE");
+        check(motor.energy()+generator.energy()<=motorInput+24,"motor-generator cycle never manufactures FE");
         if(ticks==20){
             check(generator.energy()>0&&speed(MOTOR)>0,"electric motor drives an actual loaded generator");
             check(conversion(HYDRO_GENERATOR).energy()>0,"hydraulic drive converts to FE");

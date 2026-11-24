@@ -106,6 +106,13 @@ public class ModItems {
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
+    public static final DeferredItem<Item> PERMANENT_MAGNET = ITEMS.registerSimpleItem("permanent_magnet");
+    public static final DeferredItem<Item> LAMINATED_IRON_CORE = ITEMS.registerSimpleItem("laminated_iron_core");
+    public static final DeferredItem<Item> EXCITATION_COIL = ITEMS.registerSimpleItem("excitation_coil");
+    public static final DeferredItem<Item> ELECTROMAGNETIC_ROTOR = ITEMS.registerSimpleItem("electromagnetic_rotor");
+    public static final DeferredItem<Item> GENERATOR_STATOR = ITEMS.registerSimpleItem("generator_stator");
+    public static final DeferredItem<Item> PRIMITIVE_RECTIFIER = ITEMS.registerSimpleItem("primitive_rectifier");
+    public static final DeferredItem<Item> VOLTAGE_REGULATOR = ITEMS.registerSimpleItem("voltage_regulator");
     public static final DeferredItem<Item> FLOUR = ITEMS.registerSimpleItem("flour");
     public static final DeferredItem<Item> BREAD_DOUGH = ITEMS.registerSimpleItem("bread_dough");
     public static final DeferredItem<Item> RUSTIC_BREAD = ITEMS.registerItem("rustic_bread", Item::new,

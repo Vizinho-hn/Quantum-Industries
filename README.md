@@ -448,3 +448,7 @@ Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a r
 ### Códice — máquinas das Eras I e II
 
 O Códice inclui capítulos próprios para Caixa de Transmissão Compacta, Esteira Mecânica, Interruptor Elétrico Industrial, Gerador Eletromagnético, Motor Elétrico, Caldeira, Motor a Vapor, Gerador Termoelétrico, Guincho de Contrapeso Gravitacional e Tambor de Mola Helicoidal. Os capítulos exigem as pesquisas aplicáveis, inclusive Chapas Metálicas ou Recozimento Térmico quando necessário. Textos PT-BR/EN-US descrevem a operação, os limites e as portas; receitas continuam na mesa de pesquisa/JEI. Não altera pesquisas já concluídas nem dados de saves.
+
+### Dínamo e alternador industrial
+
+O dínamo usa ímã permanente: 12 FE por acionamento manual válido, ou produção por eixo de até 1,5 FE/t a 12 RPM. O antigo `electromagnetic_generator` é agora o Alternador Eletromagnético, sem alteração de ID: requer 24 FE de excitação no terminal elétrico, usa 1 FE/t de geração bruta para autoexcitação e fornece até 8 FE/t líquidos entre 50–60 RPM. Carga QKS de 2–12 UM conforme produção; proteção térmica em sobrevelocidade. Rede FE preservada (retificação interna). Novas pesquisas: Excitação Eletromagnética, Corrente Alternada e Retificação, Geração Eletromagnética Industrial e Armazenamento de Energia Mecânica. Os sete componentes magnéticos e o alternador possuem receitas e capítulos no Códice. Guincho e tambor de mola passam a ter receitas protegidas por pesquisa. Validação de servidor/cliente pendente.

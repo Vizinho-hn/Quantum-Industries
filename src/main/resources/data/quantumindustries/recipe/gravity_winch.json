@@ -1,18 +1,4 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "WMW",
-    "SPS",
-    "W W"
-  ],
-  "key": {
-    "W": "minecraft:dark_oak_planks",
-    "M": "quantumindustries:mechanical_shaft",
-    "S": "quantumindustries:iron_sheet",
-    "P": "quantumindustries:mechanical_pulley"
-  },
-  "result": {
-    "id": "quantumindustries:gravity_winch",
-    "count": 1
-  }
+  "type": "quantumindustries:foundations",
+  "craft": "gravity_winch"
 }
