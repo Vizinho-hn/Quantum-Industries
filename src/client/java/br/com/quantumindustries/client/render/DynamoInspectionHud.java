@@ -44,6 +44,17 @@ public final class DynamoInspectionHud {
         var blockEntity = minecraft.level.getBlockEntity(hit.getBlockPos());
         boolean hasGoggles = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get());
 
+        if (blockEntity instanceof br.com.quantumindustries.block.entity.RotaryConversionBlockEntity rotor && rotor.isGenerator()) {
+            int bottom = AlternatorInspectionHud.draw(g, minecraft, rotor);
+            if (hasGoggles && player.isShiftKeyDown()) {
+                InspectionSnapshot snap = ClientInspectionCache.forPos(hit.getBlockPos());
+                if (snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) {
+                    drawMechanical(g, minecraft, snap, bottom + 6, true);
+                }
+            }
+            return;
+        }
+
         if (hasGoggles) {
             boolean drewTopPanel = false;
             boolean shift = player.isShiftKeyDown();
