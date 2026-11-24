@@ -16,6 +16,8 @@ O rotor usa o QKS original. Motor elétrico e motor a vapor reservam o recurso p
 
 O modelo termoelétrico seleciona o melhor par oposto nos três eixos, sem somar geração. Preserva o calor acumulado por face, a proteção acima de 250 °C, o consumo de refrigerantes finitos e a saída frontal. Saves antigos migram o refrigerante da face superior.
 
+Com JEI instalado, pressione **U** sobre o Gerador Termoelétrico. A tabela compara a potência inicial de cada par em porcentagem do máximo de 6 FE/t, sem módulos térmicos. Passe o mouse sobre uma célula para ver a estimativa em FE/t.
+
 ## Critérios de aceite
 
 - Operador autorizado e pesquisas preservadas; sem pesquisa, sem produção.

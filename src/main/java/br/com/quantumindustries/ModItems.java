@@ -13,8 +13,6 @@ import net.neoforged.bus.api.IEventBus;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(QuantumIndustries.MODID);
 
-    public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
-
     public static final DeferredItem<BlockItem> ELECTROMAGNETIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMAGNETIC_GENERATOR);
     public static final DeferredItem<BlockItem> ELECTRIC_MOTOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_MOTOR);
     public static final DeferredItem<BlockItem> STEAM_BOILER = ITEMS.registerSimpleBlockItem(ModBlocks.STEAM_BOILER);
@@ -24,6 +22,9 @@ public class ModItems {
     public static final DeferredItem<BlockItem> COMPACT_GEARBOX = ITEMS.registerSimpleBlockItem(ModBlocks.COMPACT_GEARBOX);
     public static final DeferredItem<BlockItem> ELECTRICAL_NETWORK_ANALYZER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRICAL_NETWORK_ANALYZER);
     public static final DeferredItem<BlockItem> INDUSTRIAL_CIRCUIT_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH);
+
+    public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
+
     public static final DeferredItem<BlockItem> SMALL_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.SMALL_COGWHEEL);
     public static final DeferredItem<BlockItem> LARGE_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_COGWHEEL);
     public static final DeferredItem<BlockItem> IRON_FLYWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.IRON_FLYWHEEL);
@@ -115,6 +116,9 @@ public class ModItems {
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
+    public static final DeferredItem<Item> COPPER_HEATSINK = ITEMS.registerSimpleItem("copper_heatsink");
+    public static final DeferredItem<Item> ALUMINUM_HEATSINK = ITEMS.registerSimpleItem("aluminum_heatsink");
+    public static final DeferredItem<Item> THERMAL_FAN = ITEMS.registerSimpleItem("thermal_fan");
     public static final DeferredItem<Item> PERMANENT_MAGNET = ITEMS.registerSimpleItem("permanent_magnet");
     public static final DeferredItem<Item> LAMINATED_IRON_CORE = ITEMS.registerSimpleItem("laminated_iron_core");
     public static final DeferredItem<Item> EXCITATION_COIL = ITEMS.registerSimpleItem("excitation_coil");

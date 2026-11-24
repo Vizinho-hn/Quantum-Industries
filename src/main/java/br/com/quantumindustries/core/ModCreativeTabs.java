@@ -85,6 +85,9 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.STEAM_BOILER.get());
                     output.accept(ModItems.STEAM_ENGINE.get());
                     output.accept(ModItems.THERMOELECTRIC_GENERATOR.get());
+                    output.accept(ModItems.COPPER_HEATSINK.get());
+                    output.accept(ModItems.ALUMINUM_HEATSINK.get());
+                    output.accept(ModItems.THERMAL_FAN.get());
                     output.accept(ModItems.PNEUMATIC_TUBE.get());
                     output.accept(ModItems.BELLOWS_EJECTOR.get());
                     output.accept(ModItems.GRAVITATIONAL_SORTER.get());
