@@ -277,7 +277,8 @@ public final class ConnectionVerification {
         var source = (ChestBlockEntity) level.getBlockEntity(SMART);
         var machine = smartSmelter();
         check(machine.inputA().is(Items.COPPER_INGOT) && machine.inputA().getCount() == 16, "copper remains in just one slot");
-        check(machine.inputB().is(ModItems.INGOTS.get("tin").get()) && machine.inputB().getCount() == 16, "tin behind full copper is selected and delivered");
+        check(machine.inputB().is(ModItems.INGOTS.get("tin").get()) && machine.inputB().getCount() == 16,
+                "tin behind full copper is selected and delivered; input=" + machine.inputB() + ", source=" + source.getItem(1));
         int copper = 0, tin = 0;
         for (int slot = 0; slot < source.getContainerSize(); slot++) {
             var stack = source.getItem(slot);
@@ -332,7 +333,6 @@ public final class ConnectionVerification {
                 }
             }
             if (ticks == 200) {
-                verifySmartSmelter();
                 check(chest(3).getItem(0).getCount() == 10, "item tubes pull from a chest and push into another chest");
                 check(vat(3).storedFluid() == 1000, "copper and glass pipes transfer real water");
                 check(energy(0).energy() == 0 && energy(3).energy() == 128, "energy input/output modes preserve real FE");
@@ -342,6 +342,9 @@ public final class ConnectionVerification {
                 check(energy(0).receiveEnergy(64) == 64, "stage blocked energy for restart");
             }
             if (ticks == 240) {
+                // The separate three-hop line pulls aligned to world time and can
+                // miss a pull interval depending on the order of block entity ticks.
+                verifySmartSmelter();
                 check(tube(2).packet().getCount() == 1 && pipe(2).storedFluid() == 200, "blocked endpoints retain contents for restart");
                 Files.writeString(Path.of("../restart-ready.txt"), "PASS: " + checks + " checks\n");
                 finish(null);
