@@ -1139,5 +1139,7 @@
   "gui.quantumindustries.electric_sawmill.logistics": "Input %s | Output %s",
   "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%",
   "block.quantumindustries.compact_gearbox": "Compact Gearbox",
-  "item.quantumindustries.compact_gearbox": "Compact Gearbox"
+  "item.quantumindustries.compact_gearbox": "Compact Gearbox",
+  "block.quantumindustries.mechanical_conveyor": "Mechanical Conveyor",
+  "message.quantumindustries.mechanical_conveyor.status": "Cargo: %s | Position: %s%% | Rotation: %s RPM"
 }
