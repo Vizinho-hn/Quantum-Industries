@@ -1,0 +1,9 @@
+allprojects { afterEvaluate {
+    sourceSets.main.java.srcDir('tests/electric-sawmill-runtime')
+    neoForge.runs.server {
+        gameDirectory=file(providers.gradleProperty('electricSawRunDir').getOrElse('build/electric-sawmill-qa')+'/world')
+        systemProperty 'quantumindustries.verifyElectricSawmill','true'
+        systemProperty 'quantumindustries.electricSawPhase',providers.gradleProperty('electricSawPhase').getOrElse('write')
+        jvmArgument '-Xlog:class+load=info:file=../classes-%p.log:uptime,level,tags'
+    }
+} }

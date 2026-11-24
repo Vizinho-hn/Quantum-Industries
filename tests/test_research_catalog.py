@@ -10,7 +10,7 @@ class ResearchCatalogTest(unittest.TestCase):
     def test_catalog_graph(self):
         source = (RESEARCH / "ResearchCatalog.java").read_text(encoding="utf-8")
         entries = re.findall(r'new Study\("([^"]+)"[^\n]*?, [12], List.of\(([^)]*)\)', source)
-        self.assertEqual(len(entries), 17)
+        self.assertEqual(len(entries), 18)
         graph = {key: re.findall(r'"([^"]+)"', deps) for key, deps in entries}
         self.assertEqual(len(graph), len(entries))
         self.assertEqual([key for key, deps in graph.items() if not deps], ["material_observation"])

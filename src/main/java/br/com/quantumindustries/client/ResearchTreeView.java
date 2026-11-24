@@ -40,6 +40,7 @@ final class ResearchTreeView {
             Map.entry("load_protection", new Grid(3, 60)),
             Map.entry("alloy_metallurgy", new Grid(4, 20)),
             Map.entry("electric_alloy_smelting", new Grid(3, 120)),
+            Map.entry("electric_wood_processing", new Grid(3, 180)),
             Map.entry("mineral_beneficiation", new Grid(6, 56)),
             Map.entry("scientific_analyzer_tier_2", new Grid(7, 86)),
             Map.entry("chemical_leaching", new Grid(5, 84))

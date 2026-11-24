@@ -39,6 +39,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.PRIMITIVE_MECHANICAL_CORE.get());
                     output.accept(ModItems.FORMING_BENCH.get());
                     output.accept(ModItems.MECHANICAL_SAWMILL.get());
+                    output.accept(ModItems.ELECTRIC_SAWMILL.get());
                     output.accept(ModItems.MANUAL_GRAIN_MILL.get());
                     output.accept(ModItems.FLOUR.get());
                     output.accept(ModItems.BREAD_DOUGH.get());
