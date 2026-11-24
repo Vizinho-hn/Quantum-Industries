@@ -102,4 +102,4 @@ Responda de forma objetiva:
 
 Não faça commits, push, merge, force-push nem mudanças destrutivas sem autorização explícita na tarefa. Sempre revise o diff antes de propor integração.
 
-- Ao integrar mudanças em `ModBlocks`/`ModItems`, preserve os registros industriais e suas entidades, incluindo o interruptor no conjunto de blocos válidos de `COPPER_CABLE_ENTITY`. A suíte de contratos verifica essas declarações para prevenir regressões de merge.
+- Ao integrar mudanças em `ModBlocks`/`ModItems`, preserve os registros industriais e suas entidades, incluindo o interruptor no conjunto de blocos válidos de `COPPER_CABLE_ENTITY`, bem como os registros de conversão industrial, esteira, caixa de engrenagens e chave de circuito, com a chave declarada antes do tipo de Block Entity dos cabos que a inclui em seus blocos válidos. A suíte de contratos verifica essas declarações para prevenir regressões de merge.
