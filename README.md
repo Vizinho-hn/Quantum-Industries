@@ -141,7 +141,7 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 ### Fundição de Ligas (Era I & Era II)
 
-- **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado pela pesquisa **Metalurgia de Ligas** (após testar aquecimento de Cobre e Estanho ou Zinco). Consome carvão/carvão vegetal (ou **Fluorita** como fluxo redutor de escória) e sopros de **Fole Manual** para fundir ligas de baixa temperatura: **Bronze** (`3 Cobre + 1 Estanho → 4 Bronze`) e **Latão** (`2 Cobre + 1 Zinco → 3 Latão`). Também libera a **Engrenagem de Bronze**.
+- **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado por Metalurgia de Ligas, fabricado com fogueira vanilla, tijolos, terracota, chapa, pedra lisa e fornalha. Produz bronze (3 cobre + 1 estanho → 4), latão (3 cobre + 1 zinco → 4), invar (2 ferro + 1 níquel → 3), electrum (1 ouro + 1 prata → 2), constantan (1 cobre + 1 níquel → 2) e aço (1 ferro + 2 carvão ou grafite → 1). Usa carvão/carvão vegetal e Fole Manual. Ligas complexas exigem calor relativo 160 (aço 240), o dobro do tempo elétrico e maior consumo durante a fusão. O britador pode ser fabricado somente com componentes mecânicos e vanilla.
 - **Fundidora de Ligas Elétrica (`electric_alloy_smelter` — Era II):** liberada pela pesquisa **Fundição Eletrotérmica de Ligas**. Opera com energia elétrica (capacidade de 600 FE, consumo de 4 FE/t) e funde tanto as ligas da Era I quanto ligas refratárias e de precisão da Era II: **Invar** (`2 Ferro + 1 Níquel → 3 Invar`), **Electrum** (`1 Ouro + 1 Prata → 2 Electrum`), **Constantan** (`1 Cobre + 1 Níquel → 2 Constantan`) e **Aço** (`1 Ferro + 1 Pó de Grafite → 1 Aço`).
 - **Chapas de Novos Metais e Ligas:** Chumbo, Estanho, Zinco e todas as seis ligas podem ser prensados em chapas na Bancada de Conformação Manual ou na Prensa Eletromecânica, com suporte a Common Tags (`#c:ingots/*`, `#c:nuggets/*`, `#c:plates/*`). Tanto o Forno a Fole quanto a Fundidora Elétrica aceitam **Lingotes** ou **Pós Minerais Purificados (`*_dust`)**.
 
@@ -155,7 +155,7 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 - A pesquisa **Reagentes Ácidos e Química Mineral** (`chemical_leaching` — Era II) e o beneficiamento mineral dão função prática aos minerais não-metálicos do mod:
   - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando ácido clorídrico engarrafado e sedimento mineral.
-  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** pode ser inserida no **Forno de Ligas a Fole** e no **Braseiro de Fole**, reduzindo o ponto de fusão da escória (+600 ticks de combustível e +150 de calor imediato).
+  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** no Forno a Fole, uma unidade opcional reduz em 40 o limiar de calor relativo de um lote complexo, sem adicionar combustível nem calor. O Braseiro mantém seu comportamento anterior, sujeito a revisão.
   - **Grafite (`graphite_dust`) → Tijolo Refratário (`refractory_brick`):** usado na construção da Fundidora de Ligas Elétrica e como núcleo isolante da **Bobina Térmica de Constantan**.
   - **Apatita (`apatite_gem`) + Enxofre (`sulfur_dust`) → Fertilizante Fosfatado (`phosphate_fertilizer`):** fertilizante químico de alta eficiência que acelera o crescimento de plantações ao clicar com o botão direito.
 
