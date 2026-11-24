@@ -31,11 +31,12 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
 - [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
-- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.\n- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
+- [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.
+- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
 
 ## Fase 2 — Primeira indústria
 
-- [x] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (nesta branch; integração por PR).
+- [x] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (integrada à main).
 - [x] Receitas JSON de processamento, sincronização nativa e prévias automáticas no caderno.
 - [x] Testes automatizados da cadeia em survival com suprimentos preparados, reinício real, carga compartilhada, inventários e chunks.
 - [ ] Moinho de Pedra, Prensa Mecânica de Fuso, Guincho de Mineração e Bomba Mecânica.
@@ -49,7 +50,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] **QKS PR 2 — Stage D:** `small_cogwheel` (Z=8), `large_cogwheel` (Z=16), `iron_flywheel`, `mechanical_pulley` + `drive_belt`, `medium_water_wheel` (3×3) and `large_water_wheel` (5×5).
 - [x] **QKS PR 3 — Stage E (implementação):** telemetria cinética nos Óculos de Inspeção, capítulos opcionais de física no Códice e suíte dedicada `tools/verify-qks.sh` com reinício write/read.
 - [x] **Aceitação QKS PR 3:** `bash tools/verify-qks.sh` e suíte dedicada aprovados nas fases write/read, com persistência após reinício e isolamento de classes nas duas JVMs; preview cliente do HUD normal, diagnósticos com Shift e paginação do Códice verificado.
-- [x] Serraria Elétrica da Era II: entradas/saídas 2×2, 8 tábuas por tora, FE, tubos, interface, inspeção, pesquisa, Códice e JEI (branch em revisão; ver `docs/ELECTRIC_SAWMILL.md`).
+- [x] Serraria Elétrica da Era II: entradas/saídas 2×2, 8 tábuas por tora, FE, tubos, interface, inspeção, pesquisa, Códice e JEI (integrada à main; ver `docs/ELECTRIC_SAWMILL.md`).
 - [ ] Continuar as transmissões avançadas e a evolução elétrica das demais máquinas da Era II.
 
 - [x] Implementar as 13 pesquisas originais da Era I e acrescentar Aproveitamento Hidráulico e Metalurgia de Ligas, preservando os IDs e a migração.
@@ -69,7 +70,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Expandir Trefiladora (`electrum_wire`, `constantan_wire`, `constantan_coil`) e Recozimento Térmico (`heated_bronze_ingot`, `heated_brass_ingot`, `heated_steel_ingot`).
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [ ] Validar as seis ligas manuais, os crafts revisados do forno e britador, e o caminho até a primeira Fundidora Elétrica em servidor real.
-- [x] Implementar os primeiros blocos da Era II: Acumulador Galvânico (2.400 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
+- [x] Implementar os primeiros blocos da Era II: Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica (60 FE/chapa) e transferência adjacente com leitura nos Óculos de Inspeção.
 - [x] Introduzir Barramento de Cobre Nu e Conduíte Isolado para distribuir FE com limites de vazão e perda por caminho; conexões, modelos e hitboxes nas seis direções, incluindo pilhas verticais.\n- [x] Introduzir Trefiladora com acionamento manual ou FE e fios de cobre/ouro (4 por chapa).\n- [x] Introduzir forja térmica com fole e pré-aquecimento para conformação/prensa.\n- [x] Introduzir transdutor piezoelétrico e relé de carga por limiares de acumulador.\n- [x] Criar tubos pneumáticos com animação de pacotes, ejetor manual/FE e classificador gravitacional.
 - [x] Criar dutos hidráulicos nativos NeoForge, bomba peristáltica manual/FE e cuba de decantação 8.000 mB (com suporte a Pó de Enxofre, Lápis-Lazúli e Sal Gema).
 - [ ] Criar fluido registrado de eletrólito refinado e integrar como insumo líquido ao Acumulador sem invalidar receitas anteriores.

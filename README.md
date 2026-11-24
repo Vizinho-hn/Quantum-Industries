@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 18 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II tem 16 pesquisas e conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
 
 O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
 
@@ -12,7 +12,7 @@ O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chun
 
 Nova `electric_sawmill`: quatro entradas e quatro saídas reais (2×2), uma câmara com seleção circular, **1 tora → 8 tábuas em 40 ticks**, consumindo **160 FE** (4 FE/t). Buffer de 1.200 FE, recebimento limitado a 64 FE por tick. Integra cabos, tubos, óculos, JEI e Códice. A pesquisa **Processamento Eletromecânico de Madeira** exige Transmissão Mecânica, Indução Eletromagnética, Conformação Eletromecânica e os ensaios indicados no caderno. A Serraria Mecânica permanece disponível.
 
-Implementação em revisão na branch `feat/electric-sawmill-era2`, sem merge automático. Veja [arquitetura, reprodução e evidências](docs/ELECTRIC_SAWMILL.md).
+Implementação integrada à main; a validação de progressão survival completa permanece pendente. Veja [arquitetura, reprodução e evidências](docs/ELECTRIC_SAWMILL.md).
 
 ## Visão do projeto
 
@@ -32,8 +32,8 @@ O Dínamo Manual encerra o **arco de geração elétrica** da Era I, mas **não*
 - **Compatibilidade:** nada foi apagado do progresso dos jogadores e nenhuma receita bypassa o desbloqueio validado no servidor.
 
 
-Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
-e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
+A oficina mecânica integrada à main traz serraria manual, transmissão por eixos
+e roda-d'água, independente de FE.
 [Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
 
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
@@ -44,6 +44,8 @@ Pilares:
 - **Indústria em camadas:** processamento mecânico, energia, química, materiais, nuclear, quântica e dimensional.
 - **Multiplayer com progresso individual:** cada jogador mantém seu próprio conhecimento, mesmo quando compartilha máquinas e instalações.
 - **Minecraft como laboratório:** dimensões, criaturas, blocos e fenômenos do jogo inspiram sistemas próprios do mod.
+
+A [auditoria de fechamento das Eras I e II](docs/ERA1_ERA2_CLOSURE_AUDIT.md) registra a revisão estática, propostas de balanceamento e critérios de aceitação ainda não verificados em survival.
 
 ## Progressão planejada
 
@@ -142,12 +144,12 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 ### Fundição de Ligas (Era I & Era II)
 
 - **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado por Metalurgia de Ligas, fabricado com fogueira vanilla, tijolos, terracota, chapa, pedra lisa e fornalha. Produz bronze (3 cobre + 1 estanho → 4), latão (3 cobre + 1 zinco → 4), invar (2 ferro + 1 níquel → 3), electrum (1 ouro + 1 prata → 2), constantan (1 cobre + 1 níquel → 2) e aço (1 ferro + 2 carvão ou grafite → 1). Usa carvão/carvão vegetal e Fole Manual. Ligas complexas exigem calor relativo 160 (aço 240), o dobro do tempo elétrico e maior consumo durante a fusão. O britador pode ser fabricado somente com componentes mecânicos e vanilla.
-- **Fundidora de Ligas Elétrica (`electric_alloy_smelter` — Era II):** liberada pela pesquisa **Fundição Eletrotérmica de Ligas**. Opera com energia elétrica (capacidade de 600 FE, consumo de 4 FE/t) e funde tanto as ligas da Era I quanto ligas refratárias e de precisão da Era II: **Invar** (`2 Ferro + 1 Níquel → 3 Invar`), **Electrum** (`1 Ouro + 1 Prata → 2 Electrum`), **Constantan** (`1 Cobre + 1 Níquel → 2 Constantan`) e **Aço** (`1 Ferro + 1 Pó de Grafite → 1 Aço`).
+- **Fundidora de Ligas Elétrica (`electric_alloy_smelter` — Era II):** liberada pela pesquisa **Fundição Eletrotérmica de Ligas**. Opera com energia elétrica (capacidade de 1.200 FE, custo de 80–160 FE por lote conforme a liga) e funde tanto as ligas da Era I quanto ligas refratárias e de precisão da Era II: **Invar** (`2 Ferro + 1 Níquel → 3 Invar`), **Electrum** (`1 Ouro + 1 Prata → 2 Electrum`), **Constantan** (`1 Cobre + 1 Níquel → 2 Constantan`) e **Aço** (`1 Ferro + 2 Carvão ou Pó de Grafite → 1 Aço`).
 - **Chapas de Novos Metais e Ligas:** Chumbo, Estanho, Zinco e todas as seis ligas podem ser prensados em chapas na Bancada de Conformação Manual ou na Prensa Eletromecânica, com suporte a Common Tags (`#c:ingots/*`, `#c:nuggets/*`, `#c:plates/*`). Tanto o Forno a Fole quanto a Fundidora Elétrica aceitam **Lingotes** ou **Pós Minerais Purificados (`*_dust`)**.
 
 ### Beneficiamento Mineral 2× e Britador de Mandíbulas (`jaw_crusher`)
 
-- Liberado pela pesquisa **Beneficiamento e Cominuição Mineral** (`mineral_beneficiation` — Era I), o **Britador de Mandíbulas** é uma máquina híbrida: opera manualmente na Era I com **3 giros da Manivela** ou automaticamente na Era II consumindo **60 FE** (3 FE/t por 20 ticks, buffer de 240 FE).
+- Liberado pela pesquisa **Beneficiamento e Cominuição Mineral** (`mineral_beneficiation` — Era I), o **Britador de Mandíbulas** é uma máquina híbrida: opera manualmente na Era I com **3 giros da Manivela** ou automaticamente na Era II consumindo **60 FE** (3 FE/t por 20 ticks, buffer de 480 FE).
 - **Duplicação de Minérios (1 Bruto → 2 Pós):** tritura `raw_copper`, `raw_iron`, `raw_gold`, `raw_tin`, `raw_zinc`, `raw_lead`, `raw_nickel` e `raw_silver` em **2× Pós Purificados (`*_dust`)**. Cada pó pode ser fundido 1:1 em lingote na fornalha/alto-forno, usado diretamente nos fornos de liga ou analisado na Bancada de Ensaio Empírico.
 - **Moagem Mecanizada e Carvão:** também mói **1 Trigo → 2 Farinhas** (dobrando o rendimento do Moedor Manual) e tritura **1 Carvão → 2 Pós de Grafite**.
 
@@ -177,7 +179,7 @@ Barramentos de Cobre Nu e Conduítes Isolados levam FE do dínamo e do acumulado
 
 Ambos conectam-se a cabos e máquinas adjacentes nas seis direções, inclusive diretamente acima e abaixo. Modelo e hitbox acompanham cada conexão; vizinhos diagonais não se conectam. As conexões dos cabos salvos são recalculadas ao carregar. Verificação em servidor isolado: `bash tools/verify-cables.sh`.
 
-O **Dínamo** aceita manivela ou movimento da roda-d'água pelo Eixo de Transmissão Mecânica. Retire a manivela com Shift + botão direito e conecte o eixo ao encaixe lateral. A geração automática consome **6 UM** da rede e produz **12 FE a cada 8 ticks** (1,5 FE/t). Um dínamo já colocado precisa de um clique de um jogador com Projeto do Dínamo para autorizar esse acionamento; novas colocações desse jogador já ficam autorizadas. A porta elétrica fica no lado oposto e alimenta cabos ou máquinas adjacentes. Eixo desconectado, água sem movimento ou sobrecarga interrompem a geração. O bloco mantém o ID `manual_dynamo` e a capacidade de 240 FE.
+O **Dínamo** aceita manivela ou movimento da roda-d'água pelo Eixo de Transmissão Mecânica. Retire a manivela com Shift + botão direito e conecte o eixo ao encaixe lateral. A geração automática consome **6 UM** da rede e produz até **1,5 FE/t** a partir de 12 RPM, com redução proporcional abaixo dessa velocidade. Um dínamo já colocado precisa de um clique de um jogador com Projeto do Dínamo para autorizar esse acionamento; novas colocações desse jogador já ficam autorizadas. A porta elétrica fica no lado oposto e alimenta cabos ou máquinas adjacentes. Eixo desconectado, água sem movimento ou sobrecarga interrompem a geração. O bloco mantém o ID `manual_dynamo` e a capacidade de 240 FE.
 
 ### Trefiladora de bancada
 
