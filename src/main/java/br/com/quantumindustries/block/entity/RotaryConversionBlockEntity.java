@@ -36,6 +36,13 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     public Kind kind() { return ((IndustrialConversionBlock)getBlockState().getBlock()).kind(); }
     public boolean isMotor() { return kind()==Kind.MOTOR; }
     private boolean generator() { return kind()==Kind.GENERATOR; }
+    public boolean isGenerator() { return generator(); }
+    public boolean isEnabled() { return enabled; }
+    public int rotorHeat() { return rotorHeat; }
+    public boolean isThermalTrip() { return thermalTrip; }
+    public int excitation() { return excitation; }
+    public int field() { return field; }
+    public int lastGenerated() { return lastGenerated; }
     public boolean needsExcitation() { return generator() && enabled && field==0 && excitation<GeneratorModel.FIELD_START && authorized(); }
     private boolean authorized() { return ConversionAuthorization.permitted(level,operator,kind()); }
     public boolean bind(Player player) {
