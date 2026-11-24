@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "GMB",
+    "WWW"
+  ],
+  "key": {
+    "C": "quantumindustries:copper_sheet",
+    "S": "quantumindustries:iron_sheet",
+    "G": "quantumindustries:bronze_gear",
+    "M": "quantumindustries:mechanical_shaft",
+    "B": "quantumindustries:iron_gear",
+    "W": "minecraft:dark_oak_planks"
+  },
+  "result": {
+    "id": "quantumindustries:mainspring_drum",
+    "count": 1
+  }
+}
