@@ -1137,5 +1137,7 @@
   "gui.quantumindustries.electric_sawmill.state.4": "Material incompatível",
   "gui.quantumindustries.electric_sawmill.state.5": "Pesquisa necessária",
   "gui.quantumindustries.electric_sawmill.logistics": "Entrada %s | Saída %s",
-  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%"
+  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%",
+  "block.quantumindustries.compact_gearbox": "Caixa de Transmissão Compacta",
+  "item.quantumindustries.compact_gearbox": "Caixa de Transmissão Compacta"
 }
