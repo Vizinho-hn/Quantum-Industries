@@ -189,7 +189,7 @@ A Forja de Recozimento utiliza uma fonte térmica válida abaixo do bloco e rece
 
 ### Instrumentação da Era II
 
-O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos.
+O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos. O contato inicial e o deslocamento real dos pés sobre a placa são detectados no servidor, inclusive quando a velocidade informada pelo jogador é zero. Uma entidade parada não gera pulsos repetidos; a saída total por placa é limitada a 40 FE/t.
 
 O **Relé de Carga** acompanha um acumulador galvânico diretamente adjacente. Abaixo de 10% ele interrompe o fornecimento a máquinas; acima de 80% emite sinal de redstone de intensidade 15. O relé armazena até 96 FE para encaminhamento, sem geração própria.
 
