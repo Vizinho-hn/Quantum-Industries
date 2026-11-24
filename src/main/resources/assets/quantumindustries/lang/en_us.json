@@ -1455,7 +1455,7 @@
   "gui.quantumindustries.instrumental.conductivity": "Conductivity",
   "gui.quantumindustries.instrumental.hardness": "Hardness",
   "gui.quantumindustries.instrumental.stability": "Thermal stability",
-  "gui.quantumindustries.instrumental.hint": "Sneak + use ingot with paper in the off hand.",
+  "gui.quantumindustries.instrumental.hint": "Click a material with its ingot and paper in your inventory.",
   "gui.quantumindustries.instrumental.scale": "Relative gameplay indices (0–100); ? = not recorded.",
   "gui.quantumindustries.instrumental.evidence": "Instrumental analysis: %s",
   "gui.quantumindustries.instrumental.material.copper": "Copper",
@@ -1472,4 +1472,7 @@
   "gui.quantumindustries.instrumental.material.invar": "Invar",
   "gui.quantumindustries.instrumental.material.electrum": "Electrum",
   "gui.quantumindustries.instrumental.material.constantan": "Constantan"
+,
+  "message.quantumindustries.instrumental.sample": "Keep an ingot of this material in your inventory.",
+  "message.quantumindustries.instrumental.inventory_paper": "One paper is required in your inventory."
 }
