@@ -1445,4 +1445,8 @@
   "gui.quantumindustries.thermal.buffer": "Buffer: %s/480 FE",
   "gui.quantumindustries.thermal.coolant": "Cold capacity: %s%%",
   "gui.quantumindustries.thermal.exchange": "Q input: %s | Q ambient: %s u/t"
+,
+  "message.quantumindustries.instrumental.paper": "Hold paper in your off hand to record the first instrumental analysis.",
+  "message.quantumindustries.instrumental.research": "Scientific Analyzer Tier 2 research required.",
+  "message.quantumindustries.instrumental.result": "%s | Gameplay indices (0–100): conductivity %s, hardness %s, thermal stability %s"
 }
