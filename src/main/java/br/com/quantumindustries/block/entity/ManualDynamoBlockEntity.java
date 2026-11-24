@@ -247,7 +247,11 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
             }
             return;
         }
-        int scaled=mechanicalRemainder+br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm());
+        int allowed=br.com.quantumindustries.energy.GeneratorModel.workLimitedRate(
+                br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm()),
+                KineticNetworkManager.claimLoadWork(server, worldPosition));
+        if (allowed <= 0) { mechanicalRemainder=0; setChanged(); return; }
+        int scaled=mechanicalRemainder+allowed;
         int produced=scaled/br.com.quantumindustries.energy.GeneratorModel.SCALE;
         mechanicalRemainder=scaled%br.com.quantumindustries.energy.GeneratorModel.SCALE;
         if(produced>0)try(var transaction=Transaction.openRoot()){
