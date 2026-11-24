@@ -1,0 +1,10 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/sawmill-logistics-runtime')
+        neoForge.runs.server {
+            gameDirectory = file(providers.gradleProperty('sawmillRunDir').getOrElse('build/sawmill-logistics') + '/world')
+            systemProperty 'quantumindustries.verifySawmillLogistics', 'true'
+            jvmArgument '-Xlog:class+load=info:file=../classes-%p.log:uptime,level,tags'
+        }
+    }
+}

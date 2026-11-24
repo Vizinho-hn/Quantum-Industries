@@ -195,6 +195,22 @@ A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vid
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
 
+## Serraria automática e reserva elétrica nos óculos
+
+A Serraria Mecânica recebe toras e entrega tábuas pelos tubos de itens. Um tubo
+com a ponta voltada à máquina em **Empurrar** alimenta a entrada; outro em
+**Puxar** recolhe somente os produtos. Máquinas novas vinculam a automação ao
+jogador pesquisado que as coloca. Nas antigas sem vínculo, interaja com a
+serraria após concluir Transmissão Mecânica. O vínculo persiste entre lotes e
+reinícios, e as permissões continuam individuais.
+
+Os óculos mostram entrada, corte, saída, toras armazenadas, tábuas prontas e
+progresso em painel industrial. **Shift** mantém o diagnóstico QKS abaixo.
+Nos cabos, o painel distingue **fluxo/limite de transmissão**, perdas e a
+**reserva dos equipamentos conectados** no trecho inspecionado. Cabos não
+armazenam FE; fluxo não é exibido como carga de bateria.
+[Funcionamento e testes](docs/SAWMILL_LOGISTICS.md).
+
 ## Visualização hidráulica dos óculos
 
 Mire a roda-d'água com os Óculos de Inspeção e segure **Shift**: setas azuis

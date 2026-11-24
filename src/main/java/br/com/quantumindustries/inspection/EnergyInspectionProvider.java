@@ -42,13 +42,20 @@ public final class EnergyInspectionProvider implements InspectionProvider {
         boolean isCable = be instanceof CopperCableBlockEntity;
         boolean active = isCable ? energy > 0 : energy > 0;
         boolean bottleneck = isCable && cap > 0 && energy >= cap;
+        long stored = 0, storageCapacity = 0;
+        if (isCable) for (BlockPos node : visited) {
+            var endpoint = level.getBlockEntity(node);
+            if (endpoint instanceof EnergyInspectable storage && !(endpoint instanceof CopperCableBlockEntity)) {
+                stored += Math.max(0, storage.energy()); storageCapacity += Math.max(0, storage.capacity());
+            }
+        }
 
         return Optional.of(new InspectionSnapshot(
                 pos.immutable(),
                 InspectionSnapshot.Kind.ENERGY,
                 Direction.Axis.Y,
-                cap,
-                energy,
+                isCable ? (int)Math.min(Integer.MAX_VALUE, storageCapacity) : cap,
+                isCable ? (int)Math.min(Integer.MAX_VALUE, stored) : energy,
                 0,
                 active,
                 bottleneck,
@@ -90,6 +97,7 @@ public final class EnergyInspectionProvider implements InspectionProvider {
                         || ownMode.allowsOutput() && otherMode.allowsInput();
                 if (!connected) continue;
 
+                if (visited.size() >= MAX_NODES) break;
                 if (visited.add(next.immutable()) && nextIsCable) {
                     queue.addLast(next.immutable());
                 }

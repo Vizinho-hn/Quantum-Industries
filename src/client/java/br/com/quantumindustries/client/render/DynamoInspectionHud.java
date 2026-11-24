@@ -48,7 +48,13 @@ public final class DynamoInspectionHud {
             boolean drewTopPanel = false;
             boolean shift = player.isShiftKeyDown();
             InspectionSnapshot snap = ClientInspectionCache.forPos(hit.getBlockPos());
-            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit);
+            if (blockEntity instanceof br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity saw) {
+                int bottom = SawmillInspectionHud.draw(g, minecraft, saw);
+                if (shift && snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) drawMechanical(g, minecraft, snap, bottom + 6, true);
+                return;
+            }
+            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit,
+                    blockEntity instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity ? 124 : 84);
             if (blockEntity instanceof FluidInspectable fluid) {
                 drawFluid(g, minecraft, fluid, snap, shift);
                 drewTopPanel = true;
@@ -74,7 +80,7 @@ public final class DynamoInspectionHud {
     }
 
     private static void drawConnection(GuiGraphicsExtractor g, Minecraft minecraft,
-            ConfigurableConduit conduit, BlockHitResult hit) {
+            ConfigurableConduit conduit, BlockHitResult hit, int top) {
         var side = ConnectionTarget.face(hit.getBlockPos(), hit.getLocation(), hit.getDirection());
         var mode = conduit.connectionMode(side);
         int color = switch (mode) {
@@ -86,9 +92,9 @@ public final class DynamoInspectionHud {
         var label = Component.translatable("gui.quantumindustries.connection.changed",
                 Component.translatable("gui.quantumindustries.connection.face." + side.getName()), mode.label());
         int width = Math.max(168, minecraft.font.width(label) + 16);
-        g.fill(7, 84, 7 + width, 105, 0xFFB37B55);
-        g.fill(8, 85, 6 + width, 104, 0xED201C19);
-        g.text(minecraft.font, label, 14, 91, color, false);
+        g.fill(7, top, 7 + width, top + 21, 0xFFB37B55);
+        g.fill(8, top + 1, 6 + width, top + 20, 0xED201C19);
+        g.text(minecraft.font, label, 14, top + 7, color, false);
     }
 
     private static String trendSymbol() {
@@ -98,7 +104,9 @@ public final class DynamoInspectionHud {
 
     private static void drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft,
             EnergyInspectable target, InspectionSnapshot snap, boolean shift) {
-        int energy = target.energy(), max = Math.max(1, target.capacity());
+        if (target instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity cable) { drawCable(g, minecraft, cable, snap); return; }
+        int energy = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localCapacity() : target.energy();
+        int max = Math.max(1, snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localLoad() : target.capacity());
         int percent = energy * 100 / max;
         Component detail = target.inspectDetail();
         boolean hasNet = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY && snap.nodeCount() > 0;
@@ -127,6 +135,27 @@ public final class DynamoInspectionHud {
         if (netLine != null) {
             g.text(minecraft.font, netLine, 14, barTop + 10, 0xFFB4A99A, false);
         }
+    }
+
+    private static void drawCable(GuiGraphicsExtractor g, Minecraft game,
+            br.com.quantumindustries.block.entity.CopperCableBlockEntity cable, InspectionSnapshot snap) {
+        boolean ready = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY;
+        int flow = ready ? snap.localCapacity() : cable.flow(), max = cable.capacity();
+        var lines = new ArrayList<Component>();
+        lines.add(cable.inspectTitle());
+        lines.add(Component.translatable("gui.quantumindustries.cable.stored"));
+        lines.add(Component.translatable("gui.quantumindustries.cable.throughput", flow, max));
+        lines.add(Component.translatable("gui.quantumindustries.cable.loss", cable.loss()));
+        lines.add(ready ? Component.translatable("gui.quantumindustries.cable.reserve", snap.load(), snap.capacity())
+                : Component.translatable("gui.quantumindustries.cable.pending"));
+        lines.add(Component.translatable("gui.quantumindustries.cable.scope", ready ? snap.nodeCount() : 0));
+        lines.add(Component.translatable("gui.quantumindustries.cable.storage_hint"));
+        int width = 220;
+        for (var line : lines) width = Math.max(width, game.font.width(line) + 16);
+        g.fill(7,7,7+width,117,0xFFB37B55);g.fill(8,8,6+width,116,0xE8201C19);
+        for (int i = 0; i < lines.size(); i++) g.text(game.font,lines.get(i),14,13+i*12,i==0?0xFFF4DCB9:0xFFF4EEE6,false);
+        g.fill(14,103,width,109,0xFF45382F);
+        if(flow>0)g.fill(14,103,14+(width-14)*Math.clamp(flow,0,max)/Math.max(1,max),109,0xFFE8BC65);
     }
 
     private static final double MOTION_EPSILON = 1.0e-6;

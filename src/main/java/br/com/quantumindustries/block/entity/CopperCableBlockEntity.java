@@ -45,6 +45,7 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         return Component.translatable("gui.quantumindustries.cable.flow", flow, loss);
     }
     public int flow() { return flow; }
+    public int loss() { return loss; }
     @Override public ConnectionModes connectionModes() { return connections; }
     @Override public void connectionChanged() {
         sync();

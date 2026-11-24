@@ -33,6 +33,10 @@ public final class MechanicalSawmillBlock extends BaseEntityBlock {
     @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide() ? null : createTickerHelper(type, ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(), (l,p,s,b) -> b.tick());
     }
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state, net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof MechanicalSawmillBlockEntity saw) saw.bindAutomation(player);
+    }
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(player instanceof ServerPlayer server) || !(level.getBlockEntity(pos) instanceof MechanicalSawmillBlockEntity saw)) return InteractionResult.SUCCESS;
         boolean done = stack.is(ModItems.HAND_CRANK.get()) ? saw.installCrank(player, stack) : saw.insert(player, stack);
@@ -41,6 +45,7 @@ public final class MechanicalSawmillBlock extends BaseEntityBlock {
     }
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player instanceof ServerPlayer server && level.getBlockEntity(pos) instanceof MechanicalSawmillBlockEntity saw) {
+            saw.bindAutomation(player);
             ItemStack taken = saw.extract(player, player.isShiftKeyDown());
             if (taken.isEmpty() && player.isShiftKeyDown()) taken = saw.detachCrank(player);
             if (!taken.isEmpty()) player.getInventory().placeItemBackInInventory(taken);
