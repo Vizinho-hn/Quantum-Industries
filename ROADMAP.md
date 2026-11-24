@@ -65,7 +65,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Expansão mineralógica e geológica: 18 minerais reais (36 blocos Stone/Deepslate, brutos, lingotes, pepitas e pós químicos) com geração no Overworld (Worldgen) e Common Tags `#c:*`.
 - [x] Implementar Forno de Ligas a Fole (Era I — seis ligas; revisão de progressão em validação) e Fundidora de Ligas Elétrica / Alloy Smelter (Era II — Bronze, Latão, Invar, Electrum, Constantan e Aço), além da cadeia chumbo-ácido para o Acumulador Galvânico.
 - [x] Implementar Britador de Mandíbulas (`jaw_crusher` — Manivela ou FE) com duplicação de minérios brutos em pós purificados (1 bruto → 2 pós), moagem mecanizada de trigo (1 trigo → 2 farinhas) e trituração de carvão em grafite.
-- [x] Integrar minerais químicos reais: Fluorita como fluxo metalúrgico no Forno a Fole/Braseiro, Sal Gema (Halita) na Cuba de Decantação para produzir Ácido Clorídrico Diluído, Grafite em Tijolos Refratários e Apatita + Enxofre em Fertilizante Fosfatado.
+- [x] Integrar minerais químicos reais: Fluorita como fluxo metalúrgico no Forno a Fole, Sal Gema (Halita) na Cuba de Decantação para produzir Ácido Clorídrico Diluído (abstração de gameplay), Grafite em Tijolos Refratários e Apatita + Enxofre em Fertilizante Fosfatado.
 - [x] Expandir Trefiladora (`electrum_wire`, `constantan_wire`, `constantan_coil`) e Recozimento Térmico (`heated_bronze_ingot`, `heated_brass_ingot`, `heated_steel_ingot`).
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.
 - [ ] Validar as seis ligas manuais, os crafts revisados do forno e britador, e o caminho até a primeira Fundidora Elétrica em servidor real.
@@ -76,7 +76,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Validar redes energéticas e novas máquinas de processamento em mundo survival e servidor dedicado.
 
 ## Fase 3 — Química e materiais
-- [x] Primeiros reagentes e processos químicos aplicados (Ácido Clorídrico Diluído por decantação salina, Fluxo de Fluorita, Fertilizante Fosfatado e Tijolo Refratário de Grafite).
+- [x] Primeiros reagentes e processos químicos aplicados (Ácido Clorídrico Diluído por receita abstrata de gameplay, Fluxo de Fluorita, Fertilizante Fosfatado e Tijolo Refratário de Grafite).
 - [ ] Reações e processos químicos de múltiplas etapas (lixiviação ácida avançada e eletrólise).
 - [ ] Separação, purificação e análise de substâncias.
 - [ ] Propriedades físicas e químicas com unidades e escalas definidas.
