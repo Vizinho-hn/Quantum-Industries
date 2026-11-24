@@ -15,6 +15,23 @@ public class ModItems {
 
     public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
 
+    public static final DeferredItem<BlockItem> ELECTROMAGNETIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMAGNETIC_GENERATOR);
+    public static final DeferredItem<BlockItem> ELECTRIC_MOTOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_MOTOR);
+    public static final DeferredItem<BlockItem> STEAM_BOILER = ITEMS.registerSimpleBlockItem(ModBlocks.STEAM_BOILER);
+    public static final DeferredItem<BlockItem> STEAM_ENGINE = ITEMS.registerSimpleBlockItem(ModBlocks.STEAM_ENGINE);
+    public static final DeferredItem<BlockItem> THERMOELECTRIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.THERMOELECTRIC_GENERATOR);
+    public static final DeferredItem<BlockItem> MECHANICAL_CONVEYOR = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_CONVEYOR);
+    public static final DeferredItem<BlockItem> COMPACT_GEARBOX = ITEMS.registerSimpleBlockItem(ModBlocks.COMPACT_GEARBOX);
+    public static final DeferredItem<BlockItem> INDUSTRIAL_CIRCUIT_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH);
+    public static final DeferredItem<BlockItem> SMALL_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.SMALL_COGWHEEL);
+    public static final DeferredItem<BlockItem> LARGE_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_COGWHEEL);
+    public static final DeferredItem<BlockItem> IRON_FLYWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.IRON_FLYWHEEL);
+    public static final DeferredItem<BlockItem> GRAVITY_WINCH = ITEMS.registerSimpleBlockItem(ModBlocks.GRAVITY_WINCH);
+    public static final DeferredItem<BlockItem> MAINSPRING_DRUM = ITEMS.registerSimpleBlockItem(ModBlocks.MAINSPRING_DRUM);
+    public static final DeferredItem<BlockItem> MECHANICAL_PULLEY = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_PULLEY);
+    public static final DeferredItem<BlockItem> MEDIUM_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.MEDIUM_WATER_WHEEL);
+    public static final DeferredItem<BlockItem> LARGE_WATER_WHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_WATER_WHEEL);
+    public static final DeferredItem<br.com.quantumindustries.item.DriveBeltItem> DRIVE_BELT = ITEMS.registerItem("drive_belt", br.com.quantumindustries.item.DriveBeltItem::new);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER_TIER_1 =
             ITEMS.registerSimpleBlockItem(ModBlocks.RESEARCH_TABLE_TIER_1);
     public static final DeferredItem<BlockItem> SCIENTIFIC_ANALYZER = ITEMS.registerSimpleBlockItem(RESEARCH_TABLE);
@@ -97,6 +114,13 @@ public class ModItems {
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
+    public static final DeferredItem<Item> PERMANENT_MAGNET = ITEMS.registerSimpleItem("permanent_magnet");
+    public static final DeferredItem<Item> LAMINATED_IRON_CORE = ITEMS.registerSimpleItem("laminated_iron_core");
+    public static final DeferredItem<Item> EXCITATION_COIL = ITEMS.registerSimpleItem("excitation_coil");
+    public static final DeferredItem<Item> ELECTROMAGNETIC_ROTOR = ITEMS.registerSimpleItem("electromagnetic_rotor");
+    public static final DeferredItem<Item> GENERATOR_STATOR = ITEMS.registerSimpleItem("generator_stator");
+    public static final DeferredItem<Item> PRIMITIVE_RECTIFIER = ITEMS.registerSimpleItem("primitive_rectifier");
+    public static final DeferredItem<Item> VOLTAGE_REGULATOR = ITEMS.registerSimpleItem("voltage_regulator");
     public static final DeferredItem<Item> FLOUR = ITEMS.registerSimpleItem("flour");
     public static final DeferredItem<Item> BREAD_DOUGH = ITEMS.registerSimpleItem("bread_dough");
     public static final DeferredItem<Item> RUSTIC_BREAD = ITEMS.registerItem("rustic_bread", Item::new,
@@ -198,6 +222,7 @@ public class ModItems {
                     properties));
 
     public static final DeferredItem<BlockItem> BELLOWS_ALLOY_KILN = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_ALLOY_KILN);
+    public static final DeferredItem<BlockItem> ELECTRIC_SAWMILL = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_SAWMILL);
     public static final DeferredItem<BlockItem> ELECTRIC_ALLOY_SMELTER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_ALLOY_SMELTER);
     public static final DeferredItem<BlockItem> JAW_CRUSHER = ITEMS.registerSimpleBlockItem(ModBlocks.JAW_CRUSHER);
 

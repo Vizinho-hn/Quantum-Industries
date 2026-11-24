@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/mainspring_drum"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/mainspring_drum",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/mainspring_drum",
+      "x": 90
+    }
+  }
+}

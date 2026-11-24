@@ -27,8 +27,11 @@ public class QuantumIndustries {
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
         modEventBus.addListener(br.com.quantumindustries.fluid.ModFluidCapabilities::register);
+        modEventBus.addListener(br.com.quantumindustries.inspection.InspectionNetworking::register);
         NeoForge.EVENT_BUS.addListener(ResearchCommands::register);
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(br.com.quantumindustries.mechanical.KineticNetworkManager.class);
+        modEventBus.addListener(br.com.quantumindustries.mechanical.KineticNetworking::register);
         NeoForge.EVENT_BUS.register(br.com.quantumindustries.world.VaultImpactSpawner.class);
     }
 

@@ -64,6 +64,34 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
     public ItemStack inputB() { return inputB; }
     public int progress() { return progress; }
 
+    /** The menu edits the same stacks persisted and used by automation. */
+    public net.minecraft.world.Container menuInventory() {
+        return new net.minecraft.world.SimpleContainer(3) {
+            @Override public ItemStack getItem(int slot) {
+                return switch (slot) { case 0 -> inputA; case 1 -> inputB; case 2 -> output; default -> ItemStack.EMPTY; };
+            }
+            @Override public boolean isEmpty() { return inputA.isEmpty() && inputB.isEmpty() && output.isEmpty(); }
+            @Override public void setItem(int slot, ItemStack stack) {
+                if (slot < 2 && !ItemStack.isSameItemSameComponents(getItem(slot), stack)) progress = 0;
+                switch (slot) { case 0 -> inputA = stack; case 1 -> inputB = stack; case 2 -> output = stack; default -> throw new IndexOutOfBoundsException(slot); }
+                changed();
+            }
+            @Override public ItemStack removeItem(int slot, int amount) {
+                var taken = getItem(slot).split(amount);
+                if (slot < 2 && getItem(slot).isEmpty()) progress = 0;
+                if (!taken.isEmpty()) changed();
+                return taken;
+            }
+            @Override public ItemStack removeItemNoUpdate(int slot) {
+                var taken = getItem(slot);
+                setItem(slot, ItemStack.EMPTY);
+                return taken;
+            }
+            @Override public void clearContent() { for (int slot = 0; slot < 3; slot++) setItem(slot, ItemStack.EMPTY); }
+            @Override public void setChanged() { changed(); }
+        };
+    }
+
     @Override public Component inspectDetail() {
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (progress > 0 && recipe != null) {
@@ -92,28 +120,28 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         return inserted;
     }
 
+    public boolean canInsertIngredient(int slot, ItemStack stack) {
+        if (stack.isEmpty() || !AlloyCatalog.isValidIngredient(stack, 2)) return false;
+        ItemStack target = slot == 0 ? inputA : inputB;
+        ItemStack other = slot == 0 ? inputB : inputA;
+        if (!other.isEmpty() && other.is(stack.getItem())) return false;
+        if (!other.isEmpty() && !AlloyCatalog.canPair(other, stack, 2)) return false;
+        return target.isEmpty() || (ItemStack.isSameItemSameComponents(target, stack) && target.getCount() < 16);
+    }
+
+    public boolean canInsertIngredient(ItemStack stack) {
+        return canInsertIngredient(0, stack) || canInsertIngredient(1, stack);
+    }
+
     public boolean insertIngredient(ItemStack stack) {
-        if (!(level instanceof ServerLevel) || !AlloyCatalog.isValidIngredient(stack, 2)) return false;
-        if (!inputA.isEmpty() && ItemStack.isSameItemSameComponents(inputA, stack) && inputA.getCount() < 16) {
-            inputA.grow(1);
-            stack.shrink(1);
-            changed();
-            return true;
-        }
-        if (!inputB.isEmpty() && ItemStack.isSameItemSameComponents(inputB, stack) && inputB.getCount() < 16) {
-            inputB.grow(1);
-            stack.shrink(1);
-            changed();
-            return true;
-        }
-        if (inputA.isEmpty()) {
-            inputA = stack.copyWithCount(1);
-            stack.shrink(1);
-            changed();
-            return true;
-        }
-        if (inputB.isEmpty() && AlloyCatalog.canPair(inputA, stack, 2)) {
-            inputB = stack.copyWithCount(1);
+        if (!(level instanceof ServerLevel)) return false;
+        for (int slot = 0; slot < 2; slot++) {
+            if (!canInsertIngredient(slot, stack)) continue;
+            ItemStack target = slot == 0 ? inputA : inputB;
+            if (target.isEmpty()) {
+                if (slot == 0) inputA = stack.copyWithCount(1);
+                else inputB = stack.copyWithCount(1);
+            } else target.grow(1);
             stack.shrink(1);
             changed();
             return true;

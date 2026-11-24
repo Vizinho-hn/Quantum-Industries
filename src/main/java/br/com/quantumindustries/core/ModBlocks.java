@@ -21,6 +21,68 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTROMAGNETIC_GENERATOR =
+            BLOCKS.registerBlock("electromagnetic_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.GENERATOR), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTRIC_MOTOR =
+            BLOCKS.registerBlock("electric_motor", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.MOTOR), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_BOILER =
+            BLOCKS.registerBlock("steam_boiler", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.BOILER), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_ENGINE =
+            BLOCKS.registerBlock("steam_engine", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.STEAM_ENGINE), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> THERMOELECTRIC_GENERATOR =
+            BLOCKS.registerBlock("thermoelectric_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.THERMOELECTRIC), props -> props.strength(3.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.RotaryConversionBlockEntity>> ROTARY_CONVERSION_ENTITY =
+            BLOCK_ENTITIES.register("rotary_conversion", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.RotaryConversionBlockEntity::new, Set.of(ELECTROMAGNETIC_GENERATOR.get(), ELECTRIC_MOTOR.get(), STEAM_ENGINE.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.SteamBoilerBlockEntity>> STEAM_BOILER_ENTITY =
+            BLOCK_ENTITIES.register("steam_boiler", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.SteamBoilerBlockEntity::new, Set.of(STEAM_BOILER.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity>> THERMOELECTRIC_GENERATOR_ENTITY =
+            BLOCK_ENTITIES.register("thermoelectric_generator", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity::new, Set.of(THERMOELECTRIC_GENERATOR.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalConveyorBlock> MECHANICAL_CONVEYOR =
+            BLOCKS.registerBlock("mechanical_conveyor", br.com.quantumindustries.block.MechanicalConveyorBlock::new,
+                    props -> props.strength(1.8F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity>> MECHANICAL_CONVEYOR_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_conveyor", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity::new, Set.of(MECHANICAL_CONVEYOR.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.CompactGearboxBlock> COMPACT_GEARBOX =
+            BLOCKS.registerBlock("compact_gearbox", br.com.quantumindustries.block.CompactGearboxBlock::new,
+                    props -> props.strength(2.2F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CompactGearboxBlockEntity>> COMPACT_GEARBOX_ENTITY =
+            BLOCK_ENTITIES.register("compact_gearbox", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CompactGearboxBlockEntity::new, Set.of(COMPACT_GEARBOX.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.SmallCogwheelBlock> SMALL_COGWHEEL =
+            BLOCKS.registerBlock("small_cogwheel", br.com.quantumindustries.block.SmallCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> SMALL_COGWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("small_cogwheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CogwheelBlockEntity::new, Set.of(SMALL_COGWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.LargeCogwheelBlock> LARGE_COGWHEEL =
+            BLOCKS.registerBlock("large_cogwheel", br.com.quantumindustries.block.LargeCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> LARGE_COGWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("large_cogwheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CogwheelBlockEntity::new, Set.of(LARGE_COGWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.IronFlywheelBlock> IRON_FLYWHEEL =
+            BLOCKS.registerBlock("iron_flywheel", br.com.quantumindustries.block.IronFlywheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.IronFlywheelBlockEntity>> IRON_FLYWHEEL_ENTITY =
+            BLOCK_ENTITIES.register("iron_flywheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.IronFlywheelBlockEntity::new, Set.of(IRON_FLYWHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.GravityWinchBlock> GRAVITY_WINCH =
+            BLOCKS.registerBlock("gravity_winch", br.com.quantumindustries.block.GravityWinchBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.GravityWinchBlockEntity>> GRAVITY_WINCH_ENTITY =
+            BLOCK_ENTITIES.register("gravity_winch", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.GravityWinchBlockEntity::new, Set.of(GRAVITY_WINCH.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.MainspringDrumBlock> MAINSPRING_DRUM =
+            BLOCKS.registerBlock("mainspring_drum", br.com.quantumindustries.block.MainspringDrumBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MainspringDrumBlockEntity>> MAINSPRING_DRUM_ENTITY =
+            BLOCK_ENTITIES.register("mainspring_drum", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MainspringDrumBlockEntity::new, Set.of(MAINSPRING_DRUM.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalPulleyBlock> MECHANICAL_PULLEY =
+            BLOCKS.registerBlock("mechanical_pulley", br.com.quantumindustries.block.MechanicalPulleyBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity>> MECHANICAL_PULLEY_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_pulley", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity::new, Set.of(MECHANICAL_PULLEY.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.MediumWaterWheelBlock> MEDIUM_WATER_WHEEL =
+            BLOCKS.registerBlock("medium_water_wheel", br.com.quantumindustries.block.MediumWaterWheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MediumWaterWheelBlockEntity>> MEDIUM_WATER_WHEEL_ENTITY =
+            BLOCK_ENTITIES.register("medium_water_wheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MediumWaterWheelBlockEntity::new, Set.of(MEDIUM_WATER_WHEEL.get()), false));
+    public static final DeferredBlock<br.com.quantumindustries.block.LargeWaterWheelBlock> LARGE_WATER_WHEEL =
+            BLOCKS.registerBlock("large_water_wheel", br.com.quantumindustries.block.LargeWaterWheelBlock::new, p -> p.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.LargeWaterWheelBlockEntity>> LARGE_WATER_WHEEL_ENTITY =
+            BLOCK_ENTITIES.register("large_water_wheel", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.LargeWaterWheelBlockEntity::new, Set.of(LARGE_WATER_WHEEL.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.EmpiricalAssayBenchBlock> EMPIRICAL_ASSAY_BENCH = BLOCKS.registerBlock("empirical_assay_bench", br.com.quantumindustries.block.EmpiricalAssayBenchBlock::new, p -> p.strength(2.5F).noOcclusion());
 
     public static final DeferredBlock<br.com.quantumindustries.block.QuantumVaultBlock> QUANTUM_VAULT =
@@ -83,10 +145,14 @@ public class ModBlocks {
                     props -> new br.com.quantumindustries.block.CopperCableBlock(props, true),
                     props -> props.strength(0.8F).noOcclusion());
 
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialCircuitSwitchBlock> INDUSTRIAL_CIRCUIT_SWITCH =
+            BLOCKS.registerBlock("industrial_circuit_switch", br.com.quantumindustries.block.IndustrialCircuitSwitchBlock::new,
+                    props -> props.strength(2.0F).noOcclusion());
+
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CopperCableBlockEntity>> COPPER_CABLE_ENTITY =
             BLOCK_ENTITIES.register("copper_cable",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CopperCableBlockEntity::new,
-                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get()), false));
+                            Set.of(COPPER_BUSBAR.get(), INSULATED_CONDUIT.get(), INDUSTRIAL_CIRCUIT_SWITCH.get()), false));
 
     public static final DeferredBlock<br.com.quantumindustries.block.PneumaticTubeBlock> PNEUMATIC_TUBE =
             BLOCKS.registerBlock("pneumatic_tube",br.com.quantumindustries.block.PneumaticTubeBlock::new,
@@ -197,6 +263,14 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("bellows_alloy_kiln",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.BellowsAlloyKilnBlockEntity::new,
                             Set.of(BELLOWS_ALLOY_KILN.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricSawmillBlock> ELECTRIC_SAWMILL =
+            BLOCKS.registerBlock("electric_sawmill", br.com.quantumindustries.block.ElectricSawmillBlock::new,
+                    props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 2 : 0));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity>> ELECTRIC_SAWMILL_ENTITY =
+            BLOCK_ENTITIES.register("electric_sawmill",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity::new,
+                            Set.of(ELECTRIC_SAWMILL.get()), false));
 
     public static final DeferredBlock<br.com.quantumindustries.block.ElectricAlloySmelterBlock> ELECTRIC_ALLOY_SMELTER =
             BLOCKS.registerBlock("electric_alloy_smelter", br.com.quantumindustries.block.ElectricAlloySmelterBlock::new,

@@ -19,10 +19,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-/** Era I bellows-driven crucible furnace for smelting Copper + Tin (Bronze) and Copper + Zinc (Brass). */
+/** Manual crucible furnace; complex alloys require more heat and work than basic alloys. */
 public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements MachineStatusInspectable {
     public static final int FUEL_PER_COAL = 1200, HEAT_PER_PUFF = 100, MAX_HEAT = 400, SMELT_TICKS = 80;
     private int fuel, heat, progress;
+    private boolean fluxReserved;
     private long lastPuff = -10;
     private ItemStack inputA = ItemStack.EMPTY;
     private ItemStack inputB = ItemStack.EMPTY;
@@ -32,17 +33,31 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         super(ModBlocks.BELLOWS_ALLOY_KILN_ENTITY.get(), pos, state);
     }
 
+    private static int requiredTicks(AlloyCatalog.Recipe recipe) {
+        return recipe == null ? SMELT_TICKS : recipe.tier() == 1 ? recipe.workTicks() : recipe.workTicks() * 2;
+    }
+
+    private int requiredHeat(AlloyCatalog.Recipe recipe) {
+        if (recipe == null || recipe.tier() == 1) return 1;
+        int base = recipe.alloyId().equals("steel") ? 240 : 160;
+        return base - (fluxReserved ? 40 : 0);
+    }
+
+    private int requiredFuel(AlloyCatalog.Recipe recipe) {
+        return recipe != null && recipe.tier() > 1 ? 2 : 1;
+    }
+
     @Override public Component statusTitle() { return Component.translatable("block.quantumindustries.bellows_alloy_kiln"); }
     @Override public Component statusDetail() { return status(); }
     @Override public State statusState() {
-        var recipe = AlloyCatalog.findMatch(inputA, inputB, 1);
-        if (progress > 0 && recipe != null && heat > 0 && fuel > 0) return State.WORKING;
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER);
+        if (recipe != null && canOutput(recipe) && heat >= requiredHeat(recipe) && fuel >= requiredFuel(recipe)) return State.WORKING;
         if (!output.isEmpty()) return State.READY;
         if (!inputA.isEmpty() || !inputB.isEmpty()) return State.BLOCKED;
         return State.IDLE;
     }
     @Override public float statusProgress() {
-        if (progress > 0) return Math.min(1.0f, (float) progress / SMELT_TICKS);
+        if (progress > 0) return Math.min(1.0f, (float) progress / requiredTicks(AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER)));
         return !output.isEmpty() ? 1.0f : 0.0f;
     }
     public ItemStack inputA() { return inputA; }
@@ -52,12 +67,17 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         if (!output.isEmpty()) {
             return Component.translatable("gui.quantumindustries.kiln.output_ready", output.getCount(), output.getHoverName());
         }
-        return Component.translatable("message.quantumindustries.kiln.status", fuel, heat, progress * 100 / SMELT_TICKS);
+        return Component.translatable("message.quantumindustries.kiln.status", fuel, heat, progress * 100 / requiredTicks(AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER)));
     }
 
     public boolean insert(ItemStack stack) {
         if (!(level instanceof ServerLevel)) return false;
-        if ((stack.is(Items.COAL) || stack.is(Items.CHARCOAL)) && fuel <= FUEL_PER_COAL * 4) {
+        // Coal is a steel ingredient when iron has been inserted first; charcoal always fuels the kiln.
+        boolean coalForSteel = stack.is(Items.COAL)
+                && AlloyCatalog.canPair(inputA, stack, AlloyCatalog.MANUAL_MAX_TIER)
+                && (inputB.isEmpty() || (inputB.is(Items.COAL) && inputB.getCount() < 2));
+        if (!coalForSteel && (stack.is(Items.COAL) || stack.is(Items.CHARCOAL))) {
+            if (fuel > FUEL_PER_COAL * 4) return false;
             fuel += FUEL_PER_COAL;
             stack.shrink(1);
             changed();
@@ -65,14 +85,15 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         }
         if (br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
                 && stack.is(br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.get("fluorite").get())
-                && fuel <= FUEL_PER_COAL * 4) {
-            fuel += FUEL_PER_COAL / 2;
-            heat = Math.min(MAX_HEAT, heat + HEAT_PER_PUFF + 50);
+                && !fluxReserved && fuel > 0) {
+            var recipe = AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER);
+            if (recipe == null || recipe.tier() == 1) return false;
+            fluxReserved = true;
             stack.shrink(1);
             changed();
             return true;
         }
-        if (!AlloyCatalog.isValidIngredient(stack, 1)) return false;
+        if (!AlloyCatalog.isValidIngredient(stack, AlloyCatalog.MANUAL_MAX_TIER)) return false;
 
         if (!inputA.isEmpty() && ItemStack.isSameItemSameComponents(inputA, stack) && inputA.getCount() < 16) {
             inputA.grow(1);
@@ -92,7 +113,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
             changed();
             return true;
         }
-        if (inputB.isEmpty() && AlloyCatalog.canPair(inputA, stack, 1)) {
+        if (inputB.isEmpty() && AlloyCatalog.canPair(inputA, stack, AlloyCatalog.MANUAL_MAX_TIER)) {
             inputB = stack.copyWithCount(1);
             stack.shrink(1);
             changed();
@@ -143,6 +164,11 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
                 changed();
                 return result;
             }
+            if (fluxReserved) {
+                fluxReserved = false;
+                changed();
+                return new ItemStack(br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.get("fluorite").get());
+            }
         }
         return ItemStack.EMPTY;
     }
@@ -157,19 +183,21 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
-        if (heat <= 0 || fuel <= 0) return;
+        if (heat <= 0) return;
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER);
+        boolean working = canOutput(recipe) && heat >= requiredHeat(recipe) && fuel >= requiredFuel(recipe);
         heat--;
-        fuel--;
-        var recipe = AlloyCatalog.findMatch(inputA, inputB, 1);
-        if (canOutput(recipe)) {
+        if (fuel > 0) fuel -= working ? requiredFuel(recipe) : 1;
+        if (working) {
             progress++;
             if (progress % 25 == 0) {
                 server.playSound(null, worldPosition, SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 0.4f, 1.0f);
                 server.sendParticles(ParticleTypes.SMOKE, worldPosition.getX() + 0.5, worldPosition.getY() + 0.9, worldPosition.getZ() + 0.5, 2, 0.08, 0.05, 0.08, 0.01);
             }
-            if (progress >= SMELT_TICKS) {
+            if (progress >= requiredTicks(recipe)) {
                 ItemStack produced = recipe.assemble();
                 recipe.consume(inputA, inputB);
+                if (recipe.tier() > 1) fluxReserved = false;
                 if (inputA.isEmpty()) inputA = ItemStack.EMPTY;
                 if (inputB.isEmpty()) inputB = ItemStack.EMPTY;
                 if (output.isEmpty()) output = produced;
@@ -177,10 +205,11 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
                 progress = 0;
                 server.playSound(null, worldPosition, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.35f, 1.2f);
             }
-        } else {
+        } else if (recipe == null) {
             progress = 0;
         }
-        if (server.getGameTime() % 10 == 0 || !output.isEmpty()) changed();
+        setChanged();
+        if (server.getGameTime() % 10 == 0 || heat == 0 || fuel == 0 || (working && progress == 0)) changed();
     }
 
     private void changed() {
@@ -193,6 +222,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         out.putInt("fuel", fuel);
         out.putInt("heat", heat);
         out.putInt("progress", progress);
+        out.putInt("flux_reserved", fluxReserved ? 1 : 0);
         out.putLong("last_puff", lastPuff);
         if (!inputA.isEmpty()) out.store("input_a", ItemStack.CODEC, inputA);
         if (!inputB.isEmpty()) out.store("input_b", ItemStack.CODEC, inputB);
@@ -203,11 +233,14 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         super.loadAdditional(in);
         fuel = Math.max(0, in.getIntOr("fuel", 0));
         heat = Math.clamp(in.getIntOr("heat", 0), 0, MAX_HEAT);
-        progress = Math.clamp(in.getIntOr("progress", 0), 0, SMELT_TICKS);
+        progress = Math.max(0, in.getIntOr("progress", 0));
+        fluxReserved = in.getIntOr("flux_reserved", 0) == 1;
         lastPuff = in.getLongOr("last_puff", -10);
         inputA = in.read("input_a", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         inputB = in.read("input_b", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         output = in.read("output", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER);
+        progress = recipe == null ? 0 : Math.min(progress, requiredTicks(recipe) - 1);
     }
 
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
@@ -216,6 +249,10 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
             if (!inputA.isEmpty()) { Block.popResource(server, pos, inputA.copy()); inputA = ItemStack.EMPTY; }
             if (!inputB.isEmpty()) { Block.popResource(server, pos, inputB.copy()); inputB = ItemStack.EMPTY; }
             if (!output.isEmpty()) { Block.popResource(server, pos, output.copy()); output = ItemStack.EMPTY; }
+            if (fluxReserved) {
+                fluxReserved = false;
+                Block.popResource(server, pos, new ItemStack(br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.get("fluorite").get()));
+            }
         }
     }
 

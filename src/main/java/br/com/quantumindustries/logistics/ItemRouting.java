@@ -7,8 +7,12 @@ import br.com.quantumindustries.block.entity.ElectromechanicalPressBlockEntity;
 import br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity;
 import br.com.quantumindustries.block.entity.JawCrusherBlockEntity;
 import br.com.quantumindustries.block.entity.ManualGrainMillBlockEntity;
+import br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity;
+import br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity;
+import br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
 import br.com.quantumindustries.block.entity.SettlingVatBlockEntity;
+import br.com.quantumindustries.block.entity.SteamBoilerBlockEntity;
 import br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
@@ -16,12 +20,30 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 /** Server-only inventory bridge. A packet is removed from its origin exactly once. */
 public final class ItemRouting {
     private ItemRouting() {}
+
+    public static boolean isEndpoint(BlockGetter level, BlockPos pos) {
+        BlockEntity entity = level.getBlockEntity(pos);
+        return entity instanceof MechanicalConveyorBlockEntity || entity instanceof ElectricSawmillBlockEntity || entity instanceof PneumaticTubeBlockEntity
+                || entity instanceof GravitationalSorterBlockEntity
+                || entity instanceof ElectromechanicalPressBlockEntity
+                || entity instanceof JawCrusherBlockEntity
+                || entity instanceof WireDrawingBenchBlockEntity
+                || entity instanceof ElectricAlloySmelterBlockEntity
+                || entity instanceof BellowsAlloyKilnBlockEntity
+                || entity instanceof BellowsBrazierBlockEntity
+                || entity instanceof MechanicalSawmillBlockEntity
+                || entity instanceof ManualGrainMillBlockEntity
+                || entity instanceof SteamBoilerBlockEntity
+                || entity instanceof SettlingVatBlockEntity
+                || entity instanceof Container;
+    }
 
     private static ItemStack previewStack(ItemStack stack, int maximum) {
         return stack.isEmpty() ? ItemStack.EMPTY
@@ -37,6 +59,8 @@ public final class ItemRouting {
     public static ItemStack preview(ServerLevel level, BlockPos pos, int maximum) {
         if (!level.hasChunkAt(pos) || maximum <= 0) return ItemStack.EMPTY;
         BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof ElectricSawmillBlockEntity saw) return previewStack(saw.previewOutput(), maximum);
+        if (blockEntity instanceof MechanicalSawmillBlockEntity saw) return previewStack(saw.output(), maximum);
         if (blockEntity instanceof ElectromechanicalPressBlockEntity press) {
             return previewStack(press.output(), maximum);
         }
@@ -72,9 +96,94 @@ public final class ItemRouting {
         return ItemStack.EMPTY;
     }
 
+    /** Select a source slot only after checking the destination, without removing rejected items. */
+    public static ItemStack extractMatching(ServerLevel level, BlockPos pos, int maximum, Predicate<ItemStack> accepted) {
+        if (!level.hasChunkAt(pos) || maximum <= 0) return ItemStack.EMPTY;
+        var entity = level.getBlockEntity(pos);
+        if (entity instanceof Container container) {
+            for (int i = 0; i < container.getContainerSize(); i++) {
+                if (entity instanceof AbstractFurnaceBlockEntity && i != 2) continue;
+                ItemStack candidate = previewStack(container.getItem(i), maximum);
+                if (candidate.isEmpty() || !accepted.test(candidate)) continue;
+                ItemStack taken = container.removeItem(i, candidate.getCount());
+                container.setChanged();
+                return taken;
+            }
+            return ItemStack.EMPTY;
+        }
+        ItemStack candidate = preview(level, pos, maximum);
+        return !candidate.isEmpty() && accepted.test(candidate) ? extract(level, pos, maximum) : ItemStack.EMPTY;
+    }
+
+    /** Bounded, non-mutating look-ahead; occupied tubes do not hide a downstream smelter. */
+    public static boolean hasAcceptingRoute(ServerLevel level, BlockPos start, Direction inlet, ItemStack candidate) {
+        record Step(BlockPos pos, Direction inlet) {}
+        var queue = new java.util.ArrayDeque<Step>();
+        var seen = new java.util.HashSet<Step>();
+        queue.add(new Step(start, inlet));
+        boolean foundSmelter = false;
+        while (!queue.isEmpty() && seen.size() < 256) {
+            var step = queue.removeFirst();
+            if (!seen.add(step) || !(level.getBlockEntity(step.pos()) instanceof PneumaticTubeBlockEntity tube)) continue;
+            for (Direction side : Direction.values()) {
+                if (side == step.inlet() || !tube.connectionMode(side).allowsOutput()) continue;
+                BlockPos next = step.pos().relative(side);
+                if (!level.hasChunkAt(next)) continue;
+                var target = level.getBlockEntity(next);
+                if (target instanceof PneumaticTubeBlockEntity nextTube) {
+                    if (nextTube.connectionMode(side.getOpposite()).allowsInput()) queue.add(new Step(next, side.getOpposite()));
+                } else if (target instanceof SteamBoilerBlockEntity boiler) {
+                    foundSmelter = true;
+                    if (boiler.canInsertFuel(candidate, side.getOpposite())) return true;
+                } else if (target instanceof ElectricAlloySmelterBlockEntity smelter) {
+                    foundSmelter = true;
+                    if (smelter.canInsertIngredient(candidate)) return true;
+                } else if (target instanceof ElectricSawmillBlockEntity saw) {
+                    foundSmelter = true;
+                    if (saw.canInsert(candidate)) return true;
+                } else if (target instanceof MechanicalSawmillBlockEntity saw) {
+                    foundSmelter = true;
+                    if (saw.canInsertAutomated(candidate)) return true;
+                } else if (isEndpoint(level, next)) {
+                    // Preserve existing transport rules for other machine types.
+                    return true;
+                }
+            }
+        }
+        return !foundSmelter;
+    }
+
+    /** Return rejected in-flight material to a reachable pull inventory; never drop or delete it. */
+    public static boolean returnToSource(ServerLevel level, BlockPos start, Direction inlet, ItemStack packet) {
+        record Step(BlockPos pos, Direction side) {}
+        var queue = new java.util.ArrayDeque<Step>();
+        var seen = new java.util.HashSet<BlockPos>();
+        queue.add(new Step(start, inlet));
+        while (!queue.isEmpty() && seen.size() < 256) {
+            var step = queue.removeFirst();
+            if (!seen.add(step.pos()) || !(level.getBlockEntity(step.pos()) instanceof PneumaticTubeBlockEntity tube)) continue;
+            for (Direction side : Direction.values()) {
+                if (step.side() != null && side != step.side()) continue;
+                if (!tube.connectionMode(side).allowsInput()) continue;
+                BlockPos next = step.pos().relative(side);
+                if (!level.hasChunkAt(next)) continue;
+                var target = level.getBlockEntity(next);
+                if (target instanceof PneumaticTubeBlockEntity previous) {
+                    if (previous.connectionMode(side.getOpposite()).allowsOutput()) queue.add(new Step(next, null));
+                } else if (tube.connectionMode(side) == ConnectionMode.PULL && target instanceof Container
+                        && !(target instanceof AbstractFurnaceBlockEntity)) {
+                    if (insert(level, next, packet, side.getOpposite())) return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static ItemStack extract(ServerLevel level, BlockPos pos, int maximum) {
         if (!level.hasChunkAt(pos) || maximum <= 0) return ItemStack.EMPTY;
         BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof ElectricSawmillBlockEntity saw) return saw.extractOutput(maximum);
+        if (blockEntity instanceof MechanicalSawmillBlockEntity saw) return saw.extractOutput(maximum);
         if (blockEntity instanceof ElectromechanicalPressBlockEntity press) return press.extractOutput(maximum);
         if (blockEntity instanceof JawCrusherBlockEntity crusher) return crusher.extractOutput(maximum);
         if (blockEntity instanceof WireDrawingBenchBlockEntity wireBench) return wireBench.extractOutput(maximum);
@@ -104,8 +213,11 @@ public final class ItemRouting {
     public static boolean insert(ServerLevel level, BlockPos pos, ItemStack packet, Direction from) {
         if (packet.isEmpty() || !level.hasChunkAt(pos)) return false;
         BlockEntity entity = level.getBlockEntity(pos);
+        if (entity instanceof MechanicalConveyorBlockEntity conveyor) return conveyor.accept(packet, from);
         if (entity instanceof PneumaticTubeBlockEntity tube) return tube.accept(packet, from);
         if (entity instanceof GravitationalSorterBlockEntity sorter) return sorter.accept(packet, from);
+        if (entity instanceof ElectricSawmillBlockEntity saw) return insertLoop(packet, saw::insert);
+        if (entity instanceof MechanicalSawmillBlockEntity saw) return insertLoop(packet, saw::insertAutomated);
         if (entity instanceof ElectromechanicalPressBlockEntity press) return insertLoop(packet, press::insertIngot);
         if (entity instanceof JawCrusherBlockEntity crusher) return insertLoop(packet, crusher::insert);
         if (entity instanceof WireDrawingBenchBlockEntity wireBench) return insertLoop(packet, wireBench::insert);
@@ -114,6 +226,8 @@ public final class ItemRouting {
         if (entity instanceof BellowsBrazierBlockEntity brazier) return insertLoop(packet, brazier::insert);
         if (entity instanceof ManualGrainMillBlockEntity mill) return insertLoop(packet, mill::insert);
         if (entity instanceof SettlingVatBlockEntity vat) return insertLoop(packet, vat::addIngredient);
+        if (entity instanceof SteamBoilerBlockEntity boiler)
+            return insertLoop(packet, stack -> boiler.canInsertFuel(stack, from) && boiler.addFuel(stack));
         if (entity instanceof Container container) {
             int before = packet.getCount();
             for (int i = 0; i < container.getContainerSize() && !packet.isEmpty(); i++) {

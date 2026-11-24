@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/electromagnetic_generator"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/electromagnetic_generator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/electromagnetic_generator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/electromagnetic_generator",
+      "y": 270
+    }
+  }
+}

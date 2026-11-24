@@ -22,6 +22,7 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
     public static final int CAPACITY = 50000;
     public static final int TRANSFER_RATE = 256;
 
+    private final br.com.quantumindustries.energy.TransferBudget transferBudget = new br.com.quantumindustries.energy.TransferBudget(TRANSFER_RATE);
     private final SimpleEnergyHandler energyHandler = new SimpleEnergyHandler(CAPACITY, TRANSFER_RATE, TRANSFER_RATE);
 
     public LeadAcidAccumulatorBlockEntity(BlockPos pos, BlockState state) {
@@ -42,23 +43,33 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
 
     @Override public int receiveEnergy(int maxReceive) {
         if (!(level instanceof ServerLevel) || maxReceive <= 0 || energy() >= CAPACITY) return 0;
+        int allowance = transferBudget.receiveRemaining(level.getGameTime());
+        if (allowance <= 0) return 0;
         int inserted;
         try (var transaction = Transaction.openRoot()) {
-            inserted = energyHandler.insert(Math.min(TRANSFER_RATE, maxReceive), transaction);
+            inserted = energyHandler.insert(Math.min(allowance, maxReceive), transaction);
             if (inserted > 0) transaction.commit();
         }
-        if (inserted > 0) changed();
+        if (inserted > 0) {
+            transferBudget.recordReceive(level.getGameTime(), inserted);
+            changed();
+        }
         return inserted;
     }
 
     @Override public int extractEnergy(int maxExtract) {
         if (!(level instanceof ServerLevel) || maxExtract <= 0 || energy() <= 0) return 0;
+        int allowance = transferBudget.extractRemaining(level.getGameTime());
+        if (allowance <= 0) return 0;
         int extracted;
         try (var transaction = Transaction.openRoot()) {
-            extracted = energyHandler.extract(Math.min(TRANSFER_RATE, maxExtract), transaction);
+            extracted = energyHandler.extract(Math.min(allowance, maxExtract), transaction);
             if (extracted > 0) transaction.commit();
         }
-        if (extracted > 0) changed();
+        if (extracted > 0) {
+            transferBudget.recordExtract(level.getGameTime(), extracted);
+            changed();
+        }
         return extracted;
     }
 
@@ -78,21 +89,27 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
     public void tick() {
         if (!(level instanceof ServerLevel server) || energy() <= 0) return;
         CableNetwork.transfer(server, worldPosition,
-                this::energy, this::extractEnergy, TRANSFER_RATE,
+                this::energy, this::extractEnergy, transferBudget.extractRemaining(server.getGameTime()),
                 target -> target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof LoadRelayBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity);
+                        || target instanceof JawCrusherBlockEntity
+                        || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()));
         for (Direction dir : Direction.values()) {
-            if (energy() <= 0) break;
-            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
+            if (energy() <= 0 || transferBudget.extractRemaining(server.getGameTime()) <= 0) break;
+            if (server.hasChunkAt(worldPosition.relative(dir))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(dir)), dir.getOpposite())
+                    && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity
                             || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity
-                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity)) {
-                int available = Math.min(TRANSFER_RATE, energy());
+                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity
+                            || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()))) {
+                int available = Math.min(transferBudget.extractRemaining(server.getGameTime()), energy());
                 int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);
             }

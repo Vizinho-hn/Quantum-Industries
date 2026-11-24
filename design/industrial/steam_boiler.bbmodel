@@ -1,0 +1,1136 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "steam_boiler",
+  "resolution": {
+    "width": 128,
+    "height": 128
+  },
+  "elements": [
+    {
+      "name": "cast iron foundation",
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        2,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000001",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "raised mounting deck",
+      "from": [
+        2,
+        2,
+        2
+      ],
+      "to": [
+        14,
+        3.5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            34,
+            2,
+            62,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000002",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "refractory firebox",
+      "from": [
+        2,
+        3.5,
+        2
+      ],
+      "to": [
+        14,
+        6.5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            2,
+            66,
+            30,
+            94
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000003",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "firebox access door",
+      "from": [
+        4,
+        4,
+        1
+      ],
+      "to": [
+        12,
+        6,
+        2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000004",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "copper boiler pressure shell",
+      "from": [
+        2.5,
+        6.5,
+        3
+      ],
+      "to": [
+        13.5,
+        13.5,
+        13
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            66,
+            2,
+            94,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000005",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "front pressure head",
+      "from": [
+        3.5,
+        7,
+        1.5
+      ],
+      "to": [
+        12.5,
+        13,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000006",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "rear pressure head",
+      "from": [
+        3.5,
+        7,
+        13
+      ],
+      "to": [
+        12.5,
+        13,
+        14.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000007",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "left water collar",
+      "from": [
+        0,
+        5,
+        5
+      ],
+      "to": [
+        2.5,
+        11,
+        11
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000008",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "right water collar",
+      "from": [
+        13.5,
+        5,
+        5
+      ],
+      "to": [
+        16,
+        11,
+        11
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000009",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "rear water collar",
+      "from": [
+        5,
+        5,
+        14.5
+      ],
+      "to": [
+        11,
+        11,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000010",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "front steam outlet",
+      "from": [
+        5,
+        6,
+        0
+      ],
+      "to": [
+        11,
+        10,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000011",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "pressure relief valve",
+      "from": [
+        7,
+        13.5,
+        7
+      ],
+      "to": [
+        9,
+        15.5,
+        9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            2,
+            126,
+            30
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000012",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "pressure gauge mount",
+      "from": [
+        6,
+        10.5,
+        0.5
+      ],
+      "to": [
+        10,
+        13,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            98,
+            34,
+            126,
+            62
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000013",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "gauge face",
+      "from": [
+        6.5,
+        11,
+        0
+      ],
+      "to": [
+        9.5,
+        12.5,
+        0.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            66,
+            34,
+            94,
+            62
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "eaf00002-0000-4000-8000-000000000014",
+      "box_uv": false,
+      "autouv": 0,
+      "origin": [
+        8,
+        8,
+        8
+      ]
+    }
+  ],
+  "outliner": [
+    "eaf00002-0000-4000-8000-000000000001",
+    "eaf00002-0000-4000-8000-000000000002",
+    "eaf00002-0000-4000-8000-000000000003",
+    "eaf00002-0000-4000-8000-000000000004",
+    "eaf00002-0000-4000-8000-000000000005",
+    "eaf00002-0000-4000-8000-000000000006",
+    "eaf00002-0000-4000-8000-000000000007",
+    "eaf00002-0000-4000-8000-000000000008",
+    "eaf00002-0000-4000-8000-000000000009",
+    "eaf00002-0000-4000-8000-000000000010",
+    "eaf00002-0000-4000-8000-000000000011",
+    "eaf00002-0000-4000-8000-000000000012",
+    "eaf00002-0000-4000-8000-000000000013",
+    "eaf00002-0000-4000-8000-000000000014"
+  ],
+  "textures": [
+    {
+      "name": "era2_industrial_machines.png",
+      "folder": "block",
+      "namespace": "quantumindustries",
+      "id": "0",
+      "width": 128,
+      "height": 128,
+      "uv_width": 128,
+      "uv_height": 128,
+      "particle": true,
+      "source": "data:image/png;base64,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"
+    }
+  ]
+}

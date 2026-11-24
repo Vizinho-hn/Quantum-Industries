@@ -12,5 +12,7 @@ public final class ModFluidCapabilities {
                 (be, side) -> be.sidedTank(side));
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlocks.SETTLING_VAT_ENTITY.get(),
                 (be, side) -> be.tank());
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, ModBlocks.STEAM_BOILER_ENTITY.get(),
+                (be, side) -> side == be.outlet() ? null : new BoilerWaterInlet(be, side));
     }
 }

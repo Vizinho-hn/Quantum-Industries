@@ -3,9 +3,16 @@ package br.com.quantumindustries.client.render;
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
 import br.com.quantumindustries.block.entity.MachineStatusInspectable;
+import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
+import br.com.quantumindustries.client.inspection.ClientInspectionCache;
 import br.com.quantumindustries.fluid.FluidInspectable;
+import br.com.quantumindustries.inspection.InspectionSnapshot;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.logistics.ConnectionTarget;
+import br.com.quantumindustries.mechanical.MechanicalParticipant;
+import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
@@ -38,15 +45,33 @@ public final class DynamoInspectionHud {
         boolean hasGoggles = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get());
 
         if (hasGoggles) {
-            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit);
+            boolean drewTopPanel = false;
+            boolean shift = player.isShiftKeyDown();
+            InspectionSnapshot snap = ClientInspectionCache.forPos(hit.getBlockPos());
+            if (blockEntity instanceof br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity saw) {
+                int bottom = SawmillInspectionHud.draw(g, minecraft, saw);
+                if (shift && snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) drawMechanical(g, minecraft, snap, bottom + 6, true);
+                return;
+            }
+            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit,
+                    blockEntity instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity ? 124 : 84);
             if (blockEntity instanceof FluidInspectable fluid) {
-                drawFluid(g, minecraft, fluid);
-                return;
+                drawFluid(g, minecraft, fluid, snap, shift);
+                drewTopPanel = true;
+            } else if (blockEntity instanceof EnergyInspectable target) {
+                drawEnergy(g, minecraft, target, snap, shift);
+                drewTopPanel = true;
+            } else if (blockEntity instanceof PneumaticTubeBlockEntity tube) {
+                drawPneumatic(g, minecraft, tube, snap, shift);
+                drewTopPanel = true;
             }
-            if (blockEntity instanceof EnergyInspectable target) {
-                drawEnergy(g, minecraft, target);
-                return;
+            if (blockEntity instanceof MechanicalParticipant) {
+                if (snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) {
+                    drawMechanical(g, minecraft, snap, drewTopPanel ? 108 : 7, shift);
+                    return;
+                }
             }
+            if (drewTopPanel) return;
         }
 
         if (blockEntity instanceof MachineStatusInspectable machine) {
@@ -55,7 +80,7 @@ public final class DynamoInspectionHud {
     }
 
     private static void drawConnection(GuiGraphicsExtractor g, Minecraft minecraft,
-            ConfigurableConduit conduit, BlockHitResult hit) {
+            ConfigurableConduit conduit, BlockHitResult hit, int top) {
         var side = ConnectionTarget.face(hit.getBlockPos(), hit.getLocation(), hit.getDirection());
         var mode = conduit.connectionMode(side);
         int color = switch (mode) {
@@ -67,18 +92,36 @@ public final class DynamoInspectionHud {
         var label = Component.translatable("gui.quantumindustries.connection.changed",
                 Component.translatable("gui.quantumindustries.connection.face." + side.getName()), mode.label());
         int width = Math.max(168, minecraft.font.width(label) + 16);
-        g.fill(7, 84, 7 + width, 105, 0xFFB37B55);
-        g.fill(8, 85, 6 + width, 104, 0xED201C19);
-        g.text(minecraft.font, label, 14, 91, color, false);
+        g.fill(7, top, 7 + width, top + 21, 0xFFB37B55);
+        g.fill(8, top + 1, 6 + width, top + 20, 0xED201C19);
+        g.text(minecraft.font, label, 14, top + 7, color, false);
     }
 
-    private static void drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft, EnergyInspectable target) {
-        int energy = target.energy(), max = Math.max(1, target.capacity());
+    private static String trendSymbol() {
+        int t = ClientInspectionCache.trend();
+        return t > 0 ? "▲" : t < 0 ? "▼" : "=";
+    }
+
+    private static void drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft,
+            EnergyInspectable target, InspectionSnapshot snap, boolean shift) {
+        if (target instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity cable) { drawCable(g, minecraft, cable, snap); return; }
+        int energy = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localCapacity() : target.energy();
+        int max = Math.max(1, snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localLoad() : target.capacity());
         int percent = energy * 100 / max;
         Component detail = target.inspectDetail();
-        int boxBottom = detail == null ? 61 : 73;
-        g.fill(7, 7, 175, boxBottom, 0xFFB37B55);
-        g.fill(8, 8, 174, boxBottom - 1, 0xE8201C19);
+        boolean hasNet = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY && snap.nodeCount() > 0;
+        Component netLine = hasNet
+                ? Component.translatable("gui.quantumindustries.inspection.network_trend",
+                        trendSymbol(), snap.nodeCount(),
+                        Component.translatable(shift
+                                ? "gui.quantumindustries.mechanical.overlay.on"
+                                : "gui.quantumindustries.mechanical.overlay.hint"))
+                : null;
+        int width = 168;
+        if (netLine != null) width = Math.max(width, minecraft.font.width(netLine) + 16);
+        int boxBottom = (detail == null ? 61 : 73) + (netLine == null ? 0 : 12);
+        g.fill(7, 7, 7 + width, boxBottom, 0xFFB37B55);
+        g.fill(8, 8, 6 + width, boxBottom - 1, 0xE8201C19);
         g.text(minecraft.font, target.inspectTitle(), 14, 13, 0xFFF4DCB9, false);
         g.text(minecraft.font, Component.translatable("gui.quantumindustries.dynamo.energy", energy, max), 14, 25, 0xFFF4EEE6, false);
         g.text(minecraft.font, Component.translatable("gui.quantumindustries.dynamo.charge", percent), 14, 36, 0xFFF4EEE6, false);
@@ -89,18 +132,151 @@ public final class DynamoInspectionHud {
         int color = percent <= 20 ? 0xFFC16A4B : percent <= 70 ? 0xFFCEA457 : 0xFF83A276;
         g.fill(14, barTop, 166, barTop + 6, 0xFF45382F);
         if (energy > 0) g.fill(14, barTop, 14 + 152 * energy / max, barTop + 6, color);
+        if (netLine != null) {
+            g.text(minecraft.font, netLine, 14, barTop + 10, 0xFFB4A99A, false);
+        }
     }
 
-    private static void drawFluid(GuiGraphicsExtractor g, Minecraft minecraft, FluidInspectable fluid) {
+    private static void drawCable(GuiGraphicsExtractor g, Minecraft game,
+            br.com.quantumindustries.block.entity.CopperCableBlockEntity cable, InspectionSnapshot snap) {
+        boolean ready = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY;
+        int flow = ready ? snap.localCapacity() : cable.flow(), max = cable.capacity();
+        var lines = new ArrayList<Component>();
+        lines.add(cable.inspectTitle());
+        lines.add(Component.translatable("gui.quantumindustries.cable.stored"));
+        lines.add(Component.translatable("gui.quantumindustries.cable.throughput", flow, max));
+        lines.add(Component.translatable("gui.quantumindustries.cable.loss", cable.loss()));
+        lines.add(ready ? Component.translatable("gui.quantumindustries.cable.reserve", snap.load(), snap.capacity())
+                : Component.translatable("gui.quantumindustries.cable.pending"));
+        lines.add(Component.translatable("gui.quantumindustries.cable.scope", ready ? snap.nodeCount() : 0));
+        lines.add(Component.translatable("gui.quantumindustries.cable.storage_hint"));
+        int width = 220;
+        for (var line : lines) width = Math.max(width, game.font.width(line) + 16);
+        g.fill(7,7,7+width,117,0xFFB37B55);g.fill(8,8,6+width,116,0xE8201C19);
+        for (int i = 0; i < lines.size(); i++) g.text(game.font,lines.get(i),14,13+i*12,i==0?0xFFF4DCB9:0xFFF4EEE6,false);
+        g.fill(14,103,width,109,0xFF45382F);
+        if(flow>0)g.fill(14,103,14+(width-14)*Math.clamp(flow,0,max)/Math.max(1,max),109,0xFFE8BC65);
+    }
+
+    private static final double MOTION_EPSILON = 1.0e-6;
+    private static final int MECHANICAL_LINE_HEIGHT = 12;
+
+    private static void drawMechanical(GuiGraphicsExtractor g, Minecraft minecraft,
+            InspectionSnapshot snap, int top, boolean shift) {
+        boolean moving = Math.abs(snap.angularVelocity()) > MOTION_EPSILON;
+        Component state = Component.translatable(snap.powered()
+                ? "gui.quantumindustries.mechanical.state.powered"
+                : moving ? "gui.quantumindustries.mechanical.state.coasting"
+                : "gui.quantumindustries.mechanical.state.stalled");
+        Component reason = Component.translatable("gui.quantumindustries.mechanical.stop_reason."
+                + snap.stopReason().name().toLowerCase(Locale.ROOT));
+        int direction = moving ? (snap.angularVelocity() < 0 ? -1 : 1) : snap.spinDirection();
+        Component spin = Component.translatable(direction < 0
+                ? "gui.quantumindustries.mechanical.spin.ccw"
+                : "gui.quantumindustries.mechanical.spin.cw");
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.title"));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.state_reason", state, reason));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.rpm", decimal(snap.rpm())));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.capacity_load", snap.capacity(), snap.load()));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.axle_spin",
+                Component.translatable("gui.quantumindustries.mechanical.axis." + snap.axle().getName()), spin));
+        lines.add(Component.translatable("gui.quantumindustries.mechanical.nodes", snap.nodeCount()));
+        if (shift) {
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.angular_velocity", decimal(snap.angularVelocity())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.angular_acceleration", decimal(snap.angularAcceleration())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.torques",
+                    decimal(snap.driveTorque()), decimal(snap.loadTorque()), decimal(snap.netTorque())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.inertias",
+                    decimal(snap.equivalentInertia()), decimal(snap.localInertia())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.power", decimal(snap.mechanicalPower())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.ratio", decimal(snap.effectiveRatio())));
+        }
+        var hydraulic = br.com.quantumindustries.client.inspection.ClientHydraulicInspection.active();
+        if (shift && hydraulic != null && hydraulic.target().equals(snap.target())) {
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.title"));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.totals", decimal(hydraulic.positive()), decimal(hydraulic.negative()), decimal(hydraulic.resultant())));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.motion", decimal(br.com.quantumindustries.mechanical.KineticDynamics.toRpm(hydraulic.omega())), decimal(hydraulic.acceleration())));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.direction", hydraulic.axle().getName().toUpperCase(Locale.ROOT),
+                    Math.abs(hydraulic.resultant()) < 1e-6 ? "0" : hydraulic.resultant() > 0 ? "+" : "-"));
+            lines.add(Component.translatable("gui.quantumindustries.hydraulic.flow_legend"));
+            lines.add(Component.translatable(Math.abs(hydraulic.omega()) < 1e-6
+                    ? "gui.quantumindustries.hydraulic.rest_legend" : "gui.quantumindustries.hydraulic.torque_legend"));
+        }
+        lines.add(Component.translatable(shift
+                ? "gui.quantumindustries.mechanical.diagnostics.on"
+                : "gui.quantumindustries.mechanical.diagnostics.hint"));
+        int width = 178;
+        for (Component line : lines) width = Math.max(width, minecraft.font.width(line) + 20);
+        int height = lines.size() * MECHANICAL_LINE_HEIGHT + 12;
+        float scale = Math.min(1.0f, Math.min((g.guiHeight() - top - 7f) / height,
+                (g.guiWidth() - 14f) / width));
+        g.pose().pushMatrix();
+        try {
+            g.pose().translate(7f, (float) top).scale(scale);
+            g.fill(0, 0, width, height, 0xFFB37B55);
+            g.fill(1, 1, width - 1, height - 1, 0xE8201C19);
+            for (int i = 0; i < lines.size(); i++) {
+                int color = i == 0 ? 0xFFF4DCB9 : i == 1
+                        ? (snap.powered() ? 0xFF83A276 : moving ? 0xFFE4AE62 : 0xFFC16A4B)
+                        : 0xFFF4EEE6;
+                g.text(minecraft.font, lines.get(i), 7, 6 + i * MECHANICAL_LINE_HEIGHT, color, false);
+            }
+        } finally {
+            g.pose().popMatrix();
+        }
+    }
+
+    private static String decimal(double value) {
+        return String.format(Locale.ROOT, "%.1f", value);
+    }
+
+    private static void drawFluid(GuiGraphicsExtractor g, Minecraft minecraft,
+            FluidInspectable fluid, InspectionSnapshot snap, boolean shift) {
         int amount = fluid.storedFluid(), capacity = Math.max(1, fluid.fluidCapacity());
-        g.fill(7, 7, 175, 75, 0xFFB37B55);
-        g.fill(8, 8, 174, 74, 0xE8201C19);
+        boolean hasNet = snap != null && snap.kind() == InspectionSnapshot.Kind.FLUID && snap.nodeCount() > 0;
+        Component netLine = hasNet
+                ? Component.translatable("gui.quantumindustries.inspection.network_trend",
+                        trendSymbol(), snap.nodeCount(),
+                        Component.translatable(shift
+                                ? "gui.quantumindustries.mechanical.overlay.on"
+                                : "gui.quantumindustries.mechanical.overlay.hint"))
+                : null;
+        int width = 168;
+        if (netLine != null) width = Math.max(width, minecraft.font.width(netLine) + 16);
+        int bottom = netLine == null ? 75 : 87;
+        g.fill(7, 7, 7 + width, bottom, 0xFFB37B55);
+        g.fill(8, 8, 6 + width, bottom - 1, 0xE8201C19);
         g.text(minecraft.font, fluid.fluidTitle(), 14, 13, 0xFFF4DCB9, false);
         g.text(minecraft.font, Component.translatable("gui.quantumindustries.fluid.amount", amount, capacity),
                 14, 27, 0xFFF4EEE6, false);
         g.text(minecraft.font, fluid.fluidDetail(), 14, 42, 0xFFAEC6AD, false);
         g.fill(14, 60, 166, 66, 0xFF45382F);
         if (amount > 0) g.fill(14, 60, 14 + 152 * amount / capacity, 66, 0xFF6AA6D9);
+        if (netLine != null) {
+            g.text(minecraft.font, netLine, 14, 71, 0xFFB4A99A, false);
+        }
+    }
+
+    private static void drawPneumatic(GuiGraphicsExtractor g, Minecraft minecraft,
+            PneumaticTubeBlockEntity tube, InspectionSnapshot snap, boolean shift) {
+        Component title = Component.translatable("block.quantumindustries.pneumatic_tube");
+        Component packetLine = tube.packet().isEmpty()
+                ? Component.translatable("gui.quantumindustries.pneumatic.empty")
+                : Component.translatable("gui.quantumindustries.pneumatic.packet",
+                        tube.packet().getCount(), tube.packet().getHoverName());
+        int nodes = snap != null && snap.kind() == InspectionSnapshot.Kind.PNEUMATIC ? snap.nodeCount() : 1;
+        Component netLine = Component.translatable("gui.quantumindustries.inspection.network_trend",
+                tube.packet().isEmpty() ? "=" : "→", nodes,
+                Component.translatable(shift
+                        ? "gui.quantumindustries.mechanical.overlay.on"
+                        : "gui.quantumindustries.mechanical.overlay.hint"));
+        int width = Math.max(168, Math.max(minecraft.font.width(packetLine), minecraft.font.width(netLine)) + 16);
+        g.fill(7, 7, 7 + width, 54, 0xFFB37B55);
+        g.fill(8, 8, 6 + width, 53, 0xE8201C19);
+        g.text(minecraft.font, title, 14, 13, 0xFFF4DCB9, false);
+        g.text(minecraft.font, packetLine, 14, 26, tube.packet().isEmpty() ? 0xFFAEC6AD : 0xFFF4EEE6, false);
+        g.text(minecraft.font, netLine, 14, 39, 0xFFB4A99A, false);
     }
 
     private static void drawCompactStatus(GuiGraphicsExtractor g, Minecraft minecraft, MachineStatusInspectable machine) {

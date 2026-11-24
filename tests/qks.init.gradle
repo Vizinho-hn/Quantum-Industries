@@ -1,0 +1,11 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/qks-runtime')
+        neoForge.runs.server {
+            gameDirectory = file(providers.gradleProperty('qksRunDir').getOrElse('build/qks-verification') + '/world')
+            systemProperty 'quantumindustries.verifyQks', 'true'
+            systemProperty 'quantumindustries.qksPhase', providers.gradleProperty('qksPhase').getOrElse('write')
+            jvmArgument '-Xlog:class+load=info:file=../classes-%p.log:uptime,level,tags'
+        }
+    }
+}

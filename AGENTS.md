@@ -17,6 +17,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Treat graph links, clusters, and hubs as navigation clues, not authority. Verify relevant conclusions in source; the report records dangling edges, self-loops, collapsed relationships, and incomplete semantic token accounting.
 
 ## Antes de alterar código
+0. Leia este `AGENTS.md` antes de cada tarefa de alteração. Ao confirmar um aprendizado novo e reutilizável sobre o projeto, registre aqui uma orientação curta ou um link para a documentação específica. Preserve o conteúdo dos colaboradores e evite hipóteses, logs de sessão e instruções duplicadas.
 1. Leia somente os arquivos relevantes à tarefa; comece por `README.md`, `CONTRIBUTING.md`, `ROADMAP.md` e a documentação específica quando necessário. Não varra o repositório inteiro sem motivo.
 2. Verifique o estado do Git (`git status --short`) e preserve alterações de outras pessoas. Não sobrescreva trabalho alheio.
 3. Identifique a implementação real antes de criar classes, pacotes ou abstrações. `docs/ARCHITECTURE.md` descreve também módulos **conceituais**, não necessariamente existentes.
@@ -24,6 +25,14 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 5. Para trabalho compartilhado, confirme a tarefa com a equipe e use uma branch `feat/*`, `fix/*` ou `docs/*`. Abra PR; não faça push direto na `main` sem autorização explícita.
 
 ## Regras de implementação
+- Serraria Elétrica: reutiliza `MechanicalProcesses` para espécies/variantes, com rendimento elétrico de 8 tábuas. Menu expõe o `SimpleContainer` real (0–3 entrada, 4–7 saída). Preserve progresso/receita/slot reservado durante NBT load; callbacks de alteração do inventário não devem invalidar a reserva enquanto o próprio save está sendo restaurado. O limite de recebimento FE é acumulado por tick, não por chamada.
+
+- Serraria: automação usa o UUID persistido `automation_operator` e valida a pesquisa por jogador em `canInsertAutomated`; extraia apenas `output`. Máquinas antigas sem vínculo exigem interação autorizada. O HUD usa os estoques e estados do update tag do servidor.
+- Cabos de cobre são condutores sem buffer FE: `energy()` legado representa fluxo. Não some esse valor como reserva; os snapshots de cabos separam reserva/capacidade dos equipamentos conectados (`load`/`capacity`) de fluxo/limite local (`localCapacity`/`localLoad`).
+- Inspeção hidráulica: `hydraulicContributions()` reutiliza as amostras em cache das rodas, em unidades locais de acionamento QKS após normalização/saturação. Use o protocolo detalhado sob demanda; preserve o codec básico de `InspectionSnapshot`. Veja `docs/HYDRAULIC_INSPECTION.md`.
+- Transporte para fundidoras: use `canInsertIngredient` para consultar capacidade sem mutação; nunca simule inserção alterando inventários. A busca dos tubos é limitada e respeita lados e chunks carregados. A devolução de excedentes só usa um inventário na origem de uma conexão Puxar.
+- Interfaces de processamento: `MachineProcessingMenu` compartilha os slots reais das Block Entities da Fundidora Elétrica e do Britador. Fechar uma tela deve manter entradas, saída e progresso na máquina. Em MC 26.1.2, o desenho dessas telas usa `extractContents(GuiGraphicsExtractor, int, int, float)`; confira o padrão em `MachineProcessingScreen` antes de usar assinaturas de versões antigas.
+- Conexões: `ConnectionMode.AUTO` é o identificador persistido do modo exibido como **Entrada e saída**. Ele permite tráfego nos dois sentidos e participa do ciclo da chave. Preserve o valor salvo e as permissões ao alterar nomes ou incluir novos modos.
 - Faça a **menor alteração correta** para atender à solicitação. Evite refatorações oportunistas, dependências novas e mudanças de versão.
 - Preserve a separação cliente/servidor: o **servidor é autoridade** sobre inventários, custos, descobertas, pesquisas, permissões e desbloqueios.
 - Mantenha descobertas e pesquisas persistentes **por jogador**. Compartilhar máquina não deve misturar progresso individual.
@@ -43,6 +52,13 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Para energia, fluidos e itens, preserve **conservação de recursos, limites por trecho/tick, atomicidade quando aplicável, inserção parcial e ausência de duplicação**. Respeite o contrato atual de cabos sem armazenamento, as transações de fluido e os pacotes físicos dos tubos pneumáticos.
 - Para mecânica, não substituir o modelo de **UM** pelo sistema de RPM/stress do Create sem decisão de gameplay. Para redes digitais/autocrafting da Era V, documente o design e valide um protótipo antes de criar frameworks genéricos.
 - Verifique assinaturas nas dependências reais do projeto (**Minecraft 26.1.2 / NeoForge 26.1.2.125**); branches externos podem ser de outras versões. Execute testes de contrato e runtime pertinentes, e registre o que foi de fato validado.
+
+## Quantum Kinetic System — PRs 1–3 (implementação)
+- Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
+- O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. O PR 2 acrescenta engrenagens, volante, polias/correias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos, capítulos opcionais de física no Códice e `tools/verify-qks.sh`. A aceitação dedicada do PR 3 passou com `bash tools/verify-qks.sh`: fases write/read, persistência após reinício e isolamento de classes nas duas JVMs. O preview cliente verificou o HUD normal, os diagnósticos com Shift e a paginação do Códice.
+- O renderer mecânico nativo é `client/kinetic/QksBlockEntityRenderer`; `ClientKineticTracker.init()` deve instalar o sink antes da entrada no mundo. O diretório legado dos assets não implica dependência da API GeckoLib. O PR 1 foi verificado em preview do cliente e suítes de servidor, incluindo serraria/dínamo, sem API GeckoLib no subsistema mecânico. Preserve essas regressões em mudanças futuras; veja `docs/adr/0001-qks-native-renderer.md`.
+- A suíte QKS é opt-in (`tests/qks.init.gradle`, `tests/qks-runtime/`), usa dois servidores reais sobre um mundo isolado e audita classes carregadas. Preserve os 14 campos originais de `InspectionSnapshot` antes dos 11 campos QKS; valide o codec com `RegistryFriendlyByteBuf` e registries reais.
+- Não importar RPM/torque físico em SI como se as unidades UM já fossem N·m, não duplicar energia, não bloquear pesquisas por conteúdo opcional do livro, e não trocar modelos existentes por placeholders.
 
 ## Direção artística e produção de assets (obrigatório)
 - **Leia `docs/ART_DIRECTION.md` antes de criar ou alterar itens, blocos, modelos 3D, texturas ou animações.** Para assets das Eras I e II, siga também `docs/ERA1_VISUAL_STYLE_GUIDE.md` ou `docs/ERA2_VISUAL_STYLE_GUIDE.md`, respectivamente. `docs/MOD_REFERENCES.md` registra referências externas verificadas, mas não substitui as regras do projeto.
@@ -93,3 +109,5 @@ Responda de forma objetiva:
 4. **Riscos/pendências** e eventual necessidade de revisão de design.
 
 Não faça commits, push, merge, force-push nem mudanças destrutivas sem autorização explícita na tarefa. Sempre revise o diff antes de propor integração.
+
+- Ao integrar mudanças em `ModBlocks`/`ModItems`, preserve os registros industriais e suas entidades, incluindo o interruptor no conjunto de blocos válidos de `COPPER_CABLE_ENTITY`, bem como os registros de conversão industrial, esteira, caixa de engrenagens e chave de circuito, com a chave declarada antes do tipo de Block Entity dos cabos que a inclui em seus blocos válidos. A suíte de contratos verifica essas declarações para prevenir regressões de merge.

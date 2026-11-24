@@ -11,7 +11,15 @@ import net.minecraft.world.item.Items;
 public final class GuidebookCatalog {
 
     public record Chapter(String id, String studyKey, int era, String title, String subtitle,
-                          Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary) {
+                          Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary, List<String> additionalStudies) {
+        public Chapter(String id, String studyKey, int era, String title, String subtitle,
+                       Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary) {
+            this(id, studyKey, era, title, subtitle, icon, paragraphs, operationSummary, List.of());
+        }
+        public List<String> requiredStudies() {
+            if (studyKey == null) return List.of();
+            return java.util.stream.Stream.concat(java.util.stream.Stream.of(studyKey), additionalStudies.stream()).toList();
+        }
         public Identifier identifier() { return ResearchIds.of(id); }
     }
 
@@ -69,9 +77,50 @@ public final class GuidebookCatalog {
             () -> new ItemStack(ModItems.MECHANICAL_SAWMILL.get()),
             List.of(
                 "guidebook.quantumindustries.mechanical_transmission.paragraph_0",
-                "guidebook.quantumindustries.mechanical_transmission.paragraph_1"
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_1",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_2",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_3",
+                "guidebook.quantumindustries.mechanical_transmission.paragraph_4"
             ),
             "guidebook.quantumindustries.mechanical_transmission.operation"
+        ),
+        // Optional physics lesson: unlocks with existing Mechanical Transmission research.
+        // No new research node, crafting gate, or progression prerequisite.
+        new Chapter("rotation_principles", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotation_principles.title",
+            "guidebook.quantumindustries.rotation_principles.subtitle",
+            () -> new ItemStack(ModItems.MECHANICAL_SHAFT_BLOCK.get()),
+            List.of(
+                "guidebook.quantumindustries.rotation_principles.paragraph_0",
+                "guidebook.quantumindustries.rotation_principles.paragraph_1",
+                "guidebook.quantumindustries.rotation_principles.paragraph_2"
+            ),
+            "guidebook.quantumindustries.rotation_principles.operation"
+        ),
+        new Chapter("rotational_science", "mechanical_transmission", 1,
+            "guidebook.quantumindustries.rotational_science.title",
+            "guidebook.quantumindustries.rotational_science.subtitle",
+            () -> new ItemStack(ModItems.IRON_FLYWHEEL.get()),
+            List.of(
+                "guidebook.quantumindustries.rotational_science.paragraph_0",
+                "guidebook.quantumindustries.rotational_science.paragraph_1",
+                "guidebook.quantumindustries.rotational_science.paragraph_2",
+                "guidebook.quantumindustries.rotational_science.paragraph_3",
+                "guidebook.quantumindustries.rotational_science.paragraph_4",
+                "guidebook.quantumindustries.rotational_science.paragraph_5",
+                "guidebook.quantumindustries.rotational_science.paragraph_6"
+            ),
+            "guidebook.quantumindustries.rotational_science.operation"
+        ),
+        new Chapter("water_moves_wheels", "hydraulic_power", 1,
+            "guidebook.quantumindustries.water_moves_wheels.title",
+            "guidebook.quantumindustries.water_moves_wheels.subtitle",
+            () -> new ItemStack(ModItems.PRIMITIVE_WATER_WHEEL.get()),
+            List.of("guidebook.quantumindustries.water_moves_wheels.paragraph_0",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_1",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_2",
+                    "guidebook.quantumindustries.water_moves_wheels.paragraph_3"),
+            "guidebook.quantumindustries.water_moves_wheels.operation"
         ),
         new Chapter("hydraulic_power", "hydraulic_power", 1,
             "guidebook.quantumindustries.hydraulic_power.title",
@@ -79,7 +128,8 @@ public final class GuidebookCatalog {
             () -> new ItemStack(ModItems.PRIMITIVE_WATER_WHEEL.get()),
             List.of(
                 "guidebook.quantumindustries.hydraulic_power.paragraph_0",
-                "guidebook.quantumindustries.hydraulic_power.paragraph_1"
+                "guidebook.quantumindustries.hydraulic_power.paragraph_1",
+                "guidebook.quantumindustries.hydraulic_power.paragraph_2"
             ),
             "guidebook.quantumindustries.hydraulic_power.operation"
         ),
@@ -124,6 +174,20 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.scientific_analyzer_tier_2.operation"
         ),
+        machine("compact_gearbox", "mechanical_transmission", 1, () -> new ItemStack(ModItems.COMPACT_GEARBOX.get()), "metal_sheets"),
+        machine("mechanical_conveyor", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MECHANICAL_CONVEYOR.get()), "metal_sheets"),
+        machine("gravity_winch", "mechanical_energy_storage", 1, () -> new ItemStack(ModItems.GRAVITY_WINCH.get())),
+        machine("mainspring_drum", "mechanical_energy_storage", 1, () -> new ItemStack(ModItems.MAINSPRING_DRUM.get())),
+        machine("permanent_magnet", "basic_magnetism", 1, () -> new ItemStack(ModItems.PERMANENT_MAGNET.get())),
+        machine("manual_grain_mill", "material_observation", 1, () -> new ItemStack(ModItems.MANUAL_GRAIN_MILL.get())),
+        machine("small_cogwheel", "mechanical_transmission", 1, () -> new ItemStack(ModItems.SMALL_COGWHEEL.get())),
+        machine("large_cogwheel", "mechanical_transmission", 1, () -> new ItemStack(ModItems.LARGE_COGWHEEL.get())),
+        machine("iron_flywheel", "mechanical_transmission", 1, () -> new ItemStack(ModItems.IRON_FLYWHEEL.get())),
+        machine("mechanical_pulley", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MECHANICAL_PULLEY.get())),
+        machine("drive_belt", "mechanical_transmission", 1, () -> new ItemStack(ModItems.DRIVE_BELT.get())),
+        machine("medium_water_wheel", "hydraulic_power", 1, () -> new ItemStack(ModItems.MEDIUM_WATER_WHEEL.get())),
+        machine("large_water_wheel", "hydraulic_power", 1, () -> new ItemStack(ModItems.LARGE_WATER_WHEEL.get())),
+        machine("energy_inspection_goggles", "conductivity", 1, () -> new ItemStack(ModItems.ENERGY_INSPECTION_GOGGLES.get())),
         new Chapter("galvanic_storage", "galvanic_storage", 2,
             "guidebook.quantumindustries.galvanic_storage.title",
             "guidebook.quantumindustries.galvanic_storage.subtitle",
@@ -174,6 +238,9 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.electromechanical_forming.operation"
         ),
+        new Chapter("electric_sawmill", "electric_wood_processing", 2,
+            "guidebook.quantumindustries.electric_sawmill.title", "guidebook.quantumindustries.electric_sawmill.subtitle",
+            () -> new ItemStack(ModItems.ELECTRIC_SAWMILL.get()), List.of("guidebook.quantumindustries.electric_sawmill.paragraph_0", "guidebook.quantumindustries.electric_sawmill.paragraph_1"), "guidebook.quantumindustries.electric_sawmill.operation"),
         new Chapter("electric_alloy_smelting", "electric_alloy_smelting", 2,
             "guidebook.quantumindustries.electric_alloy_smelting.title",
             "guidebook.quantumindustries.electric_alloy_smelting.subtitle",
@@ -204,6 +271,25 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.pneumatic_transport.operation"
         ),
+        machine("industrial_circuit_switch", "load_protection", 2, () -> new ItemStack(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get())),
+        machine("laminated_iron_core", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.LAMINATED_IRON_CORE.get())),
+        machine("excitation_coil", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.EXCITATION_COIL.get())),
+        machine("electromagnetic_rotor", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.ELECTROMAGNETIC_ROTOR.get())),
+        machine("generator_stator", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.GENERATOR_STATOR.get())),
+        machine("primitive_rectifier", "alternating_current", 2, () -> new ItemStack(ModItems.PRIMITIVE_RECTIFIER.get())),
+        machine("voltage_regulator", "alternating_current", 2, () -> new ItemStack(ModItems.VOLTAGE_REGULATOR.get())),
+        machine("electromagnetic_generator", "industrial_generation", 2, () -> new ItemStack(ModItems.ELECTROMAGNETIC_GENERATOR.get())),
+        machine("electric_motor", "electromechanical_forming", 2, () -> new ItemStack(ModItems.ELECTRIC_MOTOR.get())),
+        machine("steam_boiler", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.STEAM_BOILER.get()), "thermal_annealing"),
+        machine("steam_engine", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.STEAM_ENGINE.get()), "thermal_annealing"),
+        machine("thermoelectric_generator", "electric_alloy_smelting", 2, () -> new ItemStack(ModItems.THERMOELECTRIC_GENERATOR.get())),
+        machine("voltaic_pile", "galvanic_storage", 2, () -> new ItemStack(ModItems.VOLTAIC_PILE.get())),
+        machine("peristaltic_pump", "peristaltic_mechanics", 2, () -> new ItemStack(ModItems.PERISTALTIC_PUMP.get())),
+        machine("piezo_switch", "piezoelectricity", 2, () -> new ItemStack(ModItems.PIEZO_SWITCH.get())),
+        machine("bellows_ejector", "pneumatic_transport", 2, () -> new ItemStack(ModItems.BELLOWS_EJECTOR.get())),
+        machine("gravitational_sorter", "pneumatic_transport", 2, () -> new ItemStack(ModItems.GRAVITATIONAL_SORTER.get())),
+        machine("fluid_pipe", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.FLUID_PIPE.get())),
+        machine("glass_pipe", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.GLASS_PIPE.get())),
         new Chapter("chemical_leaching", "chemical_leaching", 2,
             "guidebook.quantumindustries.chemical_leaching.title",
             "guidebook.quantumindustries.chemical_leaching.subtitle",
@@ -218,13 +304,19 @@ public final class GuidebookCatalog {
 
     static {
         for (Chapter chapter : CHAPTERS) {
-            if (chapter.studyKey() != null) {
-                Study study = ResearchCatalog.find(ResearchCatalog.identifier(chapter.studyKey()));
+            for (String required : chapter.requiredStudies()) {
+                Study study = ResearchCatalog.find(ResearchCatalog.identifier(required));
                 if (study == null) {
-                    throw new IllegalStateException("Study key '" + chapter.studyKey() + "' not found in ResearchCatalog");
+                    throw new IllegalStateException("Study key '" + required + "' not found in ResearchCatalog");
                 }
             }
         }
+    }
+
+    private static Chapter machine(String id, String study, int era, Supplier<ItemStack> icon, String... additional) {
+        String prefix = "guidebook.quantumindustries." + id + ".";
+        return new Chapter(id, study, era, prefix + "title", prefix + "subtitle", icon,
+                List.of(prefix + "paragraph_0", prefix + "paragraph_1"), prefix + "operation", List.of(additional));
     }
 
     private GuidebookCatalog() {}

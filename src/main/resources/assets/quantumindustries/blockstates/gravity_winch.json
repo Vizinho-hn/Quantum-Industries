@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/gravity_winch"
+    },
+    "axis=x": {
+      "model": "quantumindustries:block/gravity_winch",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "quantumindustries:block/gravity_winch",
+      "x": 90
+    }
+  }
+}

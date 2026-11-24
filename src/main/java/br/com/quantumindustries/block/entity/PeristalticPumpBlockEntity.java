@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/** 50 mB/t pump. FE-powered operation uses 2 FE/t; a crank provides manual pulses. */
+/** Rear inlet with bottom suction fallback; one transfer of up to 50 mB per operation. */
 public final class PeristalticPumpBlockEntity extends BlockEntity implements EnergyInspectable {
     private static final int CAPACITY=240,FE_PER_TICK=2,MAX_RATE=50;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(CAPACITY,32,FE_PER_TICK);
@@ -41,11 +41,21 @@ public final class PeristalticPumpBlockEntity extends BlockEntity implements Ene
         long time=server.getGameTime();
         if(!powered&&time-lastManual<10)return false;
         Direction output=getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        BlockPos inputPos=worldPosition.relative(output.getOpposite()),outputPos=worldPosition.relative(output);
-        var source=FluidTransfer.handler(server,inputPos,output);
+        BlockPos outputPos=worldPosition.relative(output);
         var target=FluidTransfer.handler(server,outputPos,output.getOpposite());
-        int moved=FluidTransfer.move(source,target,MAX_RATE);
-        if(moved<=0){lastFlow=0;return false;}
+        int moved=0;
+        // Keep existing installations deterministic: rear input has priority.
+        // Bottom suction is a fallback, not a second transfer or a second charge.
+        if(target!=null){
+            for(Direction inlet:new Direction[]{output.getOpposite(),Direction.DOWN}){
+                BlockPos inputPos=worldPosition.relative(inlet);
+                var source=FluidTransfer.handler(server,inputPos,inlet.getOpposite());
+                moved=source==null?FluidTransfer.drawRenewableWater(server,inputPos,target,MAX_RATE)
+                        :FluidTransfer.move(source,target,MAX_RATE);
+                if(moved>0)break;
+            }
+        }
+        if(moved<=0){if(lastFlow!=0){lastFlow=0;changed();}return false;}
         if(powered){
             try(var tx=Transaction.openRoot()){battery.extract(FE_PER_TICK,tx);tx.commit();}
         }else lastManual=time;

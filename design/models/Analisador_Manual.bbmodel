@@ -1,0 +1,2305 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "Analisador Manual - Quantum Industries",
+  "model_identifier": "manual_material_analyzer",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "Pe de madeira",
+      "type": "cube",
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        4,
+        10,
+        4
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "f35fe01a-dfce-432c-89df-19d5434c4aca",
+      "color": 0
+    },
+    {
+      "name": "Pe de madeira",
+      "type": "cube",
+      "from": [
+        1,
+        0,
+        12
+      ],
+      "to": [
+        4,
+        10,
+        15
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "46d52734-2c6f-49f8-9e18-6d2d6bd8ef7e",
+      "color": 0
+    },
+    {
+      "name": "Pe de madeira",
+      "type": "cube",
+      "from": [
+        12,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        10,
+        4
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "d70ffd52-7263-4ecf-9b2d-514fb89f664a",
+      "color": 0
+    },
+    {
+      "name": "Pe de madeira",
+      "type": "cube",
+      "from": [
+        12,
+        0,
+        12
+      ],
+      "to": [
+        15,
+        10,
+        15
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "d796ff85-216b-403f-bff0-63e8f31390ee",
+      "color": 0
+    },
+    {
+      "name": "Travessa frontal",
+      "type": "cube",
+      "from": [
+        1,
+        5,
+        1
+      ],
+      "to": [
+        15,
+        8,
+        3
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "eadb2567-acce-469d-8349-6fcc09de6c8f",
+      "color": 0
+    },
+    {
+      "name": "Travessa traseira",
+      "type": "cube",
+      "from": [
+        1,
+        5,
+        13
+      ],
+      "to": [
+        15,
+        8,
+        15
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "0c50f678-9d46-4fd2-a600-bb6d7f699fce",
+      "color": 0
+    },
+    {
+      "name": "Travessa lateral esquerda",
+      "type": "cube",
+      "from": [
+        1,
+        5,
+        3
+      ],
+      "to": [
+        3,
+        8,
+        13
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "bf0aa736-d5ef-4d37-bb95-3f8b567ce71f",
+      "color": 0
+    },
+    {
+      "name": "Travessa lateral direita",
+      "type": "cube",
+      "from": [
+        13,
+        5,
+        3
+      ],
+      "to": [
+        15,
+        8,
+        13
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "5226c5bb-d223-40e7-a7a1-28f74942ee76",
+      "color": 0
+    },
+    {
+      "name": "Tampo macico",
+      "type": "cube",
+      "from": [
+        0,
+        10,
+        0
+      ],
+      "to": [
+        16,
+        12,
+        16
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "6de072cd-ec69-4a61-961a-744730faae9f",
+      "color": 0
+    },
+    {
+      "name": "Moldura frontal bronze",
+      "type": "cube",
+      "from": [
+        0,
+        10,
+        0
+      ],
+      "to": [
+        16,
+        11,
+        1
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "d056c688-15bc-416a-b172-36f09c8777d7",
+      "color": 0
+    },
+    {
+      "name": "Moldura traseira bronze",
+      "type": "cube",
+      "from": [
+        0,
+        10,
+        15
+      ],
+      "to": [
+        16,
+        11,
+        16
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "f75bfb9f-ccc1-4d68-a4c1-9440a2323cf2",
+      "color": 0
+    },
+    {
+      "name": "Bancada de ensaio",
+      "type": "cube",
+      "from": [
+        5,
+        12,
+        5
+      ],
+      "to": [
+        12,
+        13,
+        13
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            64,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "4327215f-40be-457d-8fcc-d1623f2e8fb4",
+      "color": 0
+    },
+    {
+      "name": "Bandeja de amostra",
+      "type": "cube",
+      "from": [
+        6,
+        13,
+        7
+      ],
+      "to": [
+        11,
+        14,
+        12
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "02952a42-6129-4646-9511-7e6da07566f7",
+      "color": 0
+    },
+    {
+      "name": "Amostra mineral",
+      "type": "cube",
+      "from": [
+        7,
+        14,
+        8
+      ],
+      "to": [
+        10,
+        16,
+        11
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            32,
+            64,
+            48
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "751316ee-6e32-4f2c-9c4a-bc2431f6bcdc",
+      "color": 0
+    },
+    {
+      "name": "Caderno de anotacoes",
+      "type": "cube",
+      "from": [
+        1,
+        12,
+        5
+      ],
+      "to": [
+        5,
+        12.5,
+        10
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            32,
+            32,
+            48
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "5142060c-21fb-405e-b202-991d15ed9a60",
+      "color": 0
+    },
+    {
+      "name": "Lombada do caderno",
+      "type": "cube",
+      "from": [
+        1,
+        12,
+        5
+      ],
+      "to": [
+        1.6,
+        12.7,
+        10
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "54ba413a-9979-4c09-9181-f4d6e96b6d1b",
+      "color": 0
+    },
+    {
+      "name": "Suporte do instrumento",
+      "type": "cube",
+      "from": [
+        12,
+        12,
+        3
+      ],
+      "to": [
+        14,
+        15,
+        5
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "c3d16092-869b-49ed-a72e-45ff4b044842",
+      "color": 0
+    },
+    {
+      "name": "Braco de bronze",
+      "type": "cube",
+      "from": [
+        10,
+        14,
+        3
+      ],
+      "to": [
+        14,
+        15,
+        4
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "d7df97b8-86d6-41a9-896a-4efb9aa4431f",
+      "color": 0
+    },
+    {
+      "name": "Visor lupa moldura",
+      "type": "cube",
+      "from": [
+        7,
+        14,
+        2
+      ],
+      "to": [
+        11,
+        15,
+        6
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "640de1b9-000d-4188-98b6-0614f81ec6b3",
+      "color": 0
+    },
+    {
+      "name": "Lente quadrada",
+      "type": "cube",
+      "from": [
+        8,
+        15,
+        3
+      ],
+      "to": [
+        10,
+        15.6,
+        5
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            32,
+            16,
+            48
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "b868d18e-1eaf-46b2-83d4-7edf4c5fbd9c",
+      "color": 0
+    },
+    {
+      "name": "Mostrador analogico",
+      "type": "cube",
+      "from": [
+        14,
+        7,
+        6
+      ],
+      "to": [
+        15.5,
+        10,
+        11
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            48,
+            16,
+            64
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            48,
+            16,
+            64
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            48,
+            16,
+            64
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            48,
+            16,
+            64
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "efc6d90c-6958-4472-8e06-f288c987fc9a",
+      "color": 0
+    },
+    {
+      "name": "Pino da manivela",
+      "type": "cube",
+      "from": [
+        15,
+        8,
+        8
+      ],
+      "to": [
+        16,
+        10,
+        9
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "65afe821-3e2a-4e75-bf3a-69d3cd5c1e04",
+      "color": 0
+    },
+    {
+      "name": "Manivela de madeira",
+      "type": "cube",
+      "from": [
+        15,
+        10,
+        8
+      ],
+      "to": [
+        16,
+        13,
+        9
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "3cb7afae-8206-4c8c-8f76-be39836cab1d",
+      "color": 0
+    },
+    {
+      "name": "Gaveta frontal",
+      "type": "cube",
+      "from": [
+        5,
+        6,
+        0.5
+      ],
+      "to": [
+        11,
+        9,
+        2
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            0,
+            48,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "3e963e62-95b8-4c2b-b8d0-42e038b83a41",
+      "color": 0
+    },
+    {
+      "name": "Puxador",
+      "type": "cube",
+      "from": [
+        7,
+        7,
+        0
+      ],
+      "to": [
+        9,
+        8,
+        0.8
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "c5085b27-63d6-4c3f-8b31-af16674f379b",
+      "color": 0
+    },
+    {
+      "name": "Punção metalico",
+      "type": "cube",
+      "from": [
+        2,
+        12,
+        12
+      ],
+      "to": [
+        3,
+        13,
+        15
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            16,
+            48,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "bbe8d82f-7576-4d4b-b429-3105f9c792d0",
+      "color": 0
+    },
+    {
+      "name": "Cabo punção",
+      "type": "cube",
+      "from": [
+        2,
+        12,
+        10
+      ],
+      "to": [
+        3,
+        13,
+        12
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            48,
+            32,
+            64
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "a9e05d12-17fb-4119-ab68-482889f16d02",
+      "color": 0
+    },
+    {
+      "name": "Presilha esquerda",
+      "type": "cube",
+      "from": [
+        5,
+        13,
+        7
+      ],
+      "to": [
+        6,
+        14,
+        8
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "bfd7af8d-bfea-4760-bbca-c6b097b0255d",
+      "color": 0
+    },
+    {
+      "name": "Presilha direita",
+      "type": "cube",
+      "from": [
+        11,
+        13,
+        7
+      ],
+      "to": [
+        12,
+        14,
+        8
+      ],
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            16,
+            64,
+            32
+          ],
+          "texture": 0
+        }
+      },
+      "uuid": "7a236cb8-8b4d-47e6-b91b-7dec098c2d98",
+      "color": 0
+    }
+  ],
+  "textures": [
+    {
+      "path": "",
+      "name": "manual_material_analyzer.png",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "particle": false,
+      "render_mode": "default",
+      "visible": true,
+      "mode": "bitmap",
+      "saved": true,
+      "uuid": "793b300f-4106-4046-be2f-ae0c0d362368",
+      "source": "data:image/png;base64,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",
+      "width": 64,
+      "height": 64,
+      "uv_width": 64,
+      "uv_height": 64
+    }
+  ],
+  "groups": [],
+  "outliner": [
+    "f35fe01a-dfce-432c-89df-19d5434c4aca",
+    "46d52734-2c6f-49f8-9e18-6d2d6bd8ef7e",
+    "d70ffd52-7263-4ecf-9b2d-514fb89f664a",
+    "d796ff85-216b-403f-bff0-63e8f31390ee",
+    "eadb2567-acce-469d-8349-6fcc09de6c8f",
+    "0c50f678-9d46-4fd2-a600-bb6d7f699fce",
+    "bf0aa736-d5ef-4d37-bb95-3f8b567ce71f",
+    "5226c5bb-d223-40e7-a7a1-28f74942ee76",
+    "6de072cd-ec69-4a61-961a-744730faae9f",
+    "d056c688-15bc-416a-b172-36f09c8777d7",
+    "f75bfb9f-ccc1-4d68-a4c1-9440a2323cf2",
+    "4327215f-40be-457d-8fcc-d1623f2e8fb4",
+    "02952a42-6129-4646-9511-7e6da07566f7",
+    "751316ee-6e32-4f2c-9c4a-bc2431f6bcdc",
+    "5142060c-21fb-405e-b202-991d15ed9a60",
+    "54ba413a-9979-4c09-9181-f4d6e96b6d1b",
+    "c3d16092-869b-49ed-a72e-45ff4b044842",
+    "d7df97b8-86d6-41a9-896a-4efb9aa4431f",
+    "640de1b9-000d-4188-98b6-0614f81ec6b3",
+    "b868d18e-1eaf-46b2-83d4-7edf4c5fbd9c",
+    "efc6d90c-6958-4472-8e06-f288c987fc9a",
+    "65afe821-3e2a-4e75-bf3a-69d3cd5c1e04",
+    "3cb7afae-8206-4c8c-8f76-be39836cab1d",
+    "3e963e62-95b8-4c2b-b8d0-42e038b83a41",
+    "c5085b27-63d6-4c3f-8b31-af16674f379b",
+    "bbe8d82f-7576-4d4b-b429-3105f9c792d0",
+    "a9e05d12-17fb-4119-ab68-482889f16d02",
+    "bfd7af8d-bfea-4760-bbca-c6b097b0255d",
+    "7a236cb8-8b4d-47e6-b91b-7dec098c2d98"
+  ]
+}

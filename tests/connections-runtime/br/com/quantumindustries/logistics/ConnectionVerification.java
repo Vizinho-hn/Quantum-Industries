@@ -65,7 +65,9 @@ public final class ConnectionVerification {
             } else {
                 setup();
                 verifyGravityAndPressure();
+                verifyPumpBottomIntake();
                 verifyWrenchAndCapabilities();
+                setupSmartSmelter();
             }
             active = true;
         } catch (Throwable error) { finish(error); }
@@ -189,6 +191,109 @@ public final class ConnectionVerification {
         check(lower.storedFluid() + upper.storedFluid() == 50, "pressure creates no fluid");
     }
 
+    private static void verifyPumpBottomIntake() {
+        var pos=new BlockPos(11,100,10);
+        var facing=net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+        level.setBlock(pos,ModBlocks.PERISTALTIC_PUMP.get().defaultBlockState().setValue(facing,Direction.EAST),3);
+        level.setBlock(pos.east(),ModBlocks.SETTLING_VAT.get().defaultBlockState(),3);
+        level.setBlock(pos.west(),Blocks.AIR.defaultBlockState(),3);
+        var pump=(PeristalticPumpBlockEntity)level.getBlockEntity(pos);
+        var target=(SettlingVatBlockEntity)level.getBlockEntity(pos.east());
+        var bottom=pos.below();
+        level.setBlock(bottom,Blocks.WATER.defaultBlockState(),3);
+        check(pump.receiveEnergy(32)==32,"stage pump FE");
+        check(!pump.pump(true)&&pump.energy()==32&&target.storedFluid()==0,"isolated source below does not generate water");
+        level.setBlock(bottom.west(),Blocks.WATER.defaultBlockState(),3);
+        level.setBlock(bottom.north(),Blocks.WATER.defaultBlockState(),3);
+        check(pump.pump(true)&&pump.energy()==30&&target.storedFluid()==50,"bottom renewable water feeds pump at existing rate and cost");
+        check(level.getFluidState(bottom).isSource(),"renewable source remains");
+        level.setBlock(pos.west(),ModBlocks.SETTLING_VAT.get().defaultBlockState(),3);
+        var rear=(SettlingVatBlockEntity)level.getBlockEntity(pos.west());
+        try(var tx=Transaction.openRoot()){
+            check(rear.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage rear water");
+            tx.commit();
+        }
+        check(pump.pump(true)&&rear.storedFluid()==0&&target.storedFluid()==100&&pump.energy()==28,
+                "rear input retains priority and one operation cannot double flow");
+        level.setBlock(bottom,ModBlocks.GLASS_PIPE.get().defaultBlockState(),3);
+        var lower=(FluidPipeBlockEntity)level.getBlockEntity(bottom);
+        for(Direction side:Direction.values())mode(bottom,side,ConnectionMode.NONE);
+        mode(bottom,Direction.UP,ConnectionMode.PUSH);
+        check(lower.getBlockState().getValue(br.com.quantumindustries.block.FluidPipeBlock.UP),"bottom pipe visibly connects to pump");
+        try(var tx=Transaction.openRoot()){
+            check(lower.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage bottom pipe water");
+            tx.commit();
+        }
+        check(pump.pump(true)&&lower.storedFluid()==0&&target.storedFluid()==150&&pump.energy()==26,
+                "pump draws stored water from bottom pipe without prior pressure");
+        check(!pump.pump(true)&&pump.energy()==26&&target.storedFluid()==150,"empty sources consume no energy");
+        try(var tx=Transaction.openRoot()){
+            check(lower.tank().insert(FluidResource.of(Fluids.WATER),50,tx)==50,"stage water for blocked outlet");
+            tx.commit();
+        }
+        mode(bottom,Direction.UP,ConnectionMode.NONE);
+        check(!pump.pump(true)&&lower.storedFluid()==50&&pump.energy()==26,"disabled bottom pipe respects port configuration");
+        mode(bottom,Direction.UP,ConnectionMode.PUSH);
+        level.setBlock(pos.east(),Blocks.AIR.defaultBlockState(),3);
+        check(!pump.pump(true)&&lower.storedFluid()==50&&pump.energy()==26,"blocked outlet consumes neither water nor FE");
+        for(var cell:new BlockPos[]{pos,pos.west(),bottom,bottom.west(),bottom.north()})
+            level.setBlock(cell,Blocks.AIR.defaultBlockState(),3);
+    }
+
+    private static final BlockPos SMART = new BlockPos(1, 100, 14);
+    private static ElectricAlloySmelterBlockEntity smartSmelter() {
+        return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
+    }
+    private static void setupSmartSmelter() {
+        for (int i = 0; i <= 4; i++) level.setBlock(SMART.east(i), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(SMART, Blocks.CHEST.defaultBlockState(), 3);
+        level.setBlock(SMART.east(4), ModBlocks.ELECTRIC_ALLOY_SMELTER.get().defaultBlockState(), 3);
+        for (int i = 1; i <= 3; i++) {
+            level.setBlock(SMART.east(i), ModBlocks.PNEUMATIC_TUBE.get().defaultBlockState(), 3);
+            for (Direction side : Direction.values()) mode(SMART.east(i), side, ConnectionMode.NONE);
+            mode(SMART.east(i), Direction.WEST, ConnectionMode.PULL);
+            mode(SMART.east(i), Direction.EAST, ConnectionMode.PUSH);
+        }
+        var source = (ChestBlockEntity) level.getBlockEntity(SMART);
+        var machine = smartSmelter();
+        var copper = new ItemStack(Items.COPPER_INGOT, 16);
+        while (!copper.isEmpty()) check(machine.insertIngredient(copper), "stage copper capacity");
+        check(!machine.canInsertIngredient(new ItemStack(Items.COPPER_INGOT)), "full copper cannot use the second slot");
+        var extra = new ItemStack(Items.COPPER_INGOT);
+        check(!machine.insertIngredient(extra) && extra.getCount() == 1 && machine.inputB().isEmpty(), "automation rejects duplicate metal without consuming it");
+        var menu = new br.com.quantumindustries.menu.MachineProcessingMenu(9001, player.getInventory(), SMART.east(4), false);
+        check(!menu.getSlot(1).mayPlace(extra), "manual slot rejects metal already in other input");
+        check(menu.getSlot(1).mayPlace(new ItemStack(ModItems.INGOTS.get("tin").get())), "manual slot permits compatible tin");
+        source.setItem(0, new ItemStack(Items.COPPER_INGOT, 64));
+        source.setItem(1, new ItemStack(ModItems.INGOTS.get("tin").get(), 64));
+        var preview = new ItemStack(Items.COPPER_INGOT);
+        check(!ItemRouting.hasAcceptingRoute(level, SMART.east(1), Direction.WEST, preview), "look-ahead sees full copper across three segments");
+        check(source.getItem(0).getCount() == 64 && machine.inputA().getCount() == 16, "look-ahead has no inventory side effects");
+        // Reproduce an existing saved copper packet blocking a line before the patch.
+        var last = (PneumaticTubeBlockEntity) level.getBlockEntity(SMART.east(3));
+        check(last.accept(preview, Direction.WEST), "stage already blocked copper packet");
+    }
+    private static void verifySmartSmelter() {
+        var source = (ChestBlockEntity) level.getBlockEntity(SMART);
+        var machine = smartSmelter();
+        check(machine.inputA().is(Items.COPPER_INGOT) && machine.inputA().getCount() == 16, "copper remains in just one slot");
+        check(machine.inputB().is(ModItems.INGOTS.get("tin").get()) && machine.inputB().getCount() == 16, "tin behind full copper is selected and delivered");
+        int copper = 0, tin = 0;
+        for (int slot = 0; slot < source.getContainerSize(); slot++) {
+            var stack = source.getItem(slot);
+            if (stack.is(Items.COPPER_INGOT)) copper += stack.getCount();
+            if (stack.is(ModItems.INGOTS.get("tin").get())) tin += stack.getCount();
+        }
+        check(copper == 65 && tin == 48, "excess copper returns and both material totals are conserved");
+        for (int i = 1; i <= 3; i++) check(((PneumaticTubeBlockEntity)level.getBlockEntity(SMART.east(i))).packet().isEmpty(), "no excess packet jams the line");
+        for (int slot = 0; slot < source.getContainerSize(); slot++) source.setItem(slot, new ItemStack(Items.STONE, 64));
+        var rejected = new ItemStack(Items.COPPER_INGOT);
+        check(!ItemRouting.returnToSource(level, SMART.east(3), Direction.WEST, rejected) && rejected.getCount() == 1, "full return inventory cannot destroy or duplicate packet");
+        mode(SMART.east(2), Direction.WEST, ConnectionMode.NONE);
+        source.setItem(0, ItemStack.EMPTY);
+        check(!ItemRouting.returnToSource(level, SMART.east(3), Direction.WEST, rejected) && rejected.getCount() == 1, "recovery respects disabled upstream connection");
+    }
+
     private static int itemTotal() { return chest(0).getItem(0).getCount() + tube(1).packet().getCount() + tube(2).packet().getCount() + chest(3).getItem(0).getCount(); }
     private static int fluidTotal() { return vat(0).storedFluid() + pipe(1).storedFluid() + pipe(2).storedFluid() + vat(3).storedFluid(); }
 
@@ -202,6 +307,7 @@ public final class ConnectionVerification {
                     check(fluidTotal() == 1200 && vat(3).storedFluid() == 1000, "disabled fluid endpoint remains blocked after restart");
                     check(energy(0).energy() == 64 && energy(3).energy() == 128, "disabled energy endpoint remains blocked after restart");
                     for (BlockPos origin : new BlockPos[]{ITEMS, FLUID, ENERGY}) {
+                        click(origin.east(2), Direction.EAST, false);
                         click(origin.east(2), Direction.EAST, false);
                         click(origin.east(2), Direction.EAST, false);
                     }
@@ -222,9 +328,11 @@ public final class ConnectionVerification {
                 for (BlockPos origin : new BlockPos[]{ITEMS, FLUID, ENERGY}) {
                     click(origin.east(2), Direction.EAST, false);
                     click(origin.east(2), Direction.EAST, false);
+                    click(origin.east(2), Direction.EAST, false);
                 }
             }
             if (ticks == 200) {
+                verifySmartSmelter();
                 check(chest(3).getItem(0).getCount() == 10, "item tubes pull from a chest and push into another chest");
                 check(vat(3).storedFluid() == 1000, "copper and glass pipes transfer real water");
                 check(energy(0).energy() == 0 && energy(3).energy() == 128, "energy input/output modes preserve real FE");

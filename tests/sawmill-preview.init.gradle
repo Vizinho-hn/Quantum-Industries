@@ -1,0 +1,18 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/sawmill-preview')
+        neoForge.runs.client {
+            gameDirectory = file('build/sawmill-preview')
+            systemProperty 'quantumindustries.previewSawmill', 'true'
+            programArguments.addAll '--quickPlaySingleplayer', 'SawmillQA', '--width', '1600', '--height', '1000'
+        }
+        def dir = file('build/sawmill-preview')
+        tasks.named('runClient').configure {
+            doFirst {
+                dir.mkdirs();new File(dir,'options.txt').setText('onboardAccessibility:false\npauseOnLostFocus:false\nlang:pt_br\nguiScale:2\ntutorialStep:none\nfov:0.0\n','UTF-8')
+                java.nio.file.Files.deleteIfExists(new File(dir,'preview-result.txt').toPath())
+            }
+            doLast { if (!new File(dir,'preview-result.txt').isFile() || !new File(dir,'preview-result.txt').getText('UTF-8').startsWith('PASS:')) throw new GradleException('Sawmill preview failed') }
+        }
+    }
+}

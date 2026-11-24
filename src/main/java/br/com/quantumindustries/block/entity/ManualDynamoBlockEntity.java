@@ -1,6 +1,11 @@
 package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.mechanical.KineticDynamics;
+import br.com.quantumindustries.mechanical.KineticNetworkManager;
+import br.com.quantumindustries.mechanical.KineticSnapshot;
+import br.com.quantumindustries.mechanical.KineticSyncPayload;
+import br.com.quantumindustries.mechanical.StopReason;
 import br.com.quantumindustries.mechanical.MechanicalNetwork;
 import br.com.quantumindustries.mechanical.MechanicalParticipant;
 import br.com.quantumindustries.research.ResearchIds;
@@ -21,14 +26,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import com.geckolib.animatable.GeoBlockEntity;
-import com.geckolib.animatable.instance.AnimatableInstanceCache;
-import com.geckolib.animatable.manager.AnimatableManager;
-import com.geckolib.animation.AnimationController;
-import com.geckolib.animation.RawAnimation;
-import com.geckolib.util.GeckoLibUtil;
 
-public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable, GeoBlockEntity, MechanicalParticipant {
+public final class ManualDynamoBlockEntity extends BlockEntity implements EnergyInspectable, MechanicalParticipant {
     public static final int CAPACITY = 240;
     public static final int PER_TURN = 12;
     public static final int MAX_EXTRACT = 24;
@@ -37,16 +36,32 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     public static final int MECHANICAL_LOAD = 6;
 
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, PER_TURN, MAX_EXTRACT);
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean installed;
     private boolean refundable;
     private long lastTurn = -(TURN_TICKS + TURNING_GRACE_TICKS);
     private String mechanicalOperator = "";
     private int mechanicalTicks;
+    private int mechanicalRemainder;
     private boolean mechanicallyDriven;
+    private int spinDirection = 1;
+    private double angleRadians, angularVelocity, angularAcceleration;
+    private double crankStartAngle;
+    private long kineticSyncTime;
+    private double gearRatio = 1.0;
+    private StopReason stopReason = StopReason.NO_SOURCE;
 
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
+    }
+
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) KineticNetworkManager.track(server, worldPosition);
+    }
+
+    @Override public void onChunkUnloaded() {
+        if (level instanceof ServerLevel server) KineticNetworkManager.untrack(server, worldPosition);
+        super.onChunkUnloaded();
     }
 
     @Override public int energy() { return (int) battery.getAmountAsLong(); }
@@ -57,10 +72,59 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     public boolean installed() { return installed; }
     public long lastTurn() { return lastTurn; }
+    public int spinDirection() { return spinDirection; }
     public boolean isTurning() {
         if (level == null) return false;
         return mechanicallyDriven || installed && (level.getGameTime() - lastTurn) < (TURN_TICKS + TURNING_GRACE_TICKS);
     }
+
+    public boolean isSpinning() {
+        return Math.abs(angularVelocity) > 1e-3 || isTurning();
+    }
+
+    public double angleRadians() { return angleRadians; }
+    public double angularVelocity() { return angularVelocity; }
+    public double angularAcceleration() { return angularAcceleration; }
+    public double rpm() { return KineticDynamics.toRpm(angularVelocity); }
+    public double gearRatio() { return gearRatio; }
+    public StopReason stopReason() { return stopReason; }
+    public double interpolatedAngleRadians(double time) {
+        double dt = Math.clamp((time - kineticSyncTime) * .05, 0.0, .5);
+        if (angularVelocity * angularAcceleration < 0) dt = Math.min(dt, -angularVelocity / angularAcceleration);
+        return angleRadians + angularVelocity * dt + .5 * angularAcceleration * dt * dt;
+    }
+    public float rotation(double time) {
+        if (!installed) return (float) Math.toDegrees(KineticDynamics.wrap(interpolatedAngleRadians(time)));
+        double elapsed = Math.clamp(time - lastTurn, 0.0, TURN_TICKS);
+        return (float) Math.toDegrees(KineticDynamics.wrap(crankStartAngle + elapsed * Math.toRadians(9)));
+    }
+    public void applyClientSync(KineticSyncPayload payload) {
+        StopReason[] reasons = StopReason.values();
+        int ordinal = Byte.toUnsignedInt(payload.stopReasonOrdinal());
+        StopReason reason = ordinal < reasons.length ? reasons[ordinal] : StopReason.NO_SOURCE;
+        applyClientSync(payload.serverGameTime(), payload.angleRadians(), payload.angularVelocity(),
+                payload.angularAcceleration(), payload.gearRatio(), payload.powered(), payload.jammed(), reason);
+    }
+    public void applyClientSync(long time, double angle, double omega, double alpha, double ratio,
+            boolean powered, boolean jammed, StopReason reason) {
+        if (installed) return;
+        angleRadians = angle; angularVelocity = omega; angularAcceleration = alpha;
+        kineticSyncTime = time; gearRatio = ratio; mechanicallyDriven = powered; stopReason = reason;
+        if (Math.abs(omega) > 1e-6) spinDirection = omega < 0 ? -1 : 1;
+    }
+    @Override public void applyKineticSnapshot(KineticSnapshot snap) {
+        if (installed) return;
+        boolean transition = mechanicallyDriven != (snap.powered() && snap.nodeCount() > 1);
+        applyClientSync(snap.serverGameTime(), snap.angleRadians(), snap.angularVelocity(), snap.angularAcceleration(),
+                snap.gearRatio(), snap.powered() && snap.nodeCount() > 1, snap.jammed(), snap.stopReason());
+        spinDirection = snap.spinDirection();
+        if (transition || snap.serverGameTime() % 20 == 0 && Math.abs(angularVelocity) > 1e-6) setChanged();
+    }
+    @Override public double persistedAngleRadians() { return angleRadians; }
+    @Override public double persistedAngularVelocity() { return angularVelocity; }
+    @Override public double kineticInertia() { return 1.8; }
+    @Override public double kineticDrag() { return .18; }
+    @Override public double kineticLoadTorque() { return requestedLoad() * .75; }
 
     public Direction mechanicalFace() {
         return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise();
@@ -77,6 +141,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         if (!operator.equals(mechanicalOperator)) {
             mechanicalOperator = operator;
             mechanicalTicks = 0;
+        mechanicalRemainder = 0;
             changed();
         }
         return true;
@@ -90,7 +155,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
 
     public boolean hasMechanicalDrive() {
         return level instanceof ServerLevel server && !installed
-                && MechanicalNetwork.state(server, worldPosition).nodes().size() > 1;
+                && KineticNetworkManager.snapshot(server, worldPosition).nodeCount() > 1;
     }
 
     @Override public Component inspectDetail() {
@@ -98,26 +163,15 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
                 (mechanicallyDriven ? "mechanical_running" : installed ? "manual_drive" : "shaft_drive"));
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<ManualDynamoBlockEntity>("crank_controller", 0, test -> {
-            if (this.isTurning()) {
-                return test.setAndContinue(RawAnimation.begin().thenLoop("cranking"));
-            }
-            return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
-        }));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
 
     public boolean install(boolean paid) {
         if (!(level instanceof ServerLevel) || installed) return false;
+        crankStartAngle = interpolatedAngleRadians(level.getGameTime());
+        angularVelocity = angularAcceleration = 0;
         installed = true;
         refundable = paid;
         mechanicalTicks = 0;
+        mechanicalRemainder = 0;
         mechanicallyDriven = false;
         changed();
         return true;
@@ -126,6 +180,8 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     /** Clears the installed state before the caller returns or drops the item. */
     public boolean detach() {
         if (!(level instanceof ServerLevel) || !installed) return false;
+        angleRadians = Math.toRadians(rotation(level.getGameTime()));
+        kineticSyncTime = level.getGameTime();
         installed = false;
         boolean paid = refundable;
         refundable = false;
@@ -141,6 +197,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
             if (battery.insert(PER_TURN, transaction) == 0) return false;
             transaction.commit();
         }
+        crankStartAngle = Math.toRadians(rotation(now));
         lastTurn = now;
         changed();
         return true;
@@ -167,6 +224,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
             if (!br.com.quantumindustries.energy.EnergyPorts.connects(getBlockState(), dir)) continue;
             if (energy() <= 0) break;
             if (server.hasChunkAt(worldPosition.relative(dir))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(dir)), dir.getOpposite())
                     && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && !(target instanceof ManualDynamoBlockEntity)) {
                 int available = Math.min(MAX_EXTRACT, energy());
@@ -177,32 +235,35 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     }
 
     private void tickMechanicalDrive(ServerLevel server) {
-        boolean powered = requestedLoad() > 0 && MechanicalNetwork.state(server, worldPosition).powered();
-        if (mechanicallyDriven != powered) {
-            mechanicallyDriven = powered;
-            changed();
-        }
-        if (!powered) {
-            if (mechanicalTicks != 0) {
+        var snap = installed ? KineticSnapshot.EMPTY : KineticNetworkManager.snapshot(server, worldPosition);
+        if (!installed) applyKineticSnapshot(snap);
+        boolean generating = !installed && mechanicallyDriven && requestedLoad() > 0
+                && Math.abs(snap.angularVelocity()) > 1e-3;
+        if (!generating) {
+            if (mechanicalTicks != 0 || mechanicalRemainder != 0) {
                 mechanicalTicks = 0;
+        mechanicalRemainder = 0;
                 setChanged();
             }
             return;
         }
-        mechanicalTicks++;
-        setChanged();
-        if (mechanicalTicks < TURN_TICKS) return;
-        mechanicalTicks = 0;
-        try (var transaction = Transaction.openRoot()) {
-            if (battery.insert(PER_TURN, transaction) > 0) transaction.commit();
+        int scaled=mechanicalRemainder+br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm());
+        int produced=scaled/br.com.quantumindustries.energy.GeneratorModel.SCALE;
+        mechanicalRemainder=scaled%br.com.quantumindustries.energy.GeneratorModel.SCALE;
+        if(produced>0)try(var transaction=Transaction.openRoot()){
+            if(battery.insert(produced,transaction)>0)transaction.commit();
         }
-        if (energy() == CAPACITY) mechanicallyDriven = false;
-        changed();
+        if(energy()>=CAPACITY)mechanicalRemainder=0;
+        setChanged();
+        if(server.getGameTime()%5==0)server.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);
     }
 
     private void changed() {
         setChanged();
-        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
+        if (level instanceof ServerLevel server) {
+            KineticNetworkManager.track(server, worldPosition);
+            MechanicalNetwork.invalidate(server);
+        }
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
@@ -214,7 +275,12 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         output.putLong("last_turn", lastTurn);
         output.putString("mechanical_operator", mechanicalOperator);
         output.putInt("mechanical_ticks", mechanicalTicks);
+        output.putInt("mechanical_remainder",mechanicalRemainder);
         output.putBoolean("mechanically_driven", mechanicallyDriven);
+        output.putInt("spin_direction", spinDirection);
+        output.putDouble("qks_angle", angleRadians);
+        output.putDouble("qks_omega", angularVelocity);
+        output.putDouble("qks_crank_angle", crankStartAngle);
     }
 
     @Override protected void loadAdditional(ValueInput input) {
@@ -224,8 +290,14 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
         refundable = installed && input.getBooleanOr("crank_refundable", false);
         lastTurn = input.getLongOr("last_turn", -(TURN_TICKS + TURNING_GRACE_TICKS));
         mechanicalOperator = input.getStringOr("mechanical_operator", "");
-        mechanicalTicks = Math.clamp(input.getIntOr("mechanical_ticks", 0), 0, TURN_TICKS - 1);
+        mechanicalTicks = 0;
+        mechanicalRemainder=Math.clamp(input.getIntOr("mechanical_remainder",0),0,br.com.quantumindustries.energy.GeneratorModel.SCALE-1);
         mechanicallyDriven = input.getBooleanOr("mechanically_driven", false);
+        spinDirection = input.getIntOr("spin_direction", 1) < 0 ? -1 : 1;
+        angleRadians = input.getDoubleOr("qks_angle", 0);
+        angularVelocity = input.getDoubleOr("qks_omega", 0);
+        crankStartAngle = input.getDoubleOr("qks_crank_angle", angleRadians);
+        kineticSyncTime = level == null ? 0 : level.getGameTime();
     }
 
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {

@@ -2,12 +2,6 @@ package br.com.quantumindustries.mechanical;
 
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.research.WorldResearchData;
-import com.geckolib.animatable.GeoBlockEntity;
-import com.geckolib.animatable.instance.AnimatableInstanceCache;
-import com.geckolib.animatable.manager.AnimatableManager;
-import com.geckolib.animation.AnimationController;
-import com.geckolib.animation.RawAnimation;
-import com.geckolib.util.GeckoLibUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -24,49 +18,85 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** Shared movement state, not FE storage. A crank pulse supplies time, never instant work. */
-public abstract class RotationalBlockEntity extends BlockEntity implements GeoBlockEntity, MechanicalParticipant {
+public abstract class RotationalBlockEntity extends BlockEntity implements MechanicalParticipant {
     public static final int MANUAL_CAPACITY = 6, CRANK_INTERVAL = 10, CRANK_TICKS = 20;
-    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     private boolean crankInstalled;
     private long manualUntil;
     private long lastTurn = Long.MIN_VALUE / 2;
-    private boolean rotating;
+    private boolean driven;
+    private double angleRadians, angularVelocity, angularAcceleration;
+    private long kineticSyncTime;
+    private double gearRatio = 1.0;
+    private boolean jammed;
+    private StopReason stopReason = StopReason.NO_SOURCE;
     private int spinDirection = 1;
     private float angle;
     private long angleTime;
 
     protected RotationalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) { super(type, pos, state); }
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) KineticNetworkManager.track(server, worldPosition);
+    }
+    @Override public void onChunkUnloaded() {
+        if (level instanceof ServerLevel server) KineticNetworkManager.untrack(server, worldPosition);
+        super.onChunkUnloaded();
+    }
     public abstract Direction.Axis axle();
+    public void tickTransmission() {
+        if (level instanceof ServerLevel server) applyKineticSnapshot(KineticNetworkManager.snapshot(server, worldPosition));
+    }
     public int sourceCapacity() { return level != null && crankInstalled && level.getGameTime() < manualUntil ? MANUAL_CAPACITY : 0; }
     public int sourceDirection() { return 1; }
     public int requestedLoad() { return 0; }
     public boolean allowsCrank() { return true; }
     public boolean installed() { return crankInstalled; }
-    public boolean rotating() { return rotating; }
+    public boolean rotating() { return driven; }
     public int spinDirection() { return spinDirection; }
     protected boolean isCutting() { return false; }
 
+    public boolean isSpinning() { return Math.abs(angularVelocity) > 1e-3; }
+    public double angleRadians() { return angleRadians; }
+    public double angularVelocity() { return angularVelocity; }
+    public double angularAcceleration() { return angularAcceleration; }
+    public double rpm() { return KineticDynamics.toRpm(angularVelocity); }
+    public double gearRatio() { return gearRatio; }
+    public boolean jammed() { return jammed; }
+    public StopReason stopReason() { return stopReason; }
+    public double interpolatedAngleRadians(double time) {
+        double dt = Math.clamp((time - kineticSyncTime) * .05, 0.0, .5);
+        // Do not extrapolate braking through zero into an uncommanded reversal.
+        if (angularVelocity * angularAcceleration < 0) dt = Math.min(dt, -angularVelocity / angularAcceleration);
+        return angleRadians + angularVelocity * dt + .5 * angularAcceleration * dt * dt;
+    }
     public float rotation(double time) {
-        if (!rotating) return ((angle % 360f) + 360f) % 360f;
-        double raw = (angle + Math.max(0, time - angleTime) * 9.0 * spinDirection) % 360.0;
-        return (float) ((raw + 360.0) % 360.0);
+        return (float) Math.toDegrees(KineticDynamics.wrap(interpolatedAngleRadians(time)));
     }
+    public void applyClientSync(KineticSyncPayload payload) {
+        StopReason[] reasons = StopReason.values();
+        int ordinal = Byte.toUnsignedInt(payload.stopReasonOrdinal());
+        StopReason reason = ordinal < reasons.length ? reasons[ordinal] : StopReason.NO_SOURCE;
+        applyClientSync(payload.serverGameTime(), payload.angleRadians(), payload.angularVelocity(),
+                payload.angularAcceleration(), payload.gearRatio(), payload.powered(), payload.jammed(), reason);
+    }
+    public void applyClientSync(long time, double angle, double omega, double alpha, double ratio,
+            boolean powered, boolean blocked, StopReason reason) {
+        angleRadians = angle; angularVelocity = omega; angularAcceleration = alpha;
+        kineticSyncTime = time; gearRatio = ratio; driven = powered; jammed = blocked; stopReason = reason;
+        if (Math.abs(omega) > 1e-6) spinDirection = omega < 0 ? -1 : 1;
+    }
+    @Override public void applyKineticSnapshot(KineticSnapshot snap) {
+        boolean transition = driven != snap.powered() || spinDirection != snap.spinDirection();
+        double oldAngle = angleRadians, oldOmega = angularVelocity;
+        applyClientSync(snap.serverGameTime(), snap.angleRadians(), snap.angularVelocity(),
+                snap.angularAcceleration(), snap.gearRatio(), snap.powered(), snap.jammed(), snap.stopReason());
+        spinDirection = snap.spinDirection();
+        if (transition || oldOmega != 0 && angularVelocity == 0 || snap.serverGameTime() % 20 == 0
+                && (Math.abs(oldAngle - angleRadians) > 1e-6 || Math.abs(oldOmega - angularVelocity) > 1e-6)) setChanged();
+    }
+    @Override public double persistedAngleRadians() { return angleRadians; }
+    @Override public double persistedAngularVelocity() { return angularVelocity; }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<RotationalBlockEntity>("mechanical_controller", 0, test -> {
-            if (!rotating()) return test.setAndContinue(RawAnimation.begin().thenLoop("idle"));
-            if (isCutting()) {
-                return test.setAndContinue(RawAnimation.begin().thenLoop(spinDirection < 0 ? "cutting_ccw" : "cutting_cw"));
-            }
-            return test.setAndContinue(RawAnimation.begin().thenLoop(spinDirection < 0 ? "running_ccw" : "running_cw"));
-        }));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return geoCache;
-    }
 
     public boolean inReach(Player player) {
         return level instanceof ServerLevel && !isRemoved() && player.level() == level
@@ -103,23 +133,16 @@ public abstract class RotationalBlockEntity extends BlockEntity implements GeoBl
 
     protected void setMotion(boolean value, int direction) {
         if (level == null) return;
-        int normalized = direction < 0 ? -1 : 1;
-        if (value == rotating && (!value || normalized == spinDirection)) return;
-        if (value) {
-            // Phase-lock active rotation to world gameTime so connected components stay in sync.
-            angle = 0f;
-            angleTime = 0L;
-        } else {
-            angle = rotation(level.getGameTime());
-            angleTime = level.getGameTime();
-        }
-        spinDirection = normalized;
-        rotating = value;
-        changed();
+        driven = value;
+        spinDirection = direction < 0 ? -1 : 1;
+        setChanged();
     }
     protected void changed() {
         setChanged();
-        if (level instanceof ServerLevel server) MechanicalNetwork.invalidate(server);
+        if (level instanceof ServerLevel server) {
+            KineticNetworkManager.track(server, worldPosition);
+            MechanicalNetwork.invalidate(server);
+        }
         if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
     @Override protected void saveAdditional(ValueOutput out) {
@@ -127,20 +150,25 @@ public abstract class RotationalBlockEntity extends BlockEntity implements GeoBl
         out.putBoolean("crank_installed", crankInstalled);
         out.putLong("manual_until", manualUntil);
         out.putLong("last_turn", lastTurn);
-        out.putBoolean("rotating", rotating);
+        out.putBoolean("rotating", driven);
+        out.putDouble("qks_angle", angleRadians);
+        out.putDouble("qks_omega", angularVelocity);
         out.putInt("spin_direction", spinDirection);
-        out.putFloat("rotation_angle", rotating ? 0f : (level == null ? angle : rotation(level.getGameTime())));
-        out.putLong("rotation_time", rotating ? 0L : (level == null ? angleTime : level.getGameTime()));
+        out.putFloat("rotation_angle", driven ? 0f : (level == null ? angle : rotation(level.getGameTime())));
+        out.putLong("rotation_time", driven ? 0L : (level == null ? angleTime : level.getGameTime()));
     }
     @Override protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
         crankInstalled = in.getBooleanOr("crank_installed", false);
         manualUntil = in.getLongOr("manual_until", 0);
         lastTurn = in.getLongOr("last_turn", Long.MIN_VALUE / 2);
-        rotating = in.getBooleanOr("rotating", false);
+        driven = in.getBooleanOr("rotating", false);
         spinDirection = in.getIntOr("spin_direction", 1) < 0 ? -1 : 1;
         angle = in.getFloatOr("rotation_angle", 0);
         angleTime = in.getLongOr("rotation_time", 0);
+        angleRadians = in.getDoubleOr("qks_angle", Math.toRadians(angle));
+        angularVelocity = in.getDoubleOr("qks_omega", 0);
+        kineticSyncTime = level == null ? angleTime : level.getGameTime();
     }
     @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos, state);

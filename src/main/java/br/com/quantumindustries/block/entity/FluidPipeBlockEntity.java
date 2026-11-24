@@ -1,5 +1,6 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.block.FluidPipeBlock;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.fluid.FluidInspectable;
 import br.com.quantumindustries.fluid.FluidTransfer;
@@ -37,8 +38,23 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
     private final ConnectionModes connections = new ConnectionModes();
     public FluidPipeBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.FLUID_PIPE_ENTITY.get(),pos,state);}
     public FluidStacksResourceHandler tank(){return tank;}
+    @Override public void onLoad() {
+        super.onLoad();
+        if (level instanceof ServerLevel server) {
+            BlockState state = getBlockState();
+            BlockState connected = FluidPipeBlock.computeState(server, worldPosition, state);
+            if (connected != state) server.setBlock(worldPosition, connected, Block.UPDATE_ALL);
+        }
+    }
     @Override public ConnectionModes connectionModes() { return connections; }
-    @Override public void connectionChanged() { changed(); }
+    @Override public void connectionChanged() {
+        changed();
+        if (level instanceof ServerLevel server) {
+            BlockState state = FluidPipeBlock.computeState(server, worldPosition, getBlockState());
+            server.setBlock(worldPosition, state, Block.UPDATE_ALL);
+            server.updateNeighborsAt(worldPosition, state.getBlock());
+        }
+    }
     public net.neoforged.neoforge.transfer.ResourceHandler<FluidResource> sidedTank(Direction side) {
         return side == null ? tank : new SidedPipeHandler(tank, connections, side);
     }
@@ -83,7 +99,7 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
             BlockPos sourcePos = worldPosition.relative(side);
             if (!server.hasChunkAt(sourcePos) || server.getBlockEntity(sourcePos) instanceof FluidPipeBlockEntity) continue;
             var source = FluidTransfer.handler(server, sourcePos, side.getOpposite());
-            int moved = FluidTransfer.move(source, tank, MAX_RATE);
+            int moved = source==null?FluidTransfer.drawRenewableWater(server,sourcePos,tank,MAX_RATE):FluidTransfer.move(source, tank, MAX_RATE);
             if (moved <= 0) continue;
             lastFlow = moved;
             lastFlowTime = server.getGameTime();

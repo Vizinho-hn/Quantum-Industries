@@ -40,9 +40,14 @@ final class ResearchTreeView {
             Map.entry("load_protection", new Grid(3, 60)),
             Map.entry("alloy_metallurgy", new Grid(4, 20)),
             Map.entry("electric_alloy_smelting", new Grid(3, 120)),
+            Map.entry("electric_wood_processing", new Grid(3, 180)),
             Map.entry("mineral_beneficiation", new Grid(6, 56)),
             Map.entry("scientific_analyzer_tier_2", new Grid(7, 86)),
-            Map.entry("chemical_leaching", new Grid(5, 84))
+            Map.entry("chemical_leaching", new Grid(5, 84)),
+            Map.entry("mechanical_energy_storage", new Grid(7, 20)),
+            Map.entry("electromagnetic_excitation", new Grid(6, 36)),
+            Map.entry("alternating_current", new Grid(7, 36)),
+            Map.entry("industrial_generation", new Grid(8, 36))
     );
 
     private record Grid(int column, int y) {}
