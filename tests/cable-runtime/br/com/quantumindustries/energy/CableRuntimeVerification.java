@@ -137,6 +137,63 @@ public final class CableRuntimeVerification {
         }
     }
 
+    private static void verifyIndustrialSwitch(ServerLevel level) {
+        clear(level);
+        var switchBlock = ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH.get();
+        var closedProperty = br.com.quantumindustries.block.IndustrialCircuitSwitchBlock.CLOSED;
+        var redstoneProperty = br.com.quantumindustries.block.IndustrialCircuitSwitchBlock.REDSTONE_CONTROLLED;
+        var facing = net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+        BlockPos sourcePos = POS.north(2), targetPos = POS.south(2), sidePos = POS.east();
+        place(level, sourcePos, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState());
+        place(level, targetPos, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState());
+        place(level, sidePos, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState());
+        place(level, POS.north(), ModBlocks.INSULATED_CONDUIT.get().defaultBlockState());
+        place(level, POS.south(), ModBlocks.INSULATED_CONDUIT.get().defaultBlockState());
+        place(level, POS, switchBlock.defaultBlockState().setValue(facing, Direction.NORTH));
+        var source = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(sourcePos);
+        var target = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(targetPos);
+        var side = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(sidePos);
+        source.setStoredEnergy(300);
+        CableNetwork.transfer(level, sourcePos, source::energy, source::extractEnergy, 100);
+        check(target.energy() == 0 && source.energy() == 300, "open switch isolates circuit");
+        level.setBlock(POS, level.getBlockState(POS).setValue(closedProperty, true), Block.UPDATE_ALL);
+        CableNetwork.transfer(level, sourcePos, source::energy, source::extractEnergy, 100);
+        check(target.energy() == 64 && source.energy() == 236, "closed switch transmits 64 FE");
+        check(side.energy() == 0, "switch cannot deliver through a side without terminal");
+        level.setBlock(POS, level.getBlockState(POS).setValue(closedProperty, false), Block.UPDATE_ALL);
+        level.setBlock(sidePos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+        for (int z = -2; z <= 2; z++)
+            place(level, POS.offset(1, 0, z), ModBlocks.INSULATED_CONDUIT.get().defaultBlockState());
+        CableNetwork.transfer(level, sourcePos, source::energy, source::extractEnergy, 100);
+        check(target.energy() == 128 && source.energy() == 172, "alternative route survives open switch");
+        level.setBlock(POS, level.getBlockState(POS).setValue(redstoneProperty, true), Block.UPDATE_ALL);
+        level.setBlock(POS.above(), Blocks.REDSTONE_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+        br.com.quantumindustries.block.IndustrialCircuitSwitchBlock.refreshRedstone(level, POS, level.getBlockState(POS));
+        check(level.getBlockState(POS).getValue(closedProperty), "redstone closes switch");
+        level.setBlock(POS.above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+        br.com.quantumindustries.block.IndustrialCircuitSwitchBlock.refreshRedstone(level, POS, level.getBlockState(POS));
+        check(!level.getBlockState(POS).getValue(closedProperty), "redstone removal opens switch");
+    }
+
+    private static void verifyBatteryBudget(ServerLevel level) {
+        clear(level);
+        place(level, POS, ModBlocks.VOLTAIC_PILE.get().defaultBlockState());
+        var pile = (br.com.quantumindustries.block.entity.VoltaicPileBlockEntity) level.getBlockEntity(POS);
+        check(pile.receiveEnergy(30) == 30 && pile.receiveEnergy(30) == 18
+                && pile.receiveEnergy(1) == 0, "pile input limit shared across calls");
+        pile.setStoredEnergy(100);
+        check(pile.extractEnergy(30) == 30 && pile.extractEnergy(30) == 18
+                && pile.extractEnergy(1) == 0 && pile.energy() == 52, "pile output limit shared across calls");
+        clear(level);
+        place(level, POS, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState());
+        var accumulator = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(POS);
+        check(accumulator.receiveEnergy(200) == 200 && accumulator.receiveEnergy(100) == 56
+                && accumulator.receiveEnergy(1) == 0, "accumulator input limit shared across calls");
+        accumulator.setStoredEnergy(500);
+        check(accumulator.extractEnergy(200) == 200 && accumulator.extractEnergy(100) == 56
+                && accumulator.extractEnergy(1) == 0 && accumulator.energy() == 244, "accumulator output limit shared across calls");
+    }
+
     @SubscribeEvent public static void tick(ServerTickEvent.Post event) throws Exception {
         if (!Boolean.getBoolean("quantumindustries.verifyCables") || ran) return;
         ServerLevel level = event.getServer().overworld();
@@ -151,7 +208,9 @@ public final class CableRuntimeVerification {
                 verifyEnergy(level, cable, Direction.UP);
                 verifyEnergy(level, cable, Direction.DOWN);
             }
-            result = "PASS: both cables, 128 masks, shapes, neighbor updates, diagonals, reload and vertical FE\n";
+            verifyIndustrialSwitch(level);
+            verifyBatteryBudget(level);
+            result = "PASS: both cables, 128 masks, shapes, neighbor updates, diagonals, reload, vertical FE, switch and battery budgets\n";
         } catch (Throwable error) {
             error.printStackTrace();
             result = "FAIL: " + error + "\n";
