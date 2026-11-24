@@ -18,6 +18,8 @@ public final class AssayEvents {
         // This profile is independent from both vanilla inventory and existing research.
         event.getOriginal().getPersistentData().getCompound(AssayProfile.KEY).ifPresent(profile->
             event.getEntity().getPersistentData().put(AssayProfile.KEY,profile.copy()));
+        event.getOriginal().getPersistentData().getCompound(InstrumentalAnalysis.KEY).ifPresent(profile ->
+            event.getEntity().getPersistentData().put(InstrumentalAnalysis.KEY, profile.copy()));
         // A player who has not yet opened a new bench still needs their legacy count.
         event.getOriginal().getPersistentData().getInt("quantum_empirical_copper").ifPresent(count->
             event.getEntity().getPersistentData().putInt("quantum_empirical_copper",count));
