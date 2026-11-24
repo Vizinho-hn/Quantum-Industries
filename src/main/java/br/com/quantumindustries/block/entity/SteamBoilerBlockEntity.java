@@ -43,10 +43,18 @@ public final class SteamBoilerBlockEntity extends BlockEntity implements FluidIn
         if(operator.isEmpty()){operator=player.getUUID().toString();changed();}
         return ConversionAuthorization.permitted(level,operator,Kind.BOILER);
     }
+    public int fuelCount(){return fuel.getCount();}
+    public boolean canInsertFuel(ItemStack stack, Direction side){
+        return side!=outlet() && canAddFuel(stack);
+    }
+    private boolean canAddFuel(ItemStack stack){
+        return level instanceof ServerLevel && ConversionAuthorization.permitted(level,operator,Kind.BOILER)
+                && !stack.isEmpty() && (stack.is(Items.COAL)||stack.is(Items.CHARCOAL))
+                && (fuel.isEmpty() || ItemStack.isSameItemSameComponents(fuel,stack)
+                    && fuel.getCount()<fuel.getMaxStackSize());
+    }
     public boolean addFuel(ItemStack stack){
-        if(!(level instanceof ServerLevel)||!ConversionAuthorization.permitted(level,operator,Kind.BOILER)
-                ||!(stack.is(Items.COAL)||stack.is(Items.CHARCOAL)))return false;
-        if(!fuel.isEmpty()&&(!ItemStack.isSameItemSameComponents(fuel,stack)||fuel.getCount()>=fuel.getMaxStackSize()))return false;
+        if(!canAddFuel(stack))return false;
         if(fuel.isEmpty())fuel=stack.split(1);else{fuel.grow(1);stack.shrink(1);}
         changed();return true;
     }

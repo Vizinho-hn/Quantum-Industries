@@ -44,7 +44,7 @@ public final class PeristalticPumpBlockEntity extends BlockEntity implements Ene
         BlockPos inputPos=worldPosition.relative(output.getOpposite()),outputPos=worldPosition.relative(output);
         var source=FluidTransfer.handler(server,inputPos,output);
         var target=FluidTransfer.handler(server,outputPos,output.getOpposite());
-        int moved=FluidTransfer.move(source,target,MAX_RATE);
+        int moved=source==null?FluidTransfer.drawRenewableWater(server,inputPos,target,MAX_RATE):FluidTransfer.move(source,target,MAX_RATE);
         if(moved<=0){lastFlow=0;return false;}
         if(powered){
             try(var tx=Transaction.openRoot()){battery.extract(FE_PER_TICK,tx);tx.commit();}

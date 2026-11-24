@@ -244,6 +244,7 @@ public final class QksRuntimeVerification {
             tx.commit();
         }
         check(boiler.takeSteam(10,Direction.NORTH)==0,"empty steam cannot be extracted");
+        buildBoilerAutomation();
         wheel(THERMAL,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
         put(THERMAL.west(),Blocks.MAGMA_BLOCK.defaultBlockState());
         put(THERMAL.east(),Blocks.PACKED_ICE.defaultBlockState());
@@ -289,6 +290,44 @@ public final class QksRuntimeVerification {
         for(Direction side:Direction.values()) put(pos.relative(side),Blocks.AIR.defaultBlockState());
         put(pos,Blocks.AIR.defaultBlockState());
     }
+    private static final BlockPos AUTO_BOILER=BOILER.south(5);
+    private static void buildBoilerAutomation(){
+        wheel(AUTO_BOILER,ModBlocks.STEAM_BOILER.get(),Direction.NORTH);
+        var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(AUTO_BOILER);
+        player.setPos(AUTO_BOILER.getX()+.5,AUTO_BOILER.getY(),AUTO_BOILER.getZ()+.5);
+        check(boiler.bind(player),"automated boiler authorized");
+        var invalid=new ItemStack(Items.DIRT,3);
+        check(!br.com.quantumindustries.logistics.ItemRouting.insert(level,AUTO_BOILER,invalid,Direction.WEST)&&invalid.getCount()==3,"invalid fuel preserved");
+        var blocked=new ItemStack(Items.COAL);
+        check(!br.com.quantumindustries.logistics.ItemRouting.insert(level,AUTO_BOILER,blocked,Direction.NORTH)&&blocked.getCount()==1,"steam outlet refuses coal");
+        var fuel=new ItemStack(Items.CHARCOAL,64);
+        check(br.com.quantumindustries.logistics.ItemRouting.insert(level,AUTO_BOILER,fuel,Direction.WEST)&&fuel.isEmpty()&&boiler.fuelCount()==64,"fuel insertion is conserved");
+        check(!boiler.canInsertFuel(blocked,Direction.WEST),"full fuel slot refuses items");
+        BlockPos tubePos=AUTO_BOILER.west();
+        put(tubePos,ModBlocks.PNEUMATIC_TUBE.get().defaultBlockState());
+        put(tubePos.west(),Blocks.CHEST.defaultBlockState());
+        var chest=(net.minecraft.world.level.block.entity.ChestBlockEntity)level.getBlockEntity(tubePos.west());
+        chest.setItem(0,new ItemStack(Items.DIRT,3));
+        chest.setItem(1,new ItemStack(Items.CHARCOAL,8));
+        var tube=(PneumaticTubeBlockEntity)level.getBlockEntity(tubePos);
+        tube.connectionModes().set(Direction.WEST,br.com.quantumindustries.logistics.ConnectionMode.PULL);
+        tube.connectionModes().set(Direction.EAST,br.com.quantumindustries.logistics.ConnectionMode.PUSH);
+        tube.connectionChanged();
+        BlockPos waterPipe=AUTO_BOILER.east();
+        put(waterPipe,ModBlocks.GLASS_PIPE.get().defaultBlockState());
+        var pipe=(FluidPipeBlockEntity)level.getBlockEntity(waterPipe);
+        pipe.connectionModes().set(Direction.WEST,br.com.quantumindustries.logistics.ConnectionMode.PUSH);
+        try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()){
+            check(pipe.tank().insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(net.minecraft.world.level.material.Fluids.WATER),250,tx)==250,"fill pipe");
+            tx.commit();
+        }
+        pipe.connectionChanged();
+        check(br.com.quantumindustries.fluid.FluidTransfer.handler(level,AUTO_BOILER,Direction.NORTH)==null,"steam outlet not a water port");
+        var inlet=br.com.quantumindustries.fluid.FluidTransfer.handler(level,AUTO_BOILER,Direction.EAST);
+        try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()){
+            check(inlet.insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(net.minecraft.world.level.material.Fluids.LAVA),50,tx)==0,"water port rejects lava");
+        }
+    }
     private static void verifyConversion() {
         var motor=conversion(MOTOR);var generator=conversion(CONVERSION_GENERATOR);
         var thermal=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL);
@@ -296,6 +335,11 @@ public final class QksRuntimeVerification {
         if(ticks<=20) motorInput+=motor.receiveEnergy(64);
         check(motor.energy()+generator.energy()<=motorInput+24,"motor-generator cycle never manufactures FE");
         if(ticks==20){
+            var automated=(SteamBoilerBlockEntity)level.getBlockEntity(AUTO_BOILER);
+            check(automated.steam()>0,"water from actual glass pipe produces steam");
+            var chest=(net.minecraft.world.level.block.entity.ChestBlockEntity)level.getBlockEntity(AUTO_BOILER.west(2));
+            check(chest.getItem(0).getCount()==3,"tube does not extract invalid fuel");
+            check(chest.getItem(1).getCount()<8,"tube replenishes boiler fuel");
             check(generator.energy()>0&&speed(MOTOR)>0,"electric motor drives an actual loaded generator");
             check(conversion(HYDRO_GENERATOR).energy()>0,"hydraulic drive converts to FE");
             check(conversion(STEAM_ENGINE).sourceCapacity()>0&&speed(STEAM_ENGINE)>0,"paid steam drives rotor");

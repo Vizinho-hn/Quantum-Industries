@@ -12,6 +12,7 @@ import br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity;
 import br.com.quantumindustries.block.entity.ElectricSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
 import br.com.quantumindustries.block.entity.SettlingVatBlockEntity;
+import br.com.quantumindustries.block.entity.SteamBoilerBlockEntity;
 import br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
@@ -39,6 +40,7 @@ public final class ItemRouting {
                 || entity instanceof BellowsBrazierBlockEntity
                 || entity instanceof MechanicalSawmillBlockEntity
                 || entity instanceof ManualGrainMillBlockEntity
+                || entity instanceof SteamBoilerBlockEntity
                 || entity instanceof SettlingVatBlockEntity
                 || entity instanceof Container;
     }
@@ -130,6 +132,9 @@ public final class ItemRouting {
                 var target = level.getBlockEntity(next);
                 if (target instanceof PneumaticTubeBlockEntity nextTube) {
                     if (nextTube.connectionMode(side.getOpposite()).allowsInput()) queue.add(new Step(next, side.getOpposite()));
+                } else if (target instanceof SteamBoilerBlockEntity boiler) {
+                    foundSmelter = true;
+                    if (boiler.canInsertFuel(candidate, side.getOpposite())) return true;
                 } else if (target instanceof ElectricAlloySmelterBlockEntity smelter) {
                     foundSmelter = true;
                     if (smelter.canInsertIngredient(candidate)) return true;
@@ -221,6 +226,8 @@ public final class ItemRouting {
         if (entity instanceof BellowsBrazierBlockEntity brazier) return insertLoop(packet, brazier::insert);
         if (entity instanceof ManualGrainMillBlockEntity mill) return insertLoop(packet, mill::insert);
         if (entity instanceof SettlingVatBlockEntity vat) return insertLoop(packet, vat::addIngredient);
+        if (entity instanceof SteamBoilerBlockEntity boiler)
+            return insertLoop(packet, stack -> boiler.canInsertFuel(stack, from) && boiler.addFuel(stack));
         if (entity instanceof Container container) {
             int before = packet.getCount();
             for (int i = 0; i < container.getContainerSize() && !packet.isEmpty(); i++) {
