@@ -5,6 +5,7 @@ import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.energy.ConversionPower;
 import br.com.quantumindustries.energy.TransferBudget;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/** Gameplay Seebeck effect: hot bottom and cold top; no mechanical or electrical input. */
+/** Gameplay Seebeck effect: hot and cold sources on opposite faces; no mechanical or electrical input. */
 public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
     public static final int CAPACITY=480,TRANSFER=32;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(CAPACITY,TRANSFER,TRANSFER);
@@ -45,15 +46,37 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         }
         if(n>0){budget.recordExtract(server.getGameTime(),n);setChanged();}return n;
     }
+    private static boolean isColdSource(BlockState state) {
+        return state.getFluidState().is(FluidTags.WATER) || state.is(Blocks.ICE)
+                || state.is(Blocks.PACKED_ICE) || state.is(Blocks.BLUE_ICE) || state.is(Blocks.SNOW_BLOCK);
+    }
+
+    /** Pure classification for one opposing pair; either direction is valid. */
+    public static int opposingPairRate(BlockState a, BlockState b) {
+        int heat = Math.max(isColdSource(b) ? BellowsBrazierBlockEntity.classifyHeatSource(a) : 0,
+                isColdSource(a) ? BellowsBrazierBlockEntity.classifyHeatSource(b) : 0);
+        return heat == 2 ? 3 : heat == 1 ? 1 : 0;
+    }
+
+    /** Select the strongest opposing pair, never sum them or load adjacent chunks. */
+    public static int generationRate(ServerLevel level, BlockPos pos) {
+        int best = 0;
+        for (Direction face : new Direction[]{Direction.UP, Direction.EAST, Direction.NORTH}) {
+            BlockPos a = pos.relative(face);
+            BlockPos b = pos.relative(face.getOpposite());
+            if (!level.hasChunkAt(a) || !level.hasChunkAt(b)) continue;
+            best = Math.max(best, opposingPairRate(level.getBlockState(a), level.getBlockState(b)));
+        }
+        return best;
+    }
+
     public void tick(){
         if(!(level instanceof ServerLevel server))return;
         generation=0;
-        var cold=server.getBlockState(worldPosition.above());
-        boolean cooled=cold.getFluidState().is(FluidTags.WATER)||cold.is(Blocks.ICE)||cold.is(Blocks.PACKED_ICE)||cold.is(Blocks.BLUE_ICE)||cold.is(Blocks.SNOW_BLOCK);
-        int heat=BellowsBrazierBlockEntity.heatSourceLevel(server,worldPosition);
-        if(cooled&&heat>0&&ConversionAuthorization.permitted(level,operator,Kind.THERMOELECTRIC)){
+        int rate = generationRate(server, worldPosition);
+        if(rate>0&&ConversionAuthorization.permitted(level,operator,Kind.THERMOELECTRIC)){
             try(var tx=Transaction.openRoot()){
-                generation=battery.insert(heat==2?3:1,tx);if(generation>0){tx.commit();setChanged();}
+                generation=battery.insert(rate,tx);if(generation>0){tx.commit();setChanged();}
             }
         }
         ConversionPower.distribute(server,worldPosition,this::energy,this::extractEnergy,budget);
