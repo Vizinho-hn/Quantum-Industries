@@ -21,6 +21,7 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
     public static final int CAPACITY = 2400;
     public static final int MAX_TRANSFER = 48;
 
+    private final br.com.quantumindustries.energy.TransferBudget transferBudget = new br.com.quantumindustries.energy.TransferBudget(MAX_TRANSFER);
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_TRANSFER, MAX_TRANSFER);
 
     public VoltaicPileBlockEntity(BlockPos pos, BlockState state) {
@@ -35,23 +36,33 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
 
     @Override public int receiveEnergy(int maxReceive) {
         if (!(level instanceof ServerLevel) || maxReceive <= 0 || energy() >= CAPACITY) return 0;
+        int allowance = transferBudget.receiveRemaining(level.getGameTime());
+        if (allowance <= 0) return 0;
         int inserted;
         try (var transaction = Transaction.openRoot()) {
-            inserted = battery.insert(Math.min(MAX_TRANSFER, maxReceive), transaction);
+            inserted = battery.insert(Math.min(allowance, maxReceive), transaction);
             if (inserted > 0) transaction.commit();
         }
-        if (inserted > 0) changed();
+        if (inserted > 0) {
+            transferBudget.recordReceive(level.getGameTime(), inserted);
+            changed();
+        }
         return inserted;
     }
 
     public int extractEnergy(int maxExtract) {
         if (!(level instanceof ServerLevel) || maxExtract <= 0 || energy() <= 0) return 0;
+        int allowance = transferBudget.extractRemaining(level.getGameTime());
+        if (allowance <= 0) return 0;
         int extracted;
         try (var transaction = Transaction.openRoot()) {
-            extracted = battery.extract(Math.min(MAX_TRANSFER, maxExtract), transaction);
+            extracted = battery.extract(Math.min(allowance, maxExtract), transaction);
             if (extracted > 0) transaction.commit();
         }
-        if (extracted > 0) changed();
+        if (extracted > 0) {
+            transferBudget.recordExtract(level.getGameTime(), extracted);
+            changed();
+        }
         return extracted;
     }
 
@@ -63,21 +74,24 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
     public void tick() {
         if (!(level instanceof ServerLevel server) || energy() <= 0) return;
         br.com.quantumindustries.energy.CableNetwork.transfer(server, worldPosition,
-                this::energy, this::extractEnergy, MAX_TRANSFER,
+                this::energy, this::extractEnergy, transferBudget.extractRemaining(server.getGameTime()),
                 target -> target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof LoadRelayBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity);
+                        || target instanceof JawCrusherBlockEntity
+                        || target instanceof ElectricSawmillBlockEntity);
         for (Direction dir : Direction.values()) {
-            if (energy() <= 0) break;
-            if (server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
+            if (energy() <= 0 || transferBudget.extractRemaining(server.getGameTime()) <= 0) break;
+            if (server.hasChunkAt(worldPosition.relative(dir))
+                    && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity
                             || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity
-                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity)) {
-                int available = Math.min(MAX_TRANSFER, energy());
+                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity
+                            || target instanceof ElectricSawmillBlockEntity)) {
+                int available = Math.min(transferBudget.extractRemaining(server.getGameTime()), energy());
                 int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);
             }
