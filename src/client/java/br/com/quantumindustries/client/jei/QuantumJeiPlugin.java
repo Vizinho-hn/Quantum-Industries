@@ -68,7 +68,6 @@ public final class QuantumJeiPlugin implements IModPlugin {
                 .map(recipe -> new Process(List.of(recipe.inputs().stream().map(ItemStack::new).toList()), recipe.result().copyWithCount(8))).toList());
         for (String name : List.of("bellows_alloy_kiln", "electric_alloy_smelter")) {
             registration.addRecipes(type(name), AlloyCatalog.RECIPES.stream()
-                    .filter(recipe -> name.equals("electric_alloy_smelter") || recipe.tier() == 1)
                     .map(recipe -> new Process(List.of(alternatives(recipe.inputsA(), recipe.countA()),
                             alternatives(recipe.inputsB(), recipe.countB())), recipe.assemble())).toList());
         }
