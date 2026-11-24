@@ -684,7 +684,7 @@
   "research.quantumindustries.piezoelectricity.reward": "Piezoelectric Transducer",
   "research.quantumindustries.load_protection.name": "Load Control",
   "research.quantumindustries.load_protection.description": "Automate accumulator protection using charge thresholds.",
-  "research.quantumindustries.load_protection.reward": "Load Relay",
+  "research.quantumindustries.load_protection.reward": "Load Relay; Electrical Network Analyzer MK1",
   "research.quantumindustries.thermal_annealing.name": "Thermal Annealing",
   "research.quantumindustries.thermal_annealing.description": "Study the effect of heating on metal forming.",
   "research.quantumindustries.thermal_annealing.reward": "Annealing Forge and Heated Ingots",
