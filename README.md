@@ -189,6 +189,8 @@ A Forja de Recozimento utiliza uma fonte térmica válida abaixo do bloco e rece
 
 ### Instrumentação da Era II
 
+- **Analisador de Rede Elétrica MK1 (`electrical_network_analyzer`):** coloque em uma face de um cabo e abra o painel com clique direito após Controle de Carga. Instrumento passivo, sem buffer, limitado a 16 blocos e 128 nós conectados carregados. Mostra injeção/entrega FE/t, perdas, reserva real dos equipamentos, histórico de 60 segundos de simulação, mapa XZ e seis maiores picos de utilização dos cabos. Escopos incompletos são sinalizados; os fluxos medidos são transferências da rede de cabos, não produção/consumo interno de cada máquina. Veja [telemetria elétrica](docs/ELECTRICAL_NETWORK_ANALYZER.md).
+
 O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos.
 
 O **Relé de Carga** acompanha um acumulador galvânico diretamente adjacente. Abaixo de 10% ele interrompe o fornecimento a máquinas; acima de 80% emite sinal de redstone de intensidade 15. O relé armazena até 96 FE para encaminhamento, sem geração própria.
