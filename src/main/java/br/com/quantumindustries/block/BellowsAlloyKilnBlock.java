@@ -61,11 +61,11 @@ public final class BellowsAlloyKilnBlock extends BaseEntityBlock {
             Player player, InteractionHand hand, BlockHitResult hit) {
         boolean isFlux = ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
                 && stack.is(ModItems.CHEMICAL_PRODUCTS.get("fluorite").get());
-        boolean isFuel = stack.is(Items.COAL) || stack.is(Items.CHARCOAL) || isFlux;
+        boolean isFuel = stack.is(Items.COAL) || stack.is(Items.CHARCOAL);
         boolean isBellows = stack.is(ModItems.MANUAL_BELLOWS.get());
-        boolean isIngredient = AlloyCatalog.isValidIngredient(stack, 1);
+        boolean isIngredient = AlloyCatalog.isValidIngredient(stack, AlloyCatalog.MANUAL_MAX_TIER);
 
-        if (!isFuel && !isBellows && !isIngredient) return InteractionResult.TRY_WITH_EMPTY_HAND;
+        if (!isFuel && !isFlux && !isBellows && !isIngredient) return InteractionResult.TRY_WITH_EMPTY_HAND;
         if (!(level instanceof ServerLevel server) || !(player instanceof ServerPlayer op)) return InteractionResult.SUCCESS;
 
         if (!WorldResearchData.get(server).knows(op, "alloy_metallurgy")) {

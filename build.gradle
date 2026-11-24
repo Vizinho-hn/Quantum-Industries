@@ -225,6 +225,7 @@ sourceSets.test.java {
     srcDir("tests")
     include("**/LegacyResearchCheck.java")
     include("**/MechanicalFoundationCheck.java")
+    include("**/TransferBudgetCheck.java")
 }
 sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
 sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
@@ -238,6 +239,7 @@ tasks.register("verifyLegacyResearch", JavaExec) {
 tasks.named("check") {
     dependsOn(tasks.named("verifyLegacyResearch"))
     dependsOn(tasks.named("verifyMechanicalFoundation"))
+    dependsOn(tasks.named("verifyTransferBudget"))
 }
 
 tasks.register("verifyMechanicalFoundation", JavaExec) {
@@ -248,3 +250,10 @@ tasks.register("verifyMechanicalFoundation", JavaExec) {
 
 // This suite is a JavaExec verifier, not a JUnit suite.
 tasks.named('test', Test) { failOnNoDiscoveredTests = false }
+
+
+tasks.register("verifyTransferBudget", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.energy.TransferBudgetCheck"
+}

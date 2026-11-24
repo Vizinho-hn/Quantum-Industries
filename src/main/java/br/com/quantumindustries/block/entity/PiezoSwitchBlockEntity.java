@@ -76,7 +76,9 @@ public final class PiezoSwitchBlockEntity extends BlockEntity implements EnergyI
         if (!(level instanceof ServerLevel server) || energy() <= 0) return;
         CableNetwork.transfer(server, worldPosition, this::energy, this::extractEnergy, MAX_OUTPUT);
         for (Direction direction : Direction.values()) {
-            if (server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
+            if (server.hasChunkAt(worldPosition.relative(direction))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(direction)), direction.getOpposite())
+                    && server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
                     && !(target instanceof PiezoSwitchBlockEntity) && energy() > 0) {
                 int amount = target.receiveEnergy(Math.min(energy(), MAX_OUTPUT));
                 if (amount > 0) extractEnergy(amount);

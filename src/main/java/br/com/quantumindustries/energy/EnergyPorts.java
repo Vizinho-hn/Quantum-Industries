@@ -13,6 +13,13 @@ public final class EnergyPorts {
         if (state.getBlock() instanceof ManualDynamoBlock) {
             return face == state.getValue(BlockStateProperties.HORIZONTAL_FACING).getCounterClockWise();
         }
+        if (state.getBlock() instanceof br.com.quantumindustries.block.IndustrialConversionBlock conversion) {
+            return switch (conversion.kind()) {
+                case GENERATOR, MOTOR -> face == state.getValue(BlockStateProperties.HORIZONTAL_FACING).getCounterClockWise();
+                case THERMOELECTRIC -> face == state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                default -> false;
+            };
+        }
         return true;
     }
 }

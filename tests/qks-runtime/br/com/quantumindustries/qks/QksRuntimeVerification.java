@@ -42,6 +42,12 @@ public final class QksRuntimeVerification {
     private static final List<BlockPos> GEARS = new ArrayList<>(), BELTS = new ArrayList<>();
     private static final BlockPos REVERSE = pos(0, 32), BARE = pos(0, 48), FLY = pos(0, 64);
     private static final BlockPos COAST = pos(0, 80), DYNAMO_WHEEL = pos(0, 96), DYNAMO = DYNAMO_WHEEL.east(2);
+    private static final BlockPos GEARBOX = pos(96, 128), CONVEYOR = pos(112, 128);
+    private static double stoppedBeltFraction;
+    private static final BlockPos MOTOR=pos(160,80), CONVERSION_GENERATOR=MOTOR.east(2),
+            HYDRO_GENERATOR=pos(160,96), BOILER=pos(176,96), STEAM_ENGINE=BOILER.north(),
+            THERMAL=pos(192,96);
+    private static int motorInput, stoppedGeneratorEnergy, stoppedThermalEnergy;
     private static final BlockPos SPLIT = pos(0, 112), JAM = pos(0, 128);
     private static ServerLevel level;
     private static FakePlayer player;
@@ -184,10 +190,88 @@ public final class QksRuntimeVerification {
         axial(opposed.east(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
         wheel(opposed.east(2), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST); feed(opposed.east(2), Direction.EAST, -1);
         var dry = pos(32, 128); wheel(dry, ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST); feed(dry, Direction.EAST, 0);
+        wheel(GEARBOX.west(), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST);
+        feed(GEARBOX.west(), Direction.EAST, 1);
+        put(GEARBOX, ModBlocks.COMPACT_GEARBOX.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        axial(GEARBOX.east(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
+        put(GEARBOX.north(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        put(GEARBOX.above(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        wheel(CONVEYOR.west(), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST);
+        feed(CONVEYOR.west(), Direction.EAST, 1);
+        for (var p : List.of(CONVEYOR, CONVEYOR.north())) {
+            wheel(p, ModBlocks.MECHANICAL_CONVEYOR.get(), Direction.NORTH);
+            player.setPos(p.getX() + .5, p.getY(), p.getZ() + .5);
+            check(conveyor(p).bind(player), "authorized conveyor operator");
+        }
+        put(CONVEYOR.south(), Blocks.CHEST.defaultBlockState());
+        put(CONVEYOR.north(2), Blocks.CHEST.defaultBlockState());
+        chest(CONVEYOR.south()).setItem(0, new ItemStack(Items.OAK_LOG, 3));
+        buildConversion();
         refreshWater();
         verifyRims();
         MechanicalNetwork.invalidate(level);
     }
+    private static RotaryConversionBlockEntity conversion(BlockPos pos) {
+        return (RotaryConversionBlockEntity)level.getBlockEntity(pos);
+    }
+    private static void bindConversion(BlockPos pos) {
+        player.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+.5);
+        check(conversion(pos).bind(player),"authorized rotary conversion "+pos);
+    }
+    private static void buildConversion() {
+        wheel(MOTOR,ModBlocks.ELECTRIC_MOTOR.get(),Direction.NORTH);
+        axial(MOTOR.east(),ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
+        wheel(CONVERSION_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.SOUTH);
+        bindConversion(MOTOR);bindConversion(CONVERSION_GENERATOR);
+        check(conversion(MOTOR).sourceCapacity()==0,"unpaid motor adds no torque");
+        check(conversion(CONVERSION_GENERATOR).receiveEnergy(100)==0,"generator is not an electrical sink");
+        wheel(HYDRO_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.NORTH);
+        wheel(HYDRO_GENERATOR.east(),ModBlocks.PRIMITIVE_WATER_WHEEL.get(),Direction.EAST);
+        feed(HYDRO_GENERATOR.east(),Direction.EAST,1);
+        bindConversion(HYDRO_GENERATOR);
+        wheel(BOILER,ModBlocks.STEAM_BOILER.get(),Direction.NORTH);
+        wheel(STEAM_ENGINE,ModBlocks.STEAM_ENGINE.get(),Direction.NORTH);
+        bindConversion(STEAM_ENGINE);
+        var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(BOILER);
+        player.setPos(BOILER.getX()+.5,BOILER.getY(),BOILER.getZ()+.5);
+        check(boiler.bind(player),"authorized boiler");
+        var coal=new ItemStack(Items.COAL);
+        check(boiler.addFuel(coal)&&coal.isEmpty(),"boiler reserves one actual fuel");
+        try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()){
+            check(boiler.tank().insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(
+                net.minecraft.world.level.material.Fluids.WATER),1000,tx)==1000,"boiler receives one bucket");
+            tx.commit();
+        }
+        check(boiler.takeSteam(10,Direction.NORTH)==0,"empty steam cannot be extracted");
+        wheel(THERMAL,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
+        put(THERMAL.below(),Blocks.MAGMA_BLOCK.defaultBlockState());
+        put(THERMAL.above(),Blocks.PACKED_ICE.defaultBlockState());
+        player.setPos(THERMAL.getX()+.5,THERMAL.getY(),THERMAL.getZ()+.5);
+        check(((ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL)).bind(player),"authorized thermoelectric generator");
+    }
+    private static void verifyConversion() {
+        var motor=conversion(MOTOR);var generator=conversion(CONVERSION_GENERATOR);
+        var thermal=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL);
+        var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(BOILER);
+        if(ticks<=20) motorInput+=motor.receiveEnergy(64);
+        check(motor.energy()+generator.energy()<=motorInput,"motor-generator cycle never manufactures FE");
+        if(ticks==20){
+            check(generator.energy()>0&&speed(MOTOR)>0,"electric motor drives an actual loaded generator");
+            check(conversion(HYDRO_GENERATOR).energy()>0,"hydraulic drive converts to FE");
+            check(conversion(STEAM_ENGINE).sourceCapacity()>0&&speed(STEAM_ENGINE)>0,"paid steam drives rotor");
+            check(boiler.storedFluid()<1000,"boiler consumes water for steam");
+            check(thermal.energy()>0,"thermal gradient generates FE");
+            stoppedThermalEnergy=thermal.energy();
+            put(THERMAL.above(),Blocks.AIR.defaultBlockState());
+        }
+        if(ticks==100)stoppedGeneratorEnergy=generator.energy();
+        if(ticks==120){
+            check(motor.sourceCapacity()==0&&generator.energy()==stoppedGeneratorEnergy,"empty motor stops generation even while coasting");
+            check(boiler.storedFluid()==0&&conversion(STEAM_ENGINE).sourceCapacity()==0,"steam chain stops without water");
+            check(thermal.energy()==stoppedThermalEnergy,"no gradient produces no new FE");
+        }
+    }
+
     private static void belt(BlockPos a, BlockPos b, boolean crossed) {
         axial(a, ModBlocks.MECHANICAL_PULLEY.get()); axial(b, ModBlocks.MECHANICAL_PULLEY.get());
         check(MechanicalPulleyBlockEntity.validAlignment(a, b, Direction.Axis.X), "belt alignment");
@@ -227,6 +311,21 @@ public final class QksRuntimeVerification {
     private static MechanicalSawmillBlockEntity saw(BlockPos p) { return (MechanicalSawmillBlockEntity) level.getBlockEntity(p); }
     private static ManualDynamoBlockEntity dynamo(BlockPos p) { return (ManualDynamoBlockEntity) level.getBlockEntity(p); }
     private static MechanicalPulleyBlockEntity pulley(BlockPos p) { return (MechanicalPulleyBlockEntity) level.getBlockEntity(p); }
+    private static MechanicalConveyorBlockEntity conveyor(BlockPos p) { return (MechanicalConveyorBlockEntity) level.getBlockEntity(p); }
+    private static net.minecraft.world.level.block.entity.ChestBlockEntity chest(BlockPos p) {
+        return (net.minecraft.world.level.block.entity.ChestBlockEntity) level.getBlockEntity(p);
+    }
+    private static int chestItems(BlockPos p) {
+        int total = 0;
+        var chest = chest(p);
+        for (int i = 0; i < chest.getContainerSize(); i++) total += chest.getItem(i).getCount();
+        return total;
+    }
+    private static void verifyConveyorConservation() {
+        check(chestItems(CONVEYOR.south()) + chestItems(CONVEYOR.north(2))
+                + conveyor(CONVEYOR).packet().getCount() + conveyor(CONVEYOR.north()).packet().getCount() == 3,
+                "conveyor preserves item count across inventories and belt cells");
+    }
     private static double speed(BlockPos p) { return Math.abs(snap(p).angularVelocity()); }
 
     @SubscribeEvent(priority = net.neoforged.bus.api.EventPriority.LOWEST)
@@ -243,7 +342,7 @@ public final class QksRuntimeVerification {
             }
             if (ticks == 20) {
                 check(speed(REVERSE) > firstSpeed, "progressive startup: omega_t20 > omega_t1 > 0");
-                verifyFlows(); verifyTransmissions();
+                verifyFlows(); verifyTransmissions(); verifyCompactGearbox();
             }
             if (ticks == SETTLE) {
                 check(speed(LOADS.get(0)) > speed(LOADS.get(1)) && speed(LOADS.get(1)) > 0,
@@ -266,7 +365,12 @@ public final class QksRuntimeVerification {
                 if (now < -EPS) { check(crossedZero, "reversal crosses zero"); reversed = true; }
                 previousReverse = now;
             }
+            verifyConveyorConservation();
+            verifyConversion();
             if (ticks == REMOVE_AT) {
+                check(chestItems(CONVEYOR.north(2)) > 0, "powered conveyor delivers to destination");
+                stoppedBeltFraction = conveyor(CONVEYOR).fraction();
+                changeFeed(CONVEYOR.west(), 0);
                 check(reversed, "reversed feed spins negative");
                 check(dynamo(DYNAMO).energy() == ManualDynamoBlockEntity.CAPACITY && dynamo(DYNAMO).requestedLoad() == 0
                         && dynamo(DYNAMO).isTurning(), "240 FE open circuit freewheels without electrical load");
@@ -277,6 +381,7 @@ public final class QksRuntimeVerification {
                 changeFeed(COAST, 0); changeFeed(BARE, 0); changeFeed(FLY, 0); changeFeed(DYNAMO_WHEEL, 0);
             }
             if (ticks > REMOVE_AT && ticks <= REMOVE_AT + 20) {
+                near(conveyor(CONVEYOR).fraction(), stoppedBeltFraction, "unpowered conveyor holds its cargo position");
                 check(!rotor(COAST).rotating() && speed(COAST) <= coastSpeed, "water removal separates coasting from power");
                 if (ticks == REMOVE_AT + 1) check(speed(COAST) > 0 && speed(COAST) < coastSpeed, "water removed: smooth residual positive omega");
                 check(saw(COAST.east(2)).progress() == coastProgress && saw(COAST.east(2)).output().getCount() == coastOutput,
@@ -297,6 +402,26 @@ public final class QksRuntimeVerification {
             if (ticks == SAVE_AT) { benchmark(); saveForRestart(); finish(null); }
         } catch (Throwable error) { finish(error); }
     }
+    private static void verifyCompactGearbox() {
+        var gearbox = (CompactGearboxBlockEntity) level.getBlockEntity(GEARBOX);
+        check(gearbox.sourceCapacity() == 0 && gearbox.requestedLoad() == 0, "gearbox is not a source or consumer");
+        check(gearbox.connectsMechanical(Direction.EAST) && gearbox.connectsMechanical(Direction.NORTH)
+                && !gearbox.connectsMechanical(Direction.UP), "configured axes only");
+        var east = snap(GEARBOX.east());
+        var north = snap(GEARBOX.north());
+        check(Math.abs(east.angularVelocity()) > EPS, "gearbox transmits actual motion");
+        near(east.angularVelocity(), -north.angularVelocity(), "right angle 1:1 reverses axial sign");
+        check(east.capacity() == north.capacity() && east.capacity() == snap(GEARBOX.west()).capacity(),
+                "four ports share one capacity");
+        check(!snap(GEARBOX.above()).powered(), "excluded vertical shaft stays unpowered");
+        var back = ((MechanicalParticipant) level.getBlockEntity(GEARBOX.east())).kineticLinks(level, GEARBOX.east());
+        var out = gearbox.kineticLinks(level, GEARBOX);
+        var link = out.stream().filter(l -> l.target().equals(GEARBOX.east())).findFirst().orElseThrow();
+        var reverse = back.stream().filter(l -> l.target().equals(GEARBOX)).findFirst().orElseThrow();
+        near(link.ratio() * reverse.ratio(), 1, "reciprocal link ratio");
+        near(link.efficiency(), reverse.efficiency(), "symmetric port loss");
+    }
+
     private static void verifyFlows() {
         for (int i = 0; i < FLOWS.size(); i++) {
             var p = FLOWS.get(i); var wheel = (PrimitiveWaterWheelBlockEntity) level.getBlockEntity(p);

@@ -78,16 +78,22 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                         || target instanceof ElectricAlloySmelterBlockEntity
                         || target instanceof JawCrusherBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
-                        || target instanceof PeristalticPumpBlockEntity);
+                        || target instanceof PeristalticPumpBlockEntity
+                        || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor());
         for (Direction direction : Direction.values()) {
             if (energy() <= 0) break;
-            if (server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
+            if (server.hasChunkAt(worldPosition.relative(direction))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(direction)), direction.getOpposite())
+                    && server.getBlockEntity(worldPosition.relative(direction)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
                         || target instanceof JawCrusherBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
-                        || target instanceof PeristalticPumpBlockEntity)) {
+                        || target instanceof PeristalticPumpBlockEntity
+                        || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor())) {
                 int accepted = target.receiveEnergy(Math.min(TRANSFER, energy()));
                 if (accepted > 0) extractEnergy(accepted);
             }

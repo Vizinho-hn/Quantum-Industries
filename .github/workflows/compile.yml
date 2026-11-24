@@ -30,6 +30,8 @@ jobs:
         run: bash tools/verify-hydraulic-dynamo.sh
       - name: Verify configured tubes and cables
         run: bash tools/verify-connections.sh
+      - name: Verify kinetic network and industrial conversion
+        run: bash tools/verify-qks.sh
       - name: Compile and package mod
         run: bash ./gradlew --no-daemon build
       - name: Upload testable mod jar

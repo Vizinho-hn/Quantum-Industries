@@ -4,7 +4,7 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Acumulador Galvânico chumbo-ácido (2.400 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
+> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
 
 O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
 
@@ -141,7 +141,7 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 ### Fundição de Ligas (Era I & Era II)
 
-- **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado pela pesquisa **Metalurgia de Ligas** (após testar aquecimento de Cobre e Estanho ou Zinco). Consome carvão/carvão vegetal (ou **Fluorita** como fluxo redutor de escória) e sopros de **Fole Manual** para fundir ligas de baixa temperatura: **Bronze** (`3 Cobre + 1 Estanho → 4 Bronze`) e **Latão** (`2 Cobre + 1 Zinco → 3 Latão`). Também libera a **Engrenagem de Bronze**.
+- **Forno de Ligas a Fole (`bellows_alloy_kiln` — Era I):** liberado por Metalurgia de Ligas, fabricado com fogueira vanilla, tijolos, terracota, chapa, pedra lisa e fornalha. Produz bronze (3 cobre + 1 estanho → 4), latão (3 cobre + 1 zinco → 4), invar (2 ferro + 1 níquel → 3), electrum (1 ouro + 1 prata → 2), constantan (1 cobre + 1 níquel → 2) e aço (1 ferro + 2 carvão ou grafite → 1). Usa carvão/carvão vegetal e Fole Manual. Ligas complexas exigem calor relativo 160 (aço 240), o dobro do tempo elétrico e maior consumo durante a fusão. O britador pode ser fabricado somente com componentes mecânicos e vanilla.
 - **Fundidora de Ligas Elétrica (`electric_alloy_smelter` — Era II):** liberada pela pesquisa **Fundição Eletrotérmica de Ligas**. Opera com energia elétrica (capacidade de 600 FE, consumo de 4 FE/t) e funde tanto as ligas da Era I quanto ligas refratárias e de precisão da Era II: **Invar** (`2 Ferro + 1 Níquel → 3 Invar`), **Electrum** (`1 Ouro + 1 Prata → 2 Electrum`), **Constantan** (`1 Cobre + 1 Níquel → 2 Constantan`) e **Aço** (`1 Ferro + 1 Pó de Grafite → 1 Aço`).
 - **Chapas de Novos Metais e Ligas:** Chumbo, Estanho, Zinco e todas as seis ligas podem ser prensados em chapas na Bancada de Conformação Manual ou na Prensa Eletromecânica, com suporte a Common Tags (`#c:ingots/*`, `#c:nuggets/*`, `#c:plates/*`). Tanto o Forno a Fole quanto a Fundidora Elétrica aceitam **Lingotes** ou **Pós Minerais Purificados (`*_dust`)**.
 
@@ -154,8 +154,8 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 ### Química Mineral Aplicada (Fluorita, Halita, Grafite e Apatita)
 
 - A pesquisa **Reagentes Ácidos e Química Mineral** (`chemical_leaching` — Era II) e o beneficiamento mineral dão função prática aos minerais não-metálicos do mod:
-  - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando ácido clorídrico engarrafado e sedimento mineral.
-  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** pode ser inserida no **Forno de Ligas a Fole** e no **Braseiro de Fole**, reduzindo o ponto de fusão da escória (+600 ticks de combustível e +150 de calor imediato).
+  - **Sal Gema / Halita (`salt_rock`) → Ácido Clorídrico Diluído (abstração de gameplay) (`hydrochloric_acid`):** processado na **Cuba de Decantação** com 1.000 mB de água e frasco de vidro, gerando um reagente engarrafado e sedimento mineral. Essa receita é uma abstração de gameplay; dissolver halita em água não produz HCl.
+  - **Fluorita (`fluorite_gem`) como Fluxo Metalúrgico:** no Forno a Fole, uma unidade opcional reduz em 40 o limiar de calor relativo de um lote complexo, sem adicionar combustível nem calor. O Braseiro usa fontes térmicas externas e não consome fluorita.
   - **Grafite (`graphite_dust`) → Tijolo Refratário (`refractory_brick`):** usado na construção da Fundidora de Ligas Elétrica e como núcleo isolante da **Bobina Térmica de Constantan**.
   - **Apatita (`apatite_gem`) + Enxofre (`sulfur_dust`) → Fertilizante Fosfatado (`phosphate_fertilizer`):** fertilizante químico de alta eficiência que acelera o crescimento de plantações ao clicar com o botão direito.
 
@@ -185,7 +185,7 @@ Após pesquisar **Trefilação de Fios** (com observações mecânicas de cobre 
 
 ### Recozimento térmico
 
-A Forja de Recozimento recebe carvão (ou Fluorita como fluxo térmico) e um lingote de **ferro, cobre, bronze, latão ou aço**, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo (`heated_*_ingot`). Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
+A Forja de Recozimento utiliza uma fonte térmica válida abaixo do bloco e recebe um lingote de **ferro, cobre, bronze, latão ou aço**, e utiliza o Fole Manual para sustentar o calor. Após 60 ticks quentes, o material fica trabalhável por até 600 ticks do mundo (`heated_*_ingot`). Se ainda quente, a Bancada de Conformação produz chapa com um golpe e a Prensa completa o ciclo em 10 ticks (30 FE), mantendo o rendimento de 1 chapa/lingote. O calor não cria itens nem energia elétrica.
 
 ### Instrumentação da Era II
 
@@ -199,7 +199,7 @@ A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o
 
 A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
 
-A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, decanta **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**.
+A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, produz **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**, por uma abstração de gameplay, não uma reação química real.
 
 ## Serraria automática e reserva elétrica nos óculos
 
@@ -420,3 +420,27 @@ Na primeira execução, o Gradle pode baixar dependências. No Linux, o script u
 `/mnt/dados/cache/quantum-gradle` quando esse volume existe e evita abrir outra
 instância do cliente do projeto. `./Jogar.sh --check` verifica os pré-requisitos
 sem abrir o Minecraft. Feche e reabra o jogo para carregar alterações no código.
+
+
+### Interruptor Elétrico Industrial (Era II)
+
+O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de FE, com dois terminais horizontais e limite de 64 FE por tick. Clique com a mão vazia para abrir/fechar; Shift + clique alterna entre controle manual e redstone (sinal fecha o circuito). A chave gira o eixo horizontal. Rotas alternativas de cabos continuam independentes. Pilha Voltaica (2.400 FE) e Acumulador Chumbo-Ácido (50.000 FE) possuem orçamentos agregados de carga e descarga de 48 e 256 FE/t, respectivamente, compartilhados entre conexões diretas e cabos. Integração em validação; ainda não é uma entrega final da Era II.
+
+
+### Caixa de Transmissão Compacta (Era I)
+
+`compact_gearbox` conecta dois eixos perpendiculares (quatro faces) em relação de módulo 1:1. O eixo indicado na colocação/chave é o eixo excluído; os outros dois são ligados por engrenagens cônicas internas. O QKS mantém um único rotor, com inversão de sinal entre eixos, inércia própria e eficiência de porta de 98% (aproximadamente 96% em uma passagem entre duas portas). Não fornece UM nem FE. Requer Transmissão Mecânica e Chapas Metálicas. Modelo de carcaça fechada com encaixes visíveis; validação in-game pendente.
+
+### Esteira Mecânica (Era I)
+
+`mechanical_conveyor` transporta uma unidade de item por segmento, movida pelo QKS. Ligue um eixo perpendicular à direção da esteira e alinhe segmentos horizontalmente. A rotação define velocidade e sentido; uma saída obstruída retém a carga. A interação vincula um operador com Transmissão Mecânica; clique com o item para inserir e agache com a mão vazia para retirar. Baús, barris, funis e máquinas compatíveis podem servir de entrada/saída, respeitando pesquisas. A carga e sua posição são persistidas; o renderizador mostra o item em trânsito. A geometria da correia é estática nesta implementação inicial. Validação em jogo pendente.
+
+### Conversão energética industrial (Era II)
+
+- **Gerador Eletromagnético:** usa 12 UM de carga do QKS e produz até 8 FE/t em função da velocidade; buffer de 1.200 FE. Eixo à direita e terminal elétrico à esquerda da face frontal.
+- **Motor Elétrico:** recebe FE pelo terminal esquerdo e produz até 18 UM no eixo direito, pagando 24 FE/t antecipadamente. Shift + clique com mão vazia desativa ou reativa.
+- **Caldeira a Vapor:** água (4.000 mB) por balde ou tubulação e carvão/carvão vegetal; converte 10 mB/t em 10 unidades de vapor, com buffer de 2.000 unidades e 160 ticks úteis por combustível. Vapor interno, entregue apenas ao motor adjacente na frente, sem misturar vapor e água em tubulações.
+- **Motor a Vapor:** entrada traseira conectada à saída da caldeira; consome 10 unidades de vapor/t antes de fornecer até 24 UM no eixo direito.
+- **Gerador Termoelétrico:** fonte quente embaixo e água/gelo em cima; produz 1–3 FE/t, com reserva de 480 FE e saída frontal. Taxas são valores de balanceamento, não medidas termodinâmicas reais.
+
+Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a rede elétrica e o QKS. Não introduzem um sistema de energia paralelo. Os modelos são editáveis no Blockbench; revisão visual, testes de servidor e balanceamento permanecem necessários.

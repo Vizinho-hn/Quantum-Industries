@@ -39,7 +39,7 @@ public final class HydraulicDynamoVerification {
     private static ManualDynamoBlockEntity dynamo;
     private static FakePlayer player;
     private static int ticks, checks, stage, previousEnergy, serverTicks;
-    private static boolean active;
+    private static boolean active, waterEnabled = true;
 
     private static void check(boolean condition, String message) {
         checks++;
@@ -82,12 +82,31 @@ public final class HydraulicDynamoVerification {
         MechanicalNetwork.invalidate(level);
     }
 
+    // Keep the fixture deterministic under Minecraft fluid ticks, as in QksRuntimeVerification.
+    // A falling lateral contact has a nonzero tangential torque; a falling block below
+    // the wheel may instead exert radial force or be replaced by a scheduled fluid update.
     private static void water(boolean flowing) {
-        level.setBlock(WHEEL.below(), flowing
-                ? Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 8)
-                : Blocks.STONE.defaultBlockState(), 3);
-        level.setBlock(WHEEL.below().north(), flowing ? Blocks.WATER.defaultBlockState() : Blocks.STONE.defaultBlockState(), 3);
+        waterEnabled = flowing;
+        refreshWater();
+    }
+
+    private static void refreshWater() {
+        for (Direction side : java.util.List.of(Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH)) {
+            var cell = WHEEL.relative(side);
+            for (int offset = -2; offset <= 2; offset++) {
+                var pos = cell.south(offset);
+                if (!pos.equals(WHEEL)) level.setBlock(pos, Blocks.STONE.defaultBlockState(), 2);
+            }
+        }
+        if (waterEnabled) {
+            level.setBlock(WHEEL.south().above(), Blocks.WATER.defaultBlockState(), 2);
+            level.setBlock(WHEEL.south(), Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 8), 2);
+        }
         MechanicalNetwork.invalidate(level);
+    }
+
+    @SubscribeEvent public static void beforeTick(ServerTickEvent.Pre event) {
+        if (active) refreshWater();
     }
 
     @SubscribeEvent public static void tick(ServerTickEvent.Post event) throws Exception {
@@ -120,23 +139,27 @@ public final class HydraulicDynamoVerification {
                 check(dynamo.requestedLoad() == 6, "normal right-click configures an old dynamo");
                 check(dynamo.connectsMechanical(Direction.WEST) && !dynamo.connectsMechanical(Direction.EAST), "only the crank socket accepts the shaft");
             }
-            if (ticks == 32) {
-                check(dynamo.energy() == 24 && dynamo.isTurning(), "water and shaft generate 12 FE per eight ticks without a crank: FE="
+            if (ticks == 48) {
+                check(dynamo.energy() >= 24 && dynamo.energy() % 12 == 0 && dynamo.isTurning(), "authorized hydraulic drive starts generating full 12 FE pulses");
+                previousEnergy = dynamo.energy();
+            }
+            if (ticks == 64) {
+                check(dynamo.energy() == previousEnergy + 24 && dynamo.isTurning(), "water and shaft generate 12 FE per eight ticks without a crank: FE="
                         + dynamo.energy() + ", network=" + MechanicalNetwork.state(level, DYNAMO)
-                        + ", fluid=" + level.getFluidState(WHEEL.below()));
+                        + ", fluid=" + level.getFluidState(WHEEL.south()));
                 previousEnergy = dynamo.energy();
                 level.setBlock(SHAFT, Blocks.AIR.defaultBlockState(), 3);
             }
-            if (ticks == 40) {
+            if (ticks == 72) {
                 check(dynamo.energy() == previousEnergy && !dynamo.isTurning(), "shaft disconnection stops generation and animation");
                 shaft(Direction.Axis.Z);
             }
-            if (ticks == 48) {
+            if (ticks == 80) {
                 check(dynamo.energy() == previousEnergy, "perpendicular shafts cannot transmit power");
                 shaft(Direction.Axis.X);
                 water(false);
             }
-            if (ticks == 56) {
+            if (ticks == 88) {
                 check(dynamo.energy() == previousEnergy, "dry wheel produces no energy");
                 water(true);
                 // Four loads on one straight line total 24 UM, exceeding the wheel's 18 UM.
@@ -149,29 +172,33 @@ public final class HydraulicDynamoVerification {
                 player.setPos(8.5, 100, 9.5);
                 MechanicalNetwork.invalidate(level);
             }
-            if (ticks == 72) {
+            if (ticks == 104) {
                 check(dynamo.energy() == previousEnergy, "overloaded network cannot multiply available power");
                 for (int offset = 3; offset <= 5; offset++) level.setBlock(DYNAMO.west(offset), Blocks.AIR.defaultBlockState(), 3);
                 MechanicalNetwork.invalidate(level);
             }
-            if (ticks == 88) {
+            if (ticks == 128) {
+                check(dynamo.energy() > previousEnergy && (dynamo.energy()-previousEnergy)%12==0, "generation resumes after overload and kinetic startup");
+                previousEnergy = dynamo.energy();
+            }
+            if (ticks == 144) {
                 check(dynamo.energy() == previousEnergy + 24, "removing excess load resumes generation at the same rate");
                 WorldResearchData.get(level).clearAll(player);
                 previousEnergy = dynamo.energy();
             }
-            if (ticks == 104) {
+            if (ticks == 160) {
                 check(dynamo.energy() == previousEnergy, "revoking the operator's knowledge suspends generation");
                 WorldResearchData.get(level).unlockAll(player);
                 check(dynamo.install(true), "manual crank can replace shaft operation");
                 check(!dynamo.connectsMechanical(Direction.WEST), "installed crank occupies the mechanical socket");
             }
-            if (ticks == 120) {
+            if (ticks == 176) {
                 check(dynamo.energy() == previousEnergy, "installed manual crank cannot generate from water");
                 check(dynamo.turn() && !dynamo.turn(), "manual turn generates once and respects cooldown");
                 check(dynamo.energy() == previousEnergy + 12, "manual generation still supplies 12 FE");
                 check(dynamo.detach() && !dynamo.detach(), "paid crank is returned exactly once");
             }
-            if (ticks == 280) {
+            if (ticks == 400) {
                 check(dynamo.energy() == 240 && dynamo.requestedLoad() == 0 && dynamo.isTurning(), "full buffer cannot overflow and freewheels with zero electrical load");
                 var legacy = dynamo.saveWithoutMetadata(level.registryAccess());
                 legacy.remove("mechanical_operator");

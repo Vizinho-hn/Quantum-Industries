@@ -96,6 +96,8 @@ public final class FluidPipeBlock extends BaseEntityBlock {
         if (state.getBlock() instanceof PeristalticPumpBlock) {
             return fromSide.getAxis() == state.getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
         }
+        if (state.getBlock() instanceof IndustrialConversionBlock conversion && conversion.kind() == IndustrialConversionBlock.Kind.BOILER)
+            return fromSide != IndustrialConversionBlock.facing(state);
         if (level.getBlockEntity(neighbor) instanceof FluidInspectable) return true;
         return level instanceof Level world && world.getCapability(Capabilities.Fluid.BLOCK, neighbor, fromSide) != null;
     }
