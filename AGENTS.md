@@ -101,3 +101,5 @@ Responda de forma objetiva:
 4. **Riscos/pendências** e eventual necessidade de revisão de design.
 
 Não faça commits, push, merge, force-push nem mudanças destrutivas sem autorização explícita na tarefa. Sempre revise o diff antes de propor integração.
+
+- Ao integrar mudanças em `ModBlocks`/`ModItems`, preserve os registros industriais e suas entidades, incluindo o interruptor no conjunto de blocos válidos de `COPPER_CABLE_ENTITY`. A suíte de contratos verifica essas declarações para prevenir regressões de merge.
