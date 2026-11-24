@@ -48,6 +48,15 @@ public final class InstrumentalAnalysis {
                 .map(tag -> tag.getBoolean(profile.id()).orElse(false)).orElse(false);
     }
 
+    /** Server-side record, called only after the interaction validates sample and payment. */
+    public static boolean record(ServerPlayer player, Profile profile) {
+        if (known(player, profile)) return false;
+        CompoundTag records = player.getPersistentData().getCompound(KEY).orElseGet(CompoundTag::new);
+        records.putBoolean(profile.id(), true);
+        player.getPersistentData().put(KEY, records);
+        return true;
+    }
+
     /** First characterization requires paper in the off hand; later consultation is free. */
     public static void analyze(ServerPlayer player, ItemStack sample, Profile profile) {
         if (!known(player, profile)) {
@@ -57,9 +66,7 @@ public final class InstrumentalAnalysis {
                 return;
             }
             if (!player.getAbilities().instabuild) paper.shrink(1);
-            CompoundTag records = player.getPersistentData().getCompound(KEY).orElseGet(CompoundTag::new);
-            records.putBoolean(profile.id(), true);
-            player.getPersistentData().put(KEY, records);
+            record(player, profile);
         }
         player.sendOverlayMessage(Component.translatable("message.quantumindustries.instrumental.result",
                 sample.getHoverName(), profile.conductivity(), profile.hardness(), profile.thermalStability()));
