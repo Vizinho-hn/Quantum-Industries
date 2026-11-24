@@ -23,6 +23,19 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Era II FE-powered forming press: stamps ingots into metal sheets using 60 FE over 20 ticks without hammer wear. */
 public final class ElectromechanicalPressBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "electromechanical_forming");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "electromechanical_forming")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     public static final int CAPACITY = 480;
     public static final int MAX_RECEIVE = 48;
     public static final int WORK_TICKS = 20;
@@ -86,6 +99,7 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
     }
 
     public boolean insertIngot(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         var metal = FormingMaterials.find(stack);
         if (!(level instanceof ServerLevel) || metal == null) return false;
         if (input.isEmpty()) {
@@ -139,6 +153,7 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        if (!automationAuthorized()) return;
         var metal = FormingMaterials.find(input);
         if (!canProcess(metal)) {
             if (progress != 0) {
@@ -182,7 +197,7 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
     }
 
     @Override protected void saveAdditional(ValueOutput out) {
-        super.saveAdditional(out);
+        super.saveAdditional(out); out.putString("automation_operator", automationOperator);
         out.putInt("stored_fe", energy());
         out.putInt("progress", progress);
         if (!input.isEmpty()) out.store("input", ItemStack.CODEC, input);
@@ -190,7 +205,7 @@ public final class ElectromechanicalPressBlockEntity extends BlockEntity impleme
     }
 
     @Override protected void loadAdditional(ValueInput in) {
-        super.loadAdditional(in);
+        super.loadAdditional(in); automationOperator = in.getStringOr("automation_operator", "");
         battery.set(Math.clamp(in.getIntOr("stored_fe", 0), 0, CAPACITY));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, WORK_TICKS);
         input = in.read("input", ItemStack.CODEC).orElse(ItemStack.EMPTY);
