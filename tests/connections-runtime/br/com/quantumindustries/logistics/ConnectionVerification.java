@@ -317,6 +317,20 @@ public final class ConnectionVerification {
         check(WorldResearchData.get(level).evidenceSatisfied(player, study), "copper and iron analyses satisfy actual research evidence");
         check(player.getOffhandItem().isEmpty(), "exactly two additional paper consumed");
         player.setShiftKeyDown(false);
+        int goldIndex = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().indexOf(
+                br.com.quantumindustries.assay.InstrumentalAnalysis.profile(new ItemStack(Items.GOLD_INGOT)));
+        var entity = (ResearchTableBlockEntity) level.getBlockEntity(pos);
+        var menu = new br.com.quantumindustries.menu.ResearchTableMenu(9010, player.getInventory(), entity,
+                new net.minecraft.world.inventory.SimpleContainerData(br.com.quantumindustries.menu.ResearchTableMenu.DATA_SIZE));
+        player.containerMenu = menu;
+        int action = br.com.quantumindustries.menu.ResearchTableMenu.INSTRUMENTAL_ANALYZE + goldIndex;
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
+        check(!menu.clickMenuButton(player,action),"GUI requires a paper");
+        player.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(Items.PAPER,2));
+        check(menu.clickMenuButton(player,action)&&menu.instrumentalKnown(goldIndex),"real research menu records analysis");
+        check(player.getMainHandItem().getCount()==1&&player.getOffhandItem().getCount()==1,"menu preserves sample and spends one paper");
+        check(!menu.clickMenuButton(player,action)&&player.getOffhandItem().getCount()==1,"repeat GUI action is free and idempotent");
+        player.closeContainer();
         player.setItemInHand(InteractionHand.MAIN_HAND, previousMain);
         player.setItemInHand(InteractionHand.OFF_HAND, previousOff);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
