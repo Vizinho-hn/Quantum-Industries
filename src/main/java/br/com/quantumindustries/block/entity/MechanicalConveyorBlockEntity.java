@@ -25,7 +25,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 /** One occupied belt cell per block. The item is consumed from its previous owner only on acceptance. */
 public final class MechanicalConveyorBlockEntity extends RotationalBlockEntity implements MachineStatusInspectable {
     private static final int LOAD = 2;
-    private static final double BLOCKS_PER_RADIAN = .035, MAX_STEP = .20;
+    private static final double BLOCKS_PER_RADIAN = .12, MAX_STEP = .20;
     private ItemStack packet = ItemStack.EMPTY;
     private String operator = "";
     private double fraction = .5;
