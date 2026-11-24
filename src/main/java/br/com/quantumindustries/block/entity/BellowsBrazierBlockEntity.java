@@ -104,14 +104,6 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
 
     public boolean insert(ItemStack stack) {
         if (!(level instanceof ServerLevel) || !output.isEmpty()) return false;
-        if (br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
-                && stack.is(br.com.quantumindustries.ModItems.CHEMICAL_PRODUCTS.get("fluorite").get())
-                && isLit() && heat < MAX_HEAT) {
-            heat = Math.min(MAX_HEAT, heat + 120);
-            stack.shrink(1);
-            changed();
-            return true;
-        }
         if (!input.isEmpty() || !HeatTreatment.canHeat(stack)) return false;
         input = stack.copyWithCount(1);
         stack.shrink(1);
