@@ -189,7 +189,6 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
     }
 
     private boolean canOutput(AlloyCatalog.Recipe recipe) {
-        if (!automationAuthorized()) return false;
         if (recipe == null) return false;
         ItemStack result = recipe.assemble();
         if (output.isEmpty()) return true;
@@ -201,7 +200,7 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
         if (!(level instanceof ServerLevel server)) return;
         if (heat <= 0) return;
         var recipe = AlloyCatalog.findMatch(inputA, inputB, AlloyCatalog.MANUAL_MAX_TIER);
-        boolean working = canOutput(recipe) && heat >= requiredHeat(recipe) && fuel >= requiredFuel(recipe);
+        boolean working = automationAuthorized() && canOutput(recipe) && heat >= requiredHeat(recipe) && fuel >= requiredFuel(recipe);
         heat--;
         if (fuel > 0) fuel -= working ? requiredFuel(recipe) : 1;
         if (working) {
