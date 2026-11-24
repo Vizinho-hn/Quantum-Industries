@@ -42,6 +42,7 @@ public final class QksRuntimeVerification {
     private static final List<BlockPos> GEARS = new ArrayList<>(), BELTS = new ArrayList<>();
     private static final BlockPos REVERSE = pos(0, 32), BARE = pos(0, 48), FLY = pos(0, 64);
     private static final BlockPos COAST = pos(0, 80), DYNAMO_WHEEL = pos(0, 96), DYNAMO = DYNAMO_WHEEL.east(2);
+    private static final BlockPos GEARBOX = pos(96, 128);
     private static final BlockPos SPLIT = pos(0, 112), JAM = pos(0, 128);
     private static ServerLevel level;
     private static FakePlayer player;
@@ -184,6 +185,12 @@ public final class QksRuntimeVerification {
         axial(opposed.east(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
         wheel(opposed.east(2), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST); feed(opposed.east(2), Direction.EAST, -1);
         var dry = pos(32, 128); wheel(dry, ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST); feed(dry, Direction.EAST, 0);
+        wheel(GEARBOX.west(), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST);
+        feed(GEARBOX.west(), Direction.EAST, 1);
+        put(GEARBOX, ModBlocks.COMPACT_GEARBOX.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        axial(GEARBOX.east(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
+        put(GEARBOX.north(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        put(GEARBOX.above(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
         refreshWater();
         verifyRims();
         MechanicalNetwork.invalidate(level);
@@ -243,7 +250,7 @@ public final class QksRuntimeVerification {
             }
             if (ticks == 20) {
                 check(speed(REVERSE) > firstSpeed, "progressive startup: omega_t20 > omega_t1 > 0");
-                verifyFlows(); verifyTransmissions();
+                verifyFlows(); verifyTransmissions(); verifyCompactGearbox();
             }
             if (ticks == SETTLE) {
                 check(speed(LOADS.get(0)) > speed(LOADS.get(1)) && speed(LOADS.get(1)) > 0,
@@ -297,6 +304,26 @@ public final class QksRuntimeVerification {
             if (ticks == SAVE_AT) { benchmark(); saveForRestart(); finish(null); }
         } catch (Throwable error) { finish(error); }
     }
+    private static void verifyCompactGearbox() {
+        var gearbox = (CompactGearboxBlockEntity) level.getBlockEntity(GEARBOX);
+        check(gearbox.sourceCapacity() == 0 && gearbox.requestedLoad() == 0, "gearbox is not a source or consumer");
+        check(gearbox.connectsMechanical(Direction.EAST) && gearbox.connectsMechanical(Direction.NORTH)
+                && !gearbox.connectsMechanical(Direction.UP), "configured axes only");
+        var east = snap(GEARBOX.east());
+        var north = snap(GEARBOX.north());
+        check(Math.abs(east.angularVelocity()) > EPS, "gearbox transmits actual motion");
+        near(east.angularVelocity(), -north.angularVelocity(), "right angle 1:1 reverses axial sign");
+        check(east.capacity() == north.capacity() && east.capacity() == snap(GEARBOX.west()).capacity(),
+                "four ports share one capacity");
+        check(!snap(GEARBOX.above()).powered(), "excluded vertical shaft stays unpowered");
+        var back = ((MechanicalParticipant) level.getBlockEntity(GEARBOX.east())).kineticLinks(level, GEARBOX.east());
+        var out = gearbox.kineticLinks(level, GEARBOX);
+        var link = out.stream().filter(l -> l.target().equals(GEARBOX.east())).findFirst().orElseThrow();
+        var reverse = back.stream().filter(l -> l.target().equals(GEARBOX)).findFirst().orElseThrow();
+        near(link.ratio() * reverse.ratio(), 1, "reciprocal link ratio");
+        near(link.efficiency(), reverse.efficiency(), "symmetric port loss");
+    }
+
     private static void verifyFlows() {
         for (int i = 0; i < FLOWS.size(); i++) {
             var p = FLOWS.get(i); var wheel = (PrimitiveWaterWheelBlockEntity) level.getBlockEntity(p);
