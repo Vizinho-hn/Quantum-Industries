@@ -50,6 +50,10 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
                 ? "block.quantumindustries.copper_busbar" : "block.quantumindustries.insulated_conduit");
     }
     @Override public Component inspectDetail() {
+        if (getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock)
+            return Component.translatable("message.quantumindustries.industrial_circuit_switch.inspect",
+                    Component.translatable(getBlockState().getValue(IndustrialCircuitSwitchBlock.CLOSED)
+                            ? "message.quantumindustries.industrial_circuit_switch.closed" : "message.quantumindustries.industrial_circuit_switch.open"), energy(), capacity());
         return Component.translatable("gui.quantumindustries.cable.flow", flow, loss);
     }
     public int flow() { return flow; }
