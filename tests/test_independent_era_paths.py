@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "src/main/java/br/com/quantumindustries/research/ResearchCatalog.java"
-SCREEN = ROOT / "src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java"
+SCREEN = ROOT / "src/client/java/br/com/quantumindustries/client/ResearchTableScreen.java"
 SERVER = ROOT / "src/main/java/br/com/quantumindustries/research/WorldResearchData.java"
 
 

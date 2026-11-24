@@ -4,6 +4,9 @@ import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ItemRouting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,6 +26,12 @@ public final class GravitationalSorterBlockEntity extends BlockEntity {
     private ItemStack packet=ItemStack.EMPTY;
     private boolean reversed;
     private int progress;
+    private final ResourceHandler<ItemResource> itemPort = new MachineItemSlot(this,
+            () -> packet, stack -> packet = stack, stack -> packet.isEmpty(), 64,
+            before -> { progress = 0; changed(); });
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
+
     public GravitationalSorterBlockEntity(BlockPos pos,BlockState state){
         super(ModBlocks.GRAVITATIONAL_SORTER_ENTITY.get(),pos,state);
     }

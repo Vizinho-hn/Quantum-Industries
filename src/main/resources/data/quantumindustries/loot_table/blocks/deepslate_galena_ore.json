@@ -5,13 +5,39 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "quantumindustries:raw_lead"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "quantumindustries:deepslate_galena_ore"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "quantumindustries:raw_lead",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

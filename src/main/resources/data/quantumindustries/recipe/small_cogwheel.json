@@ -1,17 +1,4 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " P ",
-    "ISI",
-    " P "
-  ],
-  "key": {
-    "P": "#minecraft:planks",
-    "I": "minecraft:iron_ingot",
-    "S": "quantumindustries:mechanical_shaft_block"
-  },
-  "result": {
-    "id": "quantumindustries:small_cogwheel",
-    "count": 1
-  }
+  "type": "quantumindustries:foundations",
+  "craft": "small_cogwheel"
 }

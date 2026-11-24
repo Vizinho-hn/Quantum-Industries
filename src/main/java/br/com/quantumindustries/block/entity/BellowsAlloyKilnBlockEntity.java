@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.AlloyCatalog;
 import net.minecraft.core.BlockPos;
@@ -41,6 +46,12 @@ public final class BellowsAlloyKilnBlockEntity extends BlockEntity implements Ma
     private ItemStack inputA = ItemStack.EMPTY;
     private ItemStack inputB = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public BellowsAlloyKilnBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.BELLOWS_ALLOY_KILN_ENTITY.get(), pos, state);

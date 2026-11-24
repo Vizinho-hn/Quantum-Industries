@@ -25,6 +25,11 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
     private final br.com.quantumindustries.energy.TransferBudget transferBudget = new br.com.quantumindustries.energy.TransferBudget(TRANSFER_RATE);
     private final SimpleEnergyHandler energyHandler = new SimpleEnergyHandler(CAPACITY, TRANSFER_RATE, TRANSFER_RATE);
 
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, energyHandler, () -> true, () -> true, transferBudget, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public LeadAcidAccumulatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.LEAD_ACID_ACCUMULATOR_ENTITY.get(), pos, state);
     }

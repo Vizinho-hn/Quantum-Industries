@@ -23,6 +23,11 @@ public final class BellowsEjectorBlockEntity extends BlockEntity implements Ener
     public static final int CAPACITY = 100, PULSE_FE = 10;
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, 32, PULSE_FE);
     private long lastPulse = -10;
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public BellowsEjectorBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.BELLOWS_EJECTOR_ENTITY.get(),pos,state); }
     @Override public int energy() { return (int)battery.getAmountAsLong(); }
     @Override public int capacity() { return CAPACITY; }

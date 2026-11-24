@@ -50,6 +50,11 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     private double gearRatio = 1.0;
     private StopReason stopReason = StopReason.NO_SOURCE;
 
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> false, () -> true, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
     }

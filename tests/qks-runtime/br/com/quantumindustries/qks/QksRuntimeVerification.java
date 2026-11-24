@@ -13,8 +13,21 @@ import java.nio.file.*;
 import java.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import br.com.quantumindustries.recipe.ResearchCraftingAccess;
+import br.com.quantumindustries.research.ResearchIds;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,7 +48,8 @@ public final class QksRuntimeVerification {
     private static final String OPERATOR = "d18294eb-aef7-4dc8-81cf-32f12cfc3412";
     private static final Path ROOT = Path.of("..");
     private static final double EPS = 1e-6, MAX_STEP = 1.0;
-    private static final int SETTLE = 80, REVERSE_AT = 100, REMOVE_AT = 200, SAVE_AT = 380, MAX_TICKS = 500;
+    private static final int SETTLE = 80, REVERSE_AT = 100, EARLIEST_REMOVAL = 200;
+    private static final int CHARGE_DEADLINE = 650, SAVE_DELAY = 180, MAX_TICKS = CHARGE_DEADLINE + SAVE_DELAY;
     private static final int[] SIZES = {1, 32, 128, 256};
     private static final List<Feed> FEEDS = new ArrayList<>();
     private static final List<BlockPos> FLOWS = new ArrayList<>(), LOADS = new ArrayList<>();
@@ -56,7 +70,7 @@ public final class QksRuntimeVerification {
     private static ServerLevel level;
     private static FakePlayer player;
     private static boolean active, reading, reversed, crossedZero;
-    private static int ticks, checks, coastProgress, coastOutput, coastEnergy;
+    private static int ticks, checks, removalTick, coastProgress, coastOutput, coastEnergy;
     private static double firstSpeed, bareStartup, flyStartup, previousReverse, coastSpeed, savedReadAngle;
     private static final Properties SAVED = new Properties();
     private record Feed(BlockPos wheel, Direction facing, int mode) {}
@@ -76,9 +90,46 @@ public final class QksRuntimeVerification {
             check("write".equals(phase) || "read".equals(phase), "explicit write/read phase required");
             reading = "read".equals(phase);
             for (int z = 0; z <= 10; z++) for (int x = 0; x <= 17; x++) level.setChunkForced(x, z, true);
-            if (reading) readSaved(); else build();
+            if (reading) {
+                readSaved();
+            } else {
+                verifyMining();
+                build();
+            }
             active = true;
         } catch (Throwable error) { finish(error); }
+    }
+    private static void verifyMining() {
+        var wooden = new ItemStack(Items.WOODEN_PICKAXE);
+        var stone = new ItemStack(Items.STONE_PICKAXE);
+        var iron = new ItemStack(Items.IRON_PICKAXE);
+        var diamond = new ItemStack(Items.DIAMOND_PICKAXE);
+        var silk = diamond.copy();
+        silk.enchant(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
+                .getOrThrow(Enchantments.SILK_TOUCH), 1);
+        for (var registered : ModBlocks.BLOCKS.getEntries()) {
+            var state = registered.get().defaultBlockState();
+            check(state.is(BlockTags.MINEABLE_WITH_PICKAXE) != state.is(BlockTags.MINEABLE_WITH_AXE),
+                    registered.getId() + " has exactly one mining tool");
+            if (!state.requiresCorrectToolForDrops()) continue;
+
+            var tool = diamond;
+            if (!state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
+                tool = state.is(BlockTags.NEEDS_IRON_TOOL) ? iron
+                        : state.is(BlockTags.NEEDS_STONE_TOOL) ? stone : wooden;
+            }
+            check(tool.isCorrectToolForDrops(state) && tool.getDestroySpeed(state) > 1.0F,
+                    registered.getId() + " accepts its minimum pickaxe tier");
+            check(!ItemStack.EMPTY.isCorrectToolForDrops(state),
+                    registered.getId() + " rejects mining by hand");
+            check(!Block.getDrops(state, level, REVERSE, null, null, tool).isEmpty(),
+                    registered.getId() + " has loot with its minimum pickaxe tier");
+            if (state.getBlock() instanceof br.com.quantumindustries.block.QuantumOreBlock) {
+                var drops = Block.getDrops(state, level, REVERSE, null, null, silk);
+                check(drops.size() == 1 && drops.getFirst().is(state.getBlock().asItem()),
+                        registered.getId() + " drops its own block with Silk Touch");
+            }
+        }
     }
     private static void put(BlockPos pos, BlockState state) { level.setBlock(pos, state, Block.UPDATE_CLIENTS); }
     private static void axial(BlockPos pos, Block block) {
@@ -134,6 +185,88 @@ public final class QksRuntimeVerification {
         try { refreshWater(); MechanicalNetwork.invalidate(level); }
         catch (Throwable error) { finish(error); }
     }
+    private static void verifyAuditRegressions() {
+        var pos = pos(240, 112);
+        player.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+        var brass = ModItems.BRASS_WEIGHTS.get();
+        player.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        put(pos, ModBlocks.GRAVITY_WINCH.get().defaultBlockState());
+        var winch = (GravityWinchBlockEntity) level.getBlockEntity(pos);
+        var weight = new ItemStack(brass);
+        winch.installMass(GravityWinchBlockEntity.MassTier.LEAD, player, weight);
+        check(weight.isEmpty(), "survival winch charges the real brass weight");
+        var saved = winch.saveWithoutMetadata(level.registryAccess());
+        var reloaded = new GravityWinchBlockEntity(pos, winch.getBlockState());
+        reloaded.loadWithComponents(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), saved));
+        reloaded.removeMass(player);
+        check(player.getInventory().countItem(brass) == 1
+                && player.getInventory().countItem(ModItems.LEAD_SHEET.get()) == 0,
+                "reloaded winch refunds brass without transmutation");
+        player.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.CREATIVE);
+        var creativeWeight = new ItemStack(brass);
+        winch.installMass(GravityWinchBlockEntity.MassTier.LEAD, player, creativeWeight);
+        winch.installMass(GravityWinchBlockEntity.MassTier.LEAD, player, new ItemStack(ModItems.LEAD_SHEET.get()));
+        int paidBrass = player.getInventory().countItem(brass);
+        player.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        winch.removeMass(player);
+        check(creativeWeight.getCount() == 1 && player.getInventory().countItem(brass) == paidBrass
+                && player.getInventory().countItem(ModItems.LEAD_SHEET.get()) == 0,
+                "survival cannot claim a free creative counterweight");
+        winch.installMass(GravityWinchBlockEntity.MassTier.LEAD, player, new ItemStack(brass));
+        level.destroyBlock(pos, true);
+        check(level.getEntitiesOfClass(ItemEntity.class, new AABB(pos).inflate(1),
+                entity -> entity.getItem().is(brass)).size() == 1, "breaking winch drops the paid counterweight");
+
+        put(pos, ModBlocks.ELECTRIC_SAWMILL.get().defaultBlockState());
+        var saw = (ElectricSawmillBlockEntity) level.getBlockEntity(pos);
+        var items = level.getCapability(Capabilities.Item.BLOCK, pos, Direction.UP);
+        var energy = level.getCapability(Capabilities.Energy.BLOCK, pos, Direction.UP);
+        check(items != null && energy != null, "sawmill exposes NeoForge item and energy capabilities");
+        var log = ItemResource.of(new ItemStack(Items.SPRUCE_LOG));
+        try (var tx = Transaction.openRoot()) {
+            check(items.insert(log, 1, tx) == 0, "capability respects unbound sawmill");
+        }
+        check(saw.bind(player), "authorized operator binds capability sawmill");
+        try (var tx = Transaction.openRoot()) {
+            check(items.insert(log, 1, tx) == 1, "authorized capability accepts spruce logs");
+            check(energy.insert(64, tx) == 64 && energy.insert(1, tx) == 0,
+                    "external energy shares the sawmill rate ceiling");
+        }
+        check(saw.energy() == 0 && saw.inventory().getItem(0).isEmpty(), "aborted transfer rolls back FE and items");
+        try (var tx = Transaction.openRoot()) {
+            check(items.insert(log, 1, tx) == 1 && energy.insert(64, tx) == 64,
+                    "rollback restores the full transfer budget");
+            tx.commit();
+        }
+        check(saw.energy() == 64 && saw.inventory().getItem(0).is(Items.SPRUCE_LOG)
+                && saw.receiveEnergy(1) == 0, "committed transfer reaches real slots and shares the internal budget");
+        try (var tx = Transaction.openRoot()) {
+            check(items.extract(log, 1, tx) == 0, "capability never extracts unprocessed inputs");
+        }
+
+        var recipeManager = level.getServer().getRecipeManager();
+        var key = ResourceKey.create(Registries.RECIPE, ResearchIds.of("small_cogwheel"));
+        var cogwheel = (CraftingRecipe) recipeManager.byKey(key).orElseThrow().value();
+        var plank = new ItemStack(Items.BIRCH_PLANKS);
+        var iron = new ItemStack(Items.IRON_INGOT);
+        var empty = ItemStack.EMPTY;
+        var grid = CraftingInput.of(3, 3, List.of(empty, plank, empty,
+                iron, new ItemStack(ModItems.MECHANICAL_SHAFT_BLOCK.get()), iron, empty, plank, empty));
+        check(!cogwheel.matches(grid, level), "research craft has no anonymous Crafter path");
+        var guest = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "QksGuest"));
+        check(!ResearchCraftingAccess.asCrafter(guest, () -> cogwheel.matches(grid, level)),
+                "ungated vanilla cogwheel recipe is gone");
+        check(ResearchCraftingAccess.asCrafter(player, () -> cogwheel.matches(grid, level)),
+                "authorized foundation craft accepts birch planks");
+        key = ResourceKey.create(Registries.RECIPE, ResearchIds.of("sulfuric_acid"));
+        var acid = (CraftingRecipe) recipeManager.byKey(key).orElseThrow().value();
+        var acidGrid = CraftingInput.of(3, 1, List.of(new ItemStack(ModItems.GALVANIC_ELECTROLYTE.get()),
+                new ItemStack(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get()), new ItemStack(Items.GLASS_BOTTLE)));
+        check(ResearchCraftingAccess.asCrafter(player, () -> acid.matches(acidGrid, level))
+                && acid.getRemainingItems(acidGrid).getFirst().is(Items.GLASS_BOTTLE),
+                "acid conversion requires one empty bottle and returns the input electrolyte bottle");
+    }
+
     private static void stageSaw(BlockPos pos) {
         put(pos, ModBlocks.MECHANICAL_SAWMILL.get().defaultBlockState());
         var saw = saw(pos);
@@ -152,6 +285,7 @@ public final class QksRuntimeVerification {
     private static void build() {
         player = new FakePlayer(level, new GameProfile(UUID.fromString(OPERATOR), "QksVerifier"));
         WorldResearchData.get(level).unlockAll(player);
+        verifyAuditRegressions();
         for (Direction facing : List.of(Direction.EAST, Direction.NORTH)) {
             for (int mode : new int[]{-1, 1, 2, -3}) {
                 var p = pos(32 + FLOWS.size() * 10, 0);
@@ -490,39 +624,47 @@ public final class QksRuntimeVerification {
             verifyConveyorConservation();
             verifyConversion();
             verifyMultiConversion();
-            if (ticks == REMOVE_AT) {
+            var dynamo = dynamo(DYNAMO);
+            if (ticks == CHARGE_DEADLINE && removalTick == 0) {
+                check(dynamo.energy() == ManualDynamoBlockEntity.CAPACITY,
+                        "work-limited water wheel charges dynamo by deadline (FE=" + dynamo.energy() + ")");
+            }
+            // Wait for real work-limited generation before testing open circuit and unpowered coasting.
+            if (removalTick == 0 && ticks >= EARLIEST_REMOVAL && dynamo.energy() == ManualDynamoBlockEntity.CAPACITY) {
+                removalTick = ticks;
                 check(chestItems(CONVEYOR.north(2)) > 0, "powered conveyor delivers to destination");
                 stoppedBeltFraction = conveyor(CONVEYOR).fraction();
                 changeFeed(CONVEYOR.west(), 0);
                 check(reversed, "reversed feed spins negative");
-                check(dynamo(DYNAMO).energy() == ManualDynamoBlockEntity.CAPACITY && dynamo(DYNAMO).requestedLoad() == 0
-                        && dynamo(DYNAMO).isTurning(), "240 FE open circuit freewheels without electrical load");
+                check(dynamo.requestedLoad() == 0 && dynamo.isTurning(), "240 FE open circuit freewheels without electrical load");
                 // Drain through the production API so a full buffer cannot mask illicit coast generation.
                 while (dynamo(DYNAMO).energy() > 0) dynamo(DYNAMO).extractEnergy(ManualDynamoBlockEntity.MAX_EXTRACT);
                 coastEnergy = dynamo(DYNAMO).energy(); coastProgress = saw(COAST.east(2)).progress();
                 coastOutput = saw(COAST.east(2)).output().getCount(); coastSpeed = speed(COAST);
                 changeFeed(COAST, 0); changeFeed(BARE, 0); changeFeed(FLY, 0); changeFeed(DYNAMO_WHEEL, 0);
             }
-            if (ticks > REMOVE_AT && ticks <= REMOVE_AT + 20) {
+            if (removalTick == 0) return;
+            int ticksSinceRemoval = ticks - removalTick;
+            if (ticksSinceRemoval > 0 && ticksSinceRemoval <= 20) {
                 near(conveyor(CONVEYOR).fraction(), stoppedBeltFraction, "unpowered conveyor holds its cargo position");
                 check(!rotor(COAST).rotating() && speed(COAST) <= coastSpeed, "water removal separates coasting from power");
-                if (ticks == REMOVE_AT + 1) check(speed(COAST) > 0 && speed(COAST) < coastSpeed, "water removed: smooth residual positive omega");
+                if (ticksSinceRemoval == 1) check(speed(COAST) > 0 && speed(COAST) < coastSpeed, "water removed: smooth residual positive omega");
                 check(saw(COAST.east(2)).progress() == coastProgress && saw(COAST.east(2)).output().getCount() == coastOutput,
                         "unpowered coast produces no planks");
                 check(dynamo(DYNAMO).energy() == coastEnergy, "unpowered coast produces zero FE");
                 coastSpeed = speed(COAST);
 
             }
-            if (ticks >= REMOVE_AT + 80 && ticks <= REMOVE_AT + 100)
+            if (ticksSinceRemoval >= 80 && ticksSinceRemoval <= 100)
                 check(speed(FLY) > speed(BARE), "flywheel retains higher speed longer after water removal");
-            if (ticks == REMOVE_AT + 25) split();
-            if (ticks == REMOVE_AT + 26) merge();
-            if (ticks == REMOVE_AT + 27) check(speed(SPLIT.east(2)) > 0, "bridged shafts resume continuous motion");
-            if (ticks == SAVE_AT - 20) {
+            if (ticksSinceRemoval == 25) split();
+            if (ticksSinceRemoval == 26) merge();
+            if (ticksSinceRemoval == 27) check(speed(SPLIT.east(2)) > 0, "bridged shafts resume continuous motion");
+            if (ticksSinceRemoval == SAVE_DELAY - 20) {
                 changeFeed(DYNAMO_WHEEL, 1);
                 verifyBreak();
             }
-            if (ticks == SAVE_AT) { benchmark(); saveForRestart(); finish(null); }
+            if (ticksSinceRemoval == SAVE_DELAY) { benchmark(); saveForRestart(); finish(null); }
         } catch (Throwable error) { finish(error); }
     }
     private static void verifyCompactGearbox() {

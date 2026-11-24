@@ -6,7 +6,7 @@
     " S "
   ],
   "key": {
-    "I": "minecraft:copper_ingot",
+    "I": "#quantumindustries:probe_contacts",
     "S": "minecraft:stick"
   },
   "result": {

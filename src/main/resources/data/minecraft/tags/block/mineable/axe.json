@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "quantumindustries:bellows_ejector",
+    "quantumindustries:empirical_assay_bench",
+    "quantumindustries:forming_bench",
+    "quantumindustries:gravity_winch",
+    "quantumindustries:large_cogwheel",
+    "quantumindustries:large_water_wheel",
+    "quantumindustries:mainspring_drum",
+    "quantumindustries:manual_grain_mill",
+    "quantumindustries:mechanical_pulley",
+    "quantumindustries:mechanical_sawmill",
+    "quantumindustries:mechanical_shaft_block",
+    "quantumindustries:medium_water_wheel",
+    "quantumindustries:primitive_water_wheel",
+    "quantumindustries:scientific_analyzer_tier_1",
+    "quantumindustries:small_cogwheel"
+  ]
+}

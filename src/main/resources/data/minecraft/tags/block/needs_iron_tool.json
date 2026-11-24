@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "quantumindustries:cobaltite_ore",
+    "quantumindustries:deepslate_cobaltite_ore",
+    "quantumindustries:deepslate_pentlandite_ore",
+    "quantumindustries:deepslate_rutile_ore",
+    "quantumindustries:deepslate_sperrylite_ore",
+    "quantumindustries:deepslate_uraninite_ore",
+    "quantumindustries:pentlandite_ore",
+    "quantumindustries:rutile_ore",
+    "quantumindustries:sperrylite_ore",
+    "quantumindustries:uraninite_ore"
+  ]
+}

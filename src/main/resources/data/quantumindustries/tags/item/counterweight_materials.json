@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:iron_ingot",
+    "quantumindustries:brass_sheet",
+    "quantumindustries:osmium_ingot",
+    "quantumindustries:tungsten_ingot",
+    "quantumindustries:uranium_ingot"
+  ]
+}

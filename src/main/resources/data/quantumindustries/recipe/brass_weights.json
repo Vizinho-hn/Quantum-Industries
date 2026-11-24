@@ -5,7 +5,7 @@
     "N"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
+    "I": "#quantumindustries:counterweight_materials",
     "N": "minecraft:iron_nugget"
   },
   "result": {

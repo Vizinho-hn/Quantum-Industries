@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import br.com.quantumindustries.recipe.MechanicalProcesses;
@@ -26,6 +31,22 @@ public final class MechanicalSawmillBlockEntity extends RotationalBlockEntity {
     private int lastState = -1, lastInputState = -1, lastOutputState = -1;
     public enum ProcessingState { WAITING, CUTTING, NO_POWER, OUTPUT_FULL, RESEARCH, INVALID }
     private int progress;
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    this::canInsertAutomated, 64, before -> {
+                        if (before.isEmpty() && !input.isEmpty()) {
+                            operator = automationOperator;
+                            progress = 0;
+                            processId = "";
+                        }
+                        lastInputTransfer = level.getGameTime();
+                        changed();
+                    }),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> { lastOutputTransfer = level.getGameTime(); changed(); }));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
+
     public MechanicalSawmillBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(), pos, state); }
     @Override public Direction.Axis axle() { return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise().getAxis(); }
     public ItemStack input() { return input.copy(); }

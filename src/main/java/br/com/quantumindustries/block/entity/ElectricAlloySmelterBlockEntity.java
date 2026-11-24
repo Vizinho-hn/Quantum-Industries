@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.AlloyCatalog;
 import net.minecraft.core.BlockPos;
@@ -45,6 +50,21 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
         return automationAuthorized();
     }
 
+
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> inputA, stack -> inputA = stack,
+                    stack -> automationAuthorized() && canInsertIngredient(0, stack), 16, before -> changed()),
+            new MachineItemSlot(this, () -> inputB, stack -> inputB = stack,
+                    stack -> automationAuthorized() && canInsertIngredient(1, stack), 16, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public ElectricAlloySmelterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.ELECTRIC_ALLOY_SMELTER_ENTITY.get(), pos, state);
