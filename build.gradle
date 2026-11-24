@@ -226,6 +226,7 @@ sourceSets.test.java {
     include("**/LegacyResearchCheck.java")
     include("**/MechanicalFoundationCheck.java")
     include("**/TransferBudgetCheck.java")
+    include("**/ThermoelectricModelCheck.java")
 }
 sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
 sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
@@ -240,6 +241,7 @@ tasks.named("check") {
     dependsOn(tasks.named("verifyLegacyResearch"))
     dependsOn(tasks.named("verifyMechanicalFoundation"))
     dependsOn(tasks.named("verifyTransferBudget"))
+    dependsOn("verifyThermoelectricModel")
 }
 
 tasks.register("verifyMechanicalFoundation", JavaExec) {
@@ -256,4 +258,11 @@ tasks.register("verifyTransferBudget", JavaExec) {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets.test.runtimeClasspath
     mainClass = "br.com.quantumindustries.energy.TransferBudgetCheck"
+}
+
+
+tasks.register("verifyThermoelectricModel", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.energy.ThermoelectricModelCheck"
 }

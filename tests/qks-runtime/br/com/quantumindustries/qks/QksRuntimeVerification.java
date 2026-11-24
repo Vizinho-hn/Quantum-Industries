@@ -244,49 +244,49 @@ public final class QksRuntimeVerification {
         }
         check(boiler.takeSteam(10,Direction.NORTH)==0,"empty steam cannot be extracted");
         wheel(THERMAL,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
-        verifyThermalPairs();
-        put(THERMAL.west(),Blocks.LAVA.defaultBlockState());
+        put(THERMAL.west(),Blocks.MAGMA_BLOCK.defaultBlockState());
         put(THERMAL.east(),Blocks.PACKED_ICE.defaultBlockState());
         player.setPos(THERMAL.getX()+.5,THERMAL.getY(),THERMAL.getZ()+.5);
         check(((ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL)).bind(player),"authorized thermoelectric generator");
+        verifyThermalOrientations();
     }
-    private static void clearThermalFaces() {
-        for (Direction face : Direction.values()) put(THERMAL.relative(face), Blocks.AIR.defaultBlockState());
-    }
-    private static void verifyThermalPairs() {
-        var hot = Blocks.LAVA.defaultBlockState();
-        var warm = Blocks.MAGMA_BLOCK.defaultBlockState();
-        var cold = Blocks.PACKED_ICE.defaultBlockState();
-        for (Direction face : Direction.values()) {
-            clearThermalFaces();
-            put(THERMAL.relative(face), hot);
-            put(THERMAL.relative(face.getOpposite()), cold);
-            check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 3,
-                    "opposite lava/ice pair works on " + face);
-            put(THERMAL.relative(face), warm);
-            check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 1,
-                    "opposite magma/ice pair works on " + face);
-            put(THERMAL.relative(face.getOpposite()), Blocks.AIR.defaultBlockState());
-            check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 0,
-                    "hot source alone generates nothing");
+    private static void verifyThermalOrientations() {
+        // Isolated, freshly placed modules test both the actual block-state scan
+        // and FE production without waiting for unrelated kinetic fixtures.
+        BlockPos pos=THERMAL.south(4);
+        player.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+.5);
+        for(Direction face:Direction.values()){
+            for(Direction side:Direction.values()) put(pos.relative(side),Blocks.AIR.defaultBlockState());
+            put(pos,Blocks.AIR.defaultBlockState());
+            wheel(pos,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
+            var be=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(pos);
+            check(be.bind(player),"thermal operator authorized");
+            put(pos.relative(face),Blocks.PACKED_ICE.defaultBlockState());
+            put(pos.relative(face.getOpposite()),Blocks.MAGMA_BLOCK.defaultBlockState());
+            for(int i=0;i<4;i++)be.tick();
+            check(be.energy()>0&&be.energy()<=4*br.com.quantumindustries.energy.ThermoelectricModel.MAX_FE,
+                    "thermal production on "+face);
+            put(pos.relative(face.getOpposite()),Blocks.AIR.defaultBlockState());
+            int before=be.energy();
+            for(int i=0;i<4;i++)be.tick();
+            check(be.energy()==before,"no heat means no generation");
         }
-        clearThermalFaces();
-        put(THERMAL.west(), hot);
-        put(THERMAL.above(), cold);
-        check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 0,
-                "perpendicular sources do not generate");
-        put(THERMAL.east(), cold);
-        put(THERMAL.below(), warm);
-        check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 3,
-                "multiple pairs select strongest instead of stacking");
-        put(THERMAL.below(), hot);
-        check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 3,
-                "two strong pairs cannot exceed 3 FE/t");
-        clearThermalFaces();
-        put(THERMAL.east(), cold);
-        check(ThermoelectricGeneratorBlockEntity.generationRate(level, THERMAL) == 0,
-                "cold source alone generates nothing");
-        clearThermalFaces();
+        for(Direction side:Direction.values()) put(pos.relative(side),Blocks.AIR.defaultBlockState());
+        put(pos,Blocks.AIR.defaultBlockState());
+        wheel(pos,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
+        var be=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(pos);
+        check(be.bind(player),"thermal diagnostics operator authorized");
+        put(pos.west(),Blocks.MAGMA_BLOCK.defaultBlockState());
+        put(pos.above(),Blocks.PACKED_ICE.defaultBlockState());
+        for(int i=0;i<4;i++)be.tick();
+        check(be.energy()==0,"perpendicular sources do not generate");
+        put(pos.east(),Blocks.PACKED_ICE.defaultBlockState());
+        put(pos.below(),Blocks.MAGMA_BLOCK.defaultBlockState());
+        for(int i=0;i<4;i++)be.tick();
+        check(be.energy()>0&&be.energy()<=4*br.com.quantumindustries.energy.ThermoelectricModel.MAX_FE,
+                "multiple opposing pairs cannot exceed model cap");
+        for(Direction side:Direction.values()) put(pos.relative(side),Blocks.AIR.defaultBlockState());
+        put(pos,Blocks.AIR.defaultBlockState());
     }
     private static void verifyConversion() {
         var motor=conversion(MOTOR);var generator=conversion(CONVERSION_GENERATOR);
@@ -301,7 +301,7 @@ public final class QksRuntimeVerification {
             check(boiler.storedFluid()<1000,"boiler consumes water for steam");
             check(thermal.energy()>0,"horizontal thermal gradient generates FE");
             stoppedThermalEnergy=thermal.energy();
-            clearThermalFaces();
+            put(THERMAL.east(),Blocks.AIR.defaultBlockState());
         }
         if(ticks==100)stoppedGeneratorEnergy=generator.energy();
         if(ticks==120){

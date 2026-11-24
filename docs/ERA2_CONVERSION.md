@@ -8,13 +8,13 @@
 | Motor elétrico | 24 FE/t | 18 UM | Conformação eletromecânica |
 | Caldeira | Água, carvão/carvão vegetal | 10 unidades de vapor/t; reserva 2.000 | Hidrostática + recozimento térmico |
 | Motor a vapor | 10 unidades de vapor/t | 24 UM | Hidrostática + recozimento térmico |
-| Gerador termoelétrico | Fontes quente e fria em faces opostas (X/Y/Z) | 1–3 FE/t; reserva 480 FE | Fundição elétrica de ligas |
+| Gerador termoelétrico | Fontes quente e fria em faces opostas | até 6 FE/t; reserva 480 FE | Fundição elétrica de ligas |
 
 ## Implementação e limites
 
 O rotor usa o QKS original. Motor elétrico e motor a vapor reservam o recurso para o tick seguinte; a reserva é transitória e não pode ser recriada por carregamento de mundo. O gerador só converte se há carga autorizada, fonte e velocidade. As taxas não são grandezas SI calibradas. Um ciclo motor-gerador perde FE. Cabos e adjacências dividem o limite de saída. O vapor é uma unidade abstrata de jogo em tanque interno, transferida diretamente ao motor no bloco adjacente à saída frontal da caldeira. Água usa a capacidade de fluido NeoForge existente. Não há vapor fluido registrado, explosão de pressão nem simulação de termodinâmica real.
 
-O gerador termoelétrico aceita pares opostos nos três eixos, em ambos os sentidos. Pares perpendiculares não geram FE; múltiplos pares usam somente a maior taxa (1 ou 3 FE/t). A saída elétrica permanece frontal, e o braseiro continua exigindo calor abaixo.
+O modelo termoelétrico seleciona o melhor par oposto nos três eixos, sem somar geração. Preserva o calor acumulado por face, a proteção acima de 250 °C, o consumo de refrigerantes finitos e a saída frontal. Saves antigos migram o refrigerante da face superior.
 
 ## Critérios de aceite
 

@@ -441,7 +441,7 @@ O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de F
 - **Motor Elétrico:** recebe FE pelo terminal esquerdo e produz até 18 UM no eixo direito, pagando 24 FE/t antecipadamente. Shift + clique com mão vazia desativa ou reativa.
 - **Caldeira a Vapor:** água (4.000 mB) por balde ou tubulação e carvão/carvão vegetal; converte 10 mB/t em 10 unidades de vapor, com buffer de 2.000 unidades e 160 ticks úteis por combustível. Vapor interno, entregue apenas ao motor adjacente na frente, sem misturar vapor e água em tubulações.
 - **Motor a Vapor:** entrada traseira conectada à saída da caldeira; consome 10 unidades de vapor/t antes de fornecer até 24 UM no eixo direito.
-- **Gerador Termoelétrico:** fontes quente e fria em faces opostas (verticais ou horizontais); produz 1–3 FE/t pelo par mais forte, sem acumular, com reserva de 480 FE e saída frontal. Taxas são valores de balanceamento, não medidas termodinâmicas reais.
+- **Gerador Termoelétrico:** fontes quente e fria em faces opostas nos três eixos; até 6 FE/t conforme gradiente, reserva de 480 FE e saída frontal. Lava direta excede o limite térmico de 250 °C; magma e fogo são alternativas. Refrigerantes finitos aquecem e podem ser consumidos; apenas o melhor par é utilizado. Taxas são valores de balanceamento, não medidas termodinâmicas reais.
 
 Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a rede elétrica e o QKS. Não introduzem um sistema de energia paralelo. Os modelos são editáveis no Blockbench; revisão visual, testes de servidor e balanceamento permanecem necessários.
 
