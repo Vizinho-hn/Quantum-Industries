@@ -48,9 +48,7 @@ public final class QuantumGuidebookMenu extends AbstractContainerMenu {
 
     public boolean isUnlocked(GuidebookCatalog.Chapter chapter) {
         if (chapter == null) return false;
-        if (chapter.studyKey() == null) return true;
-        int idx = ResearchCatalog.indexOf(chapter.studyKey());
-        return knows(idx);
+        return chapter.requiredStudies().stream().allMatch(key -> knows(ResearchCatalog.indexOf(key)));
     }
 
     @Override

@@ -212,7 +212,10 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
             y += 13;
         }
 
-        var study = ResearchCatalog.find(chapter.studyKey());
+        String missingStudy = chapter.requiredStudies().stream()
+                .filter(key -> !menu.knows(ResearchCatalog.indexOf(key)))
+                .findFirst().orElse(chapter.studyKey());
+        var study = ResearchCatalog.find(missingStudy);
         String studyHint = study != null ? tr(study.name()) : "????";
 
         theme.frame(g, 204, 260, 322, 96, GOLD, PANEL, DARK);
@@ -224,7 +227,7 @@ public final class QuantumGuidebookScreen extends AbstractContainerScreen<Quantu
             g.text(font, line, 214, hy, TEXT, false);
             hy += 11;
         }
-        clipped(g, tr("gui.quantumindustries.guidebook.required_study", studyHint, chapter.era() == 1 ? "I" : "II"), 214, 338, 302, CYAN);
+        clipped(g, tr("gui.quantumindustries.guidebook.required_study", studyHint, (study != null ? study.era() : chapter.era()) == 1 ? "I" : "II"), 214, 338, 302, CYAN);
     }
 
     @Override

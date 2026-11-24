@@ -45,6 +45,36 @@ class VaultAndGuidebookTest(unittest.TestCase):
         self.assertIn("isVaultSpawned", spawner)
         self.assertIn("markVaultSpawned", spawner)
 
+    def test_industrial_chapters_match_research_gates_and_localization(self):
+        catalog = (ROOT / "src/main/java/br/com/quantumindustries/research/GuidebookCatalog.java").read_text(encoding="utf-8")
+        menu = (ROOT / "src/main/java/br/com/quantumindustries/menu/QuantumGuidebookMenu.java").read_text(encoding="utf-8")
+        screen = (ROOT / "src/main/java/br/com/quantumindustries/client/QuantumGuidebookScreen.java").read_text(encoding="utf-8")
+        expected = [
+            ('compact_gearbox', 'mechanical_transmission', 1, 'COMPACT_GEARBOX', 'metal_sheets'),
+            ('mechanical_conveyor', 'mechanical_transmission', 1, 'MECHANICAL_CONVEYOR', 'metal_sheets'),
+            ('industrial_circuit_switch', 'load_protection', 2, 'INDUSTRIAL_CIRCUIT_SWITCH', None),
+            ('electromagnetic_generator', 'electromagnetic_induction', 2, 'ELECTROMAGNETIC_GENERATOR', None),
+            ('electric_motor', 'electromechanical_forming', 2, 'ELECTRIC_MOTOR', None),
+            ('steam_boiler', 'fluid_hydrostatics', 2, 'STEAM_BOILER', 'thermal_annealing'),
+            ('steam_engine', 'fluid_hydrostatics', 2, 'STEAM_ENGINE', 'thermal_annealing'),
+            ('thermoelectric_generator', 'electric_alloy_smelting', 2, 'THERMOELECTRIC_GENERATOR', None),
+        ]
+        # These two machines use vanilla recipes; the Codex lesson still follows mechanical research.
+        expected.extend([
+            ('gravity_winch', 'mechanical_transmission', 1, 'GRAVITY_WINCH', None),
+            ('mainspring_drum', 'mechanical_transmission', 1, 'MAINSPRING_DRUM', None),
+        ])
+        for chapter, study, era, item, extra in expected:
+            suffix = f', "{extra}"' if extra else ''
+            self.assertIn(f'machine("{chapter}", "{study}", {era}, () -> new ItemStack(ModItems.{item}.get()){suffix})', catalog)
+            for locale in ("pt_br.json", "en_us.json"):
+                lang = json.loads((ASSETS / "lang" / locale).read_text(encoding="utf-8"))
+                for field in ("title", "subtitle", "paragraph_0", "paragraph_1", "operation"):
+                    self.assertTrue(lang.get(f"guidebook.quantumindustries.{chapter}.{field}"), (locale, chapter, field))
+        self.assertIn("chapter.requiredStudies().stream().allMatch", menu)
+        self.assertIn("chapter.requiredStudies().stream()", screen)
+        self.assertIn("additionalStudies.stream()", catalog)
+
     def test_vault_and_guidebook_assets_and_translations(self):
         for rel in [
             "blockstates/quantum_vault.json",

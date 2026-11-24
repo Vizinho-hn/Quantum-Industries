@@ -11,7 +11,15 @@ import net.minecraft.world.item.Items;
 public final class GuidebookCatalog {
 
     public record Chapter(String id, String studyKey, int era, String title, String subtitle,
-                          Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary) {
+                          Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary, List<String> additionalStudies) {
+        public Chapter(String id, String studyKey, int era, String title, String subtitle,
+                       Supplier<ItemStack> icon, List<String> paragraphs, String operationSummary) {
+            this(id, studyKey, era, title, subtitle, icon, paragraphs, operationSummary, List.of());
+        }
+        public List<String> requiredStudies() {
+            if (studyKey == null) return List.of();
+            return java.util.stream.Stream.concat(java.util.stream.Stream.of(studyKey), additionalStudies.stream()).toList();
+        }
         public Identifier identifier() { return ResearchIds.of(id); }
     }
 
@@ -166,6 +174,10 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.scientific_analyzer_tier_2.operation"
         ),
+        machine("compact_gearbox", "mechanical_transmission", 1, () -> new ItemStack(ModItems.COMPACT_GEARBOX.get()), "metal_sheets"),
+        machine("mechanical_conveyor", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MECHANICAL_CONVEYOR.get()), "metal_sheets"),
+        machine("gravity_winch", "mechanical_transmission", 1, () -> new ItemStack(ModItems.GRAVITY_WINCH.get())),
+        machine("mainspring_drum", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MAINSPRING_DRUM.get())),
         new Chapter("galvanic_storage", "galvanic_storage", 2,
             "guidebook.quantumindustries.galvanic_storage.title",
             "guidebook.quantumindustries.galvanic_storage.subtitle",
@@ -249,6 +261,12 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.pneumatic_transport.operation"
         ),
+        machine("industrial_circuit_switch", "load_protection", 2, () -> new ItemStack(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get())),
+        machine("electromagnetic_generator", "electromagnetic_induction", 2, () -> new ItemStack(ModItems.ELECTROMAGNETIC_GENERATOR.get())),
+        machine("electric_motor", "electromechanical_forming", 2, () -> new ItemStack(ModItems.ELECTRIC_MOTOR.get())),
+        machine("steam_boiler", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.STEAM_BOILER.get()), "thermal_annealing"),
+        machine("steam_engine", "fluid_hydrostatics", 2, () -> new ItemStack(ModItems.STEAM_ENGINE.get()), "thermal_annealing"),
+        machine("thermoelectric_generator", "electric_alloy_smelting", 2, () -> new ItemStack(ModItems.THERMOELECTRIC_GENERATOR.get())),
         new Chapter("chemical_leaching", "chemical_leaching", 2,
             "guidebook.quantumindustries.chemical_leaching.title",
             "guidebook.quantumindustries.chemical_leaching.subtitle",
@@ -263,13 +281,19 @@ public final class GuidebookCatalog {
 
     static {
         for (Chapter chapter : CHAPTERS) {
-            if (chapter.studyKey() != null) {
-                Study study = ResearchCatalog.find(ResearchCatalog.identifier(chapter.studyKey()));
+            for (String required : chapter.requiredStudies()) {
+                Study study = ResearchCatalog.find(ResearchCatalog.identifier(required));
                 if (study == null) {
-                    throw new IllegalStateException("Study key '" + chapter.studyKey() + "' not found in ResearchCatalog");
+                    throw new IllegalStateException("Study key '" + required + "' not found in ResearchCatalog");
                 }
             }
         }
+    }
+
+    private static Chapter machine(String id, String study, int era, Supplier<ItemStack> icon, String... additional) {
+        String prefix = "guidebook.quantumindustries." + id + ".";
+        return new Chapter(id, study, era, prefix + "title", prefix + "subtitle", icon,
+                List.of(prefix + "paragraph_0", prefix + "paragraph_1"), prefix + "operation", List.of(additional));
     }
 
     private GuidebookCatalog() {}
