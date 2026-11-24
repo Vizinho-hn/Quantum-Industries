@@ -341,14 +341,20 @@ public final class QksRuntimeVerification {
             check(chest.getItem(0).getCount()==3,"tube does not extract invalid fuel");
             check(chest.getItem(1).getCount()<8,"tube replenishes boiler fuel");
             check(generator.energy()>0&&speed(MOTOR)>0,"electric motor drives an actual loaded generator");
-            check(conversion(HYDRO_GENERATOR).energy()>0,"hydraulic drive converts to FE");
+            var hydraulicGenerator=conversion(HYDRO_GENERATOR);
+            check(Math.abs(hydraulicGenerator.rpm())>0,"hydraulic drive spins the alternator during startup");
             check(conversion(STEAM_ENGINE).sourceCapacity()>0&&speed(STEAM_ENGINE)>0,"paid steam drives rotor");
             check(boiler.storedFluid()<1000,"boiler consumes water for steam");
             check(thermal.energy()>0,"horizontal thermal gradient generates FE");
             stoppedThermalEnergy=thermal.energy();
             put(THERMAL.east(),Blocks.AIR.defaultBlockState());
         }
-        if(ticks==100)stoppedGeneratorEnergy=generator.energy();
+        if(ticks==100){
+            // During startup the alternator spends its gross output sustaining the field.
+            var hydraulicGenerator=conversion(HYDRO_GENERATOR);
+            check(hydraulicGenerator.energy()>0,"hydraulic drive converts to FE after startup (RPM="+hydraulicGenerator.rpm()+")");
+            stoppedGeneratorEnergy=generator.energy();
+        }
         if(ticks==120){
             check(motor.sourceCapacity()==0&&generator.energy()==stoppedGeneratorEnergy,"empty motor stops generation even while coasting");
             check(boiler.storedFluid()==0&&conversion(STEAM_ENGINE).sourceCapacity()==0,"steam chain stops without water");
