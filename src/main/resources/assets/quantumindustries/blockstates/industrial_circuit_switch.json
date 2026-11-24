@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,closed=false": {
+      "model": "quantumindustries:block/industrial_circuit_switch"
+    },
+    "facing=north,closed=true": {
+      "model": "quantumindustries:block/industrial_circuit_switch_closed"
+    },
+    "facing=east,closed=false": {
+      "model": "quantumindustries:block/industrial_circuit_switch",
+      "y": 90
+    },
+    "facing=east,closed=true": {
+      "model": "quantumindustries:block/industrial_circuit_switch_closed",
+      "y": 90
+    },
+    "facing=south,closed=false": {
+      "model": "quantumindustries:block/industrial_circuit_switch",
+      "y": 180
+    },
+    "facing=south,closed=true": {
+      "model": "quantumindustries:block/industrial_circuit_switch_closed",
+      "y": 180
+    },
+    "facing=west,closed=false": {
+      "model": "quantumindustries:block/industrial_circuit_switch",
+      "y": 270
+    },
+    "facing=west,closed=true": {
+      "model": "quantumindustries:block/industrial_circuit_switch_closed",
+      "y": 270
+    }
+  }
+}
