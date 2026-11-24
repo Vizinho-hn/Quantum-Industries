@@ -1374,5 +1374,20 @@
   "guidebook.quantumindustries.glass_pipe.subtitle": "Aplicação e funcionamento",
   "guidebook.quantumindustries.glass_pipe.paragraph_0": "Duto para condução e observação do fluido, integrado à rede de tubulação.",
   "guidebook.quantumindustries.glass_pipe.paragraph_1": "Consulte os requisitos e a receita na árvore de pesquisa ou no JEI.",
-  "guidebook.quantumindustries.glass_pipe.operation": "Conecte a uma rede compatível; use a chave para configurar."
+  "guidebook.quantumindustries.glass_pipe.operation": "Conecte a uma rede compatível; use a chave para configurar.",
+  "item.quantumindustries.copper_heatsink": "Dissipador de Cobre",
+  "item.quantumindustries.aluminum_heatsink": "Dissipador de Alumínio",
+  "item.quantumindustries.thermal_fan": "Ventilador Térmico",
+  "message.quantumindustries.thermal.telemetry": " | Ambiente: %s °C | η bruta: %s%% | Líquido: %s FE/t | Dissipação: %s u/t",
+  "gui.quantumindustries.thermal.hot": "Quente: %s °C",
+  "gui.quantumindustries.thermal.cold": "Frio: %s °C",
+  "gui.quantumindustries.thermal.ambient": "Bioma: %s °C",
+  "gui.quantumindustries.thermal.efficiency": "Eficiência bruta: %s%%",
+  "gui.quantumindustries.thermal.net": "Líquido: %s FE/t",
+  "gui.quantumindustries.thermal.temperature_graph": "Temperaturas · 60 s",
+  "gui.quantumindustries.thermal.performance_graph": "Eficiência / FE · 60 s",
+  "gui.quantumindustries.thermal.modules": "Módulos térmicos",
+  "gui.quantumindustries.thermal.buffer": "Reserva: %s/480 FE",
+  "gui.quantumindustries.thermal.coolant": "Capacidade fria: %s%%",
+  "gui.quantumindustries.thermal.exchange": "Q entrada: %s | Q ambiente: %s u/t"
 }
