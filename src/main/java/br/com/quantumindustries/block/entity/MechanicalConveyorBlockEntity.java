@@ -3,6 +3,9 @@ package br.com.quantumindustries.block.entity;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ItemRouting;
 import br.com.quantumindustries.mechanical.KineticNetworkManager;
+import br.com.quantumindustries.mechanical.KineticLink;
+import java.util.ArrayList;
+import java.util.List;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import br.com.quantumindustries.research.ResearchIds;
 import br.com.quantumindustries.research.WorldResearchData;
@@ -33,6 +36,17 @@ public final class MechanicalConveyorBlockEntity extends RotationalBlockEntity i
     }
     public Direction facing() { return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING); }
     @Override public Direction.Axis axle() { return facing().getClockWise().getAxis(); }
+    @Override public List<KineticLink> kineticLinks(ServerLevel server, BlockPos pos) {
+        var links = new ArrayList<KineticLink>(super.kineticLinks(server, pos));
+        for (Direction side : List.of(facing(), facing().getOpposite())) {
+            BlockPos neighbor = pos.relative(side);
+            if (server.hasChunkAt(neighbor)
+                    && server.getBlockEntity(neighbor) instanceof MechanicalConveyorBlockEntity belt
+                    && belt.facing().getAxis() == facing().getAxis())
+                links.add(new KineticLink(neighbor, 1.0, .99));
+        }
+        return List.copyOf(links);
+    }
     @Override public boolean allowsCrank() { return false; }
     @Override public int sourceCapacity() { return 0; }
     @Override public double kineticInertia() { return .7; }
