@@ -27,7 +27,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     private final TransferBudget budget=new TransferBudget(TRANSFER);
     private String operator="";
     private boolean enabled=true;
-    private long paidTick=Long.MIN_VALUE;
+    private long paidTick=Long.MIN_VALUE, activePaidTick=Long.MIN_VALUE;
     private int lastGenerated;
     public RotaryConversionBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.ROTARY_CONVERSION_ENTITY.get(),pos,state); }
     public Kind kind() { return ((IndustrialConversionBlock)getBlockState().getBlock()).kind(); }
@@ -40,7 +40,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         return authorized();
     }
     public void toggle(Player player) {
-        if (bind(player)) { enabled=!enabled; paidTick=Long.MIN_VALUE; changed(); }
+        if (bind(player)) { enabled=!enabled; paidTick=activePaidTick=Long.MIN_VALUE; changed(); }
     }
     public Direction mechanicalFace() { return IndustrialConversionBlock.facing(getBlockState()).getClockWise(); }
     @Override public Direction.Axis axle() { return mechanicalFace().getAxis(); }
@@ -49,7 +49,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     @Override public double kineticInertia() { return kind()==Kind.STEAM_ENGINE ? 4.0 : 2.8; }
     @Override public double kineticDrag() { return .24; }
     @Override public int sourceCapacity() {
-        if (level==null || !enabled || !authorized() || level.getGameTime()!=paidTick) return 0;
+        if (level==null || !enabled || !authorized() || (level.getGameTime()!=paidTick && level.getGameTime()!=activePaidTick)) return 0;
         return kind()==Kind.MOTOR ? MOTOR_CAPACITY : kind()==Kind.STEAM_ENGINE ? STEAM_CAPACITY : 0;
     }
     @Override public int requestedLoad() {
@@ -81,6 +81,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     }
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        if (paidTick==server.getGameTime()) activePaidTick=paidTick;
         var snap=KineticNetworkManager.snapshot(server,worldPosition);
         applyKineticSnapshot(snap);
         lastGenerated=0;
@@ -116,6 +117,6 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     }
     @Override protected void loadAdditional(ValueInput in){
         super.loadAdditional(in);battery.set(Math.clamp(in.getIntOr("stored_fe",0),0,BUFFER));operator=in.getStringOr("operator","");
-        enabled=in.getBooleanOr("enabled",true);lastGenerated=Math.clamp(in.getIntOr("last_generated",0),0,GENERATOR_MAX);paidTick=Long.MIN_VALUE;
+        enabled=in.getBooleanOr("enabled",true);lastGenerated=Math.clamp(in.getIntOr("last_generated",0),0,GENERATOR_MAX);paidTick=activePaidTick=Long.MIN_VALUE;
     }
 }
