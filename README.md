@@ -420,3 +420,7 @@ Na primeira execução, o Gradle pode baixar dependências. No Linux, o script u
 `/mnt/dados/cache/quantum-gradle` quando esse volume existe e evita abrir outra
 instância do cliente do projeto. `./Jogar.sh --check` verifica os pré-requisitos
 sem abrir o Minecraft. Feche e reabra o jogo para carregar alterações no código.
+
+### Interruptor Elétrico Industrial (Era II)
+
+O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de FE, com dois terminais horizontais e limite de 64 FE por tick. Clique com a mão vazia para abrir/fechar; Shift + clique alterna entre controle manual e redstone (sinal fecha o circuito). A chave gira o eixo horizontal. Rotas alternativas de cabos continuam independentes. Pilha Voltaica (2.400 FE) e Acumulador Chumbo-Ácido (50.000 FE) possuem orçamentos agregados de carga e descarga de 48 e 256 FE/t, respectivamente, compartilhados entre conexões diretas e cabos. Integração em validação; ainda não é uma entrega final da Era II.
