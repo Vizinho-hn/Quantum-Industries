@@ -2,6 +2,28 @@
 
 **Propósito:** registrar observações verificáveis sobre Create, Oritech, Applied Energistics 2 (AE2) e Mekanism, separando **fatos do código/documentação** de **lições de design propostas** para o Quantum Industries. Não é uma licença para copiar assets, código ou APIs. Fontes consultadas em 19/11/2026; caminhos e versões podem mudar.
 
+## Como usar esta referência em qualquer sistema
+
+O resumo por mod abaixo é **somente o ponto de entrada**. Para estudar **cabos elétricos, tubos de fluidos/vidro, transporte pneumático, filtros, logística, transmissão mecânica, redes, máquinas, multiblocos, armazenamento, autocrafting, receitas, pesquisas, GUI, renderização, performance, multiplayer, compatibilidade e testes**, consultar obrigatoriamente o **[Atlas de Engenharia — Aprendizados de Outros Mods](ENGINEERING_REFERENCE_ATLAS.md)**.
+
+O atlas traz, para cada área:
+1. **Código externo inspecionado** e links diretos para classes/recursos oficiais dos quatro mods.
+2. **Código correspondente já existente no Quantum Industries**, para não reinventar o sistema.
+3. **Lições propostas**, com contratos de segurança e performance.
+4. **Matriz de QA**, casos de borda e limites da pesquisa.
+
+| Quero trabalhar em... | Começar por |
+|---|---|
+| Barramento nu, conduíte isolado, FE, perdas e vazão | [Atlas §§ 2, 3.1–3.2 e 7](ENGINEERING_REFERENCE_ATLAS.md#32-cabos-elétricos--aprendizados-específicos) |
+| Tubos de fluidos, bomba, pressão, válvula e vidro | [Atlas § 3.3](ENGINEERING_REFERENCE_ATLAS.md#33-tubos-de-fluidos-vidro-válvulas-bombas-e-gases) |
+| Tubos pneumáticos, filtros, separadores e itens | [Atlas § 3.4](ENGINEERING_REFERENCE_ATLAS.md#34-tubos-pneumáticos-funis-roteadores-e-filtros) |
+| Eixos, engrenagens, roda-d'água e transmissão | [Atlas § 3.5](ENGINEERING_REFERENCE_ATLAS.md#35-eixos-engrenagens-e-movimento) |
+| Máquinas, processos, multiblocos, estoque e autocrafting | [Atlas § 4](ENGINEERING_REFERENCE_ATLAS.md#4-contratos-de-máquinas-armazenamento-e-automação) |
+| HUD, texturas, modelos, animação e tutorial | [Atlas § 5](ENGINEERING_REFERENCE_ATLAS.md#5-interface-visual-som-documentação-e-experiência) |
+| Persistência, chunks, multiplayer, TPS e APIs | [Atlas §§ 6–7](ENGINEERING_REFERENCE_ATLAS.md#6-performance-dados-integração-e-segurança) |
+
+**Não transformar o atlas em um pacote de refatorações.** Consultar o tópico pertinente, confirmar a implementação local, testar uma mudança por vez e manter a identidade do Quantum Industries. O atlas não é prova de compatibilidade das APIs entre versões.
+
 ## Create
 
 **Fontes oficiais:** [repositório](https://github.com/Creators-of-Create/Create) · [README](https://github.com/Creators-of-Create/Create/blob/mc1.21.1/dev/README.md) · [código de cinética](https://github.com/Creators-of-Create/Create/tree/mc1.21.1/dev/src/main/java/com/simibubi/create/content/kinetics) · [assets e Ponder](https://github.com/Creators-of-Create/Create/tree/mc1.21.1/dev/src/main/resources/assets/create).

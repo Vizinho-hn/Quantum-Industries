@@ -45,6 +45,14 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
 
+## Referências técnicas entre mods — obrigatório para qualquer subsistema
+- **Antes de implementar ou refatorar cabos, tubos, energia, fluidos, itens, máquinas, mecânica, redes, armazenamento, autocrafting, pesquisas, GUIs, renderização, performance ou multiplayer**, consulte a área correspondente de **`docs/ENGINEERING_REFERENCE_ATLAS.md`**. Use `docs/MOD_REFERENCES.md` como índice das fontes Create, Oritech, AE2 e Mekanism.
+- O atlas separa **fatos verificados nos códigos externos**, **implementação já existente no Quantum Industries**, **propostas de melhoria** e **testes pendentes**. Não trate sugestões como bugs confirmados ou como requisitos obrigatórios; não reproduza arquitetura, APIs, assets ou licenças de terceiros sem justificativa.
+- Para conduítes, mantenha coerentes **topologia, permissões por face (`AUTO/PULL/PUSH/NONE`), transferência real e aparência**. Teste as seis direções, bifurcações, gargalos, múltiplas fontes/destinos, ciclos, save/reload e bordas de chunks.
+- Para energia, fluidos e itens, preserve **conservação de recursos, limites por trecho/tick, atomicidade quando aplicável, inserção parcial e ausência de duplicação**. Respeite o contrato atual de cabos sem armazenamento, as transações de fluido e os pacotes físicos dos tubos pneumáticos.
+- Para mecânica, não substituir o modelo de **UM** pelo sistema de RPM/stress do Create sem decisão de gameplay. Para redes digitais/autocrafting da Era V, documente o design e valide um protótipo antes de criar frameworks genéricos.
+- Verifique assinaturas nas dependências reais do projeto (**Minecraft 26.1.2 / NeoForge 26.1.2.125**); branches externos podem ser de outras versões. Execute testes de contrato e runtime pertinentes, e registre o que foi de fato validado.
+
 ## Quantum Kinetic System — PRs 1–3 (implementação)
 - Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.
 - O PR 1 integra `KineticDynamics` à rede mecânica via `KineticNetworkManager`, com dinâmica por componente, snapshots e sincronização de chunks. O PR 2 acrescenta engrenagens, volante, polias/correias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos, capítulos opcionais de física no Códice e `tools/verify-qks.sh`. A aceitação dedicada do PR 3 passou com `bash tools/verify-qks.sh`: fases write/read, persistência após reinício e isolamento de classes nas duas JVMs. O preview cliente verificou o HUD normal, os diagnósticos com Shift e a paginação do Códice.
