@@ -127,7 +127,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         if(field==0){generationRemainder=0;setChanged();return;}
         int gross=GeneratorModel.grossRate(speed);
         // Self-excitation is paid first. At low speed the field reserve decays.
-        if(gross<GeneratorModel.SCALE)field--;
+        if(gross<GeneratorModel.SCALE||energy()>=BUFFER)field--;
         if(energy()>=BUFFER||gross<=GeneratorModel.SCALE){generationRemainder=0;setChanged();return;}
         int scaled=GeneratorModel.netRate(speed)+generationRemainder;
         int produced=scaled/GeneratorModel.SCALE;
@@ -141,7 +141,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     }
     @Override public Component statusTitle(){return inspectTitle();}
     @Override public Component statusDetail(){
-        if(generator())return Component.translatable("message.quantumindustries.alternator.status",energy(),capacity(),Math.round(rpm()),lastGenerated,field>0?GeneratorModel.FIELD_START:excitation,GeneratorModel.FIELD_START,rotorHeat,
+        if(generator())return Component.translatable("message.quantumindustries.alternator.status",energy(),capacity(),Math.round(rpm()),lastGenerated,field>0?field:excitation,GeneratorModel.FIELD_START,rotorHeat,
                 Component.translatable("message.quantumindustries.alternator."+(thermalTrip?"overheat":!enabled?"disabled":field==0&&excitation<GeneratorModel.FIELD_START?"excitation":"ready")));
         return Component.translatable("message.quantumindustries.rotary_conversion.status",energy(),capacity(),Math.round(rpm()),lastGenerated);
     }

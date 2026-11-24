@@ -97,7 +97,24 @@ public final class FoundationRecipe extends ShapedRecipe {
 
     public static List<Preview> previews(int research) {
         String key = ResearchCatalog.STUDIES.get(research).key();
-        return Patterns.ALL.stream().filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
+        return java.util.stream.Stream.concat(Patterns.ALL.stream(), legacyPreviews().stream())
+                .filter(pattern -> pattern.study().equals(key)).map(Pattern::preview).toList();
+    }
+
+    // Preview-only: vanilla recipes retain their plank tags and crafting behavior.
+    private static List<Pattern> legacyPreviews() {
+        var p=Items.OAK_PLANKS;var i=Items.IRON_INGOT;var b=ModItems.ALLOY_INGOTS.get("bronze").get();
+        var s=ModItems.MECHANICAL_SHAFT_BLOCK.get();var g=ModItems.IRON_GEAR.get();
+        return List.of(
+            new Pattern("mechanical_transmission", ModItems.SMALL_COGWHEEL,1,3,null,p,null,i,s,i,null,p,null),
+            new Pattern("mechanical_transmission", ModItems.LARGE_COGWHEEL,1,3,p,i,p,i,ModItems.SMALL_COGWHEEL.get(),i,p,i,p),
+            new Pattern("mechanical_transmission", ModItems.IRON_FLYWHEEL,1,3,i,b,i,g,s,g,i,b,i),
+            new Pattern("mechanical_transmission", ModItems.MECHANICAL_PULLEY,1,3,b,i,b,p,s,p,b,i,b),
+            new Pattern("mechanical_transmission", ModItems.DRIVE_BELT,1,3,Items.LEATHER,Items.LEATHER,Items.LEATHER,b,null,b,Items.LEATHER,Items.LEATHER,Items.LEATHER),
+            new Pattern("hydraulic_power", ModItems.MEDIUM_WATER_WHEEL,1,3,p,i,p,p,ModItems.PRIMITIVE_WATER_WHEEL.get(),p,p,i,p),
+            new Pattern("hydraulic_power", ModItems.LARGE_WATER_WHEEL,1,3,p,i,p,b,ModItems.MEDIUM_WATER_WHEEL.get(),b,p,i,p),
+            new Pattern("conductivity", ModItems.ENERGY_INSPECTION_GOGGLES,1,3,Items.COPPER_INGOT,ModItems.COPPER_WIRE.get(),Items.COPPER_INGOT,Items.GLASS,Items.LEATHER,Items.GLASS)
+        );
     }
 
     private static List<Pattern> createPatterns() {
