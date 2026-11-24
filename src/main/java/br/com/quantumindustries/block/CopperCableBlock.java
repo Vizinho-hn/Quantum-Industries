@@ -62,7 +62,7 @@ public class CopperCableBlock extends BaseEntityBlock {
         this.insulated = insulated;
         BlockState state = this.stateDefinition.any();
         for (BooleanProperty property : PROPERTY_BY_DIRECTION.values()) {
-            state = state.setValue(property, false);
+            if (state.hasProperty(property)) state = state.setValue(property, false);
         }
         registerDefaultState(state);
     }
