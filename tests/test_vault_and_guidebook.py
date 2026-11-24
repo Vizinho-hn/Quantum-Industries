@@ -59,6 +59,11 @@ class VaultAndGuidebookTest(unittest.TestCase):
             ('steam_engine', 'fluid_hydrostatics', 2, 'STEAM_ENGINE', 'thermal_annealing'),
             ('thermoelectric_generator', 'electric_alloy_smelting', 2, 'THERMOELECTRIC_GENERATOR', None),
         ]
+        # These two machines use vanilla recipes; the Codex lesson still follows mechanical research.
+        expected.extend([
+            ('gravity_winch', 'mechanical_transmission', 1, 'GRAVITY_WINCH', None),
+            ('mainspring_drum', 'mechanical_transmission', 1, 'MAINSPRING_DRUM', None),
+        ])
         for chapter, study, era, item, extra in expected:
             suffix = f', "{extra}"' if extra else ''
             self.assertIn(f'machine("{chapter}", "{study}", {era}, () -> new ItemStack(ModItems.{item}.get()){suffix})', catalog)

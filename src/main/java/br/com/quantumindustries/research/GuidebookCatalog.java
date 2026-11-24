@@ -176,6 +176,8 @@ public final class GuidebookCatalog {
         ),
         machine("compact_gearbox", "mechanical_transmission", 1, () -> new ItemStack(ModItems.COMPACT_GEARBOX.get()), "metal_sheets"),
         machine("mechanical_conveyor", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MECHANICAL_CONVEYOR.get()), "metal_sheets"),
+        machine("gravity_winch", "mechanical_transmission", 1, () -> new ItemStack(ModItems.GRAVITY_WINCH.get())),
+        machine("mainspring_drum", "mechanical_transmission", 1, () -> new ItemStack(ModItems.MAINSPRING_DRUM.get())),
         new Chapter("galvanic_storage", "galvanic_storage", 2,
             "guidebook.quantumindustries.galvanic_storage.title",
             "guidebook.quantumindustries.galvanic_storage.subtitle",

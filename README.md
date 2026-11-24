@@ -447,4 +447,4 @@ Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a r
 
 ### Códice — máquinas das Eras I e II
 
-O Códice inclui capítulos próprios para Caixa de Transmissão Compacta, Esteira Mecânica, Interruptor Elétrico Industrial, Gerador Eletromagnético, Motor Elétrico, Caldeira, Motor a Vapor e Gerador Termoelétrico. Os capítulos exigem as pesquisas aplicáveis, inclusive Chapas Metálicas ou Recozimento Térmico quando necessário. Textos PT-BR/EN-US descrevem a operação, os limites e as portas; receitas continuam na mesa de pesquisa/JEI. Não altera pesquisas já concluídas nem dados de saves.
+O Códice inclui capítulos próprios para Caixa de Transmissão Compacta, Esteira Mecânica, Interruptor Elétrico Industrial, Gerador Eletromagnético, Motor Elétrico, Caldeira, Motor a Vapor, Gerador Termoelétrico, Guincho de Contrapeso Gravitacional e Tambor de Mola Helicoidal. Os capítulos exigem as pesquisas aplicáveis, inclusive Chapas Metálicas ou Recozimento Térmico quando necessário. Textos PT-BR/EN-US descrevem a operação, os limites e as portas; receitas continuam na mesa de pesquisa/JEI. Não altera pesquisas já concluídas nem dados de saves.
