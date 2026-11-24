@@ -106,6 +106,9 @@ public class ModItems {
                     properties));
     public static final DeferredItem<BlockItem> FORMING_BENCH = ITEMS.registerSimpleBlockItem(ModBlocks.FORMING_BENCH);
     public static final DeferredItem<BlockItem> MANUAL_GRAIN_MILL = ITEMS.registerSimpleBlockItem(ModBlocks.MANUAL_GRAIN_MILL);
+    public static final DeferredItem<Item> COPPER_HEATSINK = ITEMS.registerSimpleItem("copper_heatsink");
+    public static final DeferredItem<Item> ALUMINUM_HEATSINK = ITEMS.registerSimpleItem("aluminum_heatsink");
+    public static final DeferredItem<Item> THERMAL_FAN = ITEMS.registerSimpleItem("thermal_fan");
     public static final DeferredItem<Item> PERMANENT_MAGNET = ITEMS.registerSimpleItem("permanent_magnet");
     public static final DeferredItem<Item> LAMINATED_IRON_CORE = ITEMS.registerSimpleItem("laminated_iron_core");
     public static final DeferredItem<Item> EXCITATION_COIL = ITEMS.registerSimpleItem("excitation_coil");
