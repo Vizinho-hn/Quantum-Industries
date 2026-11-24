@@ -96,7 +96,10 @@ public final class CableNetwork {
             for (BlockPos pos : route.cables()) {
                 if (level.getBlockEntity(pos) instanceof CopperCableBlockEntity be) {
                     // Loss is charged once per route, never once per BE.
-                    be.recordTransfer(accepted, pos.equals(route.cables().getLast()) ? loss : 0, level.getGameTime());
+                    boolean first = pos.equals(route.cables().getFirst());
+                    boolean last = pos.equals(route.cables().getLast());
+                    be.recordTransfer(accepted, last ? loss : 0, level.getGameTime(),
+                            first ? taken : 0, last ? accepted : 0);
                 }
             }
         }

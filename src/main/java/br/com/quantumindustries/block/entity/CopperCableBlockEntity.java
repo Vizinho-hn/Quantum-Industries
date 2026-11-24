@@ -21,6 +21,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 /** Stateless conductor for FE; records only transient load/loss for inspection. */
 public final class CopperCableBlockEntity extends BlockEntity implements EnergyInspectable, ConfigurableConduit {
+    private final br.com.quantumindustries.energy.CableTelemetryWindow telemetry = new br.com.quantumindustries.energy.CableTelemetryWindow();
+    public br.com.quantumindustries.energy.CableTelemetryWindow.Sample completedTelemetry(long time) { return telemetry.completed(time); }
     private int flow;
     private int loss;
     private long lastFlow = Long.MIN_VALUE;
@@ -77,11 +79,15 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         return Math.max(0, capacity() - (lastFlow == time ? flow : 0));
     }
     public void recordTransfer(int amount, int dissipated, long time) {
+        recordTransfer(amount,dissipated,time,0,0);
+    }
+    public void recordTransfer(int amount, int dissipated, long time, int injected, int delivered) {
         // A junction can be part of several deliveries in one tick.
         if (lastFlow != time) { flow = 0; loss = 0; lastFlow = time; }
         if (amount > capacity() - flow) throw new IllegalStateException("Cable transfer limit exceeded");
         flow += amount;
         loss += dissipated;
+        telemetry.record(time, flow, amount, injected, delivered, dissipated);
         sync();
     }
     public void tick() {

@@ -226,6 +226,7 @@ sourceSets.test.java {
     include("**/LegacyResearchCheck.java")
     include("**/MechanicalFoundationCheck.java")
     include("**/TransferBudgetCheck.java")
+    include("**/CableTelemetryWindowCheck.java")
     include("**/ThermoelectricModelCheck.java")
     include("**/GeneratorModelCheck.java")
 }
@@ -242,6 +243,7 @@ tasks.named("check") {
     dependsOn(tasks.named("verifyLegacyResearch"))
     dependsOn(tasks.named("verifyMechanicalFoundation"))
     dependsOn(tasks.named("verifyTransferBudget"))
+    dependsOn("verifyCableTelemetryWindow")
     dependsOn("verifyThermoelectricModel")
     dependsOn("verifyGeneratorModel")
 }
@@ -274,4 +276,11 @@ tasks.register("verifyGeneratorModel", JavaExec) {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets.test.runtimeClasspath
     mainClass = "br.com.quantumindustries.energy.GeneratorModelCheck"
+}
+
+
+tasks.register("verifyCableTelemetryWindow", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.energy.CableTelemetryWindowCheck"
 }

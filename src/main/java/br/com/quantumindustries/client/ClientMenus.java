@@ -21,6 +21,7 @@ public final class ClientMenus {
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.ELECTRICAL_NETWORK_ANALYZER_MENU.get(),br.com.quantumindustries.client.gui.ElectricalNetworkAnalyzerScreen::new);
         event.register(ModMenuTypes.THERMOELECTRIC_MENU.get(), br.com.quantumindustries.client.gui.ThermoelectricScreen::new);
         event.register(ModMenuTypes.ELECTRIC_SAWMILL_MENU.get(), br.com.quantumindustries.client.gui.ElectricSawmillScreen::new);
         event.register(ModMenuTypes.ELECTRIC_ALLOY_SMELTER_MENU.get(), br.com.quantumindustries.client.gui.MachineProcessingScreen::new);

@@ -1,0 +1,959 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "atlas": "quantumindustries:block/era2_industrial_machines",
+    "particle": "quantumindustries:block/era2_industrial_machines"
+  },
+  "elements": [
+    {
+      "name": "chassis",
+      "from": [
+        1,
+        1,
+        3
+      ],
+      "to": [
+        15,
+        15,
+        13
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "front instrument bezel",
+      "from": [
+        2,
+        2,
+        2
+      ],
+      "to": [
+        14,
+        14,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "bakelite panel",
+      "from": [
+        2.5,
+        2.5,
+        1.5
+      ],
+      "to": [
+        13.5,
+        13.5,
+        2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            12.25,
+            4.25,
+            15.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "left brass bezel",
+      "from": [
+        3,
+        7,
+        1
+      ],
+      "to": [
+        7.5,
+        12,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "right brass bezel",
+      "from": [
+        8.5,
+        7,
+        1
+      ],
+      "to": [
+        13,
+        12,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "left porcelain dial",
+      "from": [
+        3.5,
+        7.5,
+        0.5
+      ],
+      "to": [
+        7,
+        11.5,
+        1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "right porcelain dial",
+      "from": [
+        9,
+        7.5,
+        0.5
+      ],
+      "to": [
+        12.5,
+        11.5,
+        1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "left needle",
+      "from": [
+        5,
+        8.5,
+        0
+      ],
+      "to": [
+        5.5,
+        11,
+        0.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "right needle",
+      "from": [
+        10.5,
+        8.5,
+        0
+      ],
+      "to": [
+        11,
+        10.5,
+        0.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            0.25,
+            0.25,
+            3.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "left switch",
+      "from": [
+        3.5,
+        3.5,
+        0.5
+      ],
+      "to": [
+        6.5,
+        5.5,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "right switch",
+      "from": [
+        9.5,
+        3.5,
+        0.5
+      ],
+      "to": [
+        12.5,
+        5.5,
+        1.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            4.25,
+            0.25,
+            7.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "rear insulator",
+      "from": [
+        5.25,
+        5.25,
+        13
+      ],
+      "to": [
+        10.75,
+        10.75,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            4.25,
+            11.75,
+            7.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    },
+    {
+      "name": "rear sensing contact",
+      "from": [
+        6,
+        6,
+        15
+      ],
+      "to": [
+        10,
+        10,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "east": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "west": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "up": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0.25,
+            11.75,
+            3.75
+          ],
+          "texture": "#atlas"
+        }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  }
+}
