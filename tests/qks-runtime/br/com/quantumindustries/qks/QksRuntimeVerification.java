@@ -48,6 +48,10 @@ public final class QksRuntimeVerification {
             HYDRO_GENERATOR=pos(160,96), BOILER=pos(176,96), STEAM_ENGINE=BOILER.north(),
             THERMAL=pos(192,96);
     private static int motorInput, stoppedGeneratorEnergy, stoppedThermalEnergy;
+    private static final BlockPos MULTI = pos(144,144);
+    private static final BlockPos[] MULTI_MOTORS = {MULTI.west(), MULTI.east()};
+    private static final BlockPos[] MULTI_GENERATORS = {MULTI.north(2), MULTI.south()};
+    private static int multiInput, multiProducedPeak;
     private static final BlockPos SPLIT = pos(0, 112), JAM = pos(0, 128);
     private static ServerLevel level;
     private static FakePlayer player;
@@ -251,6 +255,34 @@ public final class QksRuntimeVerification {
         player.setPos(THERMAL.getX()+.5,THERMAL.getY(),THERMAL.getZ()+.5);
         check(((ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL)).bind(player),"authorized thermoelectric generator");
         verifyThermalOrientations();
+        buildMultiConversion();
+    }
+    private static void buildMultiConversion() {
+        put(MULTI, ModBlocks.COMPACT_GEARBOX.get().defaultBlockState().setValue(BlockStateProperties.AXIS,Direction.Axis.Y));
+        wheel(MULTI_MOTORS[0],ModBlocks.ELECTRIC_MOTOR.get(),Direction.NORTH);
+        wheel(MULTI_MOTORS[1],ModBlocks.ELECTRIC_MOTOR.get(),Direction.SOUTH);
+        put(MULTI.north(),ModBlocks.IRON_FLYWHEEL.get().defaultBlockState().setValue(BlockStateProperties.AXIS,Direction.Axis.Z));
+        wheel(MULTI_GENERATORS[0],ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.EAST);
+        wheel(MULTI_GENERATORS[1],ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.WEST);
+        for(var pos:MULTI_MOTORS) bindConversion(pos);
+        for(var pos:MULTI_GENERATORS) {
+            bindConversion(pos);
+            multiInput += conversion(pos).receiveEnergy(24);
+        }
+    }
+    private static void verifyMultiConversion() {
+        if(ticks<=60) for(var pos:MULTI_MOTORS) multiInput+=conversion(pos).receiveEnergy(32);
+        int stored=0, generated=0;
+        for(var pos:MULTI_MOTORS) stored+=conversion(pos).energy();
+        for(var pos:MULTI_GENERATORS) {
+            var generator=conversion(pos);
+            generated+=generator.energy();
+            stored+=generator.energy()+generator.excitation();
+            check(KineticNetworkManager.claimLoadWork(level,pos)==0,"generator cannot claim solver work twice");
+        }
+        check(stored<=multiInput,"two motors, two alternators, bevel gearbox and flywheel conserve injected FE");
+        multiProducedPeak=Math.max(multiProducedPeak,generated);
+        if(ticks==160) check(multiProducedPeak>0,"multi-source fixture actually generates, not a vacuous zero-output test");
     }
     private static void verifyThermalOrientations() {
         // Isolated, freshly placed modules test both the actual block-state scan
@@ -457,6 +489,7 @@ public final class QksRuntimeVerification {
             }
             verifyConveyorConservation();
             verifyConversion();
+            verifyMultiConversion();
             if (ticks == REMOVE_AT) {
                 check(chestItems(CONVEYOR.north(2)) > 0, "powered conveyor delivers to destination");
                 stoppedBeltFraction = conveyor(CONVEYOR).fraction();
