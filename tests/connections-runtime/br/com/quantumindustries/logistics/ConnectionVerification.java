@@ -68,6 +68,7 @@ public final class ConnectionVerification {
                 verifyPumpBottomIntake();
                 setupPiezo();
                 verifyWrenchAndCapabilities();
+                verifyInstrumentalAnalysis();
                 verifyLossBudget();
                 setupSmartSmelter();
             }
@@ -280,6 +281,35 @@ public final class ConnectionVerification {
     private static ElectricAlloySmelterBlockEntity smartSmelter() {
         return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
     }
+    private static void verifyInstrumentalAnalysis() {
+        var pos = new BlockPos(1, 110, 5);
+        var sample = new ItemStack(ModItems.ALLOY_INGOTS.get("constantan").get());
+        var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profile(sample);
+        check(profile != null && profile.id().equals("constantan"), "Tier 2 recognizes alloy");
+        player.setPos(pos.getX()+.5, pos.getY(), pos.getZ()+1.5);
+        var previousMain = player.getMainHandItem().copy();
+        var previousOff = player.getOffhandItem().copy();
+        player.setItemInHand(InteractionHand.MAIN_HAND, sample);
+        player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.PAPER, 2));
+        player.setShiftKeyDown(true);
+        var hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
+        level.setBlock(pos, ModBlocks.RESEARCH_TABLE_TIER_1.get().defaultBlockState(), 3);
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(!br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, profile)
+                && player.getOffhandItem().getCount()==2, "Tier 1 cannot perform instrumental characterization");
+        player.closeContainer();
+        level.setBlock(pos, ModBlocks.RESEARCH_TABLE.get().defaultBlockState(), 3);
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, profile)
+                && player.getOffhandItem().getCount()==1 && sample.getCount()==1, "Tier 2 records analysis and uses one paper only");
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(player.getOffhandItem().getCount()==1, "known analysis is reusable");
+        player.setShiftKeyDown(false);
+        player.setItemInHand(InteractionHand.MAIN_HAND, previousMain);
+        player.setItemInHand(InteractionHand.OFF_HAND, previousOff);
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+    }
+
     private static void verifyLossBudget() {
         var origin = new BlockPos(1, 110, 2);
         level.setBlock(origin, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState(), 3);
