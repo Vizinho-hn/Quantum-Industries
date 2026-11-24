@@ -21,6 +21,12 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.CompactGearboxBlock> COMPACT_GEARBOX =
+            BLOCKS.registerBlock("compact_gearbox", br.com.quantumindustries.block.CompactGearboxBlock::new,
+                    props -> props.strength(2.2F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CompactGearboxBlockEntity>> COMPACT_GEARBOX_ENTITY =
+            BLOCK_ENTITIES.register("compact_gearbox", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.CompactGearboxBlockEntity::new, Set.of(COMPACT_GEARBOX.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.SmallCogwheelBlock> SMALL_COGWHEEL =
             BLOCKS.registerBlock("small_cogwheel", br.com.quantumindustries.block.SmallCogwheelBlock::new, p -> p.strength(2.5F).noOcclusion());
     public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.CogwheelBlockEntity>> SMALL_COGWHEEL_ENTITY =
