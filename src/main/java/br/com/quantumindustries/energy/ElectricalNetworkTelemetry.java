@@ -13,11 +13,12 @@ import java.util.*;
 public final class ElectricalNetworkTelemetry {
     public static final int RADIUS=16, MAX_NODES=128, TOP=6;
     private ElectricalNetworkTelemetry(){}
+    public record MapNode(BlockPos pos,int utilization,boolean endpoint) {}
     public record CableReading(BlockPos pos,int peak,int limit,int throughput) {}
     public record Snapshot(boolean connected,boolean partial,int cables,int endpoints,
             long stored,long capacity,int injected,int delivered,int losses,
-            int saturated,List<CableReading> busiest) {
-        public static final Snapshot EMPTY=new Snapshot(false,false,0,0,0,0,0,0,0,0,List.of());
+            int saturated,List<CableReading> busiest,List<MapNode> nodes) {
+        public static final Snapshot EMPTY=new Snapshot(false,false,0,0,0,0,0,0,0,0,List.of(),List.of());
     }
     public static Snapshot scan(ServerLevel level,BlockPos origin,BlockPos anchor){
         if(!level.hasChunkAt(anchor)||!(level.getBlockEntity(anchor) instanceof CopperCableBlockEntity))return Snapshot.EMPTY;
@@ -28,6 +29,7 @@ public final class ElectricalNetworkTelemetry {
         long stored=0,capacity=0;
         int injected=0,delivered=0,losses=0,saturated=0;
         List<CableReading> readings=new ArrayList<>();
+        List<MapNode> nodes=new ArrayList<>();
         long time=level.getGameTime();
         while(!queue.isEmpty()){
             BlockPos pos=queue.removeFirst();
@@ -37,6 +39,7 @@ public final class ElectricalNetworkTelemetry {
             int limit=be.capacity();
             if(limit>0&&sample.peakFlow()>=limit)saturated++;
             readings.add(new CableReading(pos,sample.peakFlow(),limit,sample.throughput()));
+            nodes.add(new MapNode(pos,limit<=0?0:Math.clamp(100*sample.peakFlow()/limit,0,100),false));
             for(Direction side:Direction.values()){
                 var own=ConfigurableConduit.modeAt(level,pos,side);
                 if(!own.allowsInput()&&!own.allowsOutput())continue;
@@ -54,6 +57,7 @@ public final class ElectricalNetworkTelemetry {
                     cables.add(next.immutable());queue.addLast(next.immutable());
                 }else{
                     endpoints.add(next.immutable());
+                    nodes.add(new MapNode(next.immutable(),0,true));
                     EnergyInspectable e=(EnergyInspectable)target;
                     stored+=Math.max(0,e.energy());capacity+=Math.max(0,e.capacity());
                 }
@@ -63,6 +67,6 @@ public final class ElectricalNetworkTelemetry {
                 .thenComparing(Comparator.comparingInt(CableReading::throughput).reversed())
                 .thenComparingLong(r->r.pos().asLong()));
         return new Snapshot(true,partial,cables.size(),endpoints.size(),stored,capacity,injected,delivered,losses,
-                saturated,List.copyOf(readings.subList(0,Math.min(TOP,readings.size()))));
+                saturated,List.copyOf(readings.subList(0,Math.min(TOP,readings.size()))),List.copyOf(nodes));
     }
 }
