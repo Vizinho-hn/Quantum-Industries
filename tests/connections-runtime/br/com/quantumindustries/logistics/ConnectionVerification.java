@@ -57,6 +57,7 @@ public final class ConnectionVerification {
         restart = Files.exists(Path.of("../restart-ready.txt"));
         try {
             if (restart) {
+                check(smartSmelter().automationAuthorized(), "smelter authorization survives full server restart");
                 check(conduit(ITEMS.east(2)).connectionMode(Direction.EAST) == ConnectionMode.NONE, "item exit mode survives full server restart");
                 check(tube(2).packet().getCount() == 1, "item packet survives full server restart");
                 check(pipe(2).storedFluid() == 200, "fluid survives full server restart");
@@ -69,6 +70,7 @@ public final class ConnectionVerification {
                 setupPiezo();
                 verifyWrenchAndCapabilities();
                 verifyInstrumentalAnalysis();
+                verifyProcessingAuthorization();
                 verifyLossBudget();
                 setupSmartSmelter();
             }
@@ -304,10 +306,64 @@ public final class ConnectionVerification {
                 && player.getOffhandItem().getCount()==1 && sample.getCount()==1, "Tier 2 records analysis and uses one paper only");
         level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
         check(player.getOffhandItem().getCount()==1, "known analysis is reusable");
+        var study = br.com.quantumindustries.research.ResearchCatalog.find("industrial_generation");
+        check(!WorldResearchData.get(level).evidenceSatisfied(player, study), "constantan alone does not satisfy industrial evidence");
+        player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.PAPER, 2));
+        for (var metal : new net.minecraft.world.item.Item[]{Items.COPPER_INGOT, Items.IRON_INGOT}) {
+            var ingot = new ItemStack(metal);
+            player.setItemInHand(InteractionHand.MAIN_HAND, ingot);
+            level.getBlockState(pos).useItemOn(ingot, level, player, InteractionHand.MAIN_HAND, hit);
+        }
+        check(WorldResearchData.get(level).evidenceSatisfied(player, study), "copper and iron analyses satisfy actual research evidence");
+        check(player.getOffhandItem().isEmpty(), "exactly two additional paper consumed");
         player.setShiftKeyDown(false);
         player.setItemInHand(InteractionHand.MAIN_HAND, previousMain);
         player.setItemInHand(InteractionHand.OFF_HAND, previousOff);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+    }
+
+    private static void verifyProcessingAuthorization() {
+        var guest = new FakePlayer(level, new GameProfile(UUID.fromString("cb5168a0-42a0-4925-80de-74a085a74fc2"), "ProcessingQA"));
+        guest.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var pos = new BlockPos(10, 110, 2);
+        record Fixture(net.minecraft.world.level.block.Block block, ItemStack ingredient) {}
+        var fixtures = java.util.List.of(
+            new Fixture(ModBlocks.ELECTROMECHANICAL_PRESS.get(), new ItemStack(Items.IRON_INGOT)),
+            new Fixture(ModBlocks.WIRE_DRAWING_BENCH.get(), new ItemStack(ModItems.COPPER_SHEET.get())),
+            new Fixture(ModBlocks.BELLOWS_BRAZIER.get(), new ItemStack(Items.IRON_INGOT)),
+            new Fixture(ModBlocks.SETTLING_VAT.get(), new ItemStack(Items.LAPIS_LAZULI)),
+            new Fixture(ModBlocks.MANUAL_GRAIN_MILL.get(), new ItemStack(Items.WHEAT)),
+            new Fixture(ModBlocks.JAW_CRUSHER.get(), new ItemStack(Items.RAW_COPPER)),
+            new Fixture(ModBlocks.BELLOWS_ALLOY_KILN.get(), new ItemStack(Items.COPPER_INGOT))
+        );
+        player.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+1.5);
+        guest.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+1.5);
+        for (var fixture:fixtures) {
+            level.setBlock(pos, fixture.block().defaultBlockState(), 3);
+            var be = level.getBlockEntity(pos);
+            java.util.function.Predicate<net.minecraft.world.entity.player.Player> bind = switch(be) {
+                case ElectromechanicalPressBlockEntity press -> press::bindAutomation;
+                case WireDrawingBenchBlockEntity wire -> wire::bindAutomation;
+                case BellowsBrazierBlockEntity brazier -> brazier::bindAutomation;
+                case SettlingVatBlockEntity vat -> vat::bindAutomation;
+                case ManualGrainMillBlockEntity mill -> mill::bindAutomation;
+                case JawCrusherBlockEntity jaw -> jaw::bindAutomation;
+                case BellowsAlloyKilnBlockEntity kiln -> kiln::bindAutomation;
+                default -> throw new AssertionError("unexpected processing fixture");
+            };
+            WorldResearchData.get(level).clearAll(guest);
+            ItemStack item=fixture.ingredient().copy();
+            check(!bind.test(guest), "guest without research cannot bind");
+            check(!ItemRouting.insert(level,pos,item,Direction.NORTH)&&item.getCount()==1,"unbound machine rejects item unchanged");
+            WorldResearchData.get(level).unlockAll(guest);
+            check(bind.test(guest), "qualified operator binds");
+            check(ItemRouting.insert(level,pos,item,Direction.NORTH)&&item.isEmpty(),"authorized item routing");
+            WorldResearchData.get(level).clearAll(guest);
+            var second=fixture.ingredient().copy();
+            check(!ItemRouting.insert(level,pos,second,Direction.NORTH)&&second.getCount()==1,"revoked operator pauses insertion");
+            check(bind.test(player),"qualified second player can recover automation");
+            level.setBlock(pos,Blocks.AIR.defaultBlockState(),3);
+        }
     }
 
     private static void verifyLossBudget() {
