@@ -21,7 +21,12 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import br.com.quantumindustries.recipe.FoundationRecipe;
 import br.com.quantumindustries.recipe.ResearchCraftingAccess;
+import br.com.quantumindustries.research.ResearchCatalog;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.CraftingMenu;
 import br.com.quantumindustries.research.ResearchIds;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -258,13 +263,47 @@ public final class QksRuntimeVerification {
                 "ungated vanilla cogwheel recipe is gone");
         check(ResearchCraftingAccess.asCrafter(player, () -> cogwheel.matches(grid, level)),
                 "authorized foundation craft accepts birch planks");
-        key = ResourceKey.create(Registries.RECIPE, ResearchIds.of("sulfuric_acid"));
-        var acid = (CraftingRecipe) recipeManager.byKey(key).orElseThrow().value();
-        var acidGrid = CraftingInput.of(3, 1, List.of(new ItemStack(ModItems.GALVANIC_ELECTROLYTE.get()),
-                new ItemStack(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get()), new ItemStack(Items.GLASS_BOTTLE)));
-        check(ResearchCraftingAccess.asCrafter(player, () -> acid.matches(acidGrid, level))
-                && acid.getRemainingItems(acidGrid).getFirst().is(Items.GLASS_BOTTLE),
-                "acid conversion requires one empty bottle and returns the input electrolyte bottle");
+        verifyBottleCraft(pos.east(), guest, "galvanic_storage", ModItems.SULFURIC_ACID.get(), 1);
+        verifyBottleCraft(pos.east(), guest, "galvanic_storage", ModItems.LEAD_ACID_ACCUMULATOR.get(), 1);
+        verifyBottleCraft(pos.east(), guest, "chemical_leaching", ModItems.PHOSPHATE_FERTILIZER.get(), 4);
+    }
+
+    private static void verifyBottleCraft(BlockPos pos, FakePlayer guest, String study,
+            net.minecraft.world.item.Item result, int expectedBottles) {
+        var preview = FoundationRecipe.previews(ResearchCatalog.indexOf(study)).stream()
+                .filter(candidate -> candidate.output().is(result)).findFirst().orElseThrow();
+        put(pos, Blocks.CRAFTING_TABLE.defaultBlockState());
+        guest.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 1.5);
+        player.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 1.5);
+        var guestMenu = bottleCraftingMenu(pos, guest, preview);
+        check(guestMenu.getResultSlot().getItem().isEmpty(), "research still blocks " + result);
+        guest.containerMenu = guest.inventoryMenu;
+
+        int bottlesBefore = player.getInventory().countItem(Items.GLASS_BOTTLE);
+        var menu = bottleCraftingMenu(pos, player, preview);
+        check(menu.getResultSlot().getItem().is(result), "researched player can craft " + result);
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        check(menu.getCarried().is(result), "player takes real crafting result " + result);
+        int returned = player.getInventory().countItem(Items.GLASS_BOTTLE) - bottlesBefore;
+        for (var slot : menu.getInputGridSlots()) {
+            if (slot.getItem().is(Items.GLASS_BOTTLE)) returned += slot.getItem().getCount();
+            else check(slot.getItem().isEmpty(), "all ingredients consumed for " + result);
+        }
+        check(returned == expectedBottles, result + " returns " + expectedBottles + " empty bottles, got " + returned);
+        menu.removed(player);
+        player.containerMenu = player.inventoryMenu;
+        put(pos, Blocks.AIR.defaultBlockState());
+    }
+
+    private static CraftingMenu bottleCraftingMenu(BlockPos pos, FakePlayer crafter, FoundationRecipe.Preview preview) {
+        var menu = new CraftingMenu(1, crafter.getInventory(), ContainerLevelAccess.create(level, pos));
+        crafter.containerMenu = menu;
+        var slots = menu.getInputGridSlots();
+        for (int i = 0; i < preview.ingredients().size(); i++) {
+            slots.get(i / preview.width() * 3 + i % preview.width()).set(preview.ingredients().get(i).copy());
+        }
+        menu.slotsChanged(slots.getFirst().container);
+        return menu;
     }
 
     private static void stageSaw(BlockPos pos) {
