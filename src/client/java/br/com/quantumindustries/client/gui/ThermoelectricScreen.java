@@ -41,6 +41,7 @@ public final class ThermoelectricScreen extends AbstractContainerScreen<Thermoel
     @Override public void extractContents(GuiGraphicsExtractor g,int mx,int my,float pt){
         box(g,0,0,328,238,0xFF14161A);box(g,1,1,326,236,0xFF9D6945);box(g,3,3,322,232,0xFF292E37);
         box(g,8,8,312,17,0xFF15191F);text(g,title,14,12,0xFFF4DCB9);
+        text(g,Component.literal("ΔT: "+Math.max(0,menu.value(1)-menu.value(2))+" K"),240,12,FG);
         text(g,tr("hot",menu.value(1)),14,29,HOT);
         text(g,tr("cold",menu.value(2)),117,29,COLD);
         text(g,tr("ambient",menu.value(3)),218,29,FG);
@@ -54,7 +55,7 @@ public final class ThermoelectricScreen extends AbstractContainerScreen<Thermoel
         text(g,Component.literal("-60 / 300 C"),14,108,FG);
         text(g,Component.literal("0-100% | -4/+6 FE/t"),171,108,FG);
         for(var slot:menu.slots){box(g,slot.x-1,slot.y-1,18,18,0xFF8C98A7);box(g,slot.x,slot.y,16,16,0xFF171C23);}
-        text(g,tr("modules"),14,116,FG);
+        text(g,tr("modules"),14,115,FG);
         text(g,tr("buffer",menu.value(0)),101,123,FG);
         text(g,tr("coolant",menu.value(6)),218,123,COLD);
         text(g,tr("exchange",menu.value(8),menu.value(9)),101,135,FG);
