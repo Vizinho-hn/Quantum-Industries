@@ -149,6 +149,7 @@ public final class KineticNetworkManager {
         runtime.components.remove(pos);
         runtime.snapshots.remove(pos);
         runtime.sent.remove(pos);
+        runtime.loadWork.remove(pos);
     }
     public static KineticSnapshot snapshot(ServerLevel level, BlockPos pos) {
         var runtime = LEVELS.computeIfAbsent(level, ignored -> new LevelRuntime());
@@ -180,7 +181,7 @@ public final class KineticNetworkManager {
         boolean freshTick = runtime.time != now;
         boolean rebuildAll = freshTick || runtime.dirty;
         if (freshTick) { runtime.loadWork.clear(); runtime.claimedWork.clear(); }
-        else if (runtime.dirty) runtime.loadWork.clear();
+        // A topology refresh in the same tick must not erase work already performed by another network.
         runtime.time = now;
         runtime.dirty = false;
         runtime.active.removeIf(pos -> !level.hasChunkAt(pos)
@@ -241,7 +242,7 @@ public final class KineticNetworkManager {
                 if (needsStep && m.powered() && initial.omega() * m.omega() > 0) {
                     double work = localResistance.getOrDefault(pos, 0.0) * Math.abs(r)
                             * Math.min(Math.abs(initial.omega()), Math.abs(m.omega())) * STEP_SECONDS;
-                    if (!runtime.claimedWork.contains(pos)) runtime.loadWork.put(pos, Math.max(0, work));
+                    if (!runtime.claimedWork.contains(pos)) runtime.loadWork.putIfAbsent(pos, Math.max(0, work));
                 }
                 var snap = new KineticSnapshot(component.id, component.version, runtime.time,
                         KineticDynamics.wrap(m.unwrappedAngle() * r), m.omega() * r, m.alpha() * r,
