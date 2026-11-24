@@ -89,6 +89,12 @@ public class CopperCableBlock extends BaseEntityBlock {
         for (Direction direction : Direction.values()) {
             BlockPos neighbor = pos.relative(direction);
             boolean loaded = !(level instanceof Level world) || world.hasChunkAt(neighbor);
+            // A sensing contact is visual only; the analyzer is not an energy endpoint.
+            if (loaded && level.getBlockState(neighbor).getBlock() instanceof ElectricalNetworkAnalyzerBlock
+                    && level.getBlockState(neighbor).getValue(BlockStateProperties.FACING) == direction) {
+                base = base.setValue(PROPERTY_BY_DIRECTION.get(direction), true);
+                continue;
+            }
             boolean connected = loaded && (level.getBlockState(neighbor).getBlock() instanceof CopperCableBlock
                     || (isMachine(level, neighbor) && br.com.quantumindustries.energy.EnergyPorts.connects(
                             level.getBlockState(neighbor), direction.getOpposite())));
