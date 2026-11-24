@@ -611,7 +611,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             if (tab == 1 && !notebook && instrumentalPage && x >= 158 && x < 553 && y >= 108 && y < 290) {
                 int row = (int)((y - 108) / 13);
                 if (row < br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size() && !menu.instrumentalKnown(row)) {
-                    var mode = minecraft.gameMode;
+                    var mode = Minecraft.getInstance().gameMode;
                     if (mode != null) mode.handleInventoryButtonClick(menu.containerId, ResearchTableMenu.INSTRUMENTAL_ANALYZE + row);
                 }
                 return true;
