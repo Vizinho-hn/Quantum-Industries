@@ -43,7 +43,6 @@ public final class IndustrialCircuitSwitchBlock extends CopperCableBlock {
     }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
         builder.add(BlockStateProperties.HORIZONTAL_FACING, CLOSED, REDSTONE_CONTROLLED);
     }
 
