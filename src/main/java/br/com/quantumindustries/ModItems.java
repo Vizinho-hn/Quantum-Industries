@@ -22,6 +22,7 @@ public class ModItems {
     public static final DeferredItem<BlockItem> THERMOELECTRIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.THERMOELECTRIC_GENERATOR);
     public static final DeferredItem<BlockItem> MECHANICAL_CONVEYOR = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_CONVEYOR);
     public static final DeferredItem<BlockItem> COMPACT_GEARBOX = ITEMS.registerSimpleBlockItem(ModBlocks.COMPACT_GEARBOX);
+    public static final DeferredItem<BlockItem> ELECTRICAL_NETWORK_ANALYZER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRICAL_NETWORK_ANALYZER);
     public static final DeferredItem<BlockItem> INDUSTRIAL_CIRCUIT_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH);
     public static final DeferredItem<BlockItem> SMALL_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.SMALL_COGWHEEL);
     public static final DeferredItem<BlockItem> LARGE_COGWHEEL = ITEMS.registerSimpleBlockItem(ModBlocks.LARGE_COGWHEEL);
