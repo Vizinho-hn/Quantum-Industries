@@ -85,9 +85,7 @@ public final class BellowsBrazierBlock extends BaseEntityBlock {
             op.sendOverlayMessage(Component.translatable("message.quantumindustries.brazier.need_heat"));
             return InteractionResult.SUCCESS;
         }
-        boolean isFlux = ModItems.CHEMICAL_PRODUCTS.containsKey("fluorite")
-                && stack.is(ModItems.CHEMICAL_PRODUCTS.get("fluorite").get());
-        if (isFlux || br.com.quantumindustries.material.HeatTreatment.canHeat(stack)) {
+        if (br.com.quantumindustries.material.HeatTreatment.canHeat(stack)) {
             if (be.insert(stack)) {
                 server.playSound(null, pos, SoundEvents.METAL_PLACE, SoundSource.BLOCKS, 0.45f, 1.1f);
                 op.sendOverlayMessage(be.statusDetail());
