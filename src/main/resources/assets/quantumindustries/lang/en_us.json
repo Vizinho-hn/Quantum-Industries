@@ -1137,5 +1137,7 @@
   "gui.quantumindustries.electric_sawmill.state.4": "Invalid material",
   "gui.quantumindustries.electric_sawmill.state.5": "Research required",
   "gui.quantumindustries.electric_sawmill.logistics": "Input %s | Output %s",
-  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%"
+  "gui.quantumindustries.electric_sawmill.inspect": "%s · %s · %s%%",
+  "block.quantumindustries.compact_gearbox": "Compact Gearbox",
+  "item.quantumindustries.compact_gearbox": "Compact Gearbox"
 }
