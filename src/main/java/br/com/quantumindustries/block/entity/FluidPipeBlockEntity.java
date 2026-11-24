@@ -99,7 +99,7 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
             BlockPos sourcePos = worldPosition.relative(side);
             if (!server.hasChunkAt(sourcePos) || server.getBlockEntity(sourcePos) instanceof FluidPipeBlockEntity) continue;
             var source = FluidTransfer.handler(server, sourcePos, side.getOpposite());
-            int moved = FluidTransfer.move(source, tank, MAX_RATE);
+            int moved = source==null?FluidTransfer.drawRenewableWater(server,sourcePos,tank,MAX_RATE):FluidTransfer.move(source, tank, MAX_RATE);
             if (moved <= 0) continue;
             lastFlow = moved;
             lastFlowTime = server.getGameTime();

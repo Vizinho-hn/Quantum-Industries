@@ -121,3 +121,5 @@ Uma fase não deve avançar apenas porque os blocos existem. Os sistemas centrai
 - [ ] Validar gerenciamento térmico (Era II): dissipadores, ventilador pago, inventário persistente, refrigeração em biomas frios/quentes, gráficos, renderização e QA cliente/servidor.
 - [ ] Evolução térmica: trocadores de calor, circuito líquido e criogenia; calor de fontes finitas e rede térmica compartilhada.
 - [ ] Validar conversão da Era II: gerador eletromagnético, motor elétrico, caldeira, motor a vapor e gerador termoelétrico; verificar autorização, conservação, portas, persistência, modelos e uso em survival. Steam inicialmente interno/adjacente; tubulação de vapor registrada é evolução futura.
+
+- [x] Correção local dos registros ausentes das máquinas industriais, esteira, caixa de engrenagens e chave de circuito; build novamente funcional.

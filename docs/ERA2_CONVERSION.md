@@ -29,3 +29,5 @@ Com JEI instalado, pressione **U** sobre o Gerador Termoelétrico. A tabela comp
 ### Alternador e dínamo
 
 Curvas de jogo, não grandezas SI: dínamo por eixo cresce de 0 a 1,5 FE/t entre 0–12 RPM; manivela preservada. Alternador bruto cresce de 0 a 9 FE/t entre 12–50 RPM, mantém 9 até 60 RPM e decresce até zero a 90 RPM. Desconta 1 FE/t de excitação. Campo inicial exige 24 FE externos; a reserva de campo decai quando não sustentada. O calor cresce acima de 65 RPM e desarma a 100, com retorno a 40. O buffer e a carga dinâmica usam o sistema FE/QKS existente. CA e frequência são conceituais; não há rede CA separada. IDs existentes preservados.
+
+A caldeira é destino de ItemRouting: consulta de capacidade/combustível sem mutação, rejeição da face frontal, inserção apenas de carvão ou carvão vegetal após autorização. A entrada de água é uma capacidade de inserção exclusiva. Dutos em Puxar podem captar água de fonte renovável ao nível ou acima; a bomba pode captar uma fonte renovável e pressurizar dutos para elevação. O vapor não entra na rede de água.
