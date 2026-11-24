@@ -37,6 +37,13 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
                 .setValue(BlockStateProperties.LIT, false));
     }
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof WireDrawingBenchBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(WireDrawingBenchBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -63,6 +70,7 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
         if (!(server.getBlockEntity(pos) instanceof WireDrawingBenchBlockEntity be)) return InteractionResult.SUCCESS;
+        if (!be.bindAutomation(player)) return InteractionResult.SUCCESS;
         if (stack.is(ModItems.HAND_CRANK.get())) {
             if (be.manualStroke()) {
                 server.playSound(null, pos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.35f, 1.35f);
@@ -81,6 +89,7 @@ public final class WireDrawingBenchBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && server.getBlockEntity(pos) instanceof WireDrawingBenchBlockEntity be) {
+            be.bindAutomation(player);
             ItemStack result = be.take(player.isShiftKeyDown());
             if (!result.isEmpty()) player.getInventory().placeItemBackInInventory(result);
             else if (player instanceof ServerPlayer op) op.sendOverlayMessage(be.inspectDetail());

@@ -36,10 +36,12 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
     public static final int REPORT_DEPOSIT = ResearchCatalog.STUDIES.size();
     public static final int REPORT_WITHDRAW = REPORT_DEPOSIT + 3;
     public static final int REPORT_WRITE = REPORT_WITHDRAW + 3;
+    public static final int INSTRUMENTAL_ANALYZE = REPORT_WRITE + ResearchCatalog.STUDIES.size();
     private static final Item[] SUPPLIES = {Items.BLACK_DYE, Items.FEATHER, Items.PAPER};
 
     private static final int EVIDENCE_OFFSET = 3 + 2 * ResearchCatalog.STUDIES.size();
-    public static final int DATA_SIZE = EVIDENCE_OFFSET + ResearchCatalog.STUDIES.size();
+    private static final int INSTRUMENTAL_OFFSET = EVIDENCE_OFFSET + ResearchCatalog.STUDIES.size();
+    public static final int DATA_SIZE = INSTRUMENTAL_OFFSET + br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size();
     private final ResearchTableBlockEntity entity;
     private final ContainerData data;
     private final ContainerLevelAccess levelAccess;
@@ -59,6 +61,11 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
                 if (!(inventory.player.level() instanceof ServerLevel server)) return data.get(index);
                 if (index < 3) return entity == null ? 0 : entity.reportSupplies().getItem(index).getCount();
                 WorldResearchData research = WorldResearchData.get(server);
+                if (index >= INSTRUMENTAL_OFFSET) {
+                    if (entity == null || !entity.getBlockState().is(ModBlocks.RESEARCH_TABLE.get())) return 0;
+                    var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().get(index - INSTRUMENTAL_OFFSET);
+                    return br.com.quantumindustries.assay.InstrumentalAnalysis.known(inventory.player, profile) ? 1 : 0;
+                }
                 if (index >= EVIDENCE_OFFSET) {
                     var study = ResearchCatalog.STUDIES.get(index - EVIDENCE_OFFSET);
                     int mask = 0;
@@ -125,6 +132,8 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         if (id >= REPORT_WRITE && id < REPORT_WRITE + ResearchCatalog.STUDIES.size()) {
             return writeReport(player, research, id - REPORT_WRITE);
         }
+        if (id >= INSTRUMENTAL_ANALYZE && id < INSTRUMENTAL_ANALYZE + br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size())
+            return analyzeInstrumental(player, research, id - INSTRUMENTAL_ANALYZE);
         if (!ResearchCatalog.valid(id)) return false;
         var study = ResearchCatalog.STUDIES.get(id);
         if (isTierOne() && study.era() > 1) return false;
@@ -139,6 +148,41 @@ public final class ResearchTableMenu extends AbstractContainerMenu implements IC
         }
         broadcastChanges();
         return true;
+    }
+
+    private boolean analyzeInstrumental(Player player, WorldResearchData research, int index) {
+        if (entity == null || isTierOne() || !(player instanceof net.minecraft.server.level.ServerPlayer operator)
+                || !player.mayBuild() || !((ServerLevel)player.level()).mayInteract(player, entity.getBlockPos())
+                || !research.knows(player, "scientific_analyzer_tier_2")) return false;
+        var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().get(index);
+        if (br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, profile)) return false;
+        Inventory inventory = player.getInventory();
+        boolean sample = false;
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (profile.equals(br.com.quantumindustries.assay.InstrumentalAnalysis.profile(inventory.getItem(slot)))) {
+                sample = true; break;
+            }
+        }
+        if (!sample) {
+            operator.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.quantumindustries.instrumental.sample"));
+            return false;
+        }
+        SpendPlan payment = prepareSpend(inventory, new Cost(Items.PAPER, 1));
+        if (!player.getAbilities().instabuild && (payment == null || !payment.commit())) {
+            operator.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.quantumindustries.instrumental.inventory_paper"));
+            return false;
+        }
+        if (!br.com.quantumindustries.assay.InstrumentalAnalysis.record(operator, profile)) {
+            if (payment != null) payment.rollback();
+            return false;
+        }
+        broadcastChanges();
+        return true;
+    }
+
+    public boolean instrumentalKnown(int index) {
+        return !isTierOne() && index >= 0 && index < br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size()
+                && data.get(INSTRUMENTAL_OFFSET + index) != 0;
     }
 
     public int supply(int index) { return data.get(index); }

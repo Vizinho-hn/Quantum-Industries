@@ -34,6 +34,13 @@ public final class ManualGrainMillBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof ManualGrainMillBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() {
         return simpleCodec(ManualGrainMillBlock::new);
     }
@@ -64,6 +71,7 @@ public final class ManualGrainMillBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
         if (server.getBlockEntity(pos) instanceof ManualGrainMillBlockEntity mill) {
+            if (!mill.bindAutomation(player)) return InteractionResult.SUCCESS;
             boolean ok = stack.is(Items.WHEAT) ? mill.insert(stack) : mill.stroke();
             operator.sendOverlayMessage(ok ? mill.status()
                     : Component.translatable("gui.quantumindustries.grain_mill.help"));
@@ -75,10 +83,11 @@ public final class ManualGrainMillBlock extends BaseEntityBlock {
             Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && player instanceof ServerPlayer operator
                 && server.getBlockEntity(pos) instanceof ManualGrainMillBlockEntity mill) {
+            mill.bindAutomation(player);
             if (player.isShiftKeyDown()) {
                 ItemStack taken = mill.take();
                 if (!taken.isEmpty()) player.getInventory().placeItemBackInInventory(taken);
-            } else {
+            } else if (mill.bindAutomation(player)) {
                 mill.stroke();
             }
             operator.sendOverlayMessage(mill.status());

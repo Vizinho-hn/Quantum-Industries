@@ -57,6 +57,7 @@ public final class ConnectionVerification {
         restart = Files.exists(Path.of("../restart-ready.txt"));
         try {
             if (restart) {
+                check(smartSmelter().automationAuthorized(), "smelter authorization survives full server restart");
                 check(conduit(ITEMS.east(2)).connectionMode(Direction.EAST) == ConnectionMode.NONE, "item exit mode survives full server restart");
                 check(tube(2).packet().getCount() == 1, "item packet survives full server restart");
                 check(pipe(2).storedFluid() == 200, "fluid survives full server restart");
@@ -68,6 +69,9 @@ public final class ConnectionVerification {
                 verifyPumpBottomIntake();
                 setupPiezo();
                 verifyWrenchAndCapabilities();
+                verifyInstrumentalAnalysis();
+                verifyProcessingAuthorization();
+                verifyLossBudget();
                 setupSmartSmelter();
             }
             active = true;
@@ -279,6 +283,127 @@ public final class ConnectionVerification {
     private static ElectricAlloySmelterBlockEntity smartSmelter() {
         return (ElectricAlloySmelterBlockEntity) level.getBlockEntity(SMART.east(4));
     }
+    private static void verifyInstrumentalAnalysis() {
+        var pos = new BlockPos(1, 110, 5);
+        var sample = new ItemStack(ModItems.ALLOY_INGOTS.get("constantan").get());
+        var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profile(sample);
+        check(profile != null && profile.id().equals("constantan"), "Tier 2 recognizes alloy");
+        player.setPos(pos.getX()+.5, pos.getY(), pos.getZ()+1.5);
+        var previousMain = player.getMainHandItem().copy();
+        var previousOff = player.getOffhandItem().copy();
+        player.setItemInHand(InteractionHand.MAIN_HAND, sample);
+        player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.PAPER, 2));
+        player.setShiftKeyDown(true);
+        var hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
+        level.setBlock(pos, ModBlocks.RESEARCH_TABLE_TIER_1.get().defaultBlockState(), 3);
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(!br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, profile)
+                && player.getOffhandItem().getCount()==2, "Tier 1 cannot perform instrumental characterization");
+        player.closeContainer();
+        level.setBlock(pos, ModBlocks.RESEARCH_TABLE.get().defaultBlockState(), 3);
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(br.com.quantumindustries.assay.InstrumentalAnalysis.known(player, profile)
+                && player.getOffhandItem().getCount()==1 && sample.getCount()==1, "Tier 2 records analysis and uses one paper only");
+        level.getBlockState(pos).useItemOn(sample, level, player, InteractionHand.MAIN_HAND, hit);
+        check(player.getOffhandItem().getCount()==1, "known analysis is reusable");
+        var study = br.com.quantumindustries.research.ResearchCatalog.find("industrial_generation");
+        check(!WorldResearchData.get(level).evidenceSatisfied(player, study), "constantan alone does not satisfy industrial evidence");
+        player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.PAPER, 2));
+        for (var metal : new net.minecraft.world.item.Item[]{Items.COPPER_INGOT, Items.IRON_INGOT}) {
+            var ingot = new ItemStack(metal);
+            player.setItemInHand(InteractionHand.MAIN_HAND, ingot);
+            level.getBlockState(pos).useItemOn(ingot, level, player, InteractionHand.MAIN_HAND, hit);
+        }
+        check(WorldResearchData.get(level).evidenceSatisfied(player, study), "copper and iron analyses satisfy actual research evidence");
+        check(player.getOffhandItem().isEmpty(), "exactly two additional paper consumed");
+        player.setShiftKeyDown(false);
+        int goldIndex = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().indexOf(
+                br.com.quantumindustries.assay.InstrumentalAnalysis.profile(new ItemStack(Items.GOLD_INGOT)));
+        var entity = (ResearchTableBlockEntity) level.getBlockEntity(pos);
+        var menu = new br.com.quantumindustries.menu.ResearchTableMenu(9010, player.getInventory(), entity,
+                new net.minecraft.world.inventory.SimpleContainerData(br.com.quantumindustries.menu.ResearchTableMenu.DATA_SIZE));
+        player.containerMenu = menu;
+        int action = br.com.quantumindustries.menu.ResearchTableMenu.INSTRUMENTAL_ANALYZE + goldIndex;
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
+        check(!menu.clickMenuButton(player,action),"GUI requires a paper");
+        player.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(Items.PAPER,2));
+        check(menu.clickMenuButton(player,action)&&menu.instrumentalKnown(goldIndex),"real research menu records analysis");
+        check(player.getMainHandItem().getCount()==1&&player.getOffhandItem().getCount()==1,"menu preserves sample and spends one paper");
+        check(!menu.clickMenuButton(player,action)&&player.getOffhandItem().getCount()==1,"repeat GUI action is free and idempotent");
+        player.closeContainer();
+        player.setItemInHand(InteractionHand.MAIN_HAND, previousMain);
+        player.setItemInHand(InteractionHand.OFF_HAND, previousOff);
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+    }
+
+    private static void verifyProcessingAuthorization() {
+        var guest = new FakePlayer(level, new GameProfile(UUID.fromString("cb5168a0-42a0-4925-80de-74a085a74fc2"), "ProcessingQA"));
+        guest.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var pos = new BlockPos(10, 110, 2);
+        record Fixture(net.minecraft.world.level.block.Block block, ItemStack ingredient) {}
+        var fixtures = java.util.List.of(
+            new Fixture(ModBlocks.ELECTROMECHANICAL_PRESS.get(), new ItemStack(Items.IRON_INGOT)),
+            new Fixture(ModBlocks.WIRE_DRAWING_BENCH.get(), new ItemStack(ModItems.COPPER_SHEET.get())),
+            new Fixture(ModBlocks.BELLOWS_BRAZIER.get(), new ItemStack(Items.IRON_INGOT)),
+            new Fixture(ModBlocks.SETTLING_VAT.get(), new ItemStack(Items.LAPIS_LAZULI)),
+            new Fixture(ModBlocks.MANUAL_GRAIN_MILL.get(), new ItemStack(Items.WHEAT)),
+            new Fixture(ModBlocks.JAW_CRUSHER.get(), new ItemStack(Items.RAW_COPPER)),
+            new Fixture(ModBlocks.BELLOWS_ALLOY_KILN.get(), new ItemStack(Items.COPPER_INGOT))
+        );
+        player.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+1.5);
+        guest.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+1.5);
+        for (var fixture:fixtures) {
+            level.setBlock(pos, fixture.block().defaultBlockState(), 3);
+            var be = level.getBlockEntity(pos);
+            java.util.function.Predicate<net.minecraft.world.entity.player.Player> bind = switch(be) {
+                case ElectromechanicalPressBlockEntity press -> press::bindAutomation;
+                case WireDrawingBenchBlockEntity wire -> wire::bindAutomation;
+                case BellowsBrazierBlockEntity brazier -> brazier::bindAutomation;
+                case SettlingVatBlockEntity vat -> vat::bindAutomation;
+                case ManualGrainMillBlockEntity mill -> mill::bindAutomation;
+                case JawCrusherBlockEntity jaw -> jaw::bindAutomation;
+                case BellowsAlloyKilnBlockEntity kiln -> kiln::bindAutomation;
+                default -> throw new AssertionError("unexpected processing fixture");
+            };
+            WorldResearchData.get(level).clearAll(guest);
+            ItemStack item=fixture.ingredient().copy();
+            check(!bind.test(guest), "guest without research cannot bind");
+            check(!ItemRouting.insert(level,pos,item,Direction.NORTH)&&item.getCount()==1,"unbound machine rejects item unchanged");
+            WorldResearchData.get(level).unlockAll(guest);
+            check(bind.test(guest), "qualified operator binds");
+            check(ItemRouting.insert(level,pos,item,Direction.NORTH)&&item.isEmpty(),"authorized item routing");
+            WorldResearchData.get(level).clearAll(guest);
+            var second=fixture.ingredient().copy();
+            check(!ItemRouting.insert(level,pos,second,Direction.NORTH)&&second.getCount()==1,"revoked operator pauses insertion");
+            check(bind.test(player),"qualified second player can recover automation");
+            level.setBlock(pos,Blocks.AIR.defaultBlockState(),3);
+        }
+    }
+
+    private static void verifyLossBudget() {
+        var origin = new BlockPos(1, 110, 2);
+        level.setBlock(origin, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState(), 3);
+        level.setBlock(origin.east(5), ModBlocks.VOLTAIC_PILE.get().defaultBlockState(), 3);
+        for (int x = 1; x <= 4; x++) {
+            level.setBlock(origin.east(x), ModBlocks.COPPER_BUSBAR.get().defaultBlockState(), 3);
+            for (Direction side : Direction.values()) mode(origin.east(x), side, ConnectionMode.NONE);
+            mode(origin.east(x), Direction.WEST, ConnectionMode.PULL);
+            mode(origin.east(x), Direction.EAST, ConnectionMode.PUSH);
+        }
+        var source = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(origin);
+        var target = (VoltaicPileBlockEntity) level.getBlockEntity(origin.east(5));
+        source.setStoredEnergy(64);
+        br.com.quantumindustries.energy.CableNetwork.transfer(level, origin, source::energy, source::extractEnergy, 64);
+        check(source.energy() == 32 && target.energy() == 31, "lossy route conserves FE: 32 extracted = 31 delivered + 1 lost");
+        for (int x = 1; x <= 4; x++) {
+            var cable = (CopperCableBlockEntity) level.getBlockEntity(origin.east(x));
+            check(cable.availableThisTick(level.getGameTime()) == 0, "loss counts against every cable throughput limit");
+        }
+        br.com.quantumindustries.energy.CableNetwork.transfer(level, origin, source::energy, source::extractEnergy, 64);
+        check(source.energy() == 32 && target.energy() == 31, "second transfer in same tick cannot exceed bare cable limit");
+        for (int x = 0; x <= 5; x++) level.setBlock(origin.east(x), Blocks.AIR.defaultBlockState(), 3);
+    }
+
     private static void setupSmartSmelter() {
         for (int i = 0; i <= 4; i++) level.setBlock(SMART.east(i), Blocks.AIR.defaultBlockState(), 3);
         level.setBlock(SMART, Blocks.CHEST.defaultBlockState(), 3);
@@ -291,6 +416,14 @@ public final class ConnectionVerification {
         }
         var source = (ChestBlockEntity) level.getBlockEntity(SMART);
         var machine = smartSmelter();
+        var probe = new ItemStack(Items.COPPER_INGOT);
+        check(!machine.insertIngredient(probe) && probe.getCount() == 1, "unbound automation does not consume material");
+        var guest = new FakePlayer(level, new GameProfile(UUID.fromString("bd7932cb-0472-4dda-997f-0e6a98116c18"), "UnauthorizedQA"));
+        guest.gameMode.changeGameModeForPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        guest.setPos(SMART.east(4).getX()+.5, SMART.getY(), SMART.getZ()+1.5);
+        check(!machine.bindAutomation(guest), "unresearched player cannot authorize smelter");
+        player.setPos(SMART.east(4).getX()+.5, SMART.getY(), SMART.getZ()+1.5);
+        check(machine.bindAutomation(player), "researched player authorizes automation");
         var copper = new ItemStack(Items.COPPER_INGOT, 16);
         while (!copper.isEmpty()) check(machine.insertIngredient(copper), "stage copper capacity");
         check(!machine.canInsertIngredient(new ItemStack(Items.COPPER_INGOT)), "full copper cannot use the second slot");

@@ -37,6 +37,13 @@ public final class BellowsAlloyKilnBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof BellowsAlloyKilnBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(BellowsAlloyKilnBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
@@ -74,6 +81,7 @@ public final class BellowsAlloyKilnBlock extends BaseEntityBlock {
         }
 
         if (server.getBlockEntity(pos) instanceof BellowsAlloyKilnBlockEntity kiln) {
+            if (!kiln.bindAutomation(player)) return InteractionResult.SUCCESS;
             if (isBellows) {
                 if (kiln.puff()) {
                     server.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.35f, 1.1f);
@@ -92,6 +100,7 @@ public final class BellowsAlloyKilnBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && server.getBlockEntity(pos) instanceof BellowsAlloyKilnBlockEntity kiln) {
+            kiln.bindAutomation(player);
             ItemStack taken = kiln.take(player.isShiftKeyDown());
             if (!taken.isEmpty()) {
                 player.getInventory().placeItemBackInInventory(taken);

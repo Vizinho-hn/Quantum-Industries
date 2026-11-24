@@ -43,6 +43,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private boolean canvasDragged;
     private final Inventory inventory;
     private int tab;
+    private boolean instrumentalPage;
     private int selected = ResearchCatalog.indexOf("material_observation");
     private int selectedReport = -1;
 
@@ -178,7 +179,8 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 pagination(g, reportPage, pageCount(ENTRIES.length));
             } else {
                 text(g, tr("gui.quantumindustries.text.knowledge_base"), 155, 77, CYAN);
-                knowledgeBase(g);
+                if (!notebook) reportButton(g, 405, 71, 147, tr(instrumentalPage ? "gui.quantumindustries.text.knowledge_base" : "gui.quantumindustries.instrumental.title"), true);
+                if (!notebook && instrumentalPage) instrumentalTable(g); else knowledgeBase(g);
             }
             footer(g, states[selected], icon(selected));
             if (notebook) theme.binding(g);
@@ -468,6 +470,26 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         }
     }
 
+    private void instrumentalTable(GuiGraphicsExtractor g) {
+        var profiles = br.com.quantumindustries.assay.InstrumentalAnalysis.profiles();
+        text(g, tr("gui.quantumindustries.instrumental.material"), 163, 94, MUTED);
+        text(g, tr("gui.quantumindustries.instrumental.conductivity"), 315, 94, MUTED);
+        text(g, tr("gui.quantumindustries.instrumental.hardness"), 398, 94, MUTED);
+        text(g, tr("gui.quantumindustries.instrumental.stability"), 466, 94, MUTED);
+        for (int i = 0; i < profiles.size(); i++) {
+            var p = profiles.get(i);
+            int y = 108 + i * 13;
+            theme.fill(g, 158, y, 553, y + 12, i % 2 == 0 ? PANEL : DARK);
+            boolean known = menu.instrumentalKnown(i);
+            clipped(g, tr("gui.quantumindustries.instrumental.material." + p.id()), 163, y + 2, 145, known ? TEXT : MUTED);
+            text(g, known ? Integer.toString(p.conductivity()) : "?", 335, y + 2, known ? CYAN : MUTED);
+            text(g, known ? Integer.toString(p.hardness()) : "?", 418, y + 2, known ? CYAN : MUTED);
+            text(g, known ? Integer.toString(p.thermalStability()) : "?", 490, y + 2, known ? CYAN : MUTED);
+        }
+        clipped(g, tr("gui.quantumindustries.instrumental.hint"), 163, 298, 386, MUTED);
+        clipped(g, tr("gui.quantumindustries.instrumental.scale"), 163, 310, 386, MUTED);
+    }
+
     private void knowledgeBase(GuiGraphicsExtractor g) {
         int y = 100;
         for (var branch : ResearchCatalog.ERA_ONE_BRANCHES) {
@@ -581,6 +603,18 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                     tab = i;
                     return true;
                 }
+            }
+            if (tab == 1 && !notebook && x >= 405 && x < 552 && y >= 71 && y < 90) {
+                instrumentalPage = !instrumentalPage;
+                return true;
+            }
+            if (tab == 1 && !notebook && instrumentalPage && x >= 158 && x < 553 && y >= 108 && y < 290) {
+                int row = (int)((y - 108) / 13);
+                if (row < br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size() && !menu.instrumentalKnown(row)) {
+                    var mode = Minecraft.getInstance().gameMode;
+                    if (mode != null) mode.handleInventoryButtonClick(menu.containerId, ResearchTableMenu.INSTRUMENTAL_ANALYZE + row);
+                }
+                return true;
             }
             if ((tab == 2 || tab == 3) && y >= 71 && y < 90 && (x >= 420 && x < 448 || x >= 516 && x < 544)) {
                 int step = x < 448 ? -1 : 1;

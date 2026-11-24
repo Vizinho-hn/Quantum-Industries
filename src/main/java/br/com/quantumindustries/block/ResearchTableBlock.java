@@ -82,6 +82,24 @@ public class ResearchTableBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (hand == InteractionHand.MAIN_HAND && player.isShiftKeyDown()
+                && state.is(ModBlocks.RESEARCH_TABLE.get())) {
+            var profile = br.com.quantumindustries.assay.InstrumentalAnalysis.profile(itemStack);
+            if (profile != null) {
+                if (level instanceof net.minecraft.server.level.ServerLevel server
+                        && player instanceof net.minecraft.server.level.ServerPlayer op
+                        && player.mayBuild() && server.mayInteract(player, pos)) {
+                    if (br.com.quantumindustries.research.WorldResearchData.get(server)
+                            .knows(player, "scientific_analyzer_tier_2")) {
+                        br.com.quantumindustries.assay.InstrumentalAnalysis.analyze(op, itemStack, profile);
+                    } else {
+                        op.sendOverlayMessage(net.minecraft.network.chat.Component.translatable(
+                                "message.quantumindustries.instrumental.research"));
+                    }
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
         if (hand == InteractionHand.MAIN_HAND && itemStack.is(net.minecraft.world.item.Items.FEATHER)
                 && br.com.quantumindustries.assay.AssayCatalog.material(player.getOffhandItem()) != null) {
             if (level instanceof net.minecraft.server.level.ServerLevel server) {

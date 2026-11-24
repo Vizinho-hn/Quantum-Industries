@@ -36,6 +36,13 @@ public final class ElectricAlloySmelterBlock extends BaseEntityBlock {
                 .setValue(BlockStateProperties.LIT, false));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof ElectricAlloySmelterBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(ElectricAlloySmelterBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
@@ -81,6 +88,7 @@ public final class ElectricAlloySmelterBlock extends BaseEntityBlock {
                 || !(server.getBlockEntity(pos) instanceof ElectricAlloySmelterBlockEntity smelter)) {
             return InteractionResult.SUCCESS;
         }
+        smelter.bindAutomation(player);
         op.openMenu(new net.minecraft.world.SimpleMenuProvider(
                 (id, inventory, owner) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inventory, pos, false),
                 Component.translatable("block.quantumindustries.electric_alloy_smelter")), pos);

@@ -98,7 +98,7 @@ public final class CableNetwork {
                     // Loss is charged once per route, never once per BE.
                     boolean first = pos.equals(route.cables().getFirst());
                     boolean last = pos.equals(route.cables().getLast());
-                    be.recordTransfer(accepted, last ? loss : 0, level.getGameTime(),
+                    be.recordTransfer(taken, last ? loss : 0, level.getGameTime(),
                             first ? taken : 0, last ? accepted : 0);
                 }
             }

@@ -25,6 +25,19 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 /** Thermal annealing brazier heated by a heat source placed directly underneath (fire, campfire, magma, lava, or lit furnace). */
 public final class BellowsBrazierBlockEntity extends BlockEntity implements MachineStatusInspectable {
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "thermal_annealing");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "thermal_annealing")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     public static final int HEATING_TICKS = 60;
     private static final int MAX_HEAT = 300;
     private int heat, progress;
@@ -106,6 +119,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     }
 
     public boolean insert(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel) || !output.isEmpty()) return false;
         if (!input.isEmpty() || !HeatTreatment.canHeat(stack)) return false;
         input = stack.copyWithCount(1);
@@ -116,6 +130,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
 
     /** Optional manual bellows blast when heated from below: accelerates current annealing by +20 ticks. */
     public boolean puff() {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel server) || !isLit() || server.getGameTime() - lastPuff < 10) return false;
         lastPuff = server.getGameTime();
         heat = Math.min(MAX_HEAT, Math.max(heat, 100) + 100);
@@ -168,7 +183,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
             return;
         }
 
-        if (!input.isEmpty() && output.isEmpty()) {
+        if (automationAuthorized() && !input.isEmpty() && output.isEmpty()) {
             int step = belowHeat >= 2 || heat > 180 ? 2 : 1;
             progress += step;
             if (server.getGameTime() % 6 == 0) {
@@ -197,7 +212,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     }
 
     @Override protected void saveAdditional(ValueOutput out) {
-        super.saveAdditional(out);
+        super.saveAdditional(out); out.putString("automation_operator", automationOperator);
         out.putInt("heat", heat);
         out.putInt("progress", progress);
         out.putLong("last_puff", lastPuff);
@@ -206,7 +221,7 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     }
 
     @Override protected void loadAdditional(ValueInput in) {
-        super.loadAdditional(in);
+        super.loadAdditional(in); automationOperator = in.getStringOr("automation_operator", "");
         heat = Math.clamp(in.getIntOr("heat", 0), 0, MAX_HEAT);
         progress = Math.clamp(in.getIntOr("progress", 0), 0, HEATING_TICKS);
         lastPuff = in.getLongOr("last_puff", -10);

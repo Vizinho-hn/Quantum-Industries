@@ -106,7 +106,7 @@ public final class ElectricSawmillBlockEntity extends BlockEntity
         || p.level() != level
         || p.distanceToSqr(worldPosition.getCenter()) > 64
         || !WorldResearchData.get(s).knows(p, "electric_wood_processing")) return false;
-    if (owner.isEmpty()) {
+    if (owner.isEmpty() || !WorldResearchData.get(s).knows(owner, ResearchIds.of("electric_wood_processing"))) {
       owner = p.getUUID().toString();
       changed();
     }
