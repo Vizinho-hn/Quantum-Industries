@@ -122,3 +122,7 @@ The server inspection registry dispatches mechanical requests to `MechanicalInsp
 ## 8. On-demand hydraulic contribution inspection
 
 `HydraulicInspection` and its dedicated request/reply codec expose immutable samples retained by the existing wheel evaluation. Details are allocated only on inspection and remain separate from the basic `InspectionSnapshot` wire format. Effective contributions sum to local hydraulic drive after primitive saturation or rim normalization; network load, friction and equivalent inertia retain their existing QKS ownership. [Protocol, units, validation and six in-game captures](HYDRAULIC_INSPECTION.md).
+
+### Compact gearbox extension (validation pending)
+
+`MechanicalParticipant.kineticPortRatio` maps each mechanical face to its local generalized rotor, default +1 for legacy nodes. An axial link has signed ratio `ownPort / neighborPort`; `kineticPortEfficiency` multiplies both endpoint factors. The gearbox enables two perpendicular axes at once, with ratios +1 and -1 and 0.98 per port. The excluded axis is the persisted blockstate `AXIS`. Its own inertia and drag are added exactly once by the existing solver; capacity is shared. No changes to snapshot fields or world IDs.
