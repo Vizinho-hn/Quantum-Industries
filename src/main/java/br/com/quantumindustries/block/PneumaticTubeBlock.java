@@ -75,7 +75,7 @@ public final class PneumaticTubeBlock extends BaseEntityBlock {
         for (Direction direction : Direction.values()) {
             BlockPos neighbor = pos.relative(direction);
             boolean loaded = !(level instanceof Level world) || world.hasChunkAt(neighbor);
-            boolean connected = loaded && canConnect(level, neighbor);
+            boolean connected = loaded && canConnect(level, neighbor, direction.getOpposite());
             if (connected) {
                 var ownMode = ConfigurableConduit.modeAt(level, pos, direction);
                 var otherMode = ConfigurableConduit.modeAt(level, neighbor, direction.getOpposite());
@@ -87,8 +87,11 @@ public final class PneumaticTubeBlock extends BaseEntityBlock {
         return base;
     }
 
-    private static boolean canConnect(BlockGetter level, BlockPos neighbor) {
-        Block block = level.getBlockState(neighbor).getBlock();
+    private static boolean canConnect(BlockGetter level, BlockPos neighbor, Direction face) {
+        var state=level.getBlockState(neighbor);
+        Block block = state.getBlock();
+        if(block instanceof IndustrialConversionBlock conversion && conversion.kind()==IndustrialConversionBlock.Kind.BOILER)
+            return face!=IndustrialConversionBlock.facing(state);
         return block instanceof PneumaticTubeBlock
                 || block instanceof GravitationalSorterBlock
                 || block instanceof BellowsEjectorBlock

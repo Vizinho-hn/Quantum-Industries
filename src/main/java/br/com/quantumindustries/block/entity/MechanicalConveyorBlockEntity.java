@@ -93,6 +93,7 @@ public final class MechanicalConveyorBlockEntity extends RotationalBlockEntity i
     private boolean permitted(BlockEntity be) {
         return vanillaInventory(be) || be instanceof MechanicalSawmillBlockEntity
                 || be instanceof JawCrusherBlockEntity && knows("mineral_beneficiation")
+                || be instanceof SteamBoilerBlockEntity && knows("fluid_hydrostatics") && knows("thermal_annealing")
                 || be instanceof PneumaticTubeBlockEntity && knows("pneumatic_transport");
     }
     public void tick() {

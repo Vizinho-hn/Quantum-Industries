@@ -14,6 +14,26 @@ public final class FluidTransfer {
     public static ResourceHandler<FluidResource> handler(ServerLevel level, BlockPos pos, Direction side) {
         return level.hasChunkAt(pos) ? level.getCapability(Capabilities.Fluid.BLOCK, pos, side) : null;
     }
+    public static boolean renewableWater(net.minecraft.world.level.BlockGetter level, BlockPos pos) {
+        var water=level.getFluidState(pos);
+        if(!water.is(net.minecraft.tags.FluidTags.WATER)||!water.isSource())return false;
+        int neighbors=0;
+        for(Direction side:new Direction[]{Direction.NORTH,Direction.SOUTH,Direction.EAST,Direction.WEST}){
+            BlockPos next=pos.relative(side);
+            if(level instanceof net.minecraft.world.level.Level world&&!world.hasChunkAt(next))continue;
+            var adjacent=level.getFluidState(next);
+            if(adjacent.is(net.minecraft.tags.FluidTags.WATER)&&adjacent.isSource())neighbors++;
+        }
+        return neighbors>=2;
+    }
+    public static int drawRenewableWater(ServerLevel level,BlockPos pos,ResourceHandler<FluidResource> target,int limit){
+        if(target==null||limit<=0||!level.hasChunkAt(pos)||!renewableWater(level,pos))return 0;
+        try(var tx=Transaction.openRoot()){
+            int inserted=target.insert(FluidResource.of(net.minecraft.world.level.material.Fluids.WATER),limit,tx);
+            if(inserted>0)tx.commit();
+            return inserted;
+        }
+    }
     public static int move(ResourceHandler<FluidResource> source, ResourceHandler<FluidResource> target, int limit) {
         if(source==null||target==null||source==target||limit<=0)return 0;
         for(int slot=0;slot<source.size();slot++){
