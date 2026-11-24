@@ -82,15 +82,18 @@ public final class VoltaicPileBlockEntity extends BlockEntity implements EnergyI
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
                         || target instanceof JawCrusherBlockEntity
-                        || target instanceof ElectricSawmillBlockEntity);
+                        || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor());
         for (Direction dir : Direction.values()) {
             if (energy() <= 0 || transferBudget.extractRemaining(server.getGameTime()) <= 0) break;
             if (server.hasChunkAt(worldPosition.relative(dir))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(dir)), dir.getOpposite())
                     && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity
                             || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity
                             || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity
-                            || target instanceof ElectricSawmillBlockEntity)) {
+                            || target instanceof ElectricSawmillBlockEntity
+                        || target instanceof RotaryConversionBlockEntity rotor && rotor.isMotor())) {
                 int available = Math.min(transferBudget.extractRemaining(server.getGameTime()), energy());
                 int accepted = target.receiveEnergy(available);
                 if (accepted > 0) extractEnergy(accepted);

@@ -434,3 +434,13 @@ O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de F
 ### Esteira Mecânica (Era I)
 
 `mechanical_conveyor` transporta uma unidade de item por segmento, movida pelo QKS. Ligue um eixo perpendicular à direção da esteira e alinhe segmentos horizontalmente. A rotação define velocidade e sentido; uma saída obstruída retém a carga. A interação vincula um operador com Transmissão Mecânica; clique com o item para inserir e agache com a mão vazia para retirar. Baús, barris, funis e máquinas compatíveis podem servir de entrada/saída, respeitando pesquisas. A carga e sua posição são persistidas; o renderizador mostra o item em trânsito. A geometria da correia é estática nesta implementação inicial. Validação em jogo pendente.
+
+### Conversão energética industrial (Era II)
+
+- **Gerador Eletromagnético:** usa 12 UM de carga do QKS e produz até 8 FE/t em função da velocidade; buffer de 1.200 FE. Eixo à direita e terminal elétrico à esquerda da face frontal.
+- **Motor Elétrico:** recebe FE pelo terminal esquerdo e produz até 18 UM no eixo direito, pagando 24 FE/t antecipadamente. Shift + clique com mão vazia desativa ou reativa.
+- **Caldeira a Vapor:** água (4.000 mB) por balde ou tubulação e carvão/carvão vegetal; converte 10 mB/t em 10 unidades de vapor, com buffer de 2.000 unidades e 160 ticks úteis por combustível. Vapor interno, entregue apenas ao motor adjacente na frente, sem misturar vapor e água em tubulações.
+- **Motor a Vapor:** entrada traseira conectada à saída da caldeira; consome 10 unidades de vapor/t antes de fornecer até 24 UM no eixo direito.
+- **Gerador Termoelétrico:** fonte quente embaixo e água/gelo em cima; produz 1–3 FE/t, com reserva de 480 FE e saída frontal. Taxas são valores de balanceamento, não medidas termodinâmicas reais.
+
+Os equipamentos usam pesquisas existentes, vínculo persistente de operador, a rede elétrica e o QKS. Não introduzem um sistema de energia paralelo. Os modelos são editáveis no Blockbench; revisão visual, testes de servidor e balanceamento permanecem necessários.

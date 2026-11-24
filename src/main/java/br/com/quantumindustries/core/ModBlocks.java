@@ -21,6 +21,23 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTROMAGNETIC_GENERATOR =
+            BLOCKS.registerBlock("electromagnetic_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.GENERATOR), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTRIC_MOTOR =
+            BLOCKS.registerBlock("electric_motor", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.MOTOR), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_BOILER =
+            BLOCKS.registerBlock("steam_boiler", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.BOILER), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_ENGINE =
+            BLOCKS.registerBlock("steam_engine", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.STEAM_ENGINE), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> THERMOELECTRIC_GENERATOR =
+            BLOCKS.registerBlock("thermoelectric_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.THERMOELECTRIC), props -> props.strength(3.0F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.RotaryConversionBlockEntity>> ROTARY_CONVERSION_ENTITY =
+            BLOCK_ENTITIES.register("rotary_conversion", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.RotaryConversionBlockEntity::new, Set.of(ELECTROMAGNETIC_GENERATOR.get(), ELECTRIC_MOTOR.get(), STEAM_ENGINE.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.SteamBoilerBlockEntity>> STEAM_BOILER_ENTITY =
+            BLOCK_ENTITIES.register("steam_boiler", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.SteamBoilerBlockEntity::new, Set.of(STEAM_BOILER.get()), false));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity>> THERMOELECTRIC_GENERATOR_ENTITY =
+            BLOCK_ENTITIES.register("thermoelectric_generator", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity::new, Set.of(THERMOELECTRIC_GENERATOR.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.MechanicalConveyorBlock> MECHANICAL_CONVEYOR =
             BLOCKS.registerBlock("mechanical_conveyor", br.com.quantumindustries.block.MechanicalConveyorBlock::new,
                     props -> props.strength(1.8F).noOcclusion());

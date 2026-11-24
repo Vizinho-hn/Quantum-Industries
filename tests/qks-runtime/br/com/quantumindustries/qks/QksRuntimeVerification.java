@@ -44,6 +44,10 @@ public final class QksRuntimeVerification {
     private static final BlockPos COAST = pos(0, 80), DYNAMO_WHEEL = pos(0, 96), DYNAMO = DYNAMO_WHEEL.east(2);
     private static final BlockPos GEARBOX = pos(96, 128), CONVEYOR = pos(112, 128);
     private static double stoppedBeltFraction;
+    private static final BlockPos MOTOR=pos(160,80), CONVERSION_GENERATOR=MOTOR.east(2),
+            HYDRO_GENERATOR=pos(160,96), BOILER=pos(176,96), STEAM_ENGINE=BOILER.north(),
+            THERMAL=pos(192,96);
+    private static int motorInput, stoppedGeneratorEnergy, stoppedThermalEnergy;
     private static final BlockPos SPLIT = pos(0, 112), JAM = pos(0, 128);
     private static ServerLevel level;
     private static FakePlayer player;
@@ -202,10 +206,72 @@ public final class QksRuntimeVerification {
         put(CONVEYOR.south(), Blocks.CHEST.defaultBlockState());
         put(CONVEYOR.north(2), Blocks.CHEST.defaultBlockState());
         chest(CONVEYOR.south()).setItem(0, new ItemStack(Items.OAK_LOG, 3));
+        buildConversion();
         refreshWater();
         verifyRims();
         MechanicalNetwork.invalidate(level);
     }
+    private static RotaryConversionBlockEntity conversion(BlockPos pos) {
+        return (RotaryConversionBlockEntity)level.getBlockEntity(pos);
+    }
+    private static void bindConversion(BlockPos pos) {
+        player.setPos(pos.getX()+.5,pos.getY(),pos.getZ()+.5);
+        check(conversion(pos).bind(player),"authorized rotary conversion "+pos);
+    }
+    private static void buildConversion() {
+        wheel(MOTOR,ModBlocks.ELECTRIC_MOTOR.get(),Direction.NORTH);
+        axial(MOTOR.east(),ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
+        wheel(CONVERSION_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.SOUTH);
+        bindConversion(MOTOR);bindConversion(CONVERSION_GENERATOR);
+        check(conversion(MOTOR).sourceCapacity()==0,"unpaid motor adds no torque");
+        check(conversion(CONVERSION_GENERATOR).receiveEnergy(100)==0,"generator is not an electrical sink");
+        wheel(HYDRO_GENERATOR,ModBlocks.ELECTROMAGNETIC_GENERATOR.get(),Direction.NORTH);
+        wheel(HYDRO_GENERATOR.east(),ModBlocks.PRIMITIVE_WATER_WHEEL.get(),Direction.EAST);
+        feed(HYDRO_GENERATOR.east(),Direction.EAST,1);
+        bindConversion(HYDRO_GENERATOR);
+        wheel(BOILER,ModBlocks.STEAM_BOILER.get(),Direction.NORTH);
+        wheel(STEAM_ENGINE,ModBlocks.STEAM_ENGINE.get(),Direction.NORTH);
+        bindConversion(STEAM_ENGINE);
+        var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(BOILER);
+        player.setPos(BOILER.getX()+.5,BOILER.getY(),BOILER.getZ()+.5);
+        check(boiler.bind(player),"authorized boiler");
+        var coal=new ItemStack(Items.COAL);
+        check(boiler.addFuel(coal)&&coal.isEmpty(),"boiler reserves one actual fuel");
+        try(var tx=net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()){
+            check(boiler.tank().insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(
+                net.minecraft.world.level.material.Fluids.WATER),1000,tx)==1000,"boiler receives one bucket");
+            tx.commit();
+        }
+        check(boiler.takeSteam(10,Direction.NORTH)==0,"empty steam cannot be extracted");
+        wheel(THERMAL,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
+        put(THERMAL.below(),Blocks.MAGMA_BLOCK.defaultBlockState());
+        put(THERMAL.above(),Blocks.PACKED_ICE.defaultBlockState());
+        player.setPos(THERMAL.getX()+.5,THERMAL.getY(),THERMAL.getZ()+.5);
+        check(((ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL)).bind(player),"authorized thermoelectric generator");
+    }
+    private static void verifyConversion() {
+        var motor=conversion(MOTOR);var generator=conversion(CONVERSION_GENERATOR);
+        var thermal=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL);
+        var boiler=(SteamBoilerBlockEntity)level.getBlockEntity(BOILER);
+        if(ticks<=20) motorInput+=motor.receiveEnergy(64);
+        check(motor.energy()+generator.energy()<=motorInput,"motor-generator cycle never manufactures FE");
+        if(ticks==20){
+            check(generator.energy()>0&&speed(MOTOR)>0,"electric motor drives an actual loaded generator");
+            check(conversion(HYDRO_GENERATOR).energy()>0,"hydraulic drive converts to FE");
+            check(conversion(STEAM_ENGINE).sourceCapacity()>0&&speed(STEAM_ENGINE)>0,"paid steam drives rotor");
+            check(boiler.storedFluid()<1000,"boiler consumes water for steam");
+            check(thermal.energy()>0,"thermal gradient generates FE");
+            stoppedThermalEnergy=thermal.energy();
+            put(THERMAL.above(),Blocks.AIR.defaultBlockState());
+        }
+        if(ticks==100)stoppedGeneratorEnergy=generator.energy();
+        if(ticks==120){
+            check(motor.sourceCapacity()==0&&generator.energy()==stoppedGeneratorEnergy,"empty motor stops generation even while coasting");
+            check(boiler.storedFluid()==0&&conversion(STEAM_ENGINE).sourceCapacity()==0,"steam chain stops without water");
+            check(thermal.energy()==stoppedThermalEnergy,"no gradient produces no new FE");
+        }
+    }
+
     private static void belt(BlockPos a, BlockPos b, boolean crossed) {
         axial(a, ModBlocks.MECHANICAL_PULLEY.get()); axial(b, ModBlocks.MECHANICAL_PULLEY.get());
         check(MechanicalPulleyBlockEntity.validAlignment(a, b, Direction.Axis.X), "belt alignment");
@@ -300,6 +366,7 @@ public final class QksRuntimeVerification {
                 previousReverse = now;
             }
             verifyConveyorConservation();
+            verifyConversion();
             if (ticks == REMOVE_AT) {
                 check(chestItems(CONVEYOR.north(2)) > 0, "powered conveyor delivers to destination");
                 stoppedBeltFraction = conveyor(CONVEYOR).fraction();

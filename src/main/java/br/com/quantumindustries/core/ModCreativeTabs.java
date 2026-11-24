@@ -70,6 +70,11 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.PIEZO_SWITCH.get());
                     output.accept(ModItems.LOAD_RELAY.get());
                     output.accept(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get());
+                    output.accept(ModItems.ELECTROMAGNETIC_GENERATOR.get());
+                    output.accept(ModItems.ELECTRIC_MOTOR.get());
+                    output.accept(ModItems.STEAM_BOILER.get());
+                    output.accept(ModItems.STEAM_ENGINE.get());
+                    output.accept(ModItems.THERMOELECTRIC_GENERATOR.get());
                     output.accept(ModItems.PNEUMATIC_TUBE.get());
                     output.accept(ModItems.BELLOWS_EJECTOR.get());
                     output.accept(ModItems.GRAVITATIONAL_SORTER.get());

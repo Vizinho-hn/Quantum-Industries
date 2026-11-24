@@ -46,6 +46,7 @@ public final class FoundationRecipe extends ShapedRecipe {
     private record Pattern(String study, DeferredItem<?> output, int count, int width, ItemLike... cells) {
         String id() { return output.getId().getPath(); }
         List<String> requirements() {
+            if (id().equals("steam_boiler") || id().equals("steam_engine")) return List.of(study, "thermal_annealing");
             return (id().equals("mechanical_sawmill") || id().equals("compact_gearbox") || id().equals("mechanical_conveyor")) ? List.of(study, "metal_sheets") : List.of(study);
         }
 
@@ -205,6 +206,26 @@ public final class FoundationRecipe extends ShapedRecipe {
                 ModItems.LEAD_SHEET.get(), insulated, ModItems.COPPER_SHEET.get(),
                 plank, ModItems.GALVANIC_ELECTROLYTE.get(), plank,
                 ModItems.LEAD_SHEET.get(), coil, sheet),
+            new Pattern("electromagnetic_induction", ModItems.ELECTROMAGNETIC_GENERATOR, 1, 3,
+                sheet, coil, sheet,
+                shaft, ModItems.MANUAL_DYNAMO.get(), gear,
+                insulated, coil, insulated),
+            new Pattern("electromechanical_forming", ModItems.ELECTRIC_MOTOR, 1, 3,
+                sheet, coil, sheet,
+                shaft, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), coil,
+                insulated, ModItems.ELECTROMECHANICAL_FRAME.get(), insulated),
+            new Pattern("fluid_hydrostatics", ModItems.STEAM_BOILER, 1, 3,
+                ModItems.COPPER_SHEET.get(), ModItems.FLUID_PIPE.get(), ModItems.COPPER_SHEET.get(),
+                sheet, Items.CAULDRON, sheet,
+                ModItems.REFRACTORY_BRICK.get(), Items.FURNACE, ModItems.REFRACTORY_BRICK.get()),
+            new Pattern("fluid_hydrostatics", ModItems.STEAM_ENGINE, 1, 3,
+                sheet, Items.PISTON, sheet,
+                ModItems.FLUID_PIPE.get(), ModItems.PRIMITIVE_MECHANICAL_CORE.get(), shaft,
+                sheet, ModItems.BRONZE_GEAR.get(), sheet),
+            new Pattern("electric_alloy_smelting", ModItems.THERMOELECTRIC_GENERATOR, 1, 3,
+                ModItems.COPPER_SHEET.get(), ModItems.CONSTANTAN_WIRE.get(), ModItems.COPPER_SHEET.get(),
+                insulated, ModItems.CONSTANTAN_COIL.get(), insulated,
+                ModItems.REFRACTORY_BRICK.get(), sheet, ModItems.REFRACTORY_BRICK.get()),
             new Pattern("electromechanical_forming", ModItems.ELECTROMECHANICAL_PRESS, 1, 3,
                 sheet, coil, sheet,
                 gear, ModItems.PRIMITIVE_MECHANICAL_CORE.get(), shaft,

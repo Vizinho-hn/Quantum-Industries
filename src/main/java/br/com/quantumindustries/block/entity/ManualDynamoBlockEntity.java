@@ -221,6 +221,7 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
             if (!br.com.quantumindustries.energy.EnergyPorts.connects(getBlockState(), dir)) continue;
             if (energy() <= 0) break;
             if (server.hasChunkAt(worldPosition.relative(dir))
+                    && br.com.quantumindustries.energy.EnergyPorts.connects(server.getBlockState(worldPosition.relative(dir)), dir.getOpposite())
                     && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && !(target instanceof ManualDynamoBlockEntity)) {
                 int available = Math.min(MAX_EXTRACT, energy());

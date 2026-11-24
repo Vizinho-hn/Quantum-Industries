@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/steam_boiler"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/steam_boiler",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/steam_boiler",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/steam_boiler",
+      "y": 270
+    }
+  }
+}

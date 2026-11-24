@@ -117,3 +117,5 @@ Uma fase não deve avançar apenas porque os blocos existem. Os sistemas centrai
 
 
 - [ ] Validar Caixa de Transmissão Compacta em todas as orientações, transmissão 1:1, perdas, divisão de carga e persistência. Validar também esteira logística: transporte, reversão, bloqueio, conservação e persistência.
+
+- [ ] Validar conversão da Era II: gerador eletromagnético, motor elétrico, caldeira, motor a vapor e gerador termoelétrico; verificar autorização, conservação, portas, persistência, modelos e uso em survival. Steam inicialmente interno/adjacente; tubulação de vapor registrada é evolução futura.

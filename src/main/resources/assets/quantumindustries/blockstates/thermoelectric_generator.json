@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "quantumindustries:block/thermoelectric_generator"
+    },
+    "facing=east": {
+      "model": "quantumindustries:block/thermoelectric_generator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "quantumindustries:block/thermoelectric_generator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "quantumindustries:block/thermoelectric_generator",
+      "y": 270
+    }
+  }
+}
