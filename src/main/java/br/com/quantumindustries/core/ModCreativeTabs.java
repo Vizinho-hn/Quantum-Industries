@@ -48,6 +48,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.PRIMITIVE_WATER_WHEEL.get());
                     output.accept(ModItems.SMALL_COGWHEEL.get());
                     output.accept(ModItems.COMPACT_GEARBOX.get());
+                    output.accept(ModItems.MECHANICAL_CONVEYOR.get());
                     output.accept(ModItems.LARGE_COGWHEEL.get());
                     output.accept(ModItems.IRON_FLYWHEEL.get());
                     output.accept(ModItems.MECHANICAL_PULLEY.get());
