@@ -420,3 +420,7 @@ Na primeira execução, o Gradle pode baixar dependências. No Linux, o script u
 `/mnt/dados/cache/quantum-gradle` quando esse volume existe e evita abrir outra
 instância do cliente do projeto. `./Jogar.sh --check` verifica os pré-requisitos
 sem abrir o Minecraft. Feche e reabra o jogo para carregar alterações no código.
+
+### Caixa de Transmissão Compacta (Era I)
+
+`compact_gearbox` conecta dois eixos perpendiculares (quatro faces) em relação de módulo 1:1. O eixo indicado na colocação/chave é o eixo excluído; os outros dois são ligados por engrenagens cônicas internas. O QKS mantém um único rotor, com inversão de sinal entre eixos, inércia própria e eficiência de porta de 98% (aproximadamente 96% em uma passagem entre duas portas). Não fornece UM nem FE. Requer Transmissão Mecânica e Chapas Metálicas. Modelo de carcaça fechada com encaixes visíveis; validação in-game pendente.
