@@ -608,6 +608,14 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 instrumentalPage = !instrumentalPage;
                 return true;
             }
+            if (tab == 1 && !notebook && instrumentalPage && x >= 158 && x < 553 && y >= 108 && y < 290) {
+                int row = (int)((y - 108) / 13);
+                if (row < br.com.quantumindustries.assay.InstrumentalAnalysis.profiles().size() && !menu.instrumentalKnown(row)) {
+                    var mode = minecraft.gameMode;
+                    if (mode != null) mode.handleInventoryButtonClick(menu.containerId, ResearchTableMenu.INSTRUMENTAL_ANALYZE + row);
+                }
+                return true;
+            }
             if ((tab == 2 || tab == 3) && y >= 71 && y < 90 && (x >= 420 && x < 448 || x >= 516 && x < 544)) {
                 int step = x < 448 ? -1 : 1;
                 if (tab == 2) {
