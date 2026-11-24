@@ -21,6 +21,12 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.MechanicalConveyorBlock> MECHANICAL_CONVEYOR =
+            BLOCKS.registerBlock("mechanical_conveyor", br.com.quantumindustries.block.MechanicalConveyorBlock::new,
+                    props -> props.strength(1.8F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity>> MECHANICAL_CONVEYOR_ENTITY =
+            BLOCK_ENTITIES.register("mechanical_conveyor", () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.MechanicalConveyorBlockEntity::new, Set.of(MECHANICAL_CONVEYOR.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.CompactGearboxBlock> COMPACT_GEARBOX =
             BLOCKS.registerBlock("compact_gearbox", br.com.quantumindustries.block.CompactGearboxBlock::new,
                     props -> props.strength(2.2F).noOcclusion());
