@@ -9,7 +9,7 @@ import net.minecraft.world.item.Items;
 
 /**
  * Catálogo canônico de ligas metalúrgicas e processos de fundição.
- * Separa ligas de Tier 1 (Forno de Ligas a Fole / Elétrica) e Tier 2 (Exclusivas da Alloy Smelter Elétrica).
+ * Os tiers representam complexidade metalúrgica; ambas as fundidoras processam todas as ligas.
  * Aceita tanto lingotes quanto pós minerais purificados (beneficiados no Britador de Mandíbulas).
  */
 public final class AlloyCatalog {
@@ -35,7 +35,7 @@ public final class AlloyCatalog {
             new AlloyInfo("invar", "Invar", "Invar", "Fe₂Ni", 2,
                     "Liga ferro-níquel de baixíssima dilatação térmica para câmaras e termostatos."),
             new AlloyInfo("electrum", "Electrum", "Electrum", "AuAg", 2,
-                    "Liga nobre ouro-prata de altíssima condutividade elétrica e baixa perda resistiva."),
+                    "Liga ouro-prata para contatos e instrumentação; sua condutividade depende da composição."),
             new AlloyInfo("constantan", "Constantan", "Constantan", "CuNi", 2,
                     "Liga termoelétrica cobre-níquel com resistividade constante sob variação de temperatura."),
             new AlloyInfo("steel", "Aço Carbono", "Carbon Steel", "Fe-C", 2,
@@ -117,7 +117,7 @@ public final class AlloyCatalog {
                     List.of(() -> ModItems.INGOTS.get("zinc").get(), () -> ModItems.METAL_DUSTS.get("zinc").get()), 1,
                     () -> ModItems.ALLOY_INGOTS.get("brass").get(), 4,
                     80, 80),
-            // Tier 2: Alloy Smelter Elétrica (Era II+)
+            // Tier 2: ligas de maior complexidade térmica
             new Recipe("invar", 2,
                     List.of(() -> Items.IRON_INGOT, () -> ModItems.METAL_DUSTS.get("iron").get()), 2,
                     List.of(() -> ModItems.INGOTS.get("nickel").get(), () -> ModItems.METAL_DUSTS.get("nickel").get()), 1,
@@ -139,6 +139,8 @@ public final class AlloyCatalog {
                     () -> ModItems.ALLOY_INGOTS.get("steel").get(), 1,
                     120, 160)
     );
+
+    public static final int MANUAL_MAX_TIER = 2;
 
     private AlloyCatalog() {}
 
