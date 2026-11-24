@@ -36,7 +36,14 @@ public final class InstrumentalAnalysis {
         return null;
     }
 
-    public static boolean known(ServerPlayer player, Profile profile) {
+    public static java.util.List<Profile> profiles() { return java.util.List.of(PROFILES); }
+
+    public static boolean known(net.minecraft.world.entity.player.Player player, String id) {
+        return player.getPersistentData().getCompound(KEY)
+                .map(tag -> tag.getBoolean(id).orElse(false)).orElse(false);
+    }
+
+    public static boolean known(net.minecraft.world.entity.player.Player player, Profile profile) {
         return player.getPersistentData().getCompound(KEY)
                 .map(tag -> tag.getBoolean(profile.id()).orElse(false)).orElse(false);
     }
