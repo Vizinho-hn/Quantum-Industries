@@ -1,6 +1,9 @@
 package br.com.quantumindustries.block.entity;
 
 import br.com.quantumindustries.block.CopperCableBlock;
+import br.com.quantumindustries.block.IndustrialCircuitSwitchBlock;
+import br.com.quantumindustries.logistics.ConnectionMode;
+import net.minecraft.core.Direction;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.logistics.ConnectionModes;
@@ -35,9 +38,14 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
             if (connected != state) server.setBlock(worldPosition, connected, Block.UPDATE_ALL);
         }
     }
-    @Override public int energy() { return flow; }
+    @Override public int energy() {
+        return getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock
+                && !getBlockState().getValue(IndustrialCircuitSwitchBlock.CLOSED) ? 0 : flow;
+    }
     @Override public int capacity() { return getBlockState().is(ModBlocks.COPPER_BUSBAR.get()) ? 32 : 64; }
     @Override public Component inspectTitle() {
+        if (getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock)
+            return Component.translatable("block.quantumindustries.industrial_circuit_switch");
         return Component.translatable(getBlockState().is(ModBlocks.COPPER_BUSBAR.get())
                 ? "block.quantumindustries.copper_busbar" : "block.quantumindustries.insulated_conduit");
     }
@@ -47,6 +55,11 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
     public int flow() { return flow; }
     public int loss() { return loss; }
     @Override public ConnectionModes connectionModes() { return connections; }
+    @Override public ConnectionMode connectionMode(Direction face) {
+        if (getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock)
+            return IndustrialCircuitSwitchBlock.permits(getBlockState(), face) ? ConnectionMode.AUTO : ConnectionMode.NONE;
+        return connections.get(face);
+    }
     @Override public void connectionChanged() {
         sync();
         if (level instanceof ServerLevel server) {
@@ -68,6 +81,8 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         sync();
     }
     public void tick() {
+        if (level instanceof ServerLevel server && getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock)
+            IndustrialCircuitSwitchBlock.refreshRedstone(server, worldPosition, getBlockState());
         if (level instanceof ServerLevel server && flow > 0 && server.getGameTime() - lastFlow > 1) {
             flow = 0;
             loss = 0;
