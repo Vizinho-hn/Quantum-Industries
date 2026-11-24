@@ -67,6 +67,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.BELLOWS_BRAZIER.get());
                     output.accept(ModItems.PIEZO_SWITCH.get());
                     output.accept(ModItems.LOAD_RELAY.get());
+                    output.accept(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get());
                     output.accept(ModItems.PNEUMATIC_TUBE.get());
                     output.accept(ModItems.BELLOWS_EJECTOR.get());
                     output.accept(ModItems.GRAVITATIONAL_SORTER.get());
