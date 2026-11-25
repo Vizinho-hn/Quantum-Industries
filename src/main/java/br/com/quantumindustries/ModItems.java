@@ -20,6 +20,7 @@ public class ModItems {
     public static final DeferredItem<BlockItem> THERMOELECTRIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.THERMOELECTRIC_GENERATOR);
     public static final DeferredItem<BlockItem> MECHANICAL_CONVEYOR = ITEMS.registerSimpleBlockItem(ModBlocks.MECHANICAL_CONVEYOR);
     public static final DeferredItem<BlockItem> COMPACT_GEARBOX = ITEMS.registerSimpleBlockItem(ModBlocks.COMPACT_GEARBOX);
+    public static final DeferredItem<BlockItem> ELECTRICAL_NETWORK_ANALYZER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRICAL_NETWORK_ANALYZER);
     public static final DeferredItem<BlockItem> INDUSTRIAL_CIRCUIT_SWITCH = ITEMS.registerSimpleBlockItem(ModBlocks.INDUSTRIAL_CIRCUIT_SWITCH);
 
     public static final DeferredBlock<br.com.quantumindustries.block.ResearchTableBlock> RESEARCH_TABLE = ModBlocks.RESEARCH_TABLE;
@@ -228,6 +229,7 @@ public class ModItems {
     public static final DeferredItem<BlockItem> BELLOWS_ALLOY_KILN = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_ALLOY_KILN);
     public static final DeferredItem<BlockItem> ELECTRIC_SAWMILL = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_SAWMILL);
     public static final DeferredItem<BlockItem> ELECTRIC_ALLOY_SMELTER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_ALLOY_SMELTER);
+    public static final DeferredItem<BlockItem> ELECTRIC_FURNACE = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_FURNACE);
     public static final DeferredItem<BlockItem> JAW_CRUSHER = ITEMS.registerSimpleBlockItem(ModBlocks.JAW_CRUSHER);
 
     public static final DeferredItem<Item> HEATED_BRONZE_INGOT = ITEMS.registerItem("heated_bronze_ingot",

@@ -1,0 +1,376 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "atlas": "quantumindustries:block/era2_industrial_machines",
+    "particle": "quantumindustries:block/era2_industrial_machines",
+    "state": "quantumindustries:block/era2_active_states"
+  },
+  "elements": [
+    {
+      "name": "cast_iron_foundation",
+      "from": [0.5, 0, 0.5],
+      "to": [15.5, 1.75, 15.5],
+      "faces": {
+        "north": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "plinth_shoulder",
+      "from": [1, 1.625, 1.125],
+      "to": [15, 2.75, 14.875],
+      "faces": {
+        "north": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "gunmetal_chamber_shell",
+      "from": [2, 2.625, 3],
+      "to": [14, 13.75, 13.5],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "steel_roof",
+      "from": [1.625, 13.625, 2.375],
+      "to": [14.375, 15.25, 14.125],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "roof_vent",
+      "from": [4.125, 15.125, 6.25],
+      "to": [11.875, 15.875, 12.25],
+      "faces": {
+        "north": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 8.25, 3.75, 11.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "loading_door_lower_panel",
+      "from": [3.125, 3.625, 1.375],
+      "to": [12.875, 7.5, 3.25],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "loading_door_header",
+      "from": [3.25, 11.625, 1.375],
+      "to": [12.75, 13.125, 3.125],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "loading_door_left_jamb",
+      "from": [3, 7.375, 1.25],
+      "to": [4.875, 11.75, 3.375],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "loading_door_right_jamb",
+      "from": [11.125, 7.375, 1.25],
+      "to": [13, 11.75, 3.375],
+      "faces": {
+        "north": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [4.25, 0.25, 7.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "refractory_window_lining",
+      "from": [4.625, 7.25, 2.5],
+      "to": [11.375, 11.875, 3.5],
+      "faces": {
+        "north": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 4.25, 3.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "constantan_element",
+      "from": [5.375, 8, 2],
+      "to": [10.625, 11.125, 2.625],
+      "faces": {
+        "north": {"uv": [4.375, 12.375, 7.625, 15.625], "texture": "#atlas"},
+        "east": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"}
+      },
+      "light_emission": 12
+    },
+    {
+      "name": "lower_hinge_leaf",
+      "from": [2.625, 4.625, 0.625],
+      "to": [5.25, 5.625, 1.625],
+      "faces": {
+        "north": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "lower_hinge_pin",
+      "from": [2.25, 4.25, 0.375],
+      "to": [3.375, 6.0, 1.5],
+      "faces": {
+        "north": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "upper_hinge_leaf",
+      "from": [2.625, 11.875, 0.625],
+      "to": [5.25, 12.875, 1.625],
+      "faces": {
+        "north": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "upper_hinge_pin",
+      "from": [2.25, 11.5, 0.375],
+      "to": [3.375, 13.25, 1.5],
+      "faces": {
+        "north": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [0.25, 0.25, 3.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "door_latch_backplate",
+      "from": [10.25, 4.625, 0.875],
+      "to": [12.5, 6.125, 1.625],
+      "faces": {
+        "north": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "door_latch_lever",
+      "from": [9, 4.875, 0.125],
+      "to": [12, 5.75, 1.125],
+      "faces": {
+        "north": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 0.25, 15.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "terminal_mount_west",
+      "from": [1.5, 4.75, 4.75],
+      "to": [2.875, 11.25, 11.25],
+      "faces": {
+        "north": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "porcelain_bushing_west",
+      "from": [0.625, 5.25, 5.25],
+      "to": [1.625, 10.75, 10.75],
+      "faces": {
+        "north": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "copper_terminal_west",
+      "from": [0, 6.125, 6.125],
+      "to": [0.75, 9.875, 9.875],
+      "faces": {
+        "north": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "terminal_mount_east",
+      "from": [13.125, 4.75, 4.75],
+      "to": [14.5, 11.25, 11.25],
+      "faces": {
+        "north": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "porcelain_bushing_east",
+      "from": [14.375, 5.25, 5.25],
+      "to": [15.375, 10.75, 10.75],
+      "faces": {
+        "north": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "copper_terminal_east",
+      "from": [15.25, 6.125, 6.125],
+      "to": [16, 9.875, 9.875],
+      "faces": {
+        "north": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "terminal_mount_south",
+      "from": [4.75, 4.75, 13.125],
+      "to": [11.25, 11.25, 14.5],
+      "faces": {
+        "north": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [12.25, 4.25, 15.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "porcelain_bushing_south",
+      "from": [5.25, 5.25, 14.375],
+      "to": [10.75, 10.75, 15.375],
+      "faces": {
+        "north": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 4.25, 11.75, 7.75], "texture": "#atlas"}
+      }
+    },
+    {
+      "name": "copper_terminal_south",
+      "from": [6.125, 6.125, 15.25],
+      "to": [9.875, 9.875, 16],
+      "faces": {
+        "north": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "east": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "south": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "west": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "up": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"},
+        "down": {"uv": [8.25, 0.25, 11.75, 3.75], "texture": "#atlas"}
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "fixed": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.4, 0.4, 0.4]
+    }
+  }
+}

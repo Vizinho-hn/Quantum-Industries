@@ -16,8 +16,8 @@
 ```mermaid
 flowchart TB
   A["☄️ Prólogo: meteorito e Cofre de Origem"] --> B["🔎 Era I: observação + oficina"]
-  B --> C["⚡ Era II: rede elétrica"]
-  C --> D["🧪 Era III: química + termodinâmica"]
+  B --> C["⚡ Era II: QTS, QES e integração"]
+  C --> D["📡 Era III: ondas e pneumática avançada"]
   D --> E["🔬 Era IV: MK2/MK3 + blueprints"]
   E --> F["⚛️ Banco Atômico + reconstrução de matéria-prima"]
   F --> G["🖥️ Era V: Quantum Computer"]
@@ -63,7 +63,7 @@ O evento abre o mundo sem entregar magicamente todas as respostas.
 
 **Vertical slice do prólogo:** cratera pré-gerada com cofre funcional e livro de 5 etapas; cinematic e meteorito voando ficam para o polimento.
 
-## 1. Era I — Engenharia Mecânica e Ciência Empírica
+## 1. Era I — Mecânica Clássica e Ciência Empírica (QKS)
 
 **Já descrito no repositório:**
 - [x] Mesa de Pesquisa Tier 1 e pesquisa `Observação dos Materiais` como porta de entrada.
@@ -77,7 +77,13 @@ O evento abre o mundo sem entregar magicamente todas as respostas.
 - [ ] Garantir que falha de reação produza observação válida, mas **não** identificação falsa do mineral.
 - [ ] Fazer playtest da Era I do livro inicial ao primeiro dínamo.
 
-## 2. Era II — Revolução Elétrica
+## 2. Era II — Industrialização Científica
+
+- **Ramo A — Termometria e Termodinâmica (QTS).** Recozimento, transferência de calor, hidrostática, peristáltica e processos químicos aplicados.
+- **Ramo B — Eletrostática e Eletrodinâmica (QES).** Indução a partir do Dínamo Manual, armazenamento galvânico, distribuição, controle de carga, instrumentação e geração industrial.
+- **Integração Industrial.** Efeito Joule reúne indução, trefilação e transferência de calor para liberar a Fornalha Elétrica. A faixa também reúne a Fundidora de Ligas Elétrica, a conformação eletromecânica, a piezoeletricidade e o transporte pneumático existente.
+
+O Códice oferece leituras opcionais associadas aos estudos. Veja a [arquitetura dos sistemas físicos](PHYSICS_SYSTEMS_ARCHITECTURE.md).
 
 - [x] Acumulador galvânico, prensa eletromecânica e início da distribuição elétrica documentados no README.
 - [ ] Confirmar em gameplay geração, consumo, gargalos, redes e compatibilidade de saves.
@@ -140,11 +146,9 @@ O evento abre o mundo sem entregar magicamente todas as respostas.
 
 ## 4. Era III — Ondas Eletromagnéticas e Tecnologia Moderna
 
-**Linhas cruzadas:** eletrônica/controle; instrumentação; química; termodinâmica e gases.
+**Planejamento.** O QWS cobre ondas, ressonância, sinais e eletrônica. O QPS amplia o transporte pneumático da Era II com pressão, vazão e compressão.
 
-- [ ] Calor, equilíbrio térmico, medições e condução.
-- [ ] Primeira lei da termodinâmica, energia interna, trabalho e transferência térmica.
-- [ ] Pressão, volume, temperatura e comportamento de gases.
+- [ ] Estender a termodinâmica da Era II a sistemas industriais com gases, pressão, volume e temperatura.
 - [ ] Máquinas térmicas: compressores, trocadores, sistemas de rejeição de calor.
 - [ ] Refrigeração industrial: expansão, ciclos e resfriamento.
 - [ ] **Engenharia criogênica**: liquefação e destilação, pesquisa desbloqueada por **experimentos e evidências**; evitar desbloqueio automático por XP.

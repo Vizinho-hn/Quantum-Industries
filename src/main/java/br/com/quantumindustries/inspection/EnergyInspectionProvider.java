@@ -4,7 +4,10 @@ import br.com.quantumindustries.block.CopperCableBlock;
 import br.com.quantumindustries.block.entity.CopperCableBlockEntity;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
 import br.com.quantumindustries.energy.EnergyPorts;
+import br.com.quantumindustries.energy.qes.ElectricalMath;
+import br.com.quantumindustries.energy.qes.ElectricalNetworkState.NetworkStatus;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
+import br.com.quantumindustries.thermal.ThermalInspectable;
 import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -39,8 +42,9 @@ public final class EnergyInspectionProvider implements InspectionProvider {
 
         int energy = inspectable.energy();
         int cap = inspectable.capacity();
-        boolean isCable = be instanceof CopperCableBlockEntity;
-        boolean active = isCable ? energy > 0 : energy > 0;
+        var cable = be instanceof CopperCableBlockEntity conductor ? conductor : null;
+        boolean isCable = cable != null;
+        boolean active = energy > 0;
         boolean bottleneck = isCable && cap > 0 && energy >= cap;
         long stored = 0, storageCapacity = 0;
         if (isCable) for (BlockPos node : visited) {
@@ -50,7 +54,7 @@ public final class EnergyInspectionProvider implements InspectionProvider {
             }
         }
 
-        return Optional.of(new InspectionSnapshot(
+        var snapshot = new InspectionSnapshot(
                 pos.immutable(),
                 InspectionSnapshot.Kind.ENERGY,
                 Direction.Axis.Y,
@@ -64,7 +68,18 @@ public final class EnergyInspectionProvider implements InspectionProvider {
                 cap,
                 false,
                 0,
-                syncedNodes));
+                syncedNodes);
+        if (cable != null) {
+            snapshot = snapshot.withElectrical(cable.voltageMv(), cable.currentMa(), cable.resistanceMOhm(),
+                    cable.flow(), cable.loss(), cable.qesStatus().ordinal());
+        } else {
+            snapshot = snapshot.withElectrical(active ? ElectricalMath.NOMINAL_VOLTAGE_MV : 0, 0, 0, 0, 0,
+                    (active ? NetworkStatus.ACTIVE : NetworkStatus.IDLE).ordinal());
+        }
+        if (be instanceof ThermalInspectable thermal) {
+            snapshot = snapshot.withThermal(thermal.thermalSnapshot(), includeTopology);
+        }
+        return Optional.of(snapshot);
     }
 
     private static Set<BlockPos> collectNetwork(ServerLevel level, BlockPos start) {

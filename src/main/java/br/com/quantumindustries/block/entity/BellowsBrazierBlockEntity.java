@@ -1,5 +1,12 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.thermal.ThermalInspectable;
+import br.com.quantumindustries.thermal.ThermalSnapshot;
+import br.com.quantumindustries.thermal.ThermalSnapshot.ThermalFlowEdge;
+import net.minecraft.core.Direction;
+import br.com.quantumindustries.energy.ThermoelectricModel;
+import br.com.quantumindustries.thermal.ThermalNetwork;
+import java.util.List;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.HeatTreatment;
 import net.minecraft.core.BlockPos;
@@ -24,9 +31,13 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
 /** Thermal annealing brazier heated by a heat source placed directly underneath (fire, campfire, magma, lava, or lit furnace). */
-public final class BellowsBrazierBlockEntity extends BlockEntity implements MachineStatusInspectable {
+public final class BellowsBrazierBlockEntity extends BlockEntity implements MachineStatusInspectable, ThermalInspectable {
     public static final int HEATING_TICKS = 60;
     private static final int MAX_HEAT = 300;
+    private static final int STANDARD_HEAT_TARGET = 120;
+    private static final int INTENSE_HEAT_TARGET = 220;
+    private static final int LEGACY_HEAT_CAPACITY = 1;
+    private int lastHeatDelta;
     private int heat, progress;
     private long lastPuff = -10;
     private ItemStack input = ItemStack.EMPTY, output = ItemStack.EMPTY;
@@ -59,6 +70,25 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
     public ItemStack input() { return input; }
     public ItemStack output() { return output; }
     public int progress() { return progress; }
+    private static int heatTarget(int sourceLevel) {
+        if (sourceLevel == 0) return 0;
+        return sourceLevel >= 2 ? INTENSE_HEAT_TARGET : STANDARD_HEAT_TARGET;
+    }
+
+    @Override
+    public ThermalSnapshot thermalSnapshot() {
+        int ambient = level instanceof ServerLevel server
+                ? ThermalNetwork.ambientAt(server, worldPosition) : ThermoelectricModel.AMBIENT;
+        int temperature = ambient + heat;
+        long net = (long) lastHeatDelta * LEGACY_HEAT_CAPACITY;
+        var edges = net > 0
+                ? List.of(new ThermalFlowEdge(Direction.DOWN, worldPosition.below(), (int) net))
+                : List.<ThermalFlowEdge>of();
+        return new ThermalSnapshot(temperature, ambient, (long) temperature * LEGACY_HEAT_CAPACITY,
+                LEGACY_HEAT_CAPACITY, Math.max(0, net), Math.max(0, -net), net,
+                ambient + heatTarget(heatSourceLevel(level, worldPosition)), ambient + MAX_HEAT, edges);
+    }
+
     public boolean isLit() { return heat > 0 || heatSourceLevel(level, worldPosition) > 0; }
 
     public ItemStack extractOutput(int maximum) {
@@ -146,13 +176,16 @@ public final class BellowsBrazierBlockEntity extends BlockEntity implements Mach
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        int previousHeat = heat;
         int belowHeat = heatSourceLevel(server, worldPosition);
         if (belowHeat > 0) {
-            int target = belowHeat >= 2 ? 220 : 120;
+            int target = heatTarget(belowHeat);
             if (heat < target) heat = Math.min(target, heat + 4 * belowHeat);
         } else if (heat > 0) {
             heat = Math.max(0, heat - 2);
         }
+
+        lastHeatDelta = heat - previousHeat;
 
         boolean shouldLit = belowHeat > 0 || heat > 0;
         BlockState state = getBlockState();

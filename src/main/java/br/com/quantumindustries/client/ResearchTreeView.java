@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.function.IntFunction;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import static br.com.quantumindustries.client.ResearchTheme.*;
 
 final class ResearchTreeView {
     static final int LEFT = 153, TOP = 139, RIGHT = 559, BOTTOM = 239;
     private static final int NODE_W = 120, NODE_H = 32;
+    private static final int FIRST_TRACK_TITLE_Y = 7, TRACK_HEIGHT = 64, TRACK_NODE_OFFSET = 14;
     private static final Map<String, Grid> FOUNDATIONS = Map.ofEntries(
             Map.entry("material_observation", new Grid(0, 20)),
             Map.entry("material_malleability", new Grid(1, 20)),
@@ -28,26 +30,10 @@ final class ResearchTreeView {
             Map.entry("electrical_insulation", new Grid(3, 168)),
             Map.entry("electromechanical_structure", new Grid(5, 76)),
             Map.entry("manual_dynamo_design", new Grid(6, 116)),
-            Map.entry("electromagnetic_induction", new Grid(0, 76)),
-            Map.entry("galvanic_storage", new Grid(1, 36)),
-            Map.entry("electromechanical_forming", new Grid(1, 116)),
-            Map.entry("wire_drawing", new Grid(2, 152)),
-            Map.entry("thermal_annealing", new Grid(2, 24)),
-            Map.entry("piezoelectricity", new Grid(2, 90)),
-            Map.entry("fluid_hydrostatics", new Grid(4, 28)),
-            Map.entry("pneumatic_transport", new Grid(4, 133)),
-            Map.entry("peristaltic_mechanics", new Grid(5, 28)),
-            Map.entry("load_protection", new Grid(3, 60)),
             Map.entry("alloy_metallurgy", new Grid(4, 20)),
-            Map.entry("electric_alloy_smelting", new Grid(3, 120)),
-            Map.entry("electric_wood_processing", new Grid(3, 180)),
             Map.entry("mineral_beneficiation", new Grid(6, 56)),
             Map.entry("scientific_analyzer_tier_2", new Grid(7, 86)),
-            Map.entry("chemical_leaching", new Grid(5, 84)),
-            Map.entry("mechanical_energy_storage", new Grid(7, 20)),
-            Map.entry("electromagnetic_excitation", new Grid(6, 36)),
-            Map.entry("alternating_current", new Grid(7, 36)),
-            Map.entry("industrial_generation", new Grid(8, 36))
+            Map.entry("mechanical_energy_storage", new Grid(7, 20))
     );
 
     private record Grid(int column, int y) {}
@@ -73,7 +59,7 @@ final class ResearchTreeView {
         for (int id = 0; id < ResearchCatalog.STUDIES.size(); id++) {
             var study = ResearchCatalog.STUDIES.get(id);
             if (study.era() != era) continue;
-            Grid grid = FOUNDATIONS.get(study.key());
+            Grid grid = era == 2 ? eraTwoGrid(study.key()) : FOUNDATIONS.get(study.key());
             if (grid == null) grid = new Grid(layout.size() % 4, 20 + layout.size() / 4 * 48);
             layout.add(new Node(id, 8 + grid.column() * 144, grid.y()));
         }
@@ -81,6 +67,16 @@ final class ResearchTreeView {
         worldW = nodes.stream().mapToInt(node -> node.x + NODE_W + 8).max().orElse(1);
         worldH = nodes.stream().mapToInt(node -> node.y + NODE_H + 8).max().orElse(1);
         reset();
+    }
+
+    private static Grid eraTwoGrid(String key) {
+        int row = ResearchCatalog.eraTwoTrack(key).ordinal();
+        var branch = ResearchCatalog.ERA_TWO_BRANCHES.get(row);
+        return new Grid(branch.studies().indexOf(key), trackTitleY(row) + TRACK_NODE_OFFSET);
+    }
+
+    private static int trackTitleY(int row) {
+        return FIRST_TRACK_TITLE_Y + row * TRACK_HEIGHT;
     }
 
     void reset() {
@@ -147,6 +143,12 @@ final class ResearchTreeView {
                     }
                 }
             }
+            if (era == 2) {
+                for (int row = 0; row < ResearchCatalog.ERA_TWO_BRANCHES.size(); row++) {
+                    var branch = ResearchCatalog.ERA_TWO_BRANCHES.get(row);
+                    theme.text(g, font, Component.translatable(branch.title()).getString(), 8, trackTitleY(row), CYAN, true);
+                }
+            }
             for (Node node : nodes) {
                 State state = states[node.id];
                 boolean active = state != State.HIDDEN && (selected == node.id || hovered == node.id);
@@ -161,9 +163,9 @@ final class ResearchTreeView {
                 } else {
                     g.fakeItem(icon.apply(node.id), node.x + 5, node.y + 8);
                 }
-                String name = net.minecraft.network.chat.Component.translatable(ResearchCatalog.STUDIES.get(node.id).name()).getString();
+                String name = Component.translatable(ResearchCatalog.STUDIES.get(node.id).name()).getString();
                 theme.text(g, font, font.plainSubstrByWidth(name, 92), node.x + 24, node.y + 6, TEXT, false);
-                theme.text(g, font, net.minecraft.network.chat.Component.translatable(state.label).getString(), node.x + 24, node.y + 19, state.color, false);
+                theme.text(g, font, Component.translatable(state.label).getString(), node.x + 24, node.y + 19, state.color, false);
             }
         } finally {
             g.pose().popMatrix();

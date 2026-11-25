@@ -79,6 +79,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.PIEZO_SWITCH.get());
                     output.accept(ModItems.LOAD_RELAY.get());
                     output.accept(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get());
+                    output.accept(ModItems.ELECTRICAL_NETWORK_ANALYZER.get());
                     output.accept(ModItems.ELECTROMAGNETIC_GENERATOR.get());
                     output.accept(ModItems.ELECTRIC_MOTOR.get());
                     output.accept(ModItems.STEAM_BOILER.get());
@@ -102,6 +103,7 @@ public final class ModCreativeTabs {
                     // --- RECURSOS E MINERAIS EXPANDIDOS ---
                     output.accept(ModItems.BELLOWS_ALLOY_KILN.get());
                     output.accept(ModItems.ELECTRIC_ALLOY_SMELTER.get());
+                    output.accept(ModItems.ELECTRIC_FURNACE.get());
                     output.accept(ModItems.JAW_CRUSHER.get());
                     output.accept(ModItems.LEAD_SHEET.get());
                     output.accept(ModItems.TIN_SHEET.get());

@@ -1,15 +1,22 @@
 package br.com.quantumindustries.client.render;
 
 import br.com.quantumindustries.ModItems;
+import br.com.quantumindustries.block.entity.CopperCableBlockEntity;
+import br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity;
+import br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
 import br.com.quantumindustries.block.entity.MachineStatusInspectable;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
+import br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity;
 import br.com.quantumindustries.client.inspection.ClientInspectionCache;
+import br.com.quantumindustries.energy.qes.ElectricalNetworkState.NetworkStatus;
 import br.com.quantumindustries.fluid.FluidInspectable;
 import br.com.quantumindustries.inspection.InspectionSnapshot;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.logistics.ConnectionTarget;
 import br.com.quantumindustries.mechanical.MechanicalParticipant;
+import br.com.quantumindustries.thermal.ThermalInspectable;
+import br.com.quantumindustries.thermal.ThermalParticipant;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,13 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 @EventBusSubscriber(modid = "quantumindustries", value = Dist.CLIENT)
 public final class DynamoInspectionHud {
+    private static final String QES = "gui.quantumindustries.qes.";
+    private static final String THERMAL_HUD = "gui.quantumindustries.thermal_hud.";
+    private static final int PANEL_TOP = 7;
+    private static final int PANEL_GAP = 6;
+    private static final int TELEMETRY_LINE_HEIGHT = 12;
+    private static final int THERMAL_PANEL_HEIGHT = 5 * TELEMETRY_LINE_HEIGHT + 12;
+    private static final double MILLI_PER_UNIT = 1000.0;
     private DynamoInspectionHud() {}
 
     @SubscribeEvent public static void register(RegisterGuiLayersEvent event) {
@@ -45,33 +59,43 @@ public final class DynamoInspectionHud {
         boolean hasGoggles = player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ENERGY_INSPECTION_GOGGLES.get());
 
         if (hasGoggles) {
-            boolean drewTopPanel = false;
+            int top = PANEL_TOP;
             boolean shift = player.isShiftKeyDown();
             InspectionSnapshot snap = ClientInspectionCache.forPos(hit.getBlockPos());
+            boolean thermal = blockEntity instanceof ThermalInspectable || snap != null && snap.hasThermal();
             if (blockEntity instanceof br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity saw) {
                 int bottom = SawmillInspectionHud.draw(g, minecraft, saw);
-                if (shift && snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) drawMechanical(g, minecraft, snap, bottom + 6, true);
+                if (shift && snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) drawMechanical(g, minecraft, snap, bottom + PANEL_GAP, g.guiHeight() - PANEL_TOP, true);
                 return;
             }
-            if (blockEntity instanceof ConfigurableConduit conduit) drawConnection(g, minecraft, conduit, hit,
-                    blockEntity instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity ? 124 : 84);
             if (blockEntity instanceof FluidInspectable fluid) {
-                drawFluid(g, minecraft, fluid, snap, shift);
-                drewTopPanel = true;
+                top = drawFluid(g, minecraft, fluid, snap, shift) + PANEL_GAP;
             } else if (blockEntity instanceof EnergyInspectable target) {
-                drawEnergy(g, minecraft, target, snap, shift);
-                drewTopPanel = true;
+                top = drawEnergy(g, minecraft, target, snap, shift) + PANEL_GAP;
             } else if (blockEntity instanceof PneumaticTubeBlockEntity tube) {
                 drawPneumatic(g, minecraft, tube, snap, shift);
-                drewTopPanel = true;
+                top = 54 + PANEL_GAP;
             }
-            if (blockEntity instanceof MechanicalParticipant) {
-                if (snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) {
-                    drawMechanical(g, minecraft, snap, drewTopPanel ? 108 : 7, shift);
-                    return;
+            if (blockEntity instanceof ConfigurableConduit conduit) {
+                int connectionTop = blockEntity instanceof CopperCableBlockEntity ? top : Math.max(84, top);
+                drawConnection(g, minecraft, conduit, hit, connectionTop);
+                top = connectionTop + 21 + PANEL_GAP;
+            }
+            if (blockEntity instanceof MechanicalParticipant && snap != null
+                    && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) {
+                int availableBottom = g.guiHeight() - PANEL_TOP;
+                if (thermal) {
+                    availableBottom -= Math.min(THERMAL_PANEL_HEIGHT + PANEL_GAP, (availableBottom - top) / 2);
                 }
+                top = drawMechanical(g, minecraft, snap, top, availableBottom, shift) + PANEL_GAP;
             }
-            if (drewTopPanel) return;
+            if (thermal) {
+                boolean legacy = !(blockEntity instanceof ThermalParticipant
+                        || blockEntity instanceof ThermoelectricGeneratorBlockEntity);
+                drawThermal(g, minecraft, snap, top, legacy);
+                return;
+            }
+            if (top > PANEL_TOP) return;
         }
 
         if (blockEntity instanceof MachineStatusInspectable machine) {
@@ -102,9 +126,9 @@ public final class DynamoInspectionHud {
         return t > 0 ? "▲" : t < 0 ? "▼" : "=";
     }
 
-    private static void drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft,
+    private static int drawEnergy(GuiGraphicsExtractor g, Minecraft minecraft,
             EnergyInspectable target, InspectionSnapshot snap, boolean shift) {
-        if (target instanceof br.com.quantumindustries.block.entity.CopperCableBlockEntity cable) { drawCable(g, minecraft, cable, snap); return; }
+        if (target instanceof CopperCableBlockEntity cable) return drawCable(g, minecraft, cable, snap);
         int energy = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localCapacity() : target.energy();
         int max = Math.max(1, snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY ? snap.localLoad() : target.capacity());
         int percent = energy * 100 / max;
@@ -117,9 +141,23 @@ public final class DynamoInspectionHud {
                                 ? "gui.quantumindustries.mechanical.overlay.on"
                                 : "gui.quantumindustries.mechanical.overlay.hint"))
                 : null;
-        int width = 168;
+        List<Component> qesLines = new ArrayList<>();
+        if (hasNet && target.capacity() > 0) {
+            qesLines.add(Component.translatable(QES + "nominal_voltage", qesDecimal(snap.voltageMv())));
+            qesLines.add(Component.translatable(QES + "machine_state", Component.translatable(
+                    QES + (snap.powered() ? "state.energized" : "state.deenergized"))));
+        }
+        int transferLimit = switch (target) {
+            case ElectricFurnaceBlockEntity furnace -> ElectricFurnaceBlockEntity.MAX_RECEIVE;
+            case ElectricAlloySmelterBlockEntity smelter -> ElectricAlloySmelterBlockEntity.MAX_RECEIVE;
+            case ThermoelectricGeneratorBlockEntity generator -> ThermoelectricGeneratorBlockEntity.TRANSFER;
+            default -> 0;
+        };
+        if (transferLimit > 0) qesLines.add(Component.translatable(QES + "nominal_limit", transferLimit));
+        int width = panelWidth(minecraft, qesLines, 168);
         if (netLine != null) width = Math.max(width, minecraft.font.width(netLine) + 16);
-        int boxBottom = (detail == null ? 61 : 73) + (netLine == null ? 0 : 12);
+        int boxBottom = (detail == null ? 61 : 73) + (netLine == null ? 0 : 12)
+                + qesLines.size() * TELEMETRY_LINE_HEIGHT;
         g.fill(7, 7, 7 + width, boxBottom, 0xFFB37B55);
         g.fill(8, 8, 6 + width, boxBottom - 1, 0xE8201C19);
         g.text(minecraft.font, target.inspectTitle(), 14, 13, 0xFFF4DCB9, false);
@@ -135,34 +173,111 @@ public final class DynamoInspectionHud {
         if (netLine != null) {
             g.text(minecraft.font, netLine, 14, barTop + 10, 0xFFB4A99A, false);
         }
+        int y = barTop + 10 + (netLine == null ? 0 : TELEMETRY_LINE_HEIGHT);
+        for (Component line : qesLines) {
+            g.text(minecraft.font, line, 14, y, 0xFFF4EEE6, false);
+            y += TELEMETRY_LINE_HEIGHT;
+        }
+        return boxBottom;
     }
 
-    private static void drawCable(GuiGraphicsExtractor g, Minecraft game,
-            br.com.quantumindustries.block.entity.CopperCableBlockEntity cable, InspectionSnapshot snap) {
+    private static int drawCable(GuiGraphicsExtractor g, Minecraft game,
+            CopperCableBlockEntity cable, InspectionSnapshot snap) {
         boolean ready = snap != null && snap.kind() == InspectionSnapshot.Kind.ENERGY;
-        int flow = ready ? snap.localCapacity() : cable.flow(), max = cable.capacity();
-        var lines = new ArrayList<Component>();
+        int flow = ready ? snap.powerFePerTick() : cable.flow();
+        int loss = ready ? snap.lossFePerTick() : cable.loss();
+        int limit = ready ? snap.localLoad() : cable.capacity();
+        NetworkStatus status = ready ? networkStatus(snap.electricalStateOrdinal()) : cable.qesStatus();
+        List<Component> lines = new ArrayList<>();
         lines.add(cable.inspectTitle());
         lines.add(Component.translatable("gui.quantumindustries.cable.stored"));
-        lines.add(Component.translatable("gui.quantumindustries.cable.throughput", flow, max));
-        lines.add(Component.translatable("gui.quantumindustries.cable.loss", cable.loss()));
+        lines.add(Component.translatable(QES + "flow_and_loss", flow, loss));
+        lines.add(Component.translatable(QES + "nominal_limit", limit));
+        if (ready && (snap.voltageMv() != 0 || snap.currentMa() != 0 || snap.resistanceMOhm() != 0)) {
+            lines.add(Component.translatable(QES + "measured", qesDecimal(snap.voltageMv()),
+                    qesDecimal(snap.currentMa()), qesDecimal(snap.resistanceMOhm())));
+        }
+        lines.add(Component.translatable(QES + "network_state",
+                Component.translatable(QES + "state." + status.name().toLowerCase(Locale.ROOT))));
         lines.add(ready ? Component.translatable("gui.quantumindustries.cable.reserve", snap.load(), snap.capacity())
                 : Component.translatable("gui.quantumindustries.cable.pending"));
         lines.add(Component.translatable("gui.quantumindustries.cable.scope", ready ? snap.nodeCount() : 0));
         lines.add(Component.translatable("gui.quantumindustries.cable.storage_hint"));
-        int width = 220;
-        for (var line : lines) width = Math.max(width, game.font.width(line) + 16);
-        g.fill(7,7,7+width,117,0xFFB37B55);g.fill(8,8,6+width,116,0xE8201C19);
-        for (int i = 0; i < lines.size(); i++) g.text(game.font,lines.get(i),14,13+i*12,i==0?0xFFF4DCB9:0xFFF4EEE6,false);
-        g.fill(14,103,width,109,0xFF45382F);
-        if(flow>0)g.fill(14,103,14+(width-14)*Math.clamp(flow,0,max)/Math.max(1,max),109,0xFFE8BC65);
+        int width = panelWidth(game, lines, 220);
+        int barTop = PANEL_TOP + 6 + lines.size() * TELEMETRY_LINE_HEIGHT;
+        int bottom = barTop + 14;
+        g.fill(7, PANEL_TOP, 7 + width, bottom, 0xFFB37B55);
+        g.fill(8, PANEL_TOP + 1, 6 + width, bottom - 1, 0xE8201C19);
+        drawTelemetryLines(g, game, lines, 14, PANEL_TOP + 6, 0xFFF4DCB9);
+        int barWidth = width - 14;
+        g.fill(14, barTop, 14 + barWidth, barTop + 6, 0xFF45382F);
+        if (flow > 0) {
+            g.fill(14, barTop, 14 + barWidth * Math.clamp(flow, 0, limit) / Math.max(1, limit),
+                    barTop + 6, 0xFFE8BC65);
+        }
+        return bottom;
+    }
+
+    private static NetworkStatus networkStatus(int ordinal) {
+        NetworkStatus[] states = NetworkStatus.values();
+        return ordinal >= 0 && ordinal < states.length ? states[ordinal] : NetworkStatus.IDLE;
+    }
+
+    private static String qesDecimal(int milliValue) {
+        return String.format(Locale.ROOT, "%.3f", milliValue / MILLI_PER_UNIT);
+    }
+
+    private static void drawThermal(GuiGraphicsExtractor g, Minecraft game, InspectionSnapshot snap, int top,
+            boolean legacy) {
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.translatable(THERMAL_HUD + (legacy ? "estimated_title" : "title")));
+        if (snap == null || !snap.hasThermal()) {
+            lines.add(Component.translatable(THERMAL_HUD + "pending"));
+        } else {
+            lines.add(Component.translatable(THERMAL_HUD + "temperatures", snap.temperatureC(), snap.ambientC()));
+            lines.add(Component.translatable(THERMAL_HUD + "limits", snap.targetTemperatureC(), snap.maxTemperatureC()));
+            lines.add(Component.translatable(THERMAL_HUD + "storage", snap.thermalEnergyTu(), snap.heatCapacityTuPerC()));
+            lines.add(Component.translatable(THERMAL_HUD + "rates", snap.heatingRateTu(), snap.coolingRateTu(),
+                    snap.heatingRateTu() - snap.coolingRateTu()));
+        }
+        int width = panelWidth(game, lines, 168);
+        int height = lines.size() * TELEMETRY_LINE_HEIGHT + 12;
+        float scale = panelScale(g, top, g.guiHeight() - PANEL_TOP, width, height);
+        if (scale <= 0) return;
+        g.pose().pushMatrix();
+        try {
+            g.pose().translate(7f, (float) top).scale(scale);
+            g.fill(0, 0, width, height, 0xFFF09654);
+            g.fill(1, 1, width - 1, height - 1, 0xE8201C19);
+            drawTelemetryLines(g, game, lines, 7, 6, 0xFFFFCB9C);
+        } finally {
+            g.pose().popMatrix();
+        }
+    }
+
+    private static int panelWidth(Minecraft game, List<Component> lines, int minimumWidth) {
+        int width = minimumWidth;
+        for (Component line : lines) width = Math.max(width, game.font.width(line) + 16);
+        return width;
+    }
+
+    private static float panelScale(GuiGraphicsExtractor g, int top, int bottom, int width, int height) {
+        return Math.min(1.0f, Math.min((bottom - top) / (float) height, (g.guiWidth() - 14f) / width));
+    }
+
+    private static void drawTelemetryLines(GuiGraphicsExtractor g, Minecraft game, List<Component> lines,
+            int x, int y, int titleColor) {
+        for (int i = 0; i < lines.size(); i++) {
+            g.text(game.font, lines.get(i), x, y + i * TELEMETRY_LINE_HEIGHT,
+                    i == 0 ? titleColor : 0xFFF4EEE6, false);
+        }
     }
 
     private static final double MOTION_EPSILON = 1.0e-6;
     private static final int MECHANICAL_LINE_HEIGHT = 12;
 
-    private static void drawMechanical(GuiGraphicsExtractor g, Minecraft minecraft,
-            InspectionSnapshot snap, int top, boolean shift) {
+    private static int drawMechanical(GuiGraphicsExtractor g, Minecraft minecraft,
+            InspectionSnapshot snap, int top, int availableBottom, boolean shift) {
         boolean moving = Math.abs(snap.angularVelocity()) > MOTION_EPSILON;
         Component state = Component.translatable(snap.powered()
                 ? "gui.quantumindustries.mechanical.state.powered"
@@ -209,8 +324,8 @@ public final class DynamoInspectionHud {
         int width = 178;
         for (Component line : lines) width = Math.max(width, minecraft.font.width(line) + 20);
         int height = lines.size() * MECHANICAL_LINE_HEIGHT + 12;
-        float scale = Math.min(1.0f, Math.min((g.guiHeight() - top - 7f) / height,
-                (g.guiWidth() - 14f) / width));
+        float scale = panelScale(g, top, availableBottom, width, height);
+        if (scale <= 0) return top;
         g.pose().pushMatrix();
         try {
             g.pose().translate(7f, (float) top).scale(scale);
@@ -225,13 +340,14 @@ public final class DynamoInspectionHud {
         } finally {
             g.pose().popMatrix();
         }
+        return top + (int) Math.ceil(height * scale);
     }
 
     private static String decimal(double value) {
         return String.format(Locale.ROOT, "%.1f", value);
     }
 
-    private static void drawFluid(GuiGraphicsExtractor g, Minecraft minecraft,
+    private static int drawFluid(GuiGraphicsExtractor g, Minecraft minecraft,
             FluidInspectable fluid, InspectionSnapshot snap, boolean shift) {
         int amount = fluid.storedFluid(), capacity = Math.max(1, fluid.fluidCapacity());
         boolean hasNet = snap != null && snap.kind() == InspectionSnapshot.Kind.FLUID && snap.nodeCount() > 0;
@@ -256,6 +372,7 @@ public final class DynamoInspectionHud {
         if (netLine != null) {
             g.text(minecraft.font, netLine, 14, 71, 0xFFB4A99A, false);
         }
+        return bottom;
     }
 
     private static void drawPneumatic(GuiGraphicsExtractor g, Minecraft minecraft,

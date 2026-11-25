@@ -21,6 +21,10 @@ import java.util.Set;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("quantumindustries");
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(net.minecraft.core.registries.Registries.BLOCK_ENTITY_TYPE, "quantumindustries");
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricalNetworkAnalyzerBlock> ELECTRICAL_NETWORK_ANALYZER =
+            BLOCKS.registerBlock("electrical_network_analyzer",br.com.quantumindustries.block.ElectricalNetworkAnalyzerBlock::new,props->props.strength(2.5F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>,BlockEntityType<br.com.quantumindustries.block.entity.ElectricalNetworkAnalyzerBlockEntity>> ELECTRICAL_NETWORK_ANALYZER_ENTITY =
+            BLOCK_ENTITIES.register("electrical_network_analyzer",()->new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricalNetworkAnalyzerBlockEntity::new,Set.of(ELECTRICAL_NETWORK_ANALYZER.get()),false));
     public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTROMAGNETIC_GENERATOR =
             BLOCKS.registerBlock("electromagnetic_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.GENERATOR), props -> props.strength(3.0F).noOcclusion());
     public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTRIC_MOTOR =
@@ -279,6 +283,14 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("electric_alloy_smelter",
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity::new,
                             Set.of(ELECTRIC_ALLOY_SMELTER.get()), false));
+
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricFurnaceBlock> ELECTRIC_FURNACE =
+            BLOCKS.registerBlock("electric_furnace", br.com.quantumindustries.block.ElectricFurnaceBlock::new,
+                    props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 12 : 0));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity>> ELECTRIC_FURNACE_ENTITY =
+            BLOCK_ENTITIES.register("electric_furnace",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity::new,
+                            Set.of(ELECTRIC_FURNACE.get()), false));
 
     public static final DeferredBlock<br.com.quantumindustries.block.JawCrusherBlock> JAW_CRUSHER =
             BLOCKS.registerBlock("jaw_crusher", br.com.quantumindustries.block.JawCrusherBlock::new,

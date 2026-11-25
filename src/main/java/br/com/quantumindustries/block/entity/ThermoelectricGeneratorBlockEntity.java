@@ -1,5 +1,9 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.thermal.ThermalInspectable;
+import br.com.quantumindustries.thermal.ThermalSnapshot;
+import br.com.quantumindustries.thermal.ThermalSnapshot.ThermalFlowEdge;
+import java.util.List;
 import br.com.quantumindustries.block.IndustrialConversionBlock.Kind;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.energy.ConversionPower;
@@ -31,7 +35,7 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Seebeck conversion across opposing faces, retaining the existing front FE output. */
-public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
+public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable, ThermalInspectable {
     public static final int CAPACITY=480,TRANSFER=32;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(CAPACITY,TRANSFER,TRANSFER);
     private final TransferBudget budget=new TransferBudget(TRANSFER);
@@ -71,6 +75,26 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
         if(operator.isEmpty()){operator=player.getUUID().toString();setChanged();}
         return ConversionAuthorization.permitted(level,operator,Kind.THERMOELECTRIC);
     }
+    @Override
+    public ThermalSnapshot thermalSnapshot() {
+        long heating = heatInput + Math.max(0L, -(long) heatExchange);
+        long cooling = generation + Math.max(0L, heatExchange);
+        // The finite reservoir is on the cold side. Its model includes phase-change energy.
+        int capacity = 0;
+        if (coolant.finite()) {
+            // Sample the sensible range outside the freezing plateau in the coolant model.
+            int fromHeat = coolant == Coolant.WATER ? 0 : coolant.minHeat();
+            int toHeat = coolant.initialHeat();
+            capacity = (toHeat - fromHeat) / (coolant.temperature(toHeat) - coolant.temperature(fromHeat));
+        }
+        Direction hotFace = coolantFace.getOpposite();
+        List<ThermalFlowEdge> edges = heatInput > 0
+                ? List.of(new ThermalFlowEdge(hotFace, worldPosition.relative(hotFace), heatInput))
+                : List.of();
+        return new ThermalSnapshot(cold, ambient, coolantHeat, capacity, heating, cooling, heating - cooling,
+                ambient, coolant.temperature(coolant.maxHeat()), edges);
+    }
+
     @Override public int energy(){return (int)battery.getAmountAsLong();}
     @Override public int capacity(){return CAPACITY;}
     @Override public Component inspectTitle(){return Component.translatable("block.quantumindustries.thermoelectric_generator");}

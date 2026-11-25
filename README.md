@@ -4,9 +4,13 @@
 
 Quantum Industries pretende levar o jogador de processos industriais básicos até química, ciência dos materiais, engenharia nuclear, computação quântica e tecnologias dimensionais. A progressão é guiada por investigação: observar, analisar, experimentar, documentar e transformar conhecimento em tecnologia.
 
-> **Status:** protótipo jogável em desenvolvimento. A Era I tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter) e Química Mineral Aplicada.
+> **Status:** protótipo jogável em desenvolvimento. A Era I (Mecânica Clássica e Ciência Empírica, governada pelo **QKS**) tem 16 pesquisas, inclui a oficina mecânica, o Forno de Ligas a Fole, o Britador de Mandíbulas (beneficiamento 2×) e termina no Dínamo Manual. A Era II (**Industrialização Científica**, dividida entre **Ciências Térmicas / QTS** e **Eletricidade e Eletromagnetismo / QES**) conta com Indução Eletromagnética, Pilha Voltaica (2.400 FE), Acumulador de Chumbo-Ácido (50.000 FE), Prensa Eletromecânica, Fundidora de Ligas Elétrica (Alloy Smelter), **Fornalha Elétrica (`electric_furnace`)**, **Analisador de Rede Elétrica MK1** e Química Mineral Aplicada.
 
-O PR 1 do QKS integra núcleo cinético, solver de rede, sincronização de chunks e renderer nativo para eixo, roda-d'água, serraria e dínamo, preservando os assets existentes. A entrega foi verificada em preview do cliente e suítes de servidor, com zero uso da API GeckoLib no subsistema mecânico; veja [a decisão de renderização](docs/adr/0001-qks-native-renderer.md). O PR 2 entrega engrenagens, volante, polias e rodas 3×3/5×5; o PR 3 entrega telemetria dos óculos e ampliação dos capítulos de física do Códice, com aceitação em servidor dedicado aprovada por `bash tools/verify-qks.sh`.
+Os motores físicos compartilhados governam a simulação no servidor:
+- **QKS** — Quantum Kinetic System ([arquitetura](docs/KINETIC_ENGINE_ARCHITECTURE.md)): núcleo cinético, solver de rede, sincronização de chunks, renderer nativo e telemetria nos óculos (`bash tools/verify-qks.sh`).
+- **QES** — Quantum Electrical System ([arquitetura](docs/ELECTRICAL_ENGINE_ARCHITECTURE.md)): aproximação DC resistiva com circuito de retorno implícito, solver determinístico para fontes/cargas/gargalos, perdas Joule, integração FE e telemetria no [Analisador MK1](docs/ELECTRICAL_NETWORK_ANALYZER.md).
+- **QTS** — Quantum Thermal System ([arquitetura](docs/THERMAL_ENGINE_ARCHITECTURE.md)): temperatura vs. energia térmica armazenada (`TU`), capacidade térmica, condução sem overshoot numérico, dissipação passiva/ativa e inércia térmica.
+- **Visão Integrada** — [PHYSICS_SYSTEMS_ARCHITECTURE.md](docs/PHYSICS_SYSTEMS_ARCHITECTURE.md): contrato de conservação `PhysicsEnergyContract` (`1 FE = 1 TU` em aquecimento resistivo puro) e integração nos Óculos de Inspeção.
 
 ## Serraria Elétrica — Era II
 
@@ -47,11 +51,11 @@ Pilares:
 
 ## Progressão planejada
 
-1. **Era I — Engenharia Mecânica e Ciência Empírica:** materiais, metalurgia, mecanismos e aproveitamento hidráulico. O dínamo encerra a era.
-2. **Era II — Revolução Elétrica:** geração, distribuição, armazenamento, motores e máquinas elétricas.
-3. **Era III — Ondas Eletromagnéticas e Tecnologia Moderna:** eletrônica, sinais, sensores, comunicação e controle programável.
-4. **Era IV — Engenharia Quântica:** materiais avançados, precisão e processamento sofisticado.
-5. **Era V — Inteligência Artificial e Automação Autônoma:** planejamento e coordenação inteligente das instalações.
+1. **Era I — Mecânica Clássica e Ciência Empírica (QKS):** materiais, metalurgia, mecanismos e aproveitamento hidráulico. O dínamo encerra a era.
+2. **Era II — Industrialização Científica (QTS + QES):** dividida em Ramo A (Termometria e Termodinâmica) e Ramo B (Eletrostática e Eletrodinâmica), com geração, distribuição, armazenamento, motores, processos térmicos integrados e Fornalha Elétrica.
+3. **Era III — Ondas Eletromagnéticas e Tecnologia Moderna (planejamento QWS/QPS):** eletrônica, sinais, pneumática avançada, sensores, comunicação e controle programável.
+4. **Era IV — Engenharia Quântica (planejamento):** materiais avançados, precisão e processamento sofisticado.
+5. **Era V — Inteligência Artificial e Automação Autônoma (planejamento):** planejamento e coordenação inteligente das instalações.
 
 ## 🖼️ Galeria Visual de Itens e Equipamentos
 

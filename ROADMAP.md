@@ -3,9 +3,12 @@
 Este roadmap registra a direção do projeto. Itens são planejados, não promessas de entrega. As fases podem ser ajustadas após protótipos e testes.
 
 As fases de entrega abaixo não são números de era. A divisão tecnológica é:
-I — Engenharia Mecânica e Ciência Empírica; II — Revolução Elétrica;
-III — Ondas Eletromagnéticas e Tecnologia Moderna; IV — Engenharia Quântica;
-V — Inteligência Artificial e Automação Autônoma.
+
+- **Era I — Mecânica Clássica e Ciência Empírica (QKS).** Observação, ensaios, oficina e transmissão mecânica. O Dínamo Manual faz a ponte para aplicações elétricas.
+- **Era II — Industrialização Científica.** Ramo A de Termometria e Termodinâmica (QTS), ramo B de Eletrostática e Eletrodinâmica (QES) e faixa de Integração Industrial. Os tubos pneumáticos continuam na Era II.
+- **Eras futuras.** Era III de Ondas Eletromagnéticas e Tecnologia Moderna, incluindo QWS e QPS. Era IV de Engenharia Quântica e Era V de Inteligência Artificial e Automação Autônoma.
+
+Consulte a [arquitetura dos sistemas físicos](docs/PHYSICS_SYSTEMS_ARCHITECTURE.md).
 
 ## Fase 0 — Fundação técnica
 
@@ -23,6 +26,7 @@ V — Inteligência Artificial e Automação Autônoma.
 - [x] Configurar seis pontas de tubos de itens, fluidos e cabos elétricos com chave (Puxar/Empurrar/Nenhum), leitura nos óculos, modo automático compatível e persistência.
 - [x] Exibir Entrada e saída no ciclo da chave, permitindo carregar e descarregar baterias pela mesma ponta.
 - [x] Serraria integrada aos tubos, vínculo persistente de pesquisa e painel dos óculos com estoques/progresso/atividade real.
+- [ ] Analisador de Rede Elétrica MK1 (Era II): validar topologia local, telemetria e painel em cliente/servidor; MK2 (Era III) acrescentará comunicação sem fio de dados; MK3 (Era IV) controle remoto e limites; Era V otimização por IA.
 - [x] Corrigir leitura elétrica dos cabos: fluxo, limite e perdas separados da reserva conectada, sem inventar armazenamento no condutor.
 - [x] Inspeção hidráulica 3D sob demanda: fluxo, parcelas reais de torque e diagnóstico das rodas 1×1/3×3/5×5, com capítulo opcional no Códice.
 - [x] Alimentação inteligente da Fundidora Elétrica: seleção de materiais aceitos no baú, um metal por entrada e devolução segura de excedentes em trânsito.
@@ -34,6 +38,8 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.\n- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
 
 ## Fase 2 — Primeira indústria
+
+- [ ] Integrar a Fornalha Elétrica da Era II, liberada por Efeito Joule, com transferência de FE para a reserva térmica, consumo de calor por receita e verificação de persistência.
 
 - [x] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (nesta branch; integração por PR).
 - [x] Receitas JSON de processamento, sincronização nativa e prévias automáticas no caderno.

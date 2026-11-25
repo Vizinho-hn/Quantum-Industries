@@ -3,6 +3,7 @@ package br.com.quantumindustries.block.entity;
 import br.com.quantumindustries.block.CopperCableBlock;
 import br.com.quantumindustries.block.IndustrialCircuitSwitchBlock;
 import br.com.quantumindustries.logistics.ConnectionMode;
+import br.com.quantumindustries.energy.qes.ElectricalNetworkState.NetworkStatus;
 import net.minecraft.core.Direction;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
@@ -21,8 +22,15 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 /** Stateless conductor for FE; records only transient load/loss for inspection. */
 public final class CopperCableBlockEntity extends BlockEntity implements EnergyInspectable, ConfigurableConduit {
+    private final br.com.quantumindustries.energy.CableTelemetryWindow telemetry = new br.com.quantumindustries.energy.CableTelemetryWindow();
+    public br.com.quantumindustries.energy.CableTelemetryWindow.Sample completedTelemetry(long time) { return telemetry.completed(time); }
     private int flow;
     private int loss;
+    private int voltageMv;
+    private int currentMa;
+    private int resistanceMOhm;
+    private int qesStatusOrdinal;
+    private long qesTick = Long.MIN_VALUE;
     private long lastFlow = Long.MIN_VALUE;
     private final ConnectionModes connections = new ConnectionModes();
 
@@ -58,6 +66,36 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
     }
     public int flow() { return flow; }
     public int loss() { return loss; }
+    public int voltageMv() { return energy() > 0 ? voltageMv : 0; }
+    public int currentMa() { return energy() > 0 ? currentMa : 0; }
+    public int resistanceMOhm() { return energy() > 0 ? resistanceMOhm : 0; }
+    public NetworkStatus qesStatus() {
+        if (getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock
+                && !getBlockState().getValue(IndustrialCircuitSwitchBlock.CLOSED)) return NetworkStatus.OPEN_CIRCUIT;
+        return flow > 0 ? NetworkStatus.values()[qesStatusOrdinal] : NetworkStatus.IDLE;
+    }
+
+    /** Recorded immediately before recordTransfer, which publishes the combined update. */
+    public void recordQesTelemetry(int voltageMv, int currentMa, int resistanceMOhm, NetworkStatus status) {
+        if (!(level instanceof ServerLevel server)) return;
+        long time = server.getGameTime();
+        if (qesTick != time) {
+            clearQesTelemetry();
+            qesTick = time;
+            this.voltageMv = voltageMv;
+        } else {
+            this.voltageMv = Math.min(this.voltageMv, voltageMv);
+        }
+        this.currentMa += currentMa;
+        this.resistanceMOhm = resistanceMOhm;
+        this.qesStatusOrdinal = Math.max(qesStatusOrdinal, status.ordinal());
+    }
+
+    private void clearQesTelemetry() {
+        voltageMv = currentMa = resistanceMOhm = 0;
+        qesStatusOrdinal = NetworkStatus.IDLE.ordinal();
+        qesTick = Long.MIN_VALUE;
+    }
     @Override public ConnectionModes connectionModes() { return connections; }
     @Override public ConnectionMode connectionMode(Direction face) {
         if (getBlockState().getBlock() instanceof IndustrialCircuitSwitchBlock)
@@ -77,11 +115,16 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         return Math.max(0, capacity() - (lastFlow == time ? flow : 0));
     }
     public void recordTransfer(int amount, int dissipated, long time) {
+        recordTransfer(amount,dissipated,time,0,0);
+    }
+    public void recordTransfer(int amount, int dissipated, long time, int injected, int delivered) {
         // A junction can be part of several deliveries in one tick.
         if (lastFlow != time) { flow = 0; loss = 0; lastFlow = time; }
         if (amount > capacity() - flow) throw new IllegalStateException("Cable transfer limit exceeded");
+        if (qesTick != time) clearQesTelemetry();
         flow += amount;
         loss += dissipated;
+        telemetry.record(time, flow, amount, injected, delivered, dissipated);
         sync();
     }
     public void tick() {
@@ -90,6 +133,7 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         if (level instanceof ServerLevel server && flow > 0 && server.getGameTime() - lastFlow > 1) {
             flow = 0;
             loss = 0;
+            clearQesTelemetry();
             sync();
         }
     }
@@ -107,11 +151,22 @@ public final class CopperCableBlockEntity extends BlockEntity implements EnergyI
         connections.load(in);
         flow = in.getIntOr("cable_flow", 0);
         loss = in.getIntOr("cable_loss", 0);
+        clearQesTelemetry();
+        if (flow > 0) {
+            voltageMv = in.getIntOr("qes_voltage_mv", 0);
+            currentMa = in.getIntOr("qes_current_ma", 0);
+            resistanceMOhm = in.getIntOr("qes_resistance_mohm", 0);
+            qesStatusOrdinal = Math.clamp(in.getIntOr("qes_status", 0), 0, NetworkStatus.values().length - 1);
+        }
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = saveCustomOnly(registries);
         tag.putInt("cable_flow", flow);
         tag.putInt("cable_loss", loss);
+        tag.putInt("qes_voltage_mv", voltageMv());
+        tag.putInt("qes_current_ma", currentMa());
+        tag.putInt("qes_resistance_mohm", resistanceMOhm());
+        tag.putInt("qes_status", qesStatus().ordinal());
         return tag;
     }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
