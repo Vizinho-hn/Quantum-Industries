@@ -64,14 +64,14 @@ class PhysicsFoundationsTest(unittest.TestCase):
 
         self.assertIn("era2_thermal_sciences", catalog)
         self.assertIn("era2_electricity_electromagnetism", catalog)
-        tree_view = (JAVA / "client/ResearchTreeView.java").read_text(encoding="utf-8")
+        tree_view = (CLIENT / "client/ResearchTreeView.java").read_text(encoding="utf-8")
         self.assertIn("ERA_TWO_BRANCHES", tree_view)
 
     def test_electric_furnace_registration_and_resources(self):
         blocks = (JAVA / "core/ModBlocks.java").read_text(encoding="utf-8")
         items = (ROOT / "src/main/java/br/com/quantumindustries/ModItems.java").read_text(encoding="utf-8")
         menus = (JAVA / "core/ModMenuTypes.java").read_text(encoding="utf-8")
-        client_menus = (JAVA / "client/ClientMenus.java").read_text(encoding="utf-8")
+        client_menus = (CLIENT / "client/ClientMenus.java").read_text(encoding="utf-8")
         recipes = (JAVA / "recipe/FoundationRecipe.java").read_text(encoding="utf-8")
 
         self.assertIn("ELECTRIC_FURNACE", blocks)

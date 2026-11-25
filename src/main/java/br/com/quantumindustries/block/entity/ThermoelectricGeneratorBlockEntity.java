@@ -69,6 +69,11 @@ public final class ThermoelectricGeneratorBlockEntity extends BlockEntity implem
     private int hot=ThermoelectricModel.AMBIENT, cold=ThermoelectricModel.AMBIENT;
     private Condition condition=Condition.NO_HEAT;
     private enum Condition { NO_HEAT, NO_COOLANT, OVERHEAT, LOCKED, NO_GRADIENT, FULL, GENERATING }
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> false, () -> true, budget, this::setChanged);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public ThermoelectricGeneratorBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.THERMOELECTRIC_GENERATOR_ENTITY.get(),pos,state);java.util.Arrays.fill(faceCoolants,Coolant.NONE);}
     public boolean bind(Player player){
         if(!ConversionAuthorization.canBind(level,worldPosition,player,Kind.THERMOELECTRIC))return false;

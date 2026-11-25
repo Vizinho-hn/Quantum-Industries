@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.fluid.FluidInspectable;
@@ -27,6 +32,19 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** 8-bucket working vat; produces bottled concentrate and solid sediment. */
 public final class SettlingVatBlockEntity extends BlockEntity implements FluidInspectable, MachineStatusInspectable {
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "fluid_hydrostatics");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "fluid_hydrostatics")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     public static final int CAPACITY=8000,RECIPE_WATER=1000,WORK_TICKS=120;
     private final FluidStacksResourceHandler tank=new FluidStacksResourceHandler(1,CAPACITY){
         @Override protected void onContentsChanged(int slot,net.neoforged.neoforge.fluids.FluidStack stack){
@@ -35,6 +53,29 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     };
     private int lapis,sulfur,halite,bottles,progress;
     private ItemStack concentrate=ItemStack.EMPTY,sediment=ItemStack.EMPTY;
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            ingredientSlot(() -> Items.LAPIS_LAZULI, () -> lapis, n -> lapis = n, () -> halite == 0, () -> 64 - sulfur),
+            ingredientSlot(() -> ModItems.CHEMICAL_PRODUCTS.get("sulfur").get(),
+                    () -> sulfur, n -> sulfur = n, () -> halite == 0, () -> 64 - lapis),
+            ingredientSlot(() -> ModItems.CHEMICAL_PRODUCTS.get("halite").get(),
+                    () -> halite, n -> halite = n, () -> lapis == 0 && sulfur == 0, () -> 64),
+            ingredientSlot(() -> Items.GLASS_BOTTLE, () -> bottles, n -> bottles = n, () -> true, () -> 64),
+            new MachineItemSlot(this, () -> concentrate, stack -> concentrate = stack,
+                    null, 64, before -> changed()),
+            new MachineItemSlot(this, () -> sediment, stack -> sediment = stack,
+                    null, 64, before -> changed()));
+
+    private MachineItemSlot ingredientSlot(java.util.function.Supplier<Item> item, java.util.function.IntSupplier count,
+            java.util.function.IntConsumer setCount, java.util.function.BooleanSupplier compatible,
+            java.util.function.IntSupplier limit) {
+        return new MachineItemSlot(this, () -> new ItemStack(item.get(), count.getAsInt()),
+                stack -> setCount.accept(stack.getCount()),
+                stack -> automationAuthorized() && compatible.getAsBoolean() && stack.is(item.get()),
+                limit, before -> changed());
+    }
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
+
     public SettlingVatBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.SETTLING_VAT_ENTITY.get(),pos,state);}
     public FluidStacksResourceHandler tank(){return tank;}
     @Override public int storedFluid(){return tank.getAmountAsInt(0);}
@@ -71,6 +112,7 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
                 ||(ModItems.CHEMICAL_PRODUCTS.containsKey("halite")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("halite").get()));
     }
     public boolean addIngredient(ItemStack stack){
+        if (!automationAuthorized()) return false;
         if(!(level instanceof ServerLevel))return false;
         boolean isLapis=stack.is(Items.LAPIS_LAZULI);
         boolean isSulfur=ModItems.CHEMICAL_PRODUCTS.containsKey("sulfur")&&stack.is(ModItems.CHEMICAL_PRODUCTS.get("sulfur").get());
@@ -106,11 +148,13 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
     }
     public void tick(){
         if(!(level instanceof ServerLevel server))return;
+        if (!automationAuthorized()) return;
+        boolean producesPigment = lapis > 0 && halite == 0;
         Item expectedConcentrate=halite>0?ModItems.HYDROCHLORIC_ACID.get():ModItems.GALVANIC_ELECTROLYTE.get();
         boolean ready=(lapis>0||sulfur>0||halite>0)&&bottles>0&&storedFluid()>=RECIPE_WATER
                 &&tank.getResource(0).is(Fluids.WATER)
                 &&(concentrate.isEmpty()||(concentrate.is(expectedConcentrate)&&concentrate.getCount()<64))
-                &&(sediment.isEmpty()||sediment.getCount()<64);
+                &&(!producesPigment||sediment.isEmpty()||sediment.getCount()<64);
         if(!ready)return;
         if(++progress<WORK_TICKS){
             if(progress%6==0){
@@ -131,20 +175,22 @@ public final class SettlingVatBlockEntity extends BlockEntity implements FluidIn
         bottles--;progress=0;
         if(concentrate.isEmpty())concentrate=new ItemStack(expectedConcentrate);
         else concentrate.grow(1);
-        if(sediment.isEmpty())sediment=new ItemStack(ModItems.PIGMENT_SEDIMENT.get());
-        else sediment.grow(1);
+        if (producesPigment) {
+            if (sediment.isEmpty()) sediment = new ItemStack(ModItems.PIGMENT_SEDIMENT.get());
+            else sediment.grow(1);
+        }
         server.playSound(null,worldPosition,SoundEvents.BREWING_STAND_BREW,SoundSource.BLOCKS,0.4f,1.1f);
         changed();
     }
     private void changed(){setChanged();if(level!=null)level.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);}
     @Override protected void saveAdditional(ValueOutput out){
-        super.saveAdditional(out);tank.serialize(out);out.putInt("lapis",lapis);out.putInt("sulfur",sulfur);out.putInt("halite",halite);
+        super.saveAdditional(out); out.putString("automation_operator", automationOperator);tank.serialize(out);out.putInt("lapis",lapis);out.putInt("sulfur",sulfur);out.putInt("halite",halite);
         out.putInt("bottles",bottles);out.putInt("progress",progress);
         if(!concentrate.isEmpty())out.store("concentrate",ItemStack.CODEC,concentrate);
         if(!sediment.isEmpty())out.store("sediment",ItemStack.CODEC,sediment);
     }
     @Override protected void loadAdditional(ValueInput in){
-        super.loadAdditional(in);tank.deserialize(in);lapis=Math.clamp(in.getIntOr("lapis",0),0,64);
+        super.loadAdditional(in); automationOperator = in.getStringOr("automation_operator", "");tank.deserialize(in);lapis=Math.clamp(in.getIntOr("lapis",0),0,64);
         sulfur=Math.clamp(in.getIntOr("sulfur",0),0,64);
         halite=Math.clamp(in.getIntOr("halite",0),0,64);
         bottles=Math.clamp(in.getIntOr("bottles",0),0,64);

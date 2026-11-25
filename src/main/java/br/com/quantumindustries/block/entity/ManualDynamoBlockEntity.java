@@ -50,6 +50,11 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
     private double gearRatio = 1.0;
     private StopReason stopReason = StopReason.NO_SOURCE;
 
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> false, () -> true, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public ManualDynamoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MANUAL_DYNAMO_ENTITY.get(), pos, state);
     }
@@ -247,7 +252,11 @@ public final class ManualDynamoBlockEntity extends BlockEntity implements Energy
             }
             return;
         }
-        int scaled=mechanicalRemainder+br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm());
+        int allowed=br.com.quantumindustries.energy.GeneratorModel.workLimitedRate(
+                br.com.quantumindustries.energy.GeneratorModel.dynamoRate(rpm()),
+                KineticNetworkManager.claimLoadWork(server, worldPosition));
+        if (allowed <= 0) { mechanicalRemainder=0; setChanged(); return; }
+        int scaled=mechanicalRemainder+allowed;
         int produced=scaled/br.com.quantumindustries.energy.GeneratorModel.SCALE;
         mechanicalRemainder=scaled%br.com.quantumindustries.energy.GeneratorModel.SCALE;
         if(produced>0)try(var transaction=Transaction.openRoot()){

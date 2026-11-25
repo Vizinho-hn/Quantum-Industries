@@ -25,8 +25,14 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.COPPER_WIRE.get());
                     output.accept(ModItems.INSULATED_COPPER_WIRE.get());
                     output.accept(ModItems.TEST_PROBES.get());
-                    output.accept(ModItems.RESEARCH_DATA.get());
                     output.accept(ModItems.QUANTUM_GUIDEBOOK.get());
+                    output.accept(ModItems.EMPIRICAL_FIELD_NOTES.get());
+                    output.accept(ModItems.COPPER_BUSBAR.get());
+                    output.accept(ModItems.INSULATED_CONDUIT.get());
+                    output.accept(ModItems.GOLD_SHEET.get());
+                    output.accept(ModItems.GOLD_WIRE.get());
+                    output.accept(ModItems.HEATED_IRON_INGOT.get());
+                    output.accept(ModItems.HEATED_COPPER_INGOT.get());
                     output.accept(ModItems.MANUAL_HAMMER.get());
                     output.accept(ModItems.CONFIGURATION_WRENCH.get());
                     output.accept(ModItems.IRON_SHEET.get());
@@ -70,7 +76,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.LEAD_ACID_ACCUMULATOR.get());
                     output.accept(ModItems.ELECTROMECHANICAL_PRESS.get());
                     output.accept(ModItems.MAGNIFYING_GLASS.get());
-                    output.accept(net.minecraft.world.item.Items.FLINT_AND_STEEL);
+                    output.accept(ModItems.FLAME_TEST_KIT.get());
                     output.accept(ModItems.BRASS_WEIGHTS.get());
                     output.accept(ModItems.MANUAL_BELLOWS.get());
                     output.accept(ModItems.ASSAY_FLASK.get());

@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
@@ -29,6 +30,8 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
 
     private Mode mode = Mode.WINDING;
     private MassTier massTier = MassTier.NONE;
+    private ItemStack installedMass = ItemStack.EMPTY;
+    private boolean massPaid;
     private int availableDepth = 0;
     private double currentHeight = 0.0;
     private int depthScanCooldown = 0;
@@ -111,14 +114,7 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
             return NONE;
         }
 
-        public ItemStack dropStack() {
-            return switch (this) {
-                case STONE -> new ItemStack(Items.COBBLESTONE);
-                case IRON -> new ItemStack(Items.IRON_BLOCK);
-                case LEAD -> new ItemStack(ModItems.LEAD_SHEET.get());
-                case NONE -> ItemStack.EMPTY;
-            };
-        }
+
     }
 
     public void tickServer() {
@@ -179,20 +175,18 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
     }
 
     public void installMass(MassTier newTier, ServerPlayer player, ItemStack heldStack) {
-        if (newTier == MassTier.NONE || newTier == massTier) {
+        if (newTier == MassTier.NONE || newTier != MassTier.fromItem(heldStack)
+                || (newTier == massTier && ItemStack.isSameItemSameComponents(installedMass, heldStack))) {
             return;
         }
-        if (massTier != MassTier.NONE && !player.getAbilities().instabuild) {
-            ItemStack previous = massTier.dropStack();
-            if (!previous.isEmpty()) {
-                player.getInventory().placeItemBackInInventory(previous);
-            }
-        }
+        ItemStack replacement = heldStack.copyWithCount(1);
+        ItemStack refund = takePaidMass();
         massTier = newTier;
+        installedMass = replacement;
+        massPaid = !player.getAbilities().instabuild;
         currentHeight = 0.0;
-        if (!player.getAbilities().instabuild) {
-            heldStack.shrink(1);
-        }
+        if (massPaid) heldStack.shrink(1);
+        if (!refund.isEmpty()) player.getInventory().placeItemBackInInventory(refund);
         if (level instanceof ServerLevel server) {
             rescanShaftDepth(server);
         }
@@ -203,15 +197,27 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
         if (massTier == MassTier.NONE) {
             return;
         }
-        if (!player.getAbilities().instabuild) {
-            ItemStack drop = massTier.dropStack();
-            if (!drop.isEmpty()) {
-                player.getInventory().placeItemBackInInventory(drop);
-            }
-        }
+        ItemStack refund = takePaidMass();
+        if (!refund.isEmpty()) player.getInventory().placeItemBackInInventory(refund);
         massTier = MassTier.NONE;
         currentHeight = 0.0;
         setChanged();
+    }
+
+    private ItemStack takePaidMass() {
+        ItemStack refund = massPaid ? installedMass : ItemStack.EMPTY;
+        installedMass = ItemStack.EMPTY;
+        massPaid = false;
+        return refund;
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        if (level instanceof ServerLevel server) {
+            ItemStack refund = takePaidMass();
+            if (!refund.isEmpty()) Block.popResource(server, pos, refund);
+        }
     }
 
     public void cycleMode() {
@@ -279,6 +285,8 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
         super.saveAdditional(output);
         output.putString("winch_mode", mode.name());
         output.putString("mass_tier", massTier.name());
+        if (!installedMass.isEmpty()) output.store("installed_mass", ItemStack.CODEC, installedMass);
+        output.putBoolean("mass_paid", massPaid);
         output.putInt("available_depth", availableDepth);
         output.putDouble("current_height", currentHeight);
     }
@@ -296,6 +304,10 @@ public final class GravityWinchBlockEntity extends RotationalBlockEntity {
         } catch (IllegalArgumentException ignored) {
             massTier = MassTier.NONE;
         }
+        // Legacy saves retain their mechanical tier but did not record item identity or payment.
+        installedMass = input.read("installed_mass", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        massPaid = !installedMass.isEmpty() && MassTier.fromItem(installedMass) == massTier
+                && input.getBooleanOr("mass_paid", false);
         availableDepth = Math.clamp(input.getIntOr("available_depth", 0), 0, MAX_SHAFT_DEPTH);
         currentHeight = Math.clamp(input.getDoubleOr("current_height", 0.0), 0.0, availableDepth);
     }

@@ -18,6 +18,10 @@ Nova `electric_sawmill`: quatro entradas e quatro saídas reais (2×2), uma câm
 
 Implementação em revisão na branch `feat/electric-sawmill-era2`, sem merge automático. Veja [arquitetura, reprodução e evidências](docs/ELECTRIC_SAWMILL.md).
 
+## Estabilização das Eras I e II
+
+Veja [autorização de máquinas, orçamento de cabos e análise instrumental Tier 2](docs/ERA2_STABILIZATION.md), incluindo uso e testes pendentes.
+
 ## Visão do projeto
 
 O códice, o caderno de pesquisas, os nomes e descrições dos itens e os relatórios acompanham o idioma do Minecraft: português em `pt_br` e inglês em `en_us`. As traduções ficam em `assets/quantumindustries/lang/`. A troca de idioma é verificada com `bash tools/verify-localization.sh`, em servidor isolado.
@@ -193,7 +197,9 @@ A Forja de Recozimento utiliza uma fonte térmica válida abaixo do bloco e rece
 
 ### Instrumentação da Era II
 
-O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos.
+- **Analisador de Rede Elétrica MK1 (`electrical_network_analyzer`):** coloque em uma face de um cabo e abra o painel com clique direito após Controle de Carga. Instrumento passivo, sem buffer, limitado a 16 blocos e 128 nós conectados carregados. Mostra injeção/entrega FE/t, perdas, reserva real dos equipamentos, histórico de 60 segundos de simulação, mapa XZ e seis maiores picos de utilização dos cabos. Escopos incompletos são sinalizados; os fluxos medidos são transferências da rede de cabos, não produção/consumo interno de cada máquina. Veja [telemetria elétrica](docs/ELECTRICAL_NETWORK_ANALYZER.md).
+
+O **Transdutor Piezoelétrico** transforma impactos discretos em pulsos de 40 FE, com intervalo mínimo por entidade e proteção contra geração AFK imóvel. Ele mantém um buffer interno de 200 FE e pode carregar máquinas adjacentes ou pelos cabos. O contato inicial e o deslocamento real dos pés sobre a placa são detectados no servidor, inclusive quando a velocidade informada pelo jogador é zero. Uma entidade parada não gera pulsos repetidos; a saída total por placa é limitada a 40 FE/t.
 
 O **Relé de Carga** acompanha um acumulador galvânico diretamente adjacente. Abaixo de 10% ele interrompe o fornecimento a máquinas; acima de 80% emite sinal de redstone de intensidade 15. O relé armazena até 96 FE para encaminhamento, sem geração própria.
 
@@ -201,7 +207,7 @@ O **Relé de Carga** acompanha um acumulador galvânico diretamente adjacente. A
 
 A pesquisa **Pressão Pneumática** libera os tubos de vidro/cobre, o ejetor e o classificador gravitacional. Coloque o ejetor apontado do baú/fornalha/prensa para um tubo; sopre com **Fole Manual** ou use **Manivela** (1 item, Shift = até 1 pilha) ou forneça **10 FE por pulso** (modo automático com 1 item). Os tubos guardam pacotes individuais por segmento e exibem os itens viajando dentro do vidro. Os tubos descarregam em baús, fornalhas ou na entrada da prensa. Um classificador pode encaminhar itens em linha reta ou para a direita, com peneira alternável por clique com barras de ferro; as categorias são discretas (pós vs lingotes), não densidade contínua. Os modelos 3D são protótipos voxel com texturas vanilla e podem ser refinados no Blockbench.
 
-A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis.
+A pesquisa **Hidrostática e Vasos Comunicantes** libera os dutos de cobre e vidro e a **Cuba de Decantação**. A rede transporta fluidos pela API NeoForge 26.1 `ResourceHandler<FluidResource>` sem usar `IFluidHandler` legado. Os dutos (250 mB de volume interno) escoam lateralmente/para baixo; a **Bomba Peristáltica** liberada por pesquisa própria transfere até **50 mB/t** usando **2 FE por tick** ou uma manivela manual, e pressuriza trechos subsequentes para vencer desníveis. A entrada traseira tem prioridade; se não transferir fluido, a bomba tenta captar pela face inferior (fonte renovável 2×2, duto ou reservatório). A saída continua frontal; não soma vazões nem consome FE se não houver transferência.
 
 A cuba tem 8.000 mB de capacidade. Com **1.000 mB de água + 1 pó de enxofre (ou lápis-lazúli) + 1 frasco de vidro**, após decantação controlada produz **1 Concentrado de Eletrólito Galvânico** (item engarrafado, usado na fabricação do Acumulador Galvânico chumbo-ácido) e **1 Sedimento de Pigmento**. Com **Sal Gema (`salt_rock`)**, produz **1 Ácido Clorídrico Diluído (`hydrochloric_acid`)** e **1 Sedimento de Pigmento**, por uma abstração de gameplay, não uma reação química real.
 

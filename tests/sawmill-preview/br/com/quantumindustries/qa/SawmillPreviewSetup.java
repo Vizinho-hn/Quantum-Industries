@@ -46,7 +46,7 @@ public final class SawmillPreviewSetup {
                 for(var p:java.util.List.of(CABLE,BUSBAR)){
                     put(l,p.west(),ModBlocks.LEAD_ACID_ACCUMULATOR.get());put(l,p.east(),ModBlocks.ELECTROMECHANICAL_PRESS.get());put(l,p,p.equals(CABLE)?ModBlocks.INSULATED_CONDUIT.get():ModBlocks.COPPER_BUSBAR.get());
                     for(var d:Direction.values())mode(l,p,d,ConnectionMode.NONE);mode(l,p,Direction.WEST,ConnectionMode.PULL);mode(l,p,Direction.EAST,ConnectionMode.PUSH);
-                    var stack=new ItemStack(Items.COPPER_INGOT,64);var press=(ElectromechanicalPressBlockEntity)l.getBlockEntity(p.east());while(!stack.isEmpty()&&press.insertIngot(stack)){}
+                    var stack=new ItemStack(Items.COPPER_INGOT,64);var press=(ElectromechanicalPressBlockEntity)l.getBlockEntity(p.east());player.setPos(p.east().getX()+.5,p.getY(),p.getZ()+1.5);if(!press.bindAutomation(player))throw new AssertionError("press authorization");while(!stack.isEmpty()&&press.insertIngot(stack)){}
                 }
                 ready=true;
             }

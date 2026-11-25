@@ -28,6 +28,7 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Serraria Elétrica: reutiliza `MechanicalProcesses` para espécies/variantes, com rendimento elétrico de 8 tábuas. Menu expõe o `SimpleContainer` real (0–3 entrada, 4–7 saída). Preserve progresso/receita/slot reservado durante NBT load; callbacks de alteração do inventário não devem invalidar a reserva enquanto o próprio save está sendo restaurado. O limite de recebimento FE é acumulado por tick, não por chamada.
 
 - Serraria: automação usa o UUID persistido `automation_operator` e valida a pesquisa por jogador em `canInsertAutomated`; extraia apenas `output`. Máquinas antigas sem vínculo exigem interação autorizada. O HUD usa os estoques e estados do update tag do servidor.
+- A autorização persistente dos processadores e a reivindicação de trabalho cinético por tick são descritas em `docs/ERA2_STABILIZATION.md`; preservar recuperação de itens legados, reautorização e registros científicos individuais.
 - Cabos de cobre são condutores sem buffer FE: `energy()` legado representa fluxo. Não some esse valor como reserva; os snapshots de cabos separam reserva/capacidade dos equipamentos conectados (`load`/`capacity`) de fluxo/limite local (`localCapacity`/`localLoad`).
 - Inspeção hidráulica: `hydraulicContributions()` reutiliza as amostras em cache das rodas, em unidades locais de acionamento QKS após normalização/saturação. Use o protocolo detalhado sob demanda; preserve o codec básico de `InspectionSnapshot`. Veja `docs/HYDRAULIC_INSPECTION.md`.
 - Transporte para fundidoras: use `canInsertIngredient` para consultar capacidade sem mutação; nunca simule inserção alterando inventários. A busca dos tubos é limitada e respeita lados e chunks carregados. A devolução de excedentes só usa um inventário na origem de uma conexão Puxar.
@@ -37,13 +38,21 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Preserve a separação cliente/servidor: o **servidor é autoridade** sobre inventários, custos, descobertas, pesquisas, permissões e desbloqueios.
 - Mantenha descobertas e pesquisas persistentes **por jogador**. Compartilhar máquina não deve misturar progresso individual.
 - Nunca confie em pacotes ou ações do cliente como prova de conclusão de pesquisa. Valide requisitos e operações no servidor.
-- Preserve invariantes da Bancada de Ensaio: quatro métodos por material (inspeção, aquecimento, reação e prensa mecânica), totalizando 40 descobertas nos dez materiais, reserva/consumo de amostra, persistência ao fechar/reabrir, ferramentas reutilizáveis e devolução de itens ao quebrar, salvo mudança de design aprovada.
+- Preserve invariantes da Bancada de Ensaio: quatro métodos por material (inspeção, aquecimento, reação e prensa mecânica), totalizando 52 descobertas nos treze materiais, reserva/consumo de amostra, persistência ao fechar/reabrir, ferramentas reutilizáveis e devolução de itens ao quebrar, salvo mudança de design aprovada.
 - Novos requisitos científicos afetam pesquisas futuras. Preserve estudos já concluídos e use WorldResearchData.canLearn/learn em todos os caminhos normais.
 - Nomes de classes e métodos em inglês, seguindo convenções Java. Evite comentários redundantes e abstrações prematuras.
 - Ao mudar itens, blocos ou interfaces, confira registros, recursos, modelos, traduções PT-BR/EN-US e receitas pertinentes.
 - Não inclua credenciais, arquivos locais, caches Gradle, mundos de teste ou saídas de build no commit.
 - Não altere licença nem redistribua assets de terceiros sem autorização.
 - Quando uma mudança alterar o comportamento do mod ou o estado do projeto, atualize as seções pertinentes do README.md e/ou ROADMAP.md no mesmo PR. Não altere documentos que não foram afetados.
+
+## Referências técnicas entre mods — obrigatório para qualquer subsistema
+- **Antes de implementar ou refatorar cabos, tubos, energia, fluidos, itens, máquinas, mecânica, redes, armazenamento, autocrafting, pesquisas, GUIs, renderização, performance ou multiplayer**, consulte a área correspondente de **`docs/ENGINEERING_REFERENCE_ATLAS.md`**. Use `docs/MOD_REFERENCES.md` como índice das fontes Create, Oritech, AE2 e Mekanism.
+- O atlas separa **fatos verificados nos códigos externos**, **implementação já existente no Quantum Industries**, **propostas de melhoria** e **testes pendentes**. Não trate sugestões como bugs confirmados ou como requisitos obrigatórios; não reproduza arquitetura, APIs, assets ou licenças de terceiros sem justificativa.
+- Para conduítes, mantenha coerentes **topologia, permissões por face (`AUTO/PULL/PUSH/NONE`), transferência real e aparência**. Teste as seis direções, bifurcações, gargalos, múltiplas fontes/destinos, ciclos, save/reload e bordas de chunks.
+- Para energia, fluidos e itens, preserve **conservação de recursos, limites por trecho/tick, atomicidade quando aplicável, inserção parcial e ausência de duplicação**. Respeite o contrato atual de cabos sem armazenamento, as transações de fluido e os pacotes físicos dos tubos pneumáticos.
+- Para mecânica, não substituir o modelo de **UM** pelo sistema de RPM/stress do Create sem decisão de gameplay. Para redes digitais/autocrafting da Era V, documente o design e valide um protótipo antes de criar frameworks genéricos.
+- Verifique assinaturas nas dependências reais do projeto (**Minecraft 26.1.2 / NeoForge 26.1.2.125**); branches externos podem ser de outras versões. Execute testes de contrato e runtime pertinentes, e registre o que foi de fato validado.
 
 ## Quantum Kinetic System — PRs 1–3 (implementação)
 - Para qualquer alteração de física de rotação, eixos, rodas-d'água, engrenagens ou renderer cinético, **consulte `docs/KINETIC_ENGINE_ARCHITECTURE.md`**.

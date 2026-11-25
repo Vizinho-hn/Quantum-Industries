@@ -51,6 +51,13 @@ public final class CrushingCatalog {
 
     public static ItemStack resultFor(ItemStack input) {
         if (input.isEmpty()) return ItemStack.EMPTY;
+        if (net.minecraft.world.level.block.Block.byItem(input.getItem()) instanceof br.com.quantumindustries.block.QuantumOreBlock ore) {
+            var mineral = ore.mineral();
+            if (mineral.category() == MineralCatalog.Category.METAL) {
+                return resultFor(new ItemStack(ModItems.RAW_MATERIALS.get(mineral.productName()).get()));
+            }
+            return new ItemStack(ModItems.CHEMICAL_PRODUCTS.get(mineral.id()).get(), 2);
+        }
         for (var dust : METAL_DUSTS) {
             if (input.is(dust.rawInput().get())) {
                 var item = ModItems.METAL_DUSTS.get(dust.id());

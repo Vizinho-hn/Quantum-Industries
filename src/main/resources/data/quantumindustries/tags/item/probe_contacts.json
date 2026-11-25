@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:copper_ingot",
+    "quantumindustries:tin_sheet",
+    "quantumindustries:zinc_sheet",
+    "quantumindustries:gold_wire",
+    "quantumindustries:electrum_wire",
+    "quantumindustries:platinum_ingot"
+  ]
+}

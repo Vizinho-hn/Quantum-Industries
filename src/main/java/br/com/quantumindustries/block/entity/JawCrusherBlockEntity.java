@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.logistics.MachineItemSlot;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.CrushingCatalog;
 import net.minecraft.core.BlockPos;
@@ -36,7 +41,33 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     private ItemStack input = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
     private int progress;
+    private String automationOperator = "";
+    public boolean automationAuthorized() {
+        return ProcessingAuthorization.permitted(level, automationOperator, "mineral_beneficiation");
+    }
+    public boolean bindAutomation(net.minecraft.world.entity.player.Player player) {
+        if (!ProcessingAuthorization.canBind(level, worldPosition, player, "mineral_beneficiation")) return false;
+        if (!automationAuthorized()) {
+            automationOperator = player.getUUID().toString();
+            changed();
+        }
+        return automationAuthorized();
+    }
+
     private long lastStroke = -10;
+
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
+            new MachineItemSlot(this, () -> input, stack -> input = stack,
+                    stack -> automationAuthorized() && CrushingCatalog.isValidInput(stack), 64, before -> changed()),
+            new MachineItemSlot(this, () -> output, stack -> output = stack,
+                    null, 64, before -> changed()));
+
+    public ResourceHandler<ItemResource> itemPort() { return itemPort; }
 
     public JawCrusherBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.JAW_CRUSHER_ENTITY.get(), pos, state);
@@ -137,6 +168,7 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     }
 
     private boolean canRun() {
+        if (!automationAuthorized()) return false;
         ItemStack result = CrushingCatalog.resultFor(input);
         return !result.isEmpty() && (output.isEmpty()
                 || ItemStack.isSameItemSameComponents(output, result)
@@ -144,6 +176,7 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     }
 
     public boolean insert(ItemStack stack) {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel) || !CrushingCatalog.isValidInput(stack)) return false;
         if (!input.isEmpty() && (!ItemStack.isSameItemSameComponents(input, stack)
                 || input.getCount() >= input.getMaxStackSize())) return false;
@@ -155,6 +188,7 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     }
 
     public boolean manualStroke() {
+        if (!automationAuthorized()) return false;
         if (!(level instanceof ServerLevel server) || !canRun() || server.getGameTime() - lastStroke < 8) return false;
         lastStroke = server.getGameTime();
         progress = Math.min(WORK_TICKS, progress + 7);
@@ -213,6 +247,7 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     @Override
     protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
+        out.putString("automation_operator", automationOperator);
         out.putInt("stored_fe", energy());
         out.putInt("progress", progress);
         out.putLong("last_stroke", lastStroke);
@@ -223,6 +258,7 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     @Override
     protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
+        automationOperator = in.getStringOr("automation_operator", "");
         battery.set(Math.clamp(in.getIntOr("stored_fe", 0), 0, CAPACITY));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, WORK_TICKS);
         lastStroke = in.getLongOr("last_stroke", -10);

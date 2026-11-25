@@ -35,6 +35,13 @@ public final class ElectromechanicalPressBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof ElectromechanicalPressBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(ElectromechanicalPressBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
@@ -65,6 +72,7 @@ public final class ElectromechanicalPressBlock extends BaseEntityBlock {
             operator.sendOverlayMessage(Component.translatable("block.quantumindustries.electromechanical_press.research"));
             return InteractionResult.SUCCESS;
         }
+        if (!press.bindAutomation(player)) return InteractionResult.SUCCESS;
         if (press.insertIngot(stack)) {
             server.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 0.4f, 1.2f);
             operator.sendOverlayMessage(Component.translatable(
@@ -81,6 +89,7 @@ public final class ElectromechanicalPressBlock extends BaseEntityBlock {
                 || !(server.getBlockEntity(pos) instanceof ElectromechanicalPressBlockEntity press)) {
             return InteractionResult.SUCCESS;
         }
+        press.bindAutomation(player);
         ItemStack extracted = press.extractResult(player.isShiftKeyDown());
         if (!extracted.isEmpty()) {
             operator.getInventory().placeItemBackInInventory(extracted);

@@ -4,6 +4,13 @@ package br.com.quantumindustries.energy;
 public final class GeneratorModel {
     public static final int SCALE=1000, FIELD_START=24, MAX_FIELD=24, MAX_HEAT=100;
     private GeneratorModel(){}
+    // Motor at 18 UM, 12 rad/s and 0.05 s costs at most 21.6 FE of work at this scale;
+    // its prepaid 24 FE/t covers the work and losses. Generation has a lower conversion factor.
+    public static final double MOTOR_FE_PER_WORK = 2.0, GENERATOR_FE_PER_WORK = 1.8;
+    public static int workLimitedRate(int requestedMilliFe, double resistingWork) {
+        if (!Double.isFinite(resistingWork) || resistingWork <= 0) return 0;
+        return (int)Math.min(Math.max(0, requestedMilliFe), Math.floor(resistingWork * GENERATOR_FE_PER_WORK * SCALE));
+    }
     public static int dynamoRate(double rpm){
         return (int)Math.round(1500*Math.clamp(Math.abs(rpm)/12.0,0,1));
     }

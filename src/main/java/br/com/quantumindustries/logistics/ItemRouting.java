@@ -150,6 +150,14 @@ public final class ItemRouting {
                 } else if (target instanceof MechanicalSawmillBlockEntity saw) {
                     foundSmelter = true;
                     if (saw.canInsertAutomated(candidate)) return true;
+                } else if (target instanceof ElectromechanicalPressBlockEntity press && !press.automationAuthorized()
+                        || target instanceof JawCrusherBlockEntity crusher && !crusher.automationAuthorized()
+                        || target instanceof WireDrawingBenchBlockEntity wire && !wire.automationAuthorized()
+                        || target instanceof BellowsAlloyKilnBlockEntity kiln && !kiln.automationAuthorized()
+                        || target instanceof BellowsBrazierBlockEntity brazier && !brazier.automationAuthorized()
+                        || target instanceof ManualGrainMillBlockEntity mill && !mill.automationAuthorized()
+                        || target instanceof SettlingVatBlockEntity vat && !vat.automationAuthorized()) {
+                    foundSmelter = true;
                 } else if (isEndpoint(level, next)) {
                     // Preserve existing transport rules for other machine types.
                     return true;

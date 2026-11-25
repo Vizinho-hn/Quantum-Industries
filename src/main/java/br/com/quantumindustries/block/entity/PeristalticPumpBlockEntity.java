@@ -15,15 +15,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/** 50 mB/t pump. FE-powered operation uses 2 FE/t; a crank provides manual pulses. */
+/** Rear inlet with bottom suction fallback; one transfer of up to 50 mB per operation. */
 public final class PeristalticPumpBlockEntity extends BlockEntity implements EnergyInspectable {
     private static final int CAPACITY=240,FE_PER_TICK=2,MAX_RATE=50;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(CAPACITY,32,FE_PER_TICK);
+    private static final int INLET_CAPACITY = 250;
+    private final FluidStacksResourceHandler inletBuffer = new FluidStacksResourceHandler(1, INLET_CAPACITY) {
+        @Override
+        protected void onContentsChanged(int slot, net.neoforged.neoforge.fluids.FluidStack stack) {
+            changed();
+        }
+    };
     private long lastManual=-10;
     private int lastFlow;
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public PeristalticPumpBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.PERISTALTIC_PUMP_ENTITY.get(),pos,state);}
     @Override public int energy(){return (int)battery.getAmountAsLong();}
     @Override public int capacity(){return CAPACITY;}
@@ -35,17 +51,55 @@ public final class PeristalticPumpBlockEntity extends BlockEntity implements Ene
         try(var tx=Transaction.openRoot()){got=battery.insert(Math.min(32,offered),tx);if(got>0)tx.commit();}
         if(got>0)changed();return got;
     }
+    private boolean isInlet(Direction side) {
+        return side == Direction.DOWN || side == getBlockState()
+                .getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+    }
+
+    public ResourceHandler<FluidResource> fluidInlet(Direction side) {
+        if (!isInlet(side)) return null;
+        return new ResourceHandler<>() {
+            @Override public int size() { return inletBuffer.size(); }
+            @Override public FluidResource getResource(int slot) { return inletBuffer.getResource(slot); }
+            @Override public long getAmountAsLong(int slot) { return inletBuffer.getAmountAsLong(slot); }
+            @Override public long getCapacityAsLong(int slot, FluidResource fluid) {
+                return inletBuffer.getCapacityAsLong(slot, fluid);
+            }
+            @Override public boolean isValid(int slot, FluidResource fluid) {
+                return isInlet(side) && inletBuffer.isValid(slot, fluid);
+            }
+            @Override public int insert(int slot, FluidResource fluid, int amount, TransactionContext transaction) {
+                return level instanceof ServerLevel && !isRemoved() && isValid(slot, fluid)
+                        ? inletBuffer.insert(slot, fluid, amount, transaction) : 0;
+            }
+            @Override public int extract(int slot, FluidResource fluid, int amount, TransactionContext transaction) {
+                return 0;
+            }
+        };
+    }
+
     /** One transfer operation is atomic for both fluid endpoints. */
     public boolean pump(boolean powered){
         if(!(level instanceof ServerLevel server)||(powered&&energy()<FE_PER_TICK))return false;
         long time=server.getGameTime();
         if(!powered&&time-lastManual<10)return false;
         Direction output=getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        BlockPos inputPos=worldPosition.relative(output.getOpposite()),outputPos=worldPosition.relative(output);
-        var source=FluidTransfer.handler(server,inputPos,output);
+        BlockPos outputPos=worldPosition.relative(output);
         var target=FluidTransfer.handler(server,outputPos,output.getOpposite());
-        int moved=source==null?FluidTransfer.drawRenewableWater(server,inputPos,target,MAX_RATE):FluidTransfer.move(source,target,MAX_RATE);
-        if(moved<=0){lastFlow=0;return false;}
+        int moved=0;
+        // Keep existing installations deterministic: rear input has priority.
+        // Bottom suction is a fallback, not a second transfer or a second charge.
+        if(target!=null){
+            moved = FluidTransfer.move(inletBuffer, target, MAX_RATE);
+            for(Direction inlet:new Direction[]{output.getOpposite(),Direction.DOWN}){
+                if (moved > 0) break;
+                BlockPos inputPos=worldPosition.relative(inlet);
+                var source=FluidTransfer.handler(server,inputPos,inlet.getOpposite());
+                moved=source==null?FluidTransfer.drawRenewableWater(server,inputPos,target,MAX_RATE)
+                        :FluidTransfer.move(source,target,MAX_RATE);
+            }
+        }
+        if(moved<=0){if(lastFlow!=0){lastFlow=0;changed();}return false;}
         if(powered){
             try(var tx=Transaction.openRoot()){battery.extract(FE_PER_TICK,tx);tx.commit();}
         }else lastManual=time;
@@ -56,10 +110,12 @@ public final class PeristalticPumpBlockEntity extends BlockEntity implements Ene
     private void changed(){setChanged();if(level!=null)level.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);}
     @Override protected void saveAdditional(ValueOutput out){
         super.saveAdditional(out);out.putInt("stored_fe",energy());out.putLong("last_manual",lastManual);
+        inletBuffer.serialize(out.child("pump_inlet"));
     }
     @Override protected void loadAdditional(ValueInput in){
         super.loadAdditional(in);battery.set(Math.clamp(in.getIntOr("stored_fe",0),0,CAPACITY));
         lastManual=in.getLongOr("last_manual",-10);
+        in.child("pump_inlet").ifPresent(inletBuffer::deserialize);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider reg){
         CompoundTag tag=saveCustomOnly(reg);tag.putInt("visual_flow",lastFlow);return tag;

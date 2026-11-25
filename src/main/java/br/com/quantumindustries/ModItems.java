@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import br.com.quantumindustries.core.ModBlocks;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -104,7 +105,7 @@ public class ModItems {
     public static final DeferredItem<Item> SULFURIC_ACID = ITEMS.registerItem("sulfuric_acid",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.sulfuric_acid.title"),
                     java.util.List.of(Component.translatable("tooltip.quantumindustries.sulfuric_acid.spec_0"), Component.translatable("tooltip.quantumindustries.sulfuric_acid.spec_1")),
-                    properties));
+                    properties.craftRemainder(Items.GLASS_BOTTLE)));
     public static final DeferredItem<Item> EBONITE_ROD = ITEMS.registerItem("ebonite_rod",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.ebonite_rod.title"),
                     java.util.List.of(Component.translatable("tooltip.quantumindustries.ebonite_rod.spec_0"), Component.translatable("tooltip.quantumindustries.ebonite_rod.spec_1")),
@@ -194,7 +195,7 @@ public class ModItems {
     public static final DeferredItem<Item> GALVANIC_ELECTROLYTE = ITEMS.registerItem("galvanic_electrolyte",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.title"),
                     java.util.List.of(Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.spec_0"), Component.translatable("tooltip.quantumindustries.galvanic_electrolyte.spec_1")),
-                    properties));
+                    properties.craftRemainder(Items.GLASS_BOTTLE)));
 
     public static final DeferredItem<Item> PIGMENT_SEDIMENT = ITEMS.registerItem("pigment_sediment",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.pigment_sediment.title"),
@@ -266,7 +267,7 @@ public class ModItems {
     public static final DeferredItem<Item> HYDROCHLORIC_ACID = ITEMS.registerItem("hydrochloric_acid",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.hydrochloric_acid.title"),
                     java.util.List.of(Component.translatable("tooltip.quantumindustries.hydrochloric_acid.spec_0"), Component.translatable("tooltip.quantumindustries.hydrochloric_acid.spec_1")),
-                    properties));
+                    properties.craftRemainder(Items.GLASS_BOTTLE)));
 
     public static final DeferredItem<Item> REFRACTORY_BRICK = ITEMS.registerItem("refractory_brick",
             properties -> new br.com.quantumindustries.item.ComponentMaterialItem(Component.translatable("tooltip.quantumindustries.refractory_brick.title"),

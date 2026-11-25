@@ -93,10 +93,7 @@ class QksPr2Resources(unittest.TestCase):
             self.assertEqual(item['textures']['layer0'], f'quantumindustries:item/{name}')
             self.assertTrue((ASSETS / f'textures/item/{name}.png').is_file())
             recipe = load(DATA / f'recipe/{name}.json')
-            self.assertEqual(recipe['type'], 'minecraft:crafting_shaped')
-            self.assertEqual(recipe['result']['id'], 'quantumindustries:'+name)
-            used = set(''.join(recipe['pattern'])) - {' '}
-            self.assertEqual(used, set(recipe['key']))
+            self.assertEqual(recipe, {'type': 'quantumindustries:foundations', 'craft': name})
             if name == 'drive_belt':
                 continue
             states = load(ASSETS / f'blockstates/{name}.json')['variants']

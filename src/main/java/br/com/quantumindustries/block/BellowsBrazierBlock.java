@@ -36,6 +36,13 @@ public final class BellowsBrazierBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.LIT, false));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof BellowsBrazierBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override protected MapCodec<? extends BaseEntityBlock> codec() { return simpleCodec(BellowsBrazierBlock::new); }
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
@@ -75,6 +82,7 @@ public final class BellowsBrazierBlock extends BaseEntityBlock {
         }
         if (!(server.getBlockEntity(pos) instanceof BellowsBrazierBlockEntity be)) return InteractionResult.SUCCESS;
 
+        if (!be.bindAutomation(player)) return InteractionResult.SUCCESS;
         if (stack.is(ModItems.MANUAL_BELLOWS.get())) {
             if (!be.puff()) {
                 op.sendOverlayMessage(Component.translatable("message.quantumindustries.brazier.need_heat"));
@@ -101,6 +109,7 @@ public final class BellowsBrazierBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && server.getBlockEntity(pos) instanceof BellowsBrazierBlockEntity be) {
+            be.bindAutomation(player);
             ItemStack taken = be.take(player.isShiftKeyDown());
             if (!taken.isEmpty()) {
                 player.getInventory().placeItemBackInInventory(taken);

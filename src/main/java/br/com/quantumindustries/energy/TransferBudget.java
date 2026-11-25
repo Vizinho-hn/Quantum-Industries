@@ -11,6 +11,16 @@ public final class TransferBudget {
         this.limit = limit;
     }
 
+    record State(long tick, int received, int extracted) {}
+
+    State snapshot() { return new State(tick, received, extracted); }
+
+    void restore(State state) {
+        tick = state.tick();
+        received = state.received();
+        extracted = state.extracted();
+    }
+
     private void refresh(long now) {
         if (now != tick) {
             tick = now;

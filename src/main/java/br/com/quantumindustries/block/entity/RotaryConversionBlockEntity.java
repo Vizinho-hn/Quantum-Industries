@@ -40,15 +40,27 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     private int lastGenerated;
     private int excitation, field, generationRemainder, rotorHeat;
     private boolean thermalTrip;
+    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
+        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, this::isMotor, this::generator, budget, this::setChanged);
+
+    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
+
     public RotaryConversionBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.ROTARY_CONVERSION_ENTITY.get(),pos,state); }
     public Kind kind() { return ((IndustrialConversionBlock)getBlockState().getBlock()).kind(); }
     public boolean isMotor() { return kind()==Kind.MOTOR; }
     private boolean generator() { return kind()==Kind.GENERATOR; }
+    public boolean isGenerator() { return generator(); }
+    public boolean isEnabled() { return enabled; }
+    public int rotorHeat() { return rotorHeat; }
+    public boolean isThermalTrip() { return thermalTrip; }
+    public int excitation() { return excitation; }
+    public int field() { return field; }
+    public int lastGenerated() { return lastGenerated; }
     public boolean needsExcitation() { return generator() && enabled && field==0 && excitation<GeneratorModel.FIELD_START && authorized(); }
     private boolean authorized() { return ConversionAuthorization.permitted(level,operator,kind()); }
     public boolean bind(Player player) {
         if (!ConversionAuthorization.canBind(level,worldPosition,player,kind())) return false;
-        if (operator.isEmpty()) { operator=player.getUUID().toString(); changed(); }
+        if (!authorized()) { operator=player.getUUID().toString(); changed(); }
         return authorized();
     }
     public void toggle(Player player) {
@@ -115,7 +127,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         applyKineticSnapshot(snap);
         lastGenerated=0;
         if (generator()) {
-            tickAlternator(snap.powered(), Math.abs(rpm()));
+            tickAlternator(snap.powered(), Math.abs(rpm()), KineticNetworkManager.claimLoadWork(server, worldPosition));
         } else if (enabled && authorized()) {
             if (isMotor() && energy()>=MOTOR_COST) {
                 try(var tx=Transaction.openRoot()){
@@ -133,7 +145,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         if(generator()) ConversionPower.distribute(server,worldPosition,this::energy,this::extractEnergy,budget);
         if(server.getGameTime()%10==0)server.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);
     }
-    private void tickAlternator(boolean powered,double speed){
+    private void tickAlternator(boolean powered,double speed,double work){
         int previousHeat = rotorHeat;
         rotorHeat=GeneratorModel.heat(rotorHeat,speed);
         lastRotorHeatDelta = rotorHeat - previousHeat;
@@ -150,7 +162,9 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         // Self-excitation is paid first. At low speed the field reserve decays.
         if(gross<GeneratorModel.SCALE||energy()>=BUFFER)field--;
         if(energy()>=BUFFER||gross<=GeneratorModel.SCALE){generationRemainder=0;setChanged();return;}
-        int scaled=GeneratorModel.netRate(speed)+generationRemainder;
+        int allowed = GeneratorModel.workLimitedRate(GeneratorModel.netRate(speed), work);
+        if (allowed <= 0) { generationRemainder=0; setChanged(); return; }
+        int scaled=allowed+generationRemainder;
         int produced=scaled/GeneratorModel.SCALE;
         generationRemainder=scaled%GeneratorModel.SCALE;
         if(produced>0)try(var tx=Transaction.openRoot()){

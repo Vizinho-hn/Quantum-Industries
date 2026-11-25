@@ -33,6 +33,13 @@ public final class JawCrusherBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
+    @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && level.getBlockEntity(pos) instanceof JawCrusherBlockEntity machine)
+            machine.bindAutomation(player);
+    }
+
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return simpleCodec(JawCrusherBlock::new);
@@ -81,7 +88,7 @@ public final class JawCrusherBlock extends BaseEntityBlock {
         if (!(server.getBlockEntity(pos) instanceof JawCrusherBlockEntity be)) {
             return InteractionResult.SUCCESS;
         }
-        if (!be.manualStroke()) op.sendOverlayMessage(be.inspectDetail());
+        if (!be.bindAutomation(player) || !be.manualStroke()) op.sendOverlayMessage(be.inspectDetail());
         return InteractionResult.SUCCESS;
     }
 
@@ -89,6 +96,7 @@ public final class JawCrusherBlock extends BaseEntityBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                                Player player, BlockHitResult hit) {
         if (level instanceof ServerLevel server && server.getBlockEntity(pos) instanceof JawCrusherBlockEntity be) {
+            be.bindAutomation(player);
             if (player instanceof ServerPlayer op) op.openMenu(new net.minecraft.world.SimpleMenuProvider(
                     (id, inventory, owner) -> new br.com.quantumindustries.menu.MachineProcessingMenu(id, inventory, pos, true),
                     Component.translatable("block.quantumindustries.jaw_crusher")), pos);

@@ -14,14 +14,14 @@ def read(relative):
 class FoundationContractTest(unittest.TestCase):
     def test_only_one_research_screen(self):
         files = sorted(p.relative_to(ROOT).as_posix() for p in JAVA.rglob("ResearchTableScreen.java"))
-        self.assertEqual(files, ["src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java"])
+        self.assertEqual(files, ["src/client/java/br/com/quantumindustries/client/ResearchTableScreen.java"])
 
     def test_exactly_one_research_screen_registration(self):
         registrations = []
         for path in JAVA.rglob("*.java"):
             if "event.register(ModMenuTypes.RESEARCH_TABLE_MENU.get()" in path.read_text(encoding="utf-8"):
                 registrations.append(path.relative_to(ROOT).as_posix())
-        self.assertEqual(registrations, ["src/main/java/br/com/quantumindustries/client/ClientMenus.java"])
+        self.assertEqual(registrations, ["src/client/java/br/com/quantumindustries/client/ClientMenus.java"])
 
     def test_world_save_codec_keeps_legacy_conductivity(self):
         source = read("src/main/java/br/com/quantumindustries/research/WorldResearchData.java")
@@ -68,7 +68,7 @@ class FoundationContractTest(unittest.TestCase):
         self.assertIn("WorldResearchData.get(serverLevel)", menu)
 
     def test_f0_screen_does_not_fake_unlocked_research(self):
-        screen = read("src/main/java/br/com/quantumindustries/client/ResearchTableScreen.java")
+        screen = read("src/client/java/br/com/quantumindustries/client/ResearchTableScreen.java")
         self.assertIn("menu.complete(id)", screen)
         self.assertNotIn("unlockConductivity(", screen)
         self.assertNotIn("TITLES =", screen)

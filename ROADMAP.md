@@ -37,6 +37,8 @@ Consulte a [arquitetura dos sistemas físicos](docs/PHYSICS_SYSTEMS_ARCHITECTURE
 - [x] Adicionar comandos administrativos de desbloqueio e limpeza de pesquisas.
 - [ ] Expandir as aplicações dos demais experimentos em máquinas e processos da Era II.\n- [x] Permitir compartilhar quatro observações empíricas com Fichas de Observação escritas no Analisador.
 
+- [ ] Validar em servidor dedicado a autorização persistente do britador/forno/fundidora, o orçamento de cabos com perdas e a análise instrumental Tier 2 (ver `docs/ERA2_STABILIZATION.md`).
+
 ## Fase 2 — Primeira indústria
 
 - [ ] Integrar a Fornalha Elétrica da Era II, liberada por Efeito Joule, com transferência de FE para a reserva térmica, consumo de calor por receita e verificação de persistência.
