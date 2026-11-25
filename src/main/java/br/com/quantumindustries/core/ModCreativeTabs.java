@@ -109,6 +109,7 @@ public final class ModCreativeTabs {
                     // --- RECURSOS E MINERAIS EXPANDIDOS ---
                     output.accept(ModItems.BELLOWS_ALLOY_KILN.get());
                     output.accept(ModItems.ELECTRIC_ALLOY_SMELTER.get());
+                    output.accept(ModItems.ELECTRIC_FURNACE.get());
                     output.accept(ModItems.JAW_CRUSHER.get());
                     output.accept(ModItems.LEAD_SHEET.get());
                     output.accept(ModItems.TIN_SHEET.get());

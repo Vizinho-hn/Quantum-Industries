@@ -29,7 +29,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                     study.costs().stream().map(cost -> cost.amount() + " " + (cost.item() == net.minecraft.world.item.Items.OAK_PLANKS
                             ? tr("gui.quantumindustries.text.any_planks") : cost.item().getDefaultInstance().getHoverName().getString())).toArray(String[]::new)))
             .toArray(ResearchDetailsPanel.Entry[]::new);
-    private final String[] ERAS = {tr("gui.quantumindustries.text.foundations"), tr("gui.quantumindustries.text.electrical"), tr("gui.quantumindustries.text.waves_modern"), tr("gui.quantumindustries.text.quantum"), tr("gui.quantumindustries.text.ai_autonomous")};
+    private final String[] ERAS = {tr("gui.quantumindustries.text.foundations"), tr("gui.quantumindustries.text.era2_scientific_industrialization"), tr("gui.quantumindustries.text.waves_modern"), tr("gui.quantumindustries.text.quantum"), tr("gui.quantumindustries.text.ai_autonomous")};
     private static final String[] ERA_NUMERALS = {"I", "II", "III", "IV", "V"};
     private final ResearchTreeView tree = new ResearchTreeView();
     private int era = 1;
@@ -40,6 +40,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
     private int recipePage;
     private int guidePage, guideResearch = -1;
     private int reportPage;
+    private int knowledgePage;
     private boolean canvasPressed;
     private boolean canvasDragged;
     private final Inventory inventory;
@@ -180,7 +181,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 pagination(g, reportPage, pageCount(ENTRIES.length));
             } else {
                 text(g, tr("gui.quantumindustries.text.knowledge_base"), 155, 77, CYAN);
-                if (!notebook) reportButton(g, 405, 71, 147, tr(instrumentalPage ? "gui.quantumindustries.text.knowledge_base" : "gui.quantumindustries.instrumental.title"), true);
+                if (!notebook) reportButton(g, 265, 71, 145, tr(instrumentalPage ? "gui.quantumindustries.text.knowledge_base" : "gui.quantumindustries.instrumental.title"), true);
                 if (!notebook && instrumentalPage) instrumentalTable(g); else knowledgeBase(g);
             }
             footer(g, states[selected], icon(selected));
@@ -493,7 +494,11 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
 
     private void knowledgeBase(GuiGraphicsExtractor g) {
         int y = 100;
-        for (var branch : ResearchCatalog.ERA_ONE_BRANCHES) {
+        int pages = notebook ? 1 : 2;
+        if (pages > 1) pagination(g, knowledgePage, pages);
+        text(g, "Era " + ERA_NUMERALS[knowledgePage] + "  /  " + ERAS[knowledgePage], 155, 90, MUTED);
+        var branches = knowledgePage == 0 ? ResearchCatalog.ERA_ONE_BRANCHES : ResearchCatalog.ERA_TWO_BRANCHES;
+        for (var branch : branches) {
             if (!branch.studies().stream().allMatch(key -> complete(ResearchCatalog.indexOf(key)))) continue;
             theme.frame(g, 155, y, 401, 63, LINE, PANEL, DARK);
             text(g, tr(branch.title()), 166, y + 8, GREEN);
@@ -501,7 +506,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
             knowledgeParagraph(g, tr(branch.application()), y + 41);
             y += 70;
         }
-        if (complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
+        if (knowledgePage == 0 && complete(ResearchCatalog.indexOf("manual_dynamo_design"))) {
             knowledgeParagraph(g, tr("gui.quantumindustries.text.in_the_dynamo_rotation_moves_an_internal_magnetic_assembly_relative_to_the_coils"), y - 4);
         }
         if (y == 100) {
@@ -558,7 +563,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
         theme.frame(g, 9, 332, 558, 55, LINE, PANEL, DARK);
         g.fakeItem(icon, 19, 348);
         clipped(g, ENTRIES[selected].name(), 43, 345, 108, TEXT);
-        text(g, ResearchCatalog.STUDIES.get(selected).era() == 2 ? tr("gui.quantumindustries.text.era_ii_automation") : tr("gui.quantumindustries.text.era_i_foundations"), 43, 360, MUTED);
+        clipped(g, tr(ResearchCatalog.sectionTitle(selected)), 43, 360, 108, MUTED);
         theme.fill(g,156, 340, 157, 380, LINE);
         theme.fill(g,316, 340, 317, 380, LINE);
         text(g, tr("gui.quantumindustries.text.requirements"), 165, 340, MUTED);
@@ -605,7 +610,7 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                     return true;
                 }
             }
-            if (tab == 1 && !notebook && x >= 405 && x < 552 && y >= 71 && y < 90) {
+            if (tab == 1 && !notebook && x >= 265 && x < 410 && y >= 71 && y < 90) {
                 instrumentalPage = !instrumentalPage;
                 return true;
             }
@@ -617,11 +622,13 @@ public final class ResearchTableScreen extends AbstractContainerScreen<ResearchT
                 }
                 return true;
             }
-            if ((tab == 2 || tab == 3) && y >= 71 && y < 90 && (x >= 420 && x < 448 || x >= 516 && x < 544)) {
+            if ((tab == 1 && !notebook && !instrumentalPage || tab == 2 || tab == 3) && y >= 71 && y < 90 && (x >= 420 && x < 448 || x >= 516 && x < 544)) {
                 int step = x < 448 ? -1 : 1;
                 if (tab == 2) {
                     List<Integer> recipes = unlockedRecipes();
                     recipePage = Math.max(0, Math.min(pageCount(recipes.size()) - 1, recipePage + step));
+                } else if (tab == 1) {
+                    knowledgePage = Math.clamp(knowledgePage + step, 0, 1);
                 } else {
                     reportPage = Math.max(0, Math.min(pageCount(ENTRIES.length) - 1, reportPage + step));
                 }

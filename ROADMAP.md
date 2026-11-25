@@ -3,9 +3,12 @@
 Este roadmap registra a direção do projeto. Itens são planejados, não promessas de entrega. As fases podem ser ajustadas após protótipos e testes.
 
 As fases de entrega abaixo não são números de era. A divisão tecnológica é:
-I — Engenharia Mecânica e Ciência Empírica; II — Revolução Elétrica;
-III — Ondas Eletromagnéticas e Tecnologia Moderna; IV — Engenharia Quântica;
-V — Inteligência Artificial e Automação Autônoma.
+
+- **Era I — Mecânica Clássica e Ciência Empírica (QKS).** Observação, ensaios, oficina e transmissão mecânica. O Dínamo Manual faz a ponte para aplicações elétricas.
+- **Era II — Industrialização Científica.** Ramo A de Termometria e Termodinâmica (QTS), ramo B de Eletrostática e Eletrodinâmica (QES) e faixa de Integração Industrial. Os tubos pneumáticos continuam na Era II.
+- **Eras futuras.** Era III de Ondas Eletromagnéticas e Tecnologia Moderna, incluindo QWS e QPS. Era IV de Engenharia Quântica e Era V de Inteligência Artificial e Automação Autônoma.
+
+Consulte a [arquitetura dos sistemas físicos](docs/PHYSICS_SYSTEMS_ARCHITECTURE.md).
 
 ## Fase 0 — Fundação técnica
 
@@ -37,6 +40,8 @@ V — Inteligência Artificial e Automação Autônoma.
 - [ ] Validar em servidor dedicado a autorização persistente do britador/forno/fundidora, o orçamento de cabos com perdas e a análise instrumental Tier 2 (ver `docs/ERA2_STABILIZATION.md`).
 
 ## Fase 2 — Primeira indústria
+
+- [ ] Integrar a Fornalha Elétrica da Era II, liberada por Efeito Joule, com transferência de FE para a reserva térmica, consumo de calor por receita e verificação de persistência.
 
 - [x] Oficina mecânica da Era I: serraria manual, eixos funcionais e roda-d'água (nesta branch; integração por PR).
 - [x] Receitas JSON de processamento, sincronização nativa e prévias automáticas no caderno.

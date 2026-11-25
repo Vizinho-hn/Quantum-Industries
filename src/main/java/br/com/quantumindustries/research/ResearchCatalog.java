@@ -128,7 +128,20 @@ public final class ResearchCatalog {
         new Study("electromagnetic_excitation", "research.quantumindustries.electromagnetic_excitation.name", "research.quantumindustries.electromagnetic_excitation.description", "research.quantumindustries.electromagnetic_excitation.reward", Items.COMPASS, 2, List.of("electromagnetic_induction", "galvanic_storage"), List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"), new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre")), List.of()),
         new Study("alternating_current", "research.quantumindustries.alternating_current.name", "research.quantumindustries.alternating_current.description", "research.quantumindustries.alternating_current.reward", Items.REDSTONE, 2, List.of("electromagnetic_excitation"), List.of(new Cost(Items.REDSTONE, 2, "redstone"), new Cost(Items.QUARTZ, 1, "quartzo")), List.of()),
         new Study("industrial_generation", "research.quantumindustries.industrial_generation.name", "research.quantumindustries.industrial_generation.description", "research.quantumindustries.industrial_generation.reward", Items.COPPER_INGOT, 2, List.of("alternating_current", "electromechanical_forming"), List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"), new Cost(Items.PAPER, 1, "papel")), List.of(new ResearchEvidence.Instrumental("copper"), new ResearchEvidence.Instrumental("iron"))),
-        new Study("mechanical_energy_storage", "research.quantumindustries.mechanical_energy_storage.name", "research.quantumindustries.mechanical_energy_storage.description", "research.quantumindustries.mechanical_energy_storage.reward", Items.IRON_BLOCK, 1, List.of("mechanical_transmission", "metal_sheets"), List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"), new Cost(Items.PAPER, 1, "papel")), List.of())
+        new Study("mechanical_energy_storage", "research.quantumindustries.mechanical_energy_storage.name", "research.quantumindustries.mechanical_energy_storage.description", "research.quantumindustries.mechanical_energy_storage.reward", Items.IRON_BLOCK, 1, List.of("mechanical_transmission", "metal_sheets"), List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"), new Cost(Items.PAPER, 1, "papel")), List.of()),
+        new Study("heat_transfer", "research.quantumindustries.heat_transfer.name",
+                "research.quantumindustries.heat_transfer.description", "research.quantumindustries.heat_transfer.reward",
+                Items.COPPER_INGOT, 2, List.of("thermal_annealing"),
+                List.of(new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre"),
+                        new Cost(() -> ModItems.REFRACTORY_BRICK.get(), 1, "tijolo refratário")),
+                List.of(new ResearchEvidence.Assay(Material.COPPER, Method.HEATING))),
+        new Study("joule_heating", "research.quantumindustries.joule_heating.name",
+                "research.quantumindustries.joule_heating.description", "research.quantumindustries.joule_heating.reward",
+                Items.FURNACE, 2, List.of("electromagnetic_induction", "heat_transfer", "wire_drawing"),
+                List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"),
+                        new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.PAPER, 1, "papel")),
+                List.of(new ResearchEvidence.Assay(Material.IRON, Method.HEATING),
+                        new ResearchEvidence.Assay(Material.COPPER, Method.INSPECTION)))
     );
 
     public record Branch(String title, List<String> studies, String knowledge, String application) {}
@@ -145,13 +158,48 @@ public final class ResearchCatalog {
                     "gui.quantumindustries.text.prepare_insulated_wires_and_coils_for_your_first_electrical_projects")
     );
 
-    public static String sectionTitle(int study) {
-        if (STUDIES.get(study).key().equals("hydraulic_power")) return "gui.quantumindustries.text.mechanical_engineering";
-        if (STUDIES.get(study).key().equals("basic_magnetism")) return "gui.quantumindustries.text.basic_electricity";
-        for (Branch branch : ERA_ONE_BRANCHES) {
-            if (branch.studies().contains(STUDIES.get(study).key())) return branch.title();
+    public enum EraTwoTrack {
+        THERMAL(new Branch("gui.quantumindustries.text.era2_thermal_sciences",
+                List.of("thermal_annealing", "heat_transfer", "fluid_hydrostatics", "peristaltic_mechanics",
+                        "chemical_leaching"),
+                "gui.quantumindustries.text.era2_thermal_knowledge",
+                "gui.quantumindustries.text.era2_thermal_application")),
+        SHARED(new Branch("gui.quantumindustries.text.era2_integration",
+                List.of("joule_heating", "electric_alloy_smelting", "pneumatic_transport", "electromechanical_forming",
+                        "piezoelectricity"),
+                "gui.quantumindustries.text.era2_integration_knowledge",
+                "gui.quantumindustries.text.era2_integration_application")),
+        ELECTRICAL(new Branch("gui.quantumindustries.text.era2_electricity_electromagnetism",
+                List.of("electromagnetic_induction", "galvanic_storage", "load_protection", "wire_drawing",
+                        "electric_wood_processing", "electromagnetic_excitation", "alternating_current",
+                        "industrial_generation"),
+                "gui.quantumindustries.text.era2_electrical_knowledge",
+                "gui.quantumindustries.text.era2_electrical_application"));
+
+        private final Branch branch;
+
+        EraTwoTrack(Branch branch) { this.branch = branch; }
+    }
+
+    public static final List<Branch> ERA_TWO_BRANCHES = java.util.Arrays.stream(EraTwoTrack.values())
+            .map(track -> track.branch).toList();
+
+    public static EraTwoTrack eraTwoTrack(String key) {
+        for (EraTwoTrack track : EraTwoTrack.values()) {
+            if (track.branch.studies().contains(key)) return track;
         }
-        return STUDIES.get(study).era() == 1 ? "gui.quantumindustries.text.electromechanical_integration" : "gui.quantumindustries.text.era_ii_electrical_revolution";
+        throw new IllegalArgumentException("Unknown Era II study: " + key);
+    }
+
+    public static String sectionTitle(int study) {
+        Study entry = STUDIES.get(study);
+        if (entry.era() == 2) return eraTwoTrack(entry.key()).branch.title();
+        if (entry.key().equals("hydraulic_power")) return "gui.quantumindustries.text.mechanical_engineering";
+        if (entry.key().equals("basic_magnetism")) return "gui.quantumindustries.text.basic_electricity";
+        for (Branch branch : ERA_ONE_BRANCHES) {
+            if (branch.studies().contains(entry.key())) return branch.title();
+        }
+        return "gui.quantumindustries.text.electromechanical_integration";
     }
 
     private static final java.util.Map<String, Study> BY_KEY = STUDIES.stream().collect(

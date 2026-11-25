@@ -230,6 +230,7 @@ public class ModItems {
     public static final DeferredItem<BlockItem> BELLOWS_ALLOY_KILN = ITEMS.registerSimpleBlockItem(ModBlocks.BELLOWS_ALLOY_KILN);
     public static final DeferredItem<BlockItem> ELECTRIC_SAWMILL = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_SAWMILL);
     public static final DeferredItem<BlockItem> ELECTRIC_ALLOY_SMELTER = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_ALLOY_SMELTER);
+    public static final DeferredItem<BlockItem> ELECTRIC_FURNACE = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_FURNACE);
     public static final DeferredItem<BlockItem> JAW_CRUSHER = ITEMS.registerSimpleBlockItem(ModBlocks.JAW_CRUSHER);
 
     public static final DeferredItem<Item> HEATED_BRONZE_INGOT = ITEMS.registerItem("heated_bronze_ingot",

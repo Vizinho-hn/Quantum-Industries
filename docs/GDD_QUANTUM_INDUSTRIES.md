@@ -220,35 +220,29 @@ O **Cofre de Origem** e o sinal misterioso podem oferecer um arco opcional de lo
 
 ## 6. Cinco eras e linhas transversais
 
-### Era I — Mecânica
-Aprender a medir e comparar → ferramentas e bancada empírica → conformação → serraria → transmissão → roda-d'água → dínamo.
+### Era I — Mecânica Clássica e Ciência Empírica (QKS)
 
-### Era II — Eletricidade
-Indução → armazenamento galvânico → cabos/conduítes → instrumentação e prensas elétricas → base de energia para processos térmicos.
+Observação e ensaios levam a conformação, serraria, transmissão, rodas-d'água e armazenamento mecânico. Condutividade e magnetismo dão base ao Dínamo Manual, que liga a oficina à geração elétrica da Era II.
 
-### Era III — Ondas e modernidade
-Eletrônica e controle + química aplicada + termodinâmica + gases industriais + início de caracterização instrumental. Sem apagar a identidade original de ondas/sinais/controle.
+### Era II — Industrialização Científica
 
-### Era IV — Engenharia Quântica
-MK2/MK3 avançados, pureza, estrutura cristalina, propriedades materiais, descoberta de rotas para reconstrução, experimentos de matéria programável.
+- **Ramo A — Termometria e Termodinâmica (QTS).** Recozimento, transferência de calor, hidrostática, peristáltica e química mineral aplicada. O Códice explica temperatura, equilíbrio e a primeira lei.
+- **Ramo B — Eletrostática e Eletrodinâmica (QES).** Indução, armazenamento galvânico, controle de carga, distribuição e geração industrial. O Códice explica cargas, corrente, resistência e potência.
+- **Integração Industrial.** A Fornalha Elétrica aplica Efeito Joule, que exige Indução Eletromagnética, Transferência de Calor e Trefilação. Fundição elétrica, conformação eletromecânica e piezoeletricidade também ocupam esta faixa. Tubos pneumáticos, ejetor e classificador continuam na Era II.
 
-### Era V — IA e automação
-Banco Atômico e montadores amadurecem; Quantum Computer integra pedidos, redes, controle de processos e autocrafting completo.
+As faixas orientam a leitura do grafo. A progressão usa os pré-requisitos e ensaios de cada estudo. A Base de Conhecimento resume os ramos concluídos, e as leituras do Códice são opcionais. Veja a [arquitetura dos sistemas físicos](PHYSICS_SYSTEMS_ARCHITECTURE.md).
 
-### Árvore de Termodinâmica
+### Era III — Ondas Eletromagnéticas e Tecnologia Moderna (planejamento)
 
-```mermaid
-flowchart LR
-  HEAT["Calor e medidas"] --> FIRST["1ª lei, trabalho, energia"]
-  FIRST --> GAS["Pressão, volume e temperatura"]
-  GAS --> MACH["Compressores e trocadores"]
-  MACH --> COOL["Refrigeração industrial"]
-  COOL --> CRYO["Engenharia criogênica"]
-  CRYO --> DIST["Separador criogênico"]
-  MACH --> OTHER["Caldeiras, motores e reatores"]
-```
+QWS para ondas, ressonância, sinais e eletrônica. QPS para pressão, vazão, compressão e pneumática avançada. A termodinâmica da Era II dá base a compressores, trocadores e refrigeração criogênica. A destilação separa componentes por suas diferentes volatilidades.
 
-Cada nó requer **experimento demonstrável**, não apenas materiais em inventário. Compressão normalmente aquece gases; resfriamento envolve troca de calor, expansão e ciclos de refrigeração. A destilação separa componentes por suas diferentes volatilidades, não por “centrifugar o ar”.
+### Era IV — Engenharia Quântica (planejamento)
+
+Estados quânticos, métodos instrumentais avançados, pureza, estrutura cristalina, caracterização e experimentos de matéria programável.
+
+### Era V — Inteligência Artificial e Automação Autônoma (planejamento)
+
+Banco Atômico e montadores amadurecem. O Quantum Computer integra pedidos, redes, controle de processos e autocrafting.
 
 ## 7. Cadeias de matéria
 

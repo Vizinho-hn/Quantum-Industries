@@ -271,6 +271,18 @@ public final class GuidebookCatalog {
             ),
             "guidebook.quantumindustries.pneumatic_transport.operation"
         ),
+        // Optional readings follow study completion; the recipe gates use research alone.
+        chapter("electric_charges", "conductivity", 1, () -> new ItemStack(Items.REDSTONE)),
+        chapter("current_and_resistance", "copper_wire", 1, () -> new ItemStack(Items.COPPER_INGOT)),
+        chapter("temperature_thermal_equilibrium", "thermal_annealing", 2, () -> new ItemStack(Items.COAL)),
+        chapter("heat_thermal_capacity", "heat_transfer", 2, () -> new ItemStack(ModItems.REFRACTORY_BRICK.get())),
+        chapter("first_law_thermodynamics", "heat_transfer", 2, () -> new ItemStack(Items.BOOK)),
+        chapter("ohms_law", "electromagnetic_induction", 2, () -> new ItemStack(Items.REDSTONE)),
+        chapter("electrical_power", "electromagnetic_induction", 2, () -> new ItemStack(Items.COMPARATOR)),
+        chapter("joule_effect", "joule_heating", 2, () -> new ItemStack(Items.FURNACE)),
+        chapter("energy_conversions", "electromagnetic_induction", 2, () -> new ItemStack(Items.COMPASS)),
+        machine("electric_furnace", "joule_heating", 2, () -> new ItemStack(ModItems.ELECTRIC_FURNACE.get())),
+        machine("electrical_network_analyzer", "load_protection", 2, () -> new ItemStack(ModItems.ELECTRICAL_NETWORK_ANALYZER.get())),
         machine("industrial_circuit_switch", "load_protection", 2, () -> new ItemStack(ModItems.INDUSTRIAL_CIRCUIT_SWITCH.get())),
         machine("laminated_iron_core", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.LAMINATED_IRON_CORE.get())),
         machine("excitation_coil", "electromagnetic_excitation", 2, () -> new ItemStack(ModItems.EXCITATION_COIL.get())),
@@ -314,6 +326,10 @@ public final class GuidebookCatalog {
     }
 
     private static Chapter machine(String id, String study, int era, Supplier<ItemStack> icon, String... additional) {
+        return chapter(id, study, era, icon, additional);
+    }
+
+    private static Chapter chapter(String id, String study, int era, Supplier<ItemStack> icon, String... additional) {
         String prefix = "guidebook.quantumindustries." + id + ".";
         return new Chapter(id, study, era, prefix + "title", prefix + "subtitle", icon,
                 List.of(prefix + "paragraph_0", prefix + "paragraph_1"), prefix + "operation", List.of(additional));

@@ -1,10 +1,15 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.thermal.ThermalInspectable;
+import br.com.quantumindustries.thermal.ThermalSnapshot;
+import br.com.quantumindustries.energy.ThermoelectricModel;
+import br.com.quantumindustries.thermal.ThermalNetwork;
+import br.com.quantumindustries.energy.PhysicsEnergyContract;
+import java.util.List;
 import br.com.quantumindustries.logistics.MachineItemSlot;
 import net.neoforged.neoforge.transfer.CombinedResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.material.AlloyCatalog;
 import net.minecraft.core.BlockPos;
@@ -27,10 +32,12 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Era II FE-powered induction alloy furnace: smelts both Tier 1 (Bronze, Brass) and Tier 2 (Invar, Electrum, Constantan, Steel) alloys. */
-public final class ElectricAlloySmelterBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
+public final class ElectricAlloySmelterBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable, ThermalInspectable {
     public static final int CAPACITY = 1200;
     public static final int MAX_RECEIVE = 64;
     public static final int ENERGY_PER_TICK = 4;
+    private static final int LEGACY_HEAT_CAPACITY = 1;
+    private int lastHeatingFe;
 
     private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_RECEIVE, ENERGY_PER_TICK);
     private ItemStack inputA = ItemStack.EMPTY;
@@ -68,6 +75,21 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
 
     public ElectricAlloySmelterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.ELECTRIC_ALLOY_SMELTER_ENTITY.get(), pos, state);
+    }
+
+    @Override
+    public ThermalSnapshot thermalSnapshot() {
+        int ambient = level instanceof ServerLevel server
+                ? ThermalNetwork.ambientAt(server, worldPosition) : ThermoelectricModel.AMBIENT;
+        var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
+        long budget = recipe == null ? 0 : (long) recipe.totalFe() * PhysicsEnergyContract.TU_PER_FE;
+        // Accumulated recipe work is a proxy for heat in the charge.
+        long work = recipe == null ? 0 : budget * progress / recipe.workTicks();
+        int temperature = ambient + (int) (work / LEGACY_HEAT_CAPACITY);
+        int target = ambient + (int) (budget / LEGACY_HEAT_CAPACITY);
+        long heating = (long) lastHeatingFe * PhysicsEnergyContract.TU_PER_FE;
+        return new ThermalSnapshot(temperature, ambient, (long) ambient * LEGACY_HEAT_CAPACITY + work,
+                LEGACY_HEAT_CAPACITY, heating, 0, heating, target, target, List.of());
     }
 
     @Override public int energy() { return (int) battery.getAmountAsLong(); }
@@ -238,6 +260,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
 
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        lastHeatingFe = 0;
         if (!automationAuthorized()) { setLit(server, false); return; }
         var recipe = AlloyCatalog.findMatch(inputA, inputB, 2);
         if (!canProcess(recipe)) {
@@ -264,6 +287,7 @@ public final class ElectricAlloySmelterBlockEntity extends BlockEntity implement
                 transaction.commit();
             }
         }
+        lastHeatingFe = stepFe;
         setLit(server, true);
         progress++;
         if (progress % 6 == 0) {

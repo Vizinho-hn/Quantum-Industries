@@ -9,6 +9,7 @@ import br.com.quantumindustries.inspection.InspectionSnapshot;
 import br.com.quantumindustries.inspection.RequestInspectionPayload;
 import br.com.quantumindustries.logistics.ConfigurableConduit;
 import br.com.quantumindustries.mechanical.MechanicalParticipant;
+import br.com.quantumindustries.thermal.ThermalInspectable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -92,6 +93,7 @@ public final class ClientInspectionCache {
     private static boolean isInspectable(BlockEntity be) {
         return be instanceof MechanicalParticipant
                 || be instanceof EnergyInspectable
+                || be instanceof ThermalInspectable
                 || be instanceof FluidInspectable
                 || be instanceof PneumaticTubeBlockEntity
                 || be instanceof ConfigurableConduit;

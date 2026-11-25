@@ -1,5 +1,10 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.thermal.ThermalInspectable;
+import br.com.quantumindustries.thermal.ThermalSnapshot;
+import br.com.quantumindustries.energy.ThermoelectricModel;
+import br.com.quantumindustries.thermal.ThermalNetwork;
+import java.util.List;
 import br.com.quantumindustries.block.IndustrialConversionBlock;
 import br.com.quantumindustries.block.IndustrialConversionBlock.Kind;
 import br.com.quantumindustries.core.ModBlocks;
@@ -21,9 +26,12 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 /** Sources pay for the following tick before advertising QKS torque. Generators are sinks. */
-public final class RotaryConversionBlockEntity extends RotationalBlockEntity implements EnergyInspectable, MachineStatusInspectable {
+public final class RotaryConversionBlockEntity extends RotationalBlockEntity implements EnergyInspectable, MachineStatusInspectable, ThermalInspectable {
     public static final int MOTOR_COST=24, MOTOR_CAPACITY=18, STEAM_COST=10, STEAM_CAPACITY=24, GENERATOR_LOAD=12, GENERATOR_MAX=8;
     private static final int BUFFER=1200, TRANSFER=64;
+    private static final int ROTOR_RESET_HEAT = 40;
+    private static final int LEGACY_HEAT_CAPACITY = 1;
+    private int lastRotorHeatDelta;
     private final SimpleEnergyHandler battery=new SimpleEnergyHandler(BUFFER,TRANSFER,TRANSFER);
     private final TransferBudget budget=new TransferBudget(TRANSFER);
     private String operator="";
@@ -72,6 +80,17 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         return generator() && enabled && authorized() && !thermalTrip
                 ? GeneratorModel.load(field>0 || excitation>=GeneratorModel.FIELD_START,energy(),BUFFER,lastGenerated) : 0;
     }
+    @Override
+    public ThermalSnapshot thermalSnapshot() {
+        int ambient = level instanceof ServerLevel server
+                ? ThermalNetwork.ambientAt(server, worldPosition) : ThermoelectricModel.AMBIENT;
+        int temperature = ambient + rotorHeat;
+        long net = (long) lastRotorHeatDelta * LEGACY_HEAT_CAPACITY;
+        return new ThermalSnapshot(temperature, ambient, (long) temperature * LEGACY_HEAT_CAPACITY,
+                LEGACY_HEAT_CAPACITY, Math.max(0, net), Math.max(0, -net), net,
+                ambient + ROTOR_RESET_HEAT, ambient + GeneratorModel.MAX_HEAT, List.of());
+    }
+
     @Override public int energy() { return kind()==Kind.STEAM_ENGINE ? 0 : (int)battery.getAmountAsLong(); }
     @Override public int capacity() { return kind()==Kind.STEAM_ENGINE ? 0 : BUFFER; }
     @Override public Component inspectTitle() { return Component.translatable("block.quantumindustries."+kind().id); }
@@ -127,9 +146,11 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         if(server.getGameTime()%10==0)server.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),Block.UPDATE_CLIENTS);
     }
     private void tickAlternator(boolean powered,double speed,double work){
+        int previousHeat = rotorHeat;
         rotorHeat=GeneratorModel.heat(rotorHeat,speed);
+        lastRotorHeatDelta = rotorHeat - previousHeat;
         if(rotorHeat>=GeneratorModel.MAX_HEAT)thermalTrip=true;
-        if(thermalTrip&&rotorHeat<=40)thermalTrip=false;
+        if(thermalTrip&&rotorHeat<=ROTOR_RESET_HEAT)thermalTrip=false;
         if(!enabled||!authorized()||!powered||thermalTrip){
             if(field>0)field--;generationRemainder=0;setChanged();return;
         }

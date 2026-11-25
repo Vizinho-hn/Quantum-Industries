@@ -3,6 +3,7 @@ package br.com.quantumindustries.logistics;
 import br.com.quantumindustries.block.entity.BellowsAlloyKilnBlockEntity;
 import br.com.quantumindustries.block.entity.BellowsBrazierBlockEntity;
 import br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity;
+import br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity;
 import br.com.quantumindustries.block.entity.ElectromechanicalPressBlockEntity;
 import br.com.quantumindustries.block.entity.GravitationalSorterBlockEntity;
 import br.com.quantumindustries.block.entity.JawCrusherBlockEntity;
@@ -36,6 +37,7 @@ public final class ItemRouting {
                 || entity instanceof JawCrusherBlockEntity
                 || entity instanceof WireDrawingBenchBlockEntity
                 || entity instanceof ElectricAlloySmelterBlockEntity
+                || entity instanceof ElectricFurnaceBlockEntity
                 || entity instanceof BellowsAlloyKilnBlockEntity
                 || entity instanceof BellowsBrazierBlockEntity
                 || entity instanceof MechanicalSawmillBlockEntity
@@ -70,6 +72,7 @@ public final class ItemRouting {
         if (blockEntity instanceof WireDrawingBenchBlockEntity wireBench) {
             return previewStack(wireBench.output(), maximum);
         }
+        if (blockEntity instanceof ElectricFurnaceBlockEntity furnace) return previewStack(furnace.output(), maximum);
         if (blockEntity instanceof ElectricAlloySmelterBlockEntity smelter) {
             return previewStack(smelter.output(), maximum);
         }
@@ -138,6 +141,9 @@ public final class ItemRouting {
                 } else if (target instanceof ElectricAlloySmelterBlockEntity smelter) {
                     foundSmelter = true;
                     if (smelter.canInsertIngredient(candidate)) return true;
+                } else if (target instanceof ElectricFurnaceBlockEntity furnace) {
+                    foundSmelter = true;
+                    if (furnace.canInsert(candidate)) return true;
                 } else if (target instanceof ElectricSawmillBlockEntity saw) {
                     foundSmelter = true;
                     if (saw.canInsert(candidate)) return true;
@@ -195,6 +201,7 @@ public final class ItemRouting {
         if (blockEntity instanceof ElectromechanicalPressBlockEntity press) return press.extractOutput(maximum);
         if (blockEntity instanceof JawCrusherBlockEntity crusher) return crusher.extractOutput(maximum);
         if (blockEntity instanceof WireDrawingBenchBlockEntity wireBench) return wireBench.extractOutput(maximum);
+        if (blockEntity instanceof ElectricFurnaceBlockEntity furnace) return furnace.extractOutput(maximum);
         if (blockEntity instanceof ElectricAlloySmelterBlockEntity smelter) return smelter.extractOutput(maximum);
         if (blockEntity instanceof BellowsAlloyKilnBlockEntity kiln) return kiln.extractOutput(maximum);
         if (blockEntity instanceof BellowsBrazierBlockEntity brazier) return brazier.extractOutput(maximum);
@@ -229,6 +236,7 @@ public final class ItemRouting {
         if (entity instanceof ElectromechanicalPressBlockEntity press) return insertLoop(packet, press::insertIngot);
         if (entity instanceof JawCrusherBlockEntity crusher) return insertLoop(packet, crusher::insert);
         if (entity instanceof WireDrawingBenchBlockEntity wireBench) return insertLoop(packet, wireBench::insert);
+        if (entity instanceof ElectricFurnaceBlockEntity furnace) return insertLoop(packet, furnace::insert);
         if (entity instanceof ElectricAlloySmelterBlockEntity smelter) return insertLoop(packet, smelter::insertIngredient);
         if (entity instanceof BellowsAlloyKilnBlockEntity kiln) return insertLoop(packet, kiln::insert);
         if (entity instanceof BellowsBrazierBlockEntity brazier) return insertLoop(packet, brazier::insert);

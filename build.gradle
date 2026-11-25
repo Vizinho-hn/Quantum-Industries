@@ -229,6 +229,8 @@ sourceSets.test.java {
     include("**/CableTelemetryWindowCheck.java")
     include("**/ThermoelectricModelCheck.java")
     include("**/GeneratorModelCheck.java")
+    include("**/ThermalSystemCheck.java")
+    include("**/ElectricalSystemCheck.java")
 }
 sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
 sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
@@ -246,6 +248,8 @@ tasks.named("check") {
     dependsOn("verifyCableTelemetryWindow")
     dependsOn("verifyThermoelectricModel")
     dependsOn("verifyGeneratorModel")
+    dependsOn("verifyThermalSystem")
+    dependsOn("verifyElectricalSystem")
 }
 
 tasks.register("verifyMechanicalFoundation", JavaExec) {
@@ -283,4 +287,16 @@ tasks.register("verifyCableTelemetryWindow", JavaExec) {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets.test.runtimeClasspath
     mainClass = "br.com.quantumindustries.energy.CableTelemetryWindowCheck"
+}
+
+tasks.register("verifyThermalSystem", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.thermal.ThermalSystemCheck"
+}
+
+tasks.register("verifyElectricalSystem", JavaExec) {
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "br.com.quantumindustries.energy.ElectricalSystemCheck"
 }

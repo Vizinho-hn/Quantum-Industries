@@ -123,6 +123,7 @@ public class CopperCableBlock extends BaseEntityBlock {
                 || nBlock instanceof PeristalticPumpBlock
                 || nBlock instanceof BellowsEjectorBlock
                 || nBlock instanceof ElectricAlloySmelterBlock
+                || nBlock instanceof ElectricFurnaceBlock
                 || nBlock instanceof JawCrusherBlock) {
             return true;
         }

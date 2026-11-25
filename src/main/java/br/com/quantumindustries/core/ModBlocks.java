@@ -284,6 +284,14 @@ public class ModBlocks {
                     () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity::new,
                             Set.of(ELECTRIC_ALLOY_SMELTER.get()), false));
 
+    public static final DeferredBlock<br.com.quantumindustries.block.ElectricFurnaceBlock> ELECTRIC_FURNACE =
+            BLOCKS.registerBlock("electric_furnace", br.com.quantumindustries.block.ElectricFurnaceBlock::new,
+                    props -> props.strength(3.0F).noOcclusion().lightLevel(state -> state.getValueOrElse(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, false) ? 12 : 0));
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity>> ELECTRIC_FURNACE_ENTITY =
+            BLOCK_ENTITIES.register("electric_furnace",
+                    () -> new BlockEntityType<>(br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity::new,
+                            Set.of(ELECTRIC_FURNACE.get()), false));
+
     public static final DeferredBlock<br.com.quantumindustries.block.JawCrusherBlock> JAW_CRUSHER =
             BLOCKS.registerBlock("jaw_crusher", br.com.quantumindustries.block.JawCrusherBlock::new,
                     props -> props.strength(2.8F).noOcclusion());

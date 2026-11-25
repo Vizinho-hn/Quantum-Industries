@@ -25,6 +25,9 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 @EventBusSubscriber(modid = "quantumindustries", value = Dist.CLIENT)
 public final class MechanicalOverlayRenderer {
     private static final double MOTION_EPSILON = 1.0e-6;
+    private static final int THERMAL_RED = 0xF0;
+    private static final int THERMAL_GREEN = 0x96;
+    private static final int THERMAL_BLUE = 0x54;
 
     private MechanicalOverlayRenderer() {}
 
@@ -38,7 +41,8 @@ public final class MechanicalOverlayRenderer {
 
         InspectionSnapshot snap = ClientInspectionCache.active();
         if (snap == null || snap.kind() == InspectionSnapshot.Kind.NONE) return;
-        if (snap.networkNodes().isEmpty()) return;
+        boolean hasThermalEdges = snap.hasThermal() && !snap.thermalEdges().isEmpty();
+        if (snap.networkNodes().isEmpty() && !hasThermalEdges) return;
         if (!(player.pick(6, 0, false) instanceof net.minecraft.world.phys.BlockHitResult hit)
                 || hit.getType() != net.minecraft.world.phys.HitResult.Type.BLOCK || !hit.getBlockPos().equals(snap.target())) return;
 
@@ -61,6 +65,7 @@ public final class MechanicalOverlayRenderer {
             }
             case FLUID -> { r = 106; g = 178; b = 224; }
             case PNEUMATIC -> { r = 224; g = 196; b = 132; }
+            case THERMAL -> { r = THERMAL_RED; g = THERMAL_GREEN; b = THERMAL_BLUE; }
             default -> { return; }
         }
 
@@ -103,8 +108,27 @@ public final class MechanicalOverlayRenderer {
             }
         }
 
+        if (hasThermalEdges) drawThermalArrows(consumer, matrix, snap);
+
         pose.popPose();
         buffers.endBatch(RenderTypes.lines());
+    }
+
+    private static void drawThermalArrows(VertexConsumer out, PoseStack.Pose pose, InspectionSnapshot snap) {
+        for (var edge : snap.thermalEdges()) {
+            int flow = edge.heatFlowTu();
+            if (flow == 0) continue;
+            BlockPos from = flow > 0 ? edge.neighbor() : snap.target();
+            BlockPos to = flow > 0 ? snap.target() : edge.neighbor();
+            Direction.Axis axis = edge.face().getAxis();
+            // Lift the line outside opaque blocks without changing the transfer direction.
+            Vec3 offset = axis == Direction.Axis.Y ? new Vec3(0.56, 0, 0) : new Vec3(0, 0.56, 0);
+            Vec3 start = Vec3.atCenterOf(from).add(offset);
+            Vec3 end = Vec3.atCenterOf(to).add(offset);
+            drawDirectionalArrow(out, pose, (float) start.x, (float) start.y, (float) start.z,
+                    (float) end.x, (float) end.y, (float) end.z, axis,
+                    THERMAL_RED, THERMAL_GREEN, THERMAL_BLUE, 240);
+        }
     }
 
     private static void drawConduitModeArrows(VertexConsumer out, PoseStack.Pose pose,
