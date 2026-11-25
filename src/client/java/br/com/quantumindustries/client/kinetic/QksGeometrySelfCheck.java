@@ -11,7 +11,7 @@ public final class QksGeometrySelfCheck {
     private static final float EPSILON = 1.0e-4f;
     private static final int FACES_PER_CUBE = 6;
     private static final Map<String, Map<String, Integer>> CUBES = Map.of(
-            "mechanical_shaft_block", Map.of("base", 5, "rotor", 2, "shaft_tip_negative", 1,
+            "mechanical_shaft_block", Map.of("base", 5, "rotor", 3, "shaft_tip_negative", 1,
                     "shaft_tip_positive", 1, "crank", 2),
             "primitive_water_wheel", Map.of("rotor", 102),
             "medium_water_wheel", Map.of("rotor", 142),
