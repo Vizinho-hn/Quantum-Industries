@@ -30,7 +30,7 @@ Consulte a [arquitetura dos sistemas físicos](docs/PHYSICS_SYSTEMS_ARCHITECTURE
 - [x] Corrigir leitura elétrica dos cabos: fluxo, limite e perdas separados da reserva conectada, sem inventar armazenamento no condutor.
 - [x] Inspeção hidráulica 3D sob demanda: fluxo, parcelas reais de torque e diagnóstico das rodas 1×1/3×3/5×5, com capítulo opcional no Códice.
 - [x] Alimentação inteligente da Fundidora Elétrica: seleção de materiais aceitos no baú, um metal por entrada e devolução segura de excedentes em trânsito.
-- [x] Adicionar interfaces nativas à Fundidora Elétrica e ao Britador, com inventário, slots persistentes, energia, progresso, nome do material e botão de manivela validado no servidor.
+- [x] Adicionar interfaces nativas à Fundidora Elétrica e ao Britador, com inventário, slots persistentes, progresso, nome do material, indicador de energia na fundidora e botão de manivela no britador validado no servidor.
 - [x] Tornar Observação dos Materiais a entrada da Era I e liberar o Analisador de Materiais.
 - [x] Integrar evidências científicas reutilizáveis (inspeção, prensa, aquecimento e reação) às pesquisas, relatórios e HUD.
 - [x] Integrar as receitas desbloqueadas ao livro de receitas do Minecraft.
@@ -72,7 +72,7 @@ Consulte a [arquitetura dos sistemas físicos](docs/PHYSICS_SYSTEMS_ARCHITECTURE
 - [x] Implementar manivela separada, geração manual, armazenamento de FE e leitura com óculos.
 - [x] Expansão mineralógica e geológica: 18 minerais reais (36 blocos Stone/Deepslate, brutos, lingotes, pepitas e pós químicos) com geração no Overworld (Worldgen) e Common Tags `#c:*`.
 - [x] Implementar Forno de Ligas a Fole (Era I — seis ligas; revisão de progressão em validação) e Fundidora de Ligas Elétrica / Alloy Smelter (Era II — Bronze, Latão, Invar, Electrum, Constantan e Aço), além da cadeia chumbo-ácido para o Acumulador Galvânico.
-- [x] Implementar Britador de Mandíbulas (`jaw_crusher` — Manivela ou FE) com duplicação de minérios brutos em pós purificados (1 bruto → 2 pós), moagem mecanizada de trigo (1 trigo → 2 farinhas) e trituração de carvão em grafite.
+- [x] Implementar Britador de Mandíbulas (`jaw_crusher` — manivela ou torque pela porta QKS) com duplicação de minérios brutos em pós purificados (1 bruto → 2 pós), moagem mecanizada de trigo (1 trigo → 2 farinhas) e trituração de carvão em grafite.
 - [x] Integrar minerais químicos reais: Fluorita como fluxo metalúrgico no Forno a Fole, Sal Gema (Halita) na Cuba de Decantação para produzir Ácido Clorídrico Diluído (abstração de gameplay), Grafite em Tijolos Refratários e Apatita + Enxofre em Fertilizante Fosfatado.
 - [x] Expandir Trefiladora (`electrum_wire`, `constantan_wire`, `constantan_coil`) e Recozimento Térmico (`heated_bronze_ingot`, `heated_brass_ingot`, `heated_steel_ingot`).
 - [ ] Validar a progressão completa com coleta em survival e dois jogadores reais.

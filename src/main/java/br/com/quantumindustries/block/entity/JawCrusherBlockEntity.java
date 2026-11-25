@@ -5,9 +5,13 @@ import net.neoforged.neoforge.transfer.CombinedResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
+import br.com.quantumindustries.block.JawCrusherBlock;
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.mechanical.KineticNetworkManager;
+import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import br.com.quantumindustries.material.CrushingCatalog;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,28 +23,22 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-/**
- * Hybrid Jaw Crusher: operates manually via Hand Crank strokes in Era I (3 strokes)
- * or automatically with Forge Energy in Era II (60 FE over 20 ticks).
- * Doubles raw ore yield into 2x purified mineral dust and mills 1x wheat into 2x flour.
- */
-public final class JawCrusherBlockEntity extends BlockEntity implements EnergyInspectable, MachineStatusInspectable {
-    public static final int CAPACITY = 480;
-    public static final int MAX_RECEIVE = 48;
+/** Crushes raw ore, grain and coal by crank strokes or work delivered at the flywheel. */
+public final class JawCrusherBlockEntity extends RotationalBlockEntity implements MachineStatusInspectable {
     public static final int WORK_TICKS = 20;
-    public static final int FE_PER_TICK = 3;
+    private static final int STROKE_TICKS = 8;
+    private static final int SHAFT_LOAD = 6;
+    private static final double WORK_PER_PROGRESS = 1.35;
 
-    private final SimpleEnergyHandler battery = new SimpleEnergyHandler(CAPACITY, MAX_RECEIVE, FE_PER_TICK);
     private ItemStack input = ItemStack.EMPTY;
     private ItemStack output = ItemStack.EMPTY;
     private int progress;
+    private double workRemainder;
+    private boolean shaftWorking;
     private String automationOperator = "";
     public boolean automationAuthorized() {
         return ProcessingAuthorization.permitted(level, automationOperator, "mineral_beneficiation");
@@ -54,41 +52,26 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
         return automationAuthorized();
     }
 
-    private long lastStroke = -10;
+    private long lastStroke = -STROKE_TICKS;
 
-    private final br.com.quantumindustries.energy.MachineEnergyPort energyPort =
-        new br.com.quantumindustries.energy.MachineEnergyPort(this, battery, () -> true, () -> false, null, this::changed);
-
-    public net.neoforged.neoforge.transfer.energy.EnergyHandler energyPort() { return energyPort; }
-
-    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(
-            new MachineItemSlot(this, () -> input, stack -> input = stack,
-                    stack -> automationAuthorized() && CrushingCatalog.isValidInput(stack), 64, before -> changed()),
-            new MachineItemSlot(this, () -> output, stack -> output = stack,
-                    null, 64, before -> changed()));
+    private final MachineItemSlot inputPort = new MachineItemSlot(this, () -> input, stack -> input = stack,
+            stack -> automationAuthorized() && CrushingCatalog.isValidInput(stack), 64, before -> changed());
+    private final MachineItemSlot outputPort = new MachineItemSlot(this, () -> output, stack -> output = stack,
+            null, 64, before -> changed());
+    private final ResourceHandler<ItemResource> itemPort = new CombinedResourceHandler<>(inputPort, outputPort);
 
     public ResourceHandler<ItemResource> itemPort() { return itemPort; }
+
+    public ResourceHandler<ItemResource> itemPort(BlockState state, Direction face) {
+        if (!state.getValue(JawCrusherBlock.REFINED)) return itemPort;
+        if (JawCrusherBlock.isInputPort(state, face)) return inputPort;
+        return face != null && JawCrusherBlock.isOutputPort(state, face) ? outputPort : null;
+    }
 
     public JawCrusherBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.JAW_CRUSHER_ENTITY.get(), pos, state);
     }
 
-    @Override
-    public int energy() {
-        return (int) battery.getAmountAsLong();
-    }
-
-    @Override
-    public int capacity() {
-        return CAPACITY;
-    }
-
-    @Override
-    public Component inspectTitle() {
-        return Component.translatable("block.quantumindustries.jaw_crusher");
-    }
-
-    @Override
     public Component inspectDetail() {
         if (progress > 0 && !input.isEmpty()) {
             return Component.translatable("gui.quantumindustries.crusher.progress", progress * 100 / WORK_TICKS);
@@ -97,15 +80,15 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
             return Component.translatable("gui.quantumindustries.press.output_ready", output.getCount(), output.getHoverName());
         }
         return Component.translatable("message.quantumindustries.jaw_crusher.status",
-                progress, WORK_TICKS, energy(),
+                progress, WORK_TICKS,
                 input.isEmpty() ? Component.literal("-") : input.getHoverName(),
                 output.isEmpty() ? 0 : output.getCount());
     }
 
-    @Override public Component statusTitle() { return inspectTitle(); }
+    @Override public Component statusTitle() { return Component.translatable("block.quantumindustries.jaw_crusher"); }
     @Override public Component statusDetail() { return inspectDetail(); }
     @Override public State statusState() {
-        if (progress > 0 && !input.isEmpty()) return State.WORKING;
+        if (working()) return State.WORKING;
         if (!output.isEmpty()) return State.READY;
         if (!input.isEmpty()) return State.BLOCKED;
         return State.IDLE;
@@ -113,18 +96,6 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     @Override public float statusProgress() {
         if (progress > 0 && !input.isEmpty()) return Math.min(1.0f, (float) progress / WORK_TICKS);
         return !output.isEmpty() ? 1.0f : 0.0f;
-    }
-
-    @Override
-    public int receiveEnergy(int offered) {
-        if (!(level instanceof ServerLevel) || offered <= 0 || energy() >= CAPACITY) return 0;
-        int inserted;
-        try (var tx = Transaction.openRoot()) {
-            inserted = battery.insert(Math.min(MAX_RECEIVE, offered), tx);
-            if (inserted > 0) tx.commit();
-        }
-        if (inserted > 0) changed();
-        return inserted;
     }
 
     public ItemStack input() { return input; }
@@ -139,13 +110,13 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
             }
             @Override public boolean isEmpty() { return input.isEmpty() && output.isEmpty(); }
             @Override public void setItem(int slot, ItemStack stack) {
-                if (slot == 0 && !ItemStack.isSameItemSameComponents(getItem(slot), stack)) progress = 0;
+                if (slot == 0 && !ItemStack.isSameItemSameComponents(getItem(slot), stack)) resetProgress();
                 switch (slot) { case 0 -> input = stack; case 1 -> output = stack; default -> throw new IndexOutOfBoundsException(slot); }
                 changed();
             }
             @Override public ItemStack removeItem(int slot, int amount) {
                 var taken = getItem(slot).split(amount);
-                if (slot == 0 && getItem(slot).isEmpty()) progress = 0;
+                if (slot == 0 && getItem(slot).isEmpty()) resetProgress();
                 if (!taken.isEmpty()) changed();
                 return taken;
             }
@@ -189,7 +160,9 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
 
     public boolean manualStroke() {
         if (!automationAuthorized()) return false;
-        if (!(level instanceof ServerLevel server) || !canRun() || server.getGameTime() - lastStroke < 8) return false;
+        if (!(level instanceof ServerLevel server) || !canRun() || server.getGameTime() - lastStroke < STROKE_TICKS) return false;
+        var network = KineticNetworkManager.snapshot(server, worldPosition);
+        if (network.powered() && network.nodeCount() > 1) return false;
         lastStroke = server.getGameTime();
         progress = Math.min(WORK_TICKS, progress + 7);
         server.playSound(null, worldPosition, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.45f, 0.9f);
@@ -207,24 +180,60 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
         } else if (takeInput && !input.isEmpty()) {
             result = input.copy();
             input = ItemStack.EMPTY;
-            progress = 0;
+            resetProgress();
         }
         if (!result.isEmpty()) changed();
         return result;
     }
 
+    @Override public Direction.Axis axle() { return JawCrusherBlock.driveFace(getBlockState()).getAxis(); }
+    @Override public boolean connectsMechanical(Direction face) { return face == JawCrusherBlock.driveFace(getBlockState()); }
+    @Override public boolean allowsCrank() { return false; }
+    @Override public int sourceCapacity() { return 0; }
+    @Override public double kineticInertia() { return 2.5; }
+    @Override public int requestedLoad() { return !isCranking() && canRun() ? SHAFT_LOAD : 0; }
+
     public void tick() {
-        if (!(level instanceof ServerLevel server) || !canRun() || energy() < FE_PER_TICK) return;
-        try (var tx = Transaction.openRoot()) {
-            if (battery.extract(FE_PER_TICK, tx) < FE_PER_TICK) return;
-            tx.commit();
+        if (!(level instanceof ServerLevel server)) return;
+        if ((server.getGameTime() + worldPosition.asLong()) % 20 == 0
+                && !JawCrusherBlock.assemblyIntact(server, worldPosition, getBlockState())) {
+            server.removeBlock(worldPosition, false);
+            return;
         }
-        progress++;
-        if (progress == WORK_TICKS / 2) {
-            server.playSound(null, worldPosition, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.35f, 1.05f);
+        var network = KineticNetworkManager.snapshot(server, worldPosition);
+        double work = requestedLoad() > 0 && network.powered()
+                ? KineticNetworkManager.claimLoadWork(server, worldPosition) : 0;
+        boolean wasWorking = shaftWorking;
+        shaftWorking = work > 0;
+        if (shaftWorking) {
+            workRemainder += work;
+            int earned = (int) (workRemainder / WORK_PER_PROGRESS);
+            workRemainder -= earned * WORK_PER_PROGRESS;
+            progress = Math.min(WORK_TICKS, progress + earned);
+            setChanged();
+            if (progress >= WORK_TICKS) {
+                finishIfReady(server);
+                server.playSound(null, worldPosition, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.35f, 1.05f);
+                changed();
+                return;
+            }
         }
-        finishIfReady(server);
-        changed();
+        if (wasWorking != shaftWorking || shaftWorking && server.getGameTime() % 5 == 0) {
+            server.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        }
+    }
+
+    public boolean working() { return isCranking() || shaftWorking; }
+
+    public boolean isCranking() {
+        if (level == null) return false;
+        long age = level.getGameTime() - lastStroke;
+        return age >= 0 && age < STROKE_TICKS;
+    }
+
+    public double visualTurns(double gameTime) {
+        double stroke = Math.clamp((gameTime - lastStroke) / STROKE_TICKS, 0.0, 1.0);
+        return stroke * stroke * (3.0 - 2.0 * stroke);
     }
 
     private void finishIfReady(ServerLevel server) {
@@ -236,21 +245,21 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
         input.shrink(1);
         if (output.isEmpty()) output = result;
         else output.grow(result.getCount());
-        progress = 0;
+        resetProgress();
     }
 
-    private void changed() {
-        setChanged();
-        if (level != null) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+    private void resetProgress() {
+        progress = 0;
+        workRemainder = 0;
     }
 
     @Override
     protected void saveAdditional(ValueOutput out) {
         super.saveAdditional(out);
         out.putString("automation_operator", automationOperator);
-        out.putInt("stored_fe", energy());
         out.putInt("progress", progress);
         out.putLong("last_stroke", lastStroke);
+        out.putDouble("kinetic_work_remainder", workRemainder);
         if (!input.isEmpty()) out.store("input", ItemStack.CODEC, input);
         if (!output.isEmpty()) out.store("output", ItemStack.CODEC, output);
     }
@@ -259,9 +268,11 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
     protected void loadAdditional(ValueInput in) {
         super.loadAdditional(in);
         automationOperator = in.getStringOr("automation_operator", "");
-        battery.set(Math.clamp(in.getIntOr("stored_fe", 0), 0, CAPACITY));
         progress = Math.clamp(in.getIntOr("progress", 0), 0, WORK_TICKS);
-        lastStroke = in.getLongOr("last_stroke", -10);
+        lastStroke = in.getLongOr("last_stroke", -STROKE_TICKS);
+        double remainder = in.getDoubleOr("kinetic_work_remainder", 0);
+        workRemainder = Double.isFinite(remainder) ? Math.clamp(remainder, 0, WORK_PER_PROGRESS) : 0;
+        shaftWorking = in.getBooleanOr("shaft_working", false);
         input = in.read("input", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         output = in.read("output", ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
@@ -283,7 +294,9 @@ public final class JawCrusherBlockEntity extends BlockEntity implements EnergyIn
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveCustomOnly(registries);
+        CompoundTag tag = super.getUpdateTag(registries);
+        tag.putBoolean("shaft_working", shaftWorking);
+        return tag;
     }
 
     @Override

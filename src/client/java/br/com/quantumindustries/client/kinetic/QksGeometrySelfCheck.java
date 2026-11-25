@@ -11,8 +11,11 @@ public final class QksGeometrySelfCheck {
     private static final float EPSILON = 1.0e-4f;
     private static final int FACES_PER_CUBE = 6;
     private static final Map<String, Map<String, Integer>> CUBES = Map.of(
-            "mechanical_shaft_block", Map.of("base", 5, "rotor", 9, "crank", 2),
-            "primitive_water_wheel", Map.of("base", 8, "rotor", 26),
+            "mechanical_shaft_block", Map.of("base", 5, "rotor", 2, "shaft_tip_negative", 1,
+                    "shaft_tip_positive", 1, "crank", 2),
+            "primitive_water_wheel", Map.of("rotor", 102),
+            "medium_water_wheel", Map.of("rotor", 142),
+            "large_water_wheel", Map.of("rotor", 142),
             "mechanical_sawmill", Map.of("base", 14, "carriage", 2, "rotor", 21, "crank", 2),
             "manual_dynamo", Map.of("base", 48, "rotor", 38, "crank", 3));
 
@@ -42,7 +45,7 @@ public final class QksGeometrySelfCheck {
                 throw new IllegalStateException("Unable to check " + name, exception);
             }
         });
-        for (String name : java.util.List.of("small_cogwheel", "large_cogwheel", "iron_flywheel", "mechanical_pulley", "medium_water_wheel", "large_water_wheel")) {
+        for (String name : java.util.List.of("small_cogwheel", "large_cogwheel", "iron_flywheel", "mechanical_pulley")) {
             try (InputStream stream = QksGeometrySelfCheck.class.getResourceAsStream(QksModelCache.CLASSPATH_PREFIX + name + QksModelCache.MODEL_SUFFIX)) {
                 // Job 2B may still be producing these resources during a parallel Java check.
                 if (stream == null) continue;
@@ -52,6 +55,10 @@ public final class QksGeometrySelfCheck {
                 model.bones().values().forEach(bone -> verifyQuads(bone.quads()));
             } catch (IOException exception) { throw new IllegalStateException("Unable to check " + name, exception); }
         }
+        QksCompiledModel crusher = QksModelCache.get("jaw_crusher");
+        require(crusher.rootBoneNames().size() == 8 && crusher.bone("moving_jaw") != null
+                && crusher.bone("drive_coupling") != null, "Crusher rig");
+        crusher.bones().values().forEach(bone -> verifyQuads(bone.quads()));
         verifyRotationAxes();
         verifyRejectedInput();
         verifyCacheAndImmutability();

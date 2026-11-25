@@ -43,6 +43,7 @@ O Dínamo Manual encerra o **arco de geração elétrica** da Era I, mas **não*
 Nesta branch, a oficina mecânica traz serraria manual, transmissão por eixos
 e roda-d'água, independente de FE. A integração na main depende da revisão do PR.
 [Auditoria, funcionamento e validação](docs/ERA1_MECHANICAL.md).
+Os eixos ajustam cada ponta à porta mecânica vizinha. Veja o [padrão de encaixe](docs/MECHANICAL_CONNECTION_STANDARD.md).
 
 O objetivo não é apenas adicionar máquinas cada vez mais caras. O jogador deve descobrir como o mundo funciona e usar esse conhecimento para criar novas soluções industriais.
 
@@ -155,7 +156,9 @@ no inventário. A Tier 2 mantém seu visual tecnológico.
 
 ### Beneficiamento Mineral 2× e Britador de Mandíbulas (`jaw_crusher`)
 
-- Liberado pela pesquisa **Beneficiamento e Cominuição Mineral** (`mineral_beneficiation` — Era I), o **Britador de Mandíbulas** é uma máquina híbrida: opera manualmente na Era I com **3 giros da Manivela** ou automaticamente na Era II consumindo **60 FE** (3 FE/t por 20 ticks, buffer de 240 FE).
+O britador usa o **A compacto (1×1×1)** em novas colocações. Posicione o hopper diretamente acima da cuba. A saída aceita extração pela frente da calha ou por um hopper abaixo dela. Clique com matéria prima para inserir e agache com a mão vazia para recolher. Britadores já instalados, incluindo o B de teste, mantêm a montagem e o inventário ao carregar o mundo.
+
+- Liberado pela pesquisa **Beneficiamento e Cominuição Mineral** (`mineral_beneficiation` — Era I), o **Britador de Mandíbulas** processa cada receita com **três giros da manivela** ou com **torque do QKS**. No compacto A, ligue um eixo horizontal na face oposta ao volante. Quando há material e espaço na saída, o britador solicita **6 UM** e avança de acordo com o trabalho mecânico entregue.
 - **Duplicação de Minérios (1 Bruto → 2 Pós):** tritura `raw_copper`, `raw_iron`, `raw_gold`, `raw_tin`, `raw_zinc`, `raw_lead`, `raw_nickel` e `raw_silver` em **2× Pós Purificados (`*_dust`)**. Cada pó pode ser fundido 1:1 em lingote na fornalha/alto-forno, usado diretamente nos fornos de liga ou analisado na Bancada de Ensaio Empírico.
 - **Moagem Mecanizada e Carvão:** também mói **1 Trigo → 2 Farinhas** (dobrando o rendimento do Moedor Manual) e tritura **1 Carvão → 2 Pós de Grafite**.
 
@@ -246,7 +249,7 @@ a receita real. Entradas, saída e progresso pertencem à máquina e ficam
 guardados ao fechar a interface.
 
 O **Britador de Mandíbulas** usa a mesma organização, com uma entrada, saída,
-mandíbulas ilustradas, energia e nome do material em britagem. O botão
+mandíbulas ilustradas, progresso e nome do material em britagem. O botão
 **Acionar manivela** usa a manivela presente no inventário, respeitando a
 pesquisa e o intervalo entre giros. O acionamento com a ferramenta na mão
 também continua disponível. Shift + clique transfere itens entre os slots e

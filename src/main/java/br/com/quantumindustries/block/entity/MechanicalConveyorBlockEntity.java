@@ -107,7 +107,8 @@ public final class MechanicalConveyorBlockEntity extends RotationalBlockEntity i
         if (packet.isEmpty()) {
             BlockPos source = worldPosition.relative(travel.getOpposite());
             if (!server.hasChunkAt(source)) return;
-            BlockEntity entity = server.getBlockEntity(source);
+            if (!ItemRouting.canExtractFrom(server, source, travel)) return;
+            BlockEntity entity = ItemRouting.endpointEntity(server, source);
             // Belts and tubes push; never pull from their in-flight state.
             if (!permitted(entity) || entity instanceof PneumaticTubeBlockEntity) return;
             ItemStack taken = ItemRouting.extract(server, source, 1);

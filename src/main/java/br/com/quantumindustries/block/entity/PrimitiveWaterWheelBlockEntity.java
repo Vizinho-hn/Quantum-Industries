@@ -31,6 +31,8 @@ public final class PrimitiveWaterWheelBlockEntity extends RotationalBlockEntity 
         return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
     }
 
+    @Override public int mechanicalPortSize(Direction face) { return 3; }
+
     @Override public boolean allowsCrank() { return false; }
 
 

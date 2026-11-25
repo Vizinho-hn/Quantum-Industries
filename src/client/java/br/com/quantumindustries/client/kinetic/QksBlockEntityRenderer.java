@@ -4,8 +4,12 @@ import br.com.quantumindustries.block.MechanicalShaftBlock;
 import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalShaftBlockEntity;
+import br.com.quantumindustries.block.entity.PrimitiveWaterWheelBlockEntity;
+import br.com.quantumindustries.block.entity.MediumWaterWheelBlockEntity;
+import br.com.quantumindustries.block.entity.LargeWaterWheelBlockEntity;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.mechanical.KineticMath;
+import br.com.quantumindustries.mechanical.MechanicalParticipant;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -34,6 +38,8 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     private static final Identifier DYNAMO_TEXTURE = Identifier.fromNamespaceAndPath(
             MOD_ID, "textures/block/dynamo_materials.png");
     private static final String BASE = "base", ROTOR = "rotor", CRANK = "crank", CARRIAGE = "carriage";
+    private static final Identifier WHEEL_TEXTURE =
+            Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/water_wheel_d.png");
     private static final double UNITS_PER_BLOCK = 16.0;
     private static final double CARRIAGE_CENTER = 0.1, CARRIAGE_AMPLITUDE = 1.7;
     private static final double CARRIAGE_CYCLES_PER_TICK = 0.05;
@@ -60,14 +66,15 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
         event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_PULLEY_ENTITY.get(),
                 context -> new QksBlockEntityRenderer<>("mechanical_pulley", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/mechanical_pulley.png"), Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.MEDIUM_WATER_WHEEL_ENTITY.get(),
-                context -> new QksBlockEntityRenderer<>("medium_water_wheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/medium_water_wheel.png"), Direction.Axis.Z));
+                context -> new QksBlockEntityRenderer<>("medium_water_wheel", WHEEL_TEXTURE, Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.LARGE_WATER_WHEEL_ENTITY.get(),
-                context -> new QksBlockEntityRenderer<>("large_water_wheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/large_water_wheel.png"), Direction.Axis.Z));
+                context -> new QksBlockEntityRenderer<>("large_water_wheel", WHEEL_TEXTURE, Direction.Axis.Z));
 
         event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(),
-                context -> new QksBlockEntityRenderer<>("mechanical_shaft_block", WORKSHOP_TEXTURE, Direction.Axis.Z));
+                context -> new QksBlockEntityRenderer<>("mechanical_shaft_block",
+                        Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/mechanical_shaft_a.png"), Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.PRIMITIVE_WATER_WHEEL_ENTITY.get(),
-                context -> new QksBlockEntityRenderer<>("primitive_water_wheel", WORKSHOP_TEXTURE, Direction.Axis.Z));
+                context -> new QksBlockEntityRenderer<>("primitive_water_wheel", WHEEL_TEXTURE, Direction.Axis.Z));
         event.registerBlockEntityRenderer(ModBlocks.MECHANICAL_SAWMILL_ENTITY.get(),
                 context -> new QksBlockEntityRenderer<>("mechanical_sawmill", WORKSHOP_TEXTURE, Direction.Axis.X));
         event.registerBlockEntityRenderer(ModBlocks.MANUAL_DYNAMO_ENTITY.get(),
@@ -97,6 +104,15 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
             state.facing = entity.getBlockState().hasProperty(BlockStateProperties.HORIZONTAL_FACING)
                     ? entity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING)
                     : switch (state.axle) { case X -> Direction.WEST; case Y -> Direction.UP; case Z -> Direction.NORTH; };
+            if (rot instanceof MechanicalShaftBlockEntity shaft) {
+                Direction negativeFace = state.facing;
+                var negative = mechanicalNeighbor(shaft, negativeFace);
+                var positive = mechanicalNeighbor(shaft, negativeFace.getOpposite());
+                state.shaftNegativeTipScale = connectedPortScale(negative, negativeFace.getOpposite());
+                state.shaftPositiveTipScale = connectedPortScale(positive, negativeFace);
+                state.shaftNegativeTipReach = wheelTipReach(negative);
+                state.shaftPositiveTipReach = wheelTipReach(positive);
+            }
         } else if (entity instanceof ManualDynamoBlockEntity dynamo) {
             state.axle = dynamo.axle();
             state.facing = dynamo.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
@@ -137,6 +153,29 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
         };
     }
 
+    private static MechanicalParticipant mechanicalNeighbor(RotationalBlockEntity machine, Direction face) {
+        var level = machine.getLevel();
+        var neighborPos = machine.getBlockPos().relative(face);
+        if (level == null || !machine.connectsMechanical(face) || !level.hasChunkAt(neighborPos)
+                || !(level.getBlockEntity(neighborPos) instanceof MechanicalParticipant neighbor)
+                || !neighbor.connectsMechanical(face.getOpposite())) return null;
+        return neighbor;
+    }
+
+    private static float connectedPortScale(MechanicalParticipant neighbor, Direction portFace) {
+        if (neighbor == null) return 1.0f;
+        int width = Math.clamp(neighbor.mechanicalPortSize(portFace), 3, MechanicalShaftBlock.PORT_SIZE);
+        return (float) width / MechanicalShaftBlock.PORT_SIZE;
+    }
+
+    // Hub face depths in model units, matching the three style D wheel rigs.
+    private static float wheelTipReach(MechanicalParticipant neighbor) {
+        if (neighbor instanceof PrimitiveWaterWheelBlockEntity) return 8 - 3.86f;
+        if (neighbor instanceof MediumWaterWheelBlockEntity) return 8 - 5.56f;
+        if (neighbor instanceof LargeWaterWheelBlockEntity) return 8 - 7.41f;
+        return 0;
+    }
+
     @Override
     public void submit(QksRenderState state, PoseStack pose, SubmitNodeCollector collector, CameraRenderState camera) {
         if (state.beltEnd != null) QksBeltRenderer.submit(state, pose, collector);
@@ -167,6 +206,11 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
 
     @Override public net.minecraft.world.phys.AABB getRenderBoundingBox(T entity) {
         var bounds = new net.minecraft.world.phys.AABB(entity.getBlockPos());
+        if (entity instanceof MechanicalShaftBlockEntity shaft) {
+            Direction.Axis axis = shaft.axle();
+            return bounds.inflate(axis == Direction.Axis.X ? .3 : 0, axis == Direction.Axis.Y ? .3 : 0,
+                    axis == Direction.Axis.Z ? .3 : 0);
+        }
         if (entity instanceof br.com.quantumindustries.block.entity.RimWaterWheelBlockEntity wheel)
             return bounds.inflate(wheel.rimRadius() + .5);
         if (entity instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity pulley && pulley.partnerPos() != null)
@@ -188,6 +232,16 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
         if (name.equals(ROTOR)) {
             Axis axis = state.rotorLocalAxis == Direction.Axis.X ? Axis.XP : Axis.ZP;
             work.mulPose(axis.rotationDegrees(state.angleDegrees * state.worldAxisSign));
+        }
+        if (name.equals("shaft_tip_negative") || name.equals("shaft_tip_positive")) {
+            boolean negative = name.equals("shaft_tip_negative");
+            float width = negative ? state.shaftNegativeTipScale : state.shaftPositiveTipScale;
+            float reach = negative ? state.shaftNegativeTipReach : state.shaftPositiveTipReach;
+            // Scale along the axis about the inner edge, keeping the tip joined to the shaft body.
+            float lengthScale = 1 + reach / 2.55f;
+            float innerEdge = negative ? 2.55f / 16 : 13.45f / 16;
+            work.translate(0, 0, (1 - lengthScale) * (innerEdge - bone.pivotZ()));
+            work.scale(width, width, lengthScale);
         }
         work.translate(-bone.pivotX(), -bone.pivotY(), -bone.pivotZ());
         if (!name.equals(BASE) || state.baseVisible) {

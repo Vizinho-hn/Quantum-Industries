@@ -6,12 +6,20 @@
   },
   "name": "mechanical_shaft_block",
   "resolution": {
-    "width": 128,
-    "height": 128
+    "width": 32,
+    "height": 32
   },
   "elements": [
     {
       "name": "Pedestal Footplate",
+      "uuid": "61228bbf-d3f4-59c2-afb1-649e34afc428",
+      "type": "cube",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "box_uv": false,
       "from": [
         4.4,
         0.0,
@@ -25,71 +33,70 @@
       "faces": {
         "north": {
           "uv": [
-            32,
-            32,
-            64,
-            40
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            32,
-            32,
-            64,
-            40
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            32,
-            32,
-            64,
-            40
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            32,
-            32,
-            64,
-            40
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Pedestal Stanchion",
+      "uuid": "025e38f4-fc48-509c-a7ce-ef5322e386e6",
       "type": "cube",
-      "uuid": "50cff849-7a32-502a-8fca-8cce8881ee51",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Pedestal Stanchion",
+      ],
+      "box_uv": false,
       "from": [
         5.7,
         1.0,
@@ -103,1007 +110,532 @@
       "faces": {
         "north": {
           "uv": [
-            0,
-            0,
-            24,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            0,
-            0,
-            24,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            0,
-            0,
-            24,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            0,
-            0,
-            24,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            72,
-            80,
-            88,
-            104
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            72,
-            80,
-            88,
-            104
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Pedestal Bearing Block",
+      "uuid": "8288dba9-5230-500a-9951-cf091455c3d5",
       "type": "cube",
-      "uuid": "ec1df7a5-0960-5820-b53d-639954a5c5df",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Pedestal Bearing Block",
+      ],
+      "box_uv": false,
       "from": [
         5.2,
-        3.3,
+        2.95,
         5.8
       ],
       "to": [
         10.8,
-        4.7,
+        3.55,
         10.2
       ],
       "faces": {
         "north": {
           "uv": [
-            64,
-            0,
-            96,
-            20
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            64,
-            0,
-            96,
-            20
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            64,
-            0,
-            96,
-            20
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            64,
-            0,
-            96,
-            20
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Pedestal Saddle West",
+      "uuid": "886ae121-032e-5337-9b80-40242f9a218b",
       "type": "cube",
-      "uuid": "7e5f5f75-6616-58b0-8e11-cee4d770054b",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Pedestal Saddle West",
+      ],
+      "box_uv": false,
       "from": [
         4.75,
-        4.1,
+        3.35,
         6.1
       ],
       "to": [
         5.55,
-        5.2,
+        3.75,
         9.9
       ],
       "faces": {
         "north": {
           "uv": [
-            64,
-            0,
-            96,
-            16
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            64,
-            0,
-            96,
-            16
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            64,
-            0,
-            96,
-            16
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            64,
-            0,
-            96,
-            16
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
-            112,
-            48,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Pedestal Saddle East",
+      "uuid": "85ea8eb3-90e1-5049-8069-963c9d4c547d",
       "type": "cube",
-      "uuid": "e8351b03-be3d-5173-a005-849dd78ded87",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Pedestal Saddle East",
+      ],
+      "box_uv": false,
       "from": [
         10.45,
-        4.1,
+        3.35,
         6.1
       ],
       "to": [
         11.25,
-        5.2,
+        3.75,
         9.9
       ],
       "faces": {
         "north": {
           "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "57cafa2d-44cc-59c2-9765-3d6b65ebbbf9",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Axle Tenon North",
-      "from": [
-        6.0,
-        6.0,
-        0.0
-      ],
-      "to": [
-        10.0,
-        10.0,
-        2.6
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            96,
-            64,
-            128,
-            96
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            96,
-            64,
-            128,
-            96
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
+            20,
             16,
-            72,
-            40,
-            88
+            29,
+            25
           ],
           "texture": 0
         },
-        "west": {
+        "south": {
           "uv": [
+            20,
             16,
-            72,
-            40,
-            88
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            72,
-            80,
-            88,
-            104
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            72,
-            80,
-            88,
-            104
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "ae4caaf8-6474-5619-b919-88dff2fcd49c",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Axle Tenon South",
-      "from": [
-        6.0,
-        6.0,
-        13.4
-      ],
-      "to": [
-        10.0,
-        10.0,
-        16.0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            96,
-            64,
-            128,
-            96
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            96,
-            64,
-            128,
-            96
+            29,
+            25
           ],
           "texture": 0
         },
         "east": {
           "uv": [
+            20,
             16,
-            72,
-            40,
-            88
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
+            20,
             16,
-            72,
-            40,
-            88
+            29,
+            25
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            72,
-            80,
-            88,
-            104
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            72,
-            80,
-            88,
-            104
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Eixo de madeira",
+      "uuid": "5625b508-10c6-51d9-bb09-3142ec68755d",
       "type": "cube",
-      "uuid": "7c93edc8-8d92-5a63-9bf2-e7405c82c80b",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Bronze Bushing North",
-      "from": [
-        5.25,
-        5.25,
-        2.5
       ],
-      "to": [
-        10.75,
-        10.75,
-        4.0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            96,
-            96,
-            118,
-            118
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            96,
-            96,
-            118,
-            118
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            118,
-            96,
-            128,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            118,
-            96,
-            128,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            96,
-            118,
-            118,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            96,
-            118,
-            118,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "b7a05c14-c1dc-5fd9-86ea-30e74fa035f6",
       "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Bronze Bushing South",
       "from": [
-        5.25,
-        5.25,
-        12.0
+        5,
+        5,
+        2.55
       ],
       "to": [
-        10.75,
-        10.75,
-        13.5
+        11,
+        11,
+        13.45
       ],
       "faces": {
         "north": {
           "uv": [
-            96,
-            96,
-            118,
-            118
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            96,
-            96,
-            118,
-            118
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            118,
-            96,
-            128,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            118,
-            96,
-            128,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            96,
-            118,
-            118,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            96,
-            118,
-            118,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "8f51b2c1-7e68-56d3-aab2-f7102809e968",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Wooden Drum Core",
-      "from": [
-        5.0,
-        5.0,
-        3.9
-      ],
-      "to": [
-        11.0,
-        11.0,
-        12.1
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8,
-            72,
-            32,
-            88
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            8,
-            72,
-            32,
-            88
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            64,
-            64,
-            96
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            64,
-            64,
-            96
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            64,
-            64,
-            96,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            64,
-            64,
-            96,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "4b5ff6e1-b41e-50f2-aade-5cc6c335300f",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Wooden Drum Stave V",
-      "from": [
-        5.6,
-        4.6,
-        4.05
-      ],
-      "to": [
-        10.4,
-        11.4,
-        11.95
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8,
-            72,
-            32,
-            88
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            8,
-            72,
-            32,
-            88
+            21,
+            2,
+            30,
+            11
           ],
           "texture": 0
         },
         "east": {
           "uv": [
             2,
-            64,
-            62,
-            96
+            2,
+            18,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            21,
+            2,
+            30,
+            11
           ],
           "texture": 0
         },
         "west": {
           "uv": [
             2,
-            64,
-            62,
-            96
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            68,
-            65,
-            92,
-            127
+            1,
+            14,
+            7,
+            30
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            68,
-            65,
-            92,
-            127
+            1,
+            14,
+            7,
+            30
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Cinta de ferro · norte",
+      "uuid": "727165dc-1d11-54ef-833f-3eebd1600ee7",
       "type": "cube",
-      "uuid": "0b6377e0-464c-5106-b227-a059dbd68d8b",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Wooden Drum Stave H",
+      ],
+      "box_uv": false,
       "from": [
-        4.6,
-        5.6,
-        4.15
+        4.875,
+        4.875,
+        2.55
       ],
       "to": [
-        11.4,
-        10.4,
-        11.85
+        11.125,
+        11.125,
+        4
       ],
       "faces": {
         "north": {
+          "uv": [
+            20,
+            16,
+            29,
+            25
+          ],
+          "texture": 0
+        },
+        "east": {
           "uv": [
             8,
-            72,
-            32,
-            88
+            11,
+            12,
+            19
           ],
           "texture": 0
         },
         "south": {
+          "uv": [
+            20,
+            16,
+            29,
+            25
+          ],
+          "texture": 0
+        },
+        "west": {
           "uv": [
             8,
-            72,
-            32,
-            88
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            2,
-            68,
-            62,
-            92
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            2,
-            68,
-            62,
-            92
+            11,
+            12,
+            19
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            64,
-            65,
-            96,
-            127
+            9,
+            22,
+            17,
+            26
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            64,
-            65,
-            96,
-            127
+            9,
+            22,
+            17,
+            26
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Cinta de ferro · sul",
+      "uuid": "7ad9ec9e-320e-5550-8e6a-57fbc7b43433",
       "type": "cube",
-      "uuid": "28a55a8c-2561-5378-bb39-5c39aa180e7f",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Wrought Iron Hoop North",
+      ],
+      "box_uv": false,
       "from": [
-        4.5,
-        4.5,
-        4.3
+        4.875,
+        4.875,
+        12
       ],
       "to": [
-        11.5,
-        11.5,
-        5.5
+        11.125,
+        11.125,
+        13.45
       ],
       "faces": {
         "north": {
           "uv": [
-            64,
-            0,
-            96,
-            32
+            20,
+            16,
+            29,
+            25
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            8,
+            11,
+            12,
+            19
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            64,
-            0,
-            96,
-            32
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            48,
-            96,
-            64,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            48,
-            96,
-            64,
-            128
+            8,
+            11,
+            12,
+            19
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            0,
-            96,
-            48,
-            112
+            9,
+            22,
+            17,
+            26
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            0,
-            96,
-            48,
-            112
+            9,
+            22,
+            17,
+            26
           ],
           "texture": 0
         }
-      },
-      "type": "cube",
-      "uuid": "81c3c3aa-3fe7-5e54-8351-7020e047e323",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "Wrought Iron Hoop South",
-      "from": [
-        4.5,
-        4.5,
-        10.5
-      ],
-      "to": [
-        11.5,
-        11.5,
-        11.7
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            64,
-            0,
-            96,
-            32
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            32
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            48,
-            96,
-            64,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            48,
-            96,
-            64,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            96,
-            48,
-            112
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            96,
-            48,
-            112
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "8969f14d-2842-5bd3-b32b-bfb93eb907f3",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
+      }
     },
     {
       "name": "Crank Arm",
+      "uuid": "7df39f1c-454b-5cc2-b5da-f0c18519daa6",
+      "type": "cube",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "box_uv": false,
       "from": [
         7.5,
         7.5,
@@ -1117,71 +649,70 @@
       "faces": {
         "north": {
           "uv": [
-            98,
-            98,
-            106,
-            116
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            98,
-            98,
-            106,
-            116
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            98,
-            98,
-            104,
-            116
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            98,
-            98,
-            104,
-            116
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            96,
-            118,
-            118,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            96,
-            118,
-            118,
-            128
+            20,
+            16,
+            29,
+            25
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Crank Handle",
+      "uuid": "19e32ec1-ad6c-5d9f-bd34-9d21e489185e",
       "type": "cube",
-      "uuid": "b1188e41-3554-5627-81d2-a83a590409ec",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "Crank Handle",
+      ],
+      "box_uv": false,
       "from": [
         7.2,
         11.3,
@@ -1195,68 +726,213 @@
       "faces": {
         "north": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "south": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "east": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "west": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "up": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         },
         "down": {
           "uv": [
-            4,
-            4,
-            16,
-            16
+            2,
+            2,
+            18,
+            8
           ],
           "texture": 0
         }
-      },
+      }
+    },
+    {
+      "name": "Shaft tip negative",
+      "uuid": "fa8c25df-26d7-4a00-9044-bdf919d28d90",
       "type": "cube",
-      "uuid": "205d8f49-3f35-567f-8843-f8da2892c59e",
-      "box_uv": false,
-      "autouv": 0,
       "origin": [
         8,
         8,
         8
-      ]
+      ],
+      "box_uv": false,
+      "from": [
+        5,
+        5,
+        0
+      ],
+      "to": [
+        11,
+        11,
+        2.55
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            21,
+            2,
+            30,
+            11
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            2,
+            2,
+            18,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            21,
+            2,
+            30,
+            11
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            18,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            1,
+            14,
+            7,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            1,
+            14,
+            7,
+            30
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Shaft tip positive",
+      "uuid": "eb9096f5-a0aa-42f3-b553-9269a4f54ba5",
+      "type": "cube",
+      "origin": [
+        8,
+        8,
+        8
+      ],
+      "box_uv": false,
+      "from": [
+        5,
+        5,
+        13.45
+      ],
+      "to": [
+        11,
+        11,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            21,
+            2,
+            30,
+            11
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            2,
+            2,
+            18,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            21,
+            2,
+            30,
+            11
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            18,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            1,
+            14,
+            7,
+            30
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            1,
+            14,
+            7,
+            30
+          ],
+          "texture": 0
+        }
+      }
     }
   ],
   "outliner": [
@@ -1271,11 +947,11 @@
       "export": true,
       "isOpen": true,
       "children": [
-        "50cff849-7a32-502a-8fca-8cce8881ee51",
-        "ec1df7a5-0960-5820-b53d-639954a5c5df",
-        "7e5f5f75-6616-58b0-8e11-cee4d770054b",
-        "e8351b03-be3d-5173-a005-849dd78ded87",
-        "57cafa2d-44cc-59c2-9765-3d6b65ebbbf9"
+        "61228bbf-d3f4-59c2-afb1-649e34afc428",
+        "025e38f4-fc48-509c-a7ce-ef5322e386e6",
+        "8288dba9-5230-500a-9951-cf091455c3d5",
+        "886ae121-032e-5337-9b80-40242f9a218b",
+        "85ea8eb3-90e1-5049-8069-963c9d4c547d"
       ]
     },
     {
@@ -1289,15 +965,37 @@
       "export": true,
       "isOpen": true,
       "children": [
-        "ae4caaf8-6474-5619-b919-88dff2fcd49c",
-        "7c93edc8-8d92-5a63-9bf2-e7405c82c80b",
-        "b7a05c14-c1dc-5fd9-86ea-30e74fa035f6",
-        "8f51b2c1-7e68-56d3-aab2-f7102809e968",
-        "4b5ff6e1-b41e-50f2-aade-5cc6c335300f",
-        "0b6377e0-464c-5106-b227-a059dbd68d8b",
-        "28a55a8c-2561-5378-bb39-5c39aa180e7f",
-        "81c3c3aa-3fe7-5e54-8351-7020e047e323",
-        "8969f14d-2842-5bd3-b32b-bfb93eb907f3"
+        "5625b508-10c6-51d9-bb09-3142ec68755d",
+        "727165dc-1d11-54ef-833f-3eebd1600ee7",
+        "7ad9ec9e-320e-5550-8e6a-57fbc7b43433",
+        {
+          "name": "Shaft tip negative",
+          "origin": [
+            8,
+            8,
+            1.275
+          ],
+          "uuid": "dfdfb05f-4b67-5462-8201-a9c7d7d1ff92",
+          "export": true,
+          "isOpen": true,
+          "children": [
+            "fa8c25df-26d7-4a00-9044-bdf919d28d90"
+          ]
+        },
+        {
+          "name": "Shaft tip positive",
+          "origin": [
+            8,
+            8,
+            14.725
+          ],
+          "uuid": "b2724c74-f3f6-5bcf-8e4f-9b2f1ce52ae5",
+          "export": true,
+          "isOpen": true,
+          "children": [
+            "eb9096f5-a0aa-42f3-b553-9269a4f54ba5"
+          ]
+        }
       ]
     },
     {
@@ -1311,23 +1009,23 @@
       "export": true,
       "isOpen": true,
       "children": [
-        "b1188e41-3554-5627-81d2-a83a590409ec",
-        "205d8f49-3f35-567f-8843-f8da2892c59e"
+        "7df39f1c-454b-5cc2-b5da-f0c18519daa6",
+        "19e32ec1-ad6c-5d9f-bd34-9d21e489185e"
       ]
     }
   ],
   "textures": [
     {
-      "name": "mechanical_workshop.png",
+      "name": "mechanical_shaft_a.png",
       "folder": "block",
       "namespace": "quantumindustries",
       "id": "0",
-      "width": 128,
-      "height": 128,
-      "uv_width": 128,
-      "uv_height": 128,
+      "width": 32,
+      "height": 32,
+      "uv_width": 32,
+      "uv_height": 32,
       "particle": true,
-      "source": "data:image/png;base64,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"
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAADFklEQVR42r1WPWscVxQ97937ZmYFyrJCvd0kTXCRPhBIkRBIINj+kzbYYFCaBH8UgTQhkCLpk16IATGafZ8ujn13LMm24ki+xTI7M/edc8/9GvfZ7Vu4SVMA9+9sAIgIgFKK9z7GGELgNe/nnFtrzjnnXK0VwOO/xm8//YSniIj3PqUEIISQUtputwBe/Lv1uGFTAEQmZmtNVb33tVayrrUub9ZanXN0Pj09ZXAi4pzLOQNQ1c1mc3Z2tgPg0c65ruucc6WUWus8z845EWmtiUgpJaVEfUIIS46bzcYkEpFxHGut3vsdwDAMBOBZpLlarZxz3ntS4wUABkRnUhaRk5MTAN779XqdUprn2d5RysL0ttZIU0RSSqWUEAK5tNZaa0Rikq0u6JtzJlFVZSg7AOpFGMbBEhIRSwwjaK+NzpYMnmvuDHQH8MHGs7z3h4eHVJKlvL+/P47jDuDnf8oF3y1FXtwpb4M5Pj4mTEophMDMvZaoXh7B19/fAzDPc4yRwf7x69OLrx0cHCyjMcVMHwAfpdEuGiudFck2vNSO/j5+P8Ddz9fWzN77Uso8z+X3B/jiPgvpHQAfHgHpp5RyzvM8/y8A6yN2inUsu5q9eql99d2PALquK6VY03EM84RfnjwEoFbLtJwzH1Mc7/25yfOfIzAAXrDRKZGqllKW7bo0Uh7HkQORTcAhsVqtdgA2wgzDfp1zMca3UaMyBqaqMcZhGGqtNogAeFVVVSpTF/be2EWEU5rjjyVXaz3HSW1slVL6vuc0BfD8p8fvBmAEZGOpZsksg1N7wDFp3L/85gcAe3t7tpH6vp+mqes6AM+OHlEHBnGO9VIi5Ym2yJgrAGdXkIipYmJthS1PB6D875zjGuJ2tFTHGFtr2+22lDJNUwhhmiZ6kjUJWeillKU+ANSGxDAMXGF8YMXKbSwilMgI8mK9XlujkZxRfAVATcmUs2j5kdH3PcFYx1cssDcioEPOWVVFhB8TV/F8dvToSgCWg9Ya+5bq//nbi2vZB7uFE2Pkl+E1L5xzfWDT9Lrsxlemu+nP95eYT2L3T/IALgAAAABJRU5ErkJggg=="
     }
   ]
 }

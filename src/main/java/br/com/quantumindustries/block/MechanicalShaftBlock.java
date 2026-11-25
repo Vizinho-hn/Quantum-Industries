@@ -24,6 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.*;
 
 public final class MechanicalShaftBlock extends BaseEntityBlock {
+    public static final int PORT_SIZE = 6;
     public MechanicalShaftBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
@@ -46,12 +47,12 @@ public final class MechanicalShaftBlock extends BaseEntityBlock {
         boolean grounded = isGrounded(level, pos, axis);
         return switch (axis) {
             case X -> grounded
-                    ? Shapes.or(Block.box(0, 4, 4, 16, 12, 12), Block.box(5.2, 0, 4.4, 10.8, 5.2, 11.6))
-                    : Block.box(0, 4, 4, 16, 12, 12);
-            case Y -> Block.box(4, 0, 4, 12, 16, 12);
+                    ? Shapes.or(Block.box(0, 3.5, 3.5, 16, 12.5, 12.5), Block.box(5.2, 0, 4.4, 10.8, 3.75, 11.6))
+                    : Block.box(0, 3.5, 3.5, 16, 12.5, 12.5);
+            case Y -> Block.box(3.5, 0, 3.5, 12.5, 16, 12.5);
             case Z -> grounded
-                    ? Shapes.or(Block.box(4, 4, 0, 12, 12, 16), Block.box(4.4, 0, 5.2, 11.6, 5.2, 10.8))
-                    : Block.box(4, 4, 0, 12, 12, 16);
+                    ? Shapes.or(Block.box(3.5, 3.5, 0, 12.5, 12.5, 16), Block.box(4.4, 0, 5.2, 11.6, 3.75, 10.8))
+                    : Block.box(3.5, 3.5, 0, 12.5, 12.5, 16);
         };
     }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new MechanicalShaftBlockEntity(pos, state); }

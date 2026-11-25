@@ -52,6 +52,7 @@ public final class BellowsEjectorBlockEntity extends BlockEntity implements Ener
         if (!server.hasChunkAt(from) || !server.hasChunkAt(to)
                 || !(server.getBlockEntity(to) instanceof PneumaticTubeBlockEntity tube)
                 || !tube.packet().isEmpty()) return false;
+        if (!ItemRouting.canExtractFrom(server, from, output)) return false;
         ItemStack peek=ItemRouting.preview(server,from,count);
         if(peek.isEmpty()) return false;
         ItemStack extracted=ItemRouting.extract(server,from,peek.getCount());

@@ -32,9 +32,9 @@ public final class MachineProcessingMenu extends AbstractContainerMenu {
                 if (index == 4) return WorldResearchData.get((ServerLevel)player.level()).knows(player,
                         crusher ? "mineral_beneficiation" : "electric_alloy_smelting") ? 1 : 0;
                 if (jaw != null) return switch (index) {
-                    case 0 -> jaw.energy(); case 1 -> jaw.progress();
+                    case 1 -> jaw.progress();
                     case 2 -> jaw.input().isEmpty() ? 0 : jaw.WORK_TICKS;
-                    case 3 -> jaw.energy() >= jaw.FE_PER_TICK && jaw.statusState() == br.com.quantumindustries.block.entity.MachineStatusInspectable.State.WORKING ? 1 : 0;
+                    case 3 -> jaw.working() ? 1 : 0;
                     default -> 0;
                 };
                 var recipe = AlloyCatalog.findMatch(smelter.inputA(), smelter.inputB(), 2);
@@ -79,7 +79,7 @@ public final class MachineProcessingMenu extends AbstractContainerMenu {
     public boolean permitted() { return data.get(4) != 0; }
     public boolean crusher() { return crusher; }
     public int inputCount() { return crusher ? 1 : 2; }
-    public int capacity() { return crusher ? 480 : 1200; }
+    public int capacity() { return 1200; }
     public AlloyCatalog.Recipe recipe() { return crusher ? null : AlloyCatalog.findMatch(getSlot(0).getItem(), getSlot(1).getItem(), 2); }
     public ItemStack result() {
         return crusher ? br.com.quantumindustries.material.CrushingCatalog.resultFor(getSlot(0).getItem())

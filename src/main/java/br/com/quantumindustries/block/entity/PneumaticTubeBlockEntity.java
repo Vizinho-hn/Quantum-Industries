@@ -100,6 +100,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         for (Direction direction : Direction.values()) {
             if (connectionMode(direction) != ConnectionMode.PULL) continue;
             BlockPos source = worldPosition.relative(direction);
+            if (!server.hasChunkAt(source) || !ItemRouting.canExtractFrom(server, source, direction.getOpposite())) continue;
             ItemStack extracted = ItemRouting.extractMatching(server, source, 1,
                     candidate -> ItemRouting.hasAcceptingRoute(server, worldPosition, direction, candidate));
             if (!extracted.isEmpty()) {

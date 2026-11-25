@@ -101,7 +101,6 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity
                         || target instanceof ElectricSawmillBlockEntity
                         || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()));
         for (Direction dir : Direction.values()) {
@@ -111,7 +110,7 @@ public final class LeadAcidAccumulatorBlockEntity extends BlockEntity implements
                     && server.getBlockEntity(worldPosition.relative(dir)) instanceof EnergyInspectable target
                     && (target instanceof ElectromechanicalPressBlockEntity || target instanceof WireDrawingBenchBlockEntity || target instanceof LoadRelayBlockEntity
                             || target instanceof BellowsEjectorBlockEntity || target instanceof PeristalticPumpBlockEntity
-                            || target instanceof ElectricAlloySmelterBlockEntity || target instanceof JawCrusherBlockEntity
+                            || target instanceof ElectricAlloySmelterBlockEntity
                             || target instanceof ElectricSawmillBlockEntity
                         || target instanceof RotaryConversionBlockEntity rotor && (rotor.isMotor() || rotor.needsExcitation()))) {
                 int available = Math.min(transferBudget.extractRemaining(server.getGameTime()), energy());

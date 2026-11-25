@@ -50,6 +50,8 @@ public final class ConfigurationWrenchItem extends Item {
         }
 
         BlockState state = level.getBlockState(pos);
+        if (state.hasProperty(br.com.quantumindustries.block.JawCrusherBlock.FORMED)
+                && state.getValue(br.com.quantumindustries.block.JawCrusherBlock.FORMED)) return InteractionResult.PASS;
         if (!isRotatableModBlock(state)) return InteractionResult.PASS;
         BlockState rotated = rotateState(state, player.isShiftKeyDown());
         if (rotated == null || rotated == state) return InteractionResult.PASS;

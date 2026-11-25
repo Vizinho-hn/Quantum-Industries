@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "workshop": "quantumindustries:block/mechanical_workshop",
-    "particle": "quantumindustries:block/mechanical_workshop"
+    "shaft": "quantumindustries:block/mechanical_shaft_a",
+    "particle": "quantumindustries:block/mechanical_shaft_a"
   },
   "display": {
     "gui": {
@@ -93,968 +93,209 @@
   },
   "elements": [
     {
-      "name": "Pedestal Footplate",
+      "name": "Eixo de madeira",
       "from": [
-        4.4,
-        0.0,
-        5.2
+        5,
+        5,
+        0
       ],
       "to": [
-        11.6,
-        1.1,
-        10.8
+        11,
+        11,
+        16
       ],
       "faces": {
         "north": {
           "uv": [
-            4.0,
-            4.0,
-            8.0,
-            5.0
+            10.5,
+            1.0,
+            15.0,
+            5.5
           ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            4.0,
-            4.0,
-            8.0,
-            5.0
-          ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
-          "uv": [
-            4.0,
-            4.0,
-            8.0,
-            5.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            4.0,
-            4.0,
-            8.0,
-            5.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Pedestal Stanchion",
-      "from": [
-        5.7,
-        1.0,
-        6.2
-      ],
-      "to": [
-        10.3,
-        3.4,
-        9.8
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Pedestal Bearing Block",
-      "from": [
-        5.2,
-        3.3,
-        5.8
-      ],
-      "to": [
-        10.8,
-        4.7,
-        10.2
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.5
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.5
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.5
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.5
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Pedestal Saddle West",
-      "from": [
-        4.75,
-        4.1,
-        6.1
-      ],
-      "to": [
-        5.55,
-        5.2,
-        9.9
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Pedestal Saddle East",
-      "from": [
-        10.45,
-        4.1,
-        6.1
-      ],
-      "to": [
-        11.25,
-        5.2,
-        9.9
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            2.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Axle Tenon North",
-      "from": [
-        6.0,
-        6.0,
-        0.0
-      ],
-      "to": [
-        10.0,
-        10.0,
-        2.6
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            12.0,
-            8.0,
-            16.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            12.0,
-            8.0,
-            16.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            2.0,
-            9.0,
-            5.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            2.0,
-            9.0,
-            5.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Axle Tenon South",
-      "from": [
-        6.0,
-        6.0,
-        13.4
-      ],
-      "to": [
-        10.0,
-        10.0,
-        16.0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            12.0,
-            8.0,
-            16.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            12.0,
-            8.0,
-            16.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            2.0,
-            9.0,
-            5.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            2.0,
-            9.0,
-            5.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            9.0,
-            10.0,
-            11.0,
-            13.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Bronze Bushing North",
-      "from": [
-        5.25,
-        5.25,
-        2.5
-      ],
-      "to": [
-        10.75,
-        10.75,
-        4.0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            12.0,
-            12.0,
-            14.75,
-            14.75
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            12.0,
-            12.0,
-            14.75,
-            14.75
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            14.75,
-            12.0,
-            16.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            14.75,
-            12.0,
-            16.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            12.0,
-            14.75,
-            14.75,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            12.0,
-            14.75,
-            14.75,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Bronze Bushing South",
-      "from": [
-        5.25,
-        5.25,
-        12.0
-      ],
-      "to": [
-        10.75,
-        10.75,
-        13.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            12.0,
-            12.0,
-            14.75,
-            14.75
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            12.0,
-            12.0,
-            14.75,
-            14.75
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            14.75,
-            12.0,
-            16.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            14.75,
-            12.0,
-            16.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            12.0,
-            14.75,
-            14.75,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            12.0,
-            14.75,
-            14.75,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Wooden Drum Core",
-      "from": [
-        5.0,
-        5.0,
-        3.9
-      ],
-      "to": [
-        11.0,
-        11.0,
-        12.1
-      ],
-      "faces": {
-        "north": {
           "uv": [
             1.0,
-            9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
             1.0,
             9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            0.0,
-            8.0,
-            8.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            0.0,
-            8.0,
-            8.0,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8.0,
-            8.0,
-            12.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8.0,
-            8.0,
-            12.0,
-            16.0
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Wooden Drum Stave V",
-      "from": [
-        5.6,
-        4.6,
-        4.05
-      ],
-      "to": [
-        10.4,
-        11.4,
-        11.95
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            1.0,
-            9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            1.0,
-            9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            0.25,
-            8.0,
-            7.75,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            0.25,
-            8.0,
-            7.75,
-            12.0
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8.5,
-            8.125,
-            11.5,
-            15.875
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8.5,
-            8.125,
-            11.5,
-            15.875
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Wooden Drum Stave H",
-      "from": [
-        4.6,
-        5.6,
-        4.15
-      ],
-      "to": [
-        11.4,
-        10.4,
-        11.85
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            1.0,
-            9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            1.0,
-            9.0,
-            4.0,
-            11.0
-          ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            0.25,
-            8.5,
-            7.75,
-            11.5
-          ],
-          "texture": "#workshop"
-        },
-        "west": {
-          "uv": [
-            0.25,
-            8.5,
-            7.75,
-            11.5
-          ],
-          "texture": "#workshop"
-        },
-        "up": {
-          "uv": [
-            8.0,
-            8.125,
-            12.0,
-            15.875
-          ],
-          "texture": "#workshop"
-        },
-        "down": {
-          "uv": [
-            8.0,
-            8.125,
-            12.0,
-            15.875
-          ],
-          "texture": "#workshop"
-        }
-      }
-    },
-    {
-      "name": "Wrought Iron Hoop North",
-      "from": [
-        4.5,
-        4.5,
-        4.3
-      ],
-      "to": [
-        11.5,
-        11.5,
-        5.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
             4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
-            8.0,
-            0.0,
-            12.0,
-            4.0
+            10.5,
+            1.0,
+            15.0,
+            5.5
           ],
-          "texture": "#workshop"
-        },
-        "east": {
-          "uv": [
-            6.0,
-            12.0,
-            8.0,
-            16.0
-          ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
-            6.0,
-            12.0,
-            8.0,
-            16.0
+            1.0,
+            1.0,
+            9.0,
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            12.0,
-            6.0,
-            14.0
+            0.5,
+            7.0,
+            3.5,
+            15.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            12.0,
-            6.0,
-            14.0
+            0.5,
+            7.0,
+            3.5,
+            15.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     },
     {
-      "name": "Wrought Iron Hoop South",
+      "name": "Cinta de ferro · norte",
       "from": [
-        4.5,
-        4.5,
-        10.5
+        4.875,
+        4.875,
+        2.55
       ],
       "to": [
-        11.5,
-        11.5,
-        11.7
+        11.125,
+        11.125,
+        4
       ],
       "faces": {
         "north": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            4.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
-        },
-        "south": {
-          "uv": [
-            8.0,
-            0.0,
-            12.0,
-            4.0
-          ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
+            4.0,
+            5.5,
             6.0,
-            12.0,
-            8.0,
-            16.0
+            9.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
+        },
+        "south": {
+          "uv": [
+            10.0,
+            8.0,
+            14.5,
+            12.5
+          ],
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
+            4.0,
+            5.5,
             6.0,
-            12.0,
-            8.0,
-            16.0
+            9.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            12.0,
-            6.0,
-            14.0
+            4.5,
+            11.0,
+            8.5,
+            13.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            12.0,
-            6.0,
-            14.0
+            4.5,
+            11.0,
+            8.5,
+            13.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
+        }
+      }
+    },
+    {
+      "name": "Cinta de ferro · sul",
+      "from": [
+        4.875,
+        4.875,
+        12
+      ],
+      "to": [
+        11.125,
+        11.125,
+        13.45
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            10.0,
+            8.0,
+            14.5,
+            12.5
+          ],
+          "texture": "#shaft"
+        },
+        "east": {
+          "uv": [
+            4.0,
+            5.5,
+            6.0,
+            9.5
+          ],
+          "texture": "#shaft"
+        },
+        "south": {
+          "uv": [
+            10.0,
+            8.0,
+            14.5,
+            12.5
+          ],
+          "texture": "#shaft"
+        },
+        "west": {
+          "uv": [
+            4.0,
+            5.5,
+            6.0,
+            9.5
+          ],
+          "texture": "#shaft"
+        },
+        "up": {
+          "uv": [
+            4.5,
+            11.0,
+            8.5,
+            13.0
+          ],
+          "texture": "#shaft"
+        },
+        "down": {
+          "uv": [
+            4.5,
+            11.0,
+            8.5,
+            13.0
+          ],
+          "texture": "#shaft"
         }
       }
     }

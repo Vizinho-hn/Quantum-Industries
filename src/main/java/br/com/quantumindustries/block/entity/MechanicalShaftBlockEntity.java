@@ -1,5 +1,6 @@
 package br.com.quantumindustries.block.entity;
 
+import br.com.quantumindustries.block.MechanicalShaftBlock;
 import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.mechanical.KineticNetworkManager;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 public final class MechanicalShaftBlockEntity extends RotationalBlockEntity {
     public MechanicalShaftBlockEntity(BlockPos pos, BlockState state) { super(ModBlocks.MECHANICAL_SHAFT_ENTITY.get(), pos, state); }
     @Override public Direction.Axis axle() { return getBlockState().getValue(BlockStateProperties.AXIS); }
+    @Override public int mechanicalPortSize(Direction face) { return MechanicalShaftBlock.PORT_SIZE; }
     @Override public double kineticInertia() { return .6; }
     @Override public double kineticDrag() { return .10; }
     public void tick() {

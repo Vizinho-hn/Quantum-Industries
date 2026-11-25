@@ -19,4 +19,8 @@ public final class QksRenderState extends BlockEntityRenderState {
     public boolean cutting;
     public float carriageOffsetZ;
     public float worldAxisSign = 1.0f;
+    public float shaftNegativeTipReach;
+    public float shaftPositiveTipReach;
+    public float shaftNegativeTipScale = 1.0f;
+    public float shaftPositiveTipScale = 1.0f;
 }
