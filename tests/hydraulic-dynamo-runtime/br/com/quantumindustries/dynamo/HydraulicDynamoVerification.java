@@ -17,6 +17,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,7 +40,7 @@ public final class HydraulicDynamoVerification {
     private static ManualDynamoBlockEntity dynamo;
     private static FakePlayer player;
     private static int ticks, checks, stage, previousEnergy, serverTicks;
-    private static boolean active, waterEnabled = true;
+    private static boolean awaitingChunk, active, waterEnabled = true;
 
     private static void check(boolean condition, String message) {
         checks++;
@@ -49,7 +50,14 @@ public final class HydraulicDynamoVerification {
     @SubscribeEvent public static void start(ServerStartedEvent event) throws Exception {
         if (!Boolean.getBoolean("quantumindustries.verifyHydraulicDynamo")) return;
         level = event.getServer().overworld();
-        level.setChunkForced(0, 0, true);
+        var chunk = ChunkPos.containing(DYNAMO);
+        level.setChunkForced(chunk.x(), chunk.z(), true);
+        awaitingChunk = true;
+        // Observe the saved buffer before the first world tick can add energy.
+        if (Files.exists(Path.of("../restart-ready.txt"))) initializeFixture();
+    }
+
+    private static void initializeFixture() throws Exception {
         player = new FakePlayer(level, new GameProfile(OPERATOR, "HydraulicDynamoQA"));
         player.setPos(8.5, 100, 9.5);
         try {
@@ -110,6 +118,17 @@ public final class HydraulicDynamoVerification {
     }
 
     @SubscribeEvent public static void tick(ServerTickEvent.Post event) throws Exception {
+        if (awaitingChunk) {
+            // The solver can move a rotor before Minecraft starts ticking its block entity.
+            if (!level.isPositionTickingWithEntitiesLoaded(ChunkPos.pack(DYNAMO))) {
+                if (++serverTicks > 600) finish(new AssertionError("Hydraulic fixture chunk did not become ready for block entity ticks"));
+                return;
+            }
+            awaitingChunk = false;
+            serverTicks = 0;
+            if (!active) initializeFixture();
+            return;
+        }
         if (!active) return;
         try {
             if (++serverTicks > 600) throw new AssertionError("Hydraulic fixture timed out");
@@ -216,6 +235,7 @@ public final class HydraulicDynamoVerification {
     }
 
     private static void finish(Throwable error) throws Exception {
+        awaitingChunk = false;
         active = false;
         Files.writeString(Path.of("../result.txt"), error == null ? "PASS: " + checks + " hydraulic dynamo checks\n" : "FAIL: " + error);
         if (error != null) error.printStackTrace();
