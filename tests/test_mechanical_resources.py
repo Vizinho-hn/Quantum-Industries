@@ -34,14 +34,17 @@ class MechanicalResourcesTest(unittest.TestCase):
             base = json.loads((ASSETS / f'models/block/{name}.json').read_text(encoding='utf8'))
             item = json.loads((ASSETS / f'models/item/{name}.json').read_text(encoding='utf8'))
             self.assertEqual(len(base['elements']), sum(b['group'] == 'base' for b in boxes))
-            self.assertEqual(len(item['elements']), sum(b['group'] != 'crank' for b in boxes))
+            self.assertEqual(len(item['elements']), sum(b['group'] in (('rotor',) if 'shaft' in name else ('base', 'rotor', 'carriage')) for b in boxes))
             for box in boxes:
                 self.assertTrue(all(0 <= a < b <= 16 for a, b in zip(box['from'], box['to'])))
             bb = json.loads((ROOT / f'design/mechanical/{name}.bbmodel').read_text(encoding='utf8'))
             self.assertEqual(len(bb['elements']), len(boxes))
             embedded = base64.b64decode(bb['textures'][0]['source'].split(',', 1)[1])
-            self.assertEqual(embedded, (ASSETS/'textures/block/mechanical_workshop.png').read_bytes())
-            self.assertEqual(struct.unpack('>II', embedded[16:24]), (128, 128))
+            texture_name, size = ('mechanical_shaft_a', 32) if 'shaft' in name else ('mechanical_workshop', 128)
+            if name == "primitive_water_wheel":
+                texture_name = "water_wheel_d"
+            self.assertEqual(embedded, (ASSETS / f'textures/block/{texture_name}.png').read_bytes())
+            self.assertEqual(struct.unpack('>II', embedded[16:24]), (size, size))
 
     def test_orientations_loot_and_item_definitions(self):
         for name in NAMES:

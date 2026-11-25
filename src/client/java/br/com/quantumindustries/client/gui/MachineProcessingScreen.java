@@ -46,11 +46,13 @@ public final class MachineProcessingScreen extends AbstractContainerScreen<Machi
         panel(g,37,6,254,23,PAPER);
         center(g,title,164,14,INK);
         panel(g,11,35,306,101,0xFF22262E);
-        panel(g,20,44,18,74,DARK);
-        int energyHeight=Math.clamp(menu.energy()*64/menu.capacity(),0,64);
-        box(g,25,49+64-energyHeight,8,energyHeight,AMBER);
-        for(int y=54;y<113;y+=10) box(g,25,y,3,1,COPPER);
-        label(g,Component.literal(menu.energy()+" / "+menu.capacity()+" FE"),14,119,PAPER);
+        if (!menu.crusher()) {
+            panel(g,20,44,18,74,DARK);
+            int energyHeight=Math.clamp(menu.energy()*64/menu.capacity(),0,64);
+            box(g,25,49+64-energyHeight,8,energyHeight,AMBER);
+            for(int y=54;y<113;y+=10) box(g,25,y,3,1,COPPER);
+            label(g,Component.literal(menu.energy()+" / "+menu.capacity()+" FE"),14,119,PAPER);
+        }
         if (menu.crusher()) panel(g,135,44,24,24,DARK);
         else { panel(g,108,44,24,24,DARK); panel(g,162,44,24,24,DARK); }
         for(int x:menu.crusher()?new int[]{146}:new int[]{119,173}) {
@@ -79,7 +81,6 @@ public final class MachineProcessingScreen extends AbstractContainerScreen<Machi
         box(g,243,98,2,3,0xFFE0BA67);
         panel(g,255,84,32,32,PAPER);
         var recipe=menu.recipe();
-        if(menu.crusher()) center(g,Component.literal("3 FE/t"),225,72,PAPER);
         if(recipe!=null) center(g,Component.literal(String.format(java.util.Locale.ROOT,"%.1f FE/t",(float)recipe.totalFe()/recipe.workTicks())),225,72,PAPER);
         panel(g,106,117,180,12,DARK);
         int percent=menu.duration()==0?0:Math.clamp(menu.progress()*100/menu.duration(),0,100);
@@ -102,7 +103,8 @@ public final class MachineProcessingScreen extends AbstractContainerScreen<Machi
             status = Component.translatable("gui.quantumindustries.smelter.result_material",
                     menu.getSlot(menu.inputCount()).getItem().getHoverName());
         } else {
-            status = Component.translatable("gui.quantumindustries.smelter.waiting_pair");
+            status = Component.translatable(menu.crusher() ? "gui.quantumindustries.crusher.waiting_input"
+                    : "gui.quantumindustries.smelter.waiting_pair");
         }
         box(g,11,128,306,13,DARK);
         center(g,status,164,130,PAPER);

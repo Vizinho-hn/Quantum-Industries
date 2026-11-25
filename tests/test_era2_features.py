@@ -102,7 +102,8 @@ class Era2Contracts(unittest.TestCase):
         crusher_block = (JAVA / "block/JawCrusherBlock.java").read_text(encoding="utf-8")
         self.assertIn('"mineral_beneficiation"', crusher_block)
         crusher_entity = (JAVA / "block/entity/JawCrusherBlockEntity.java").read_text(encoding="utf-8")
-        self.assertIn("EnergyInspectable", crusher_entity)
+        self.assertNotIn("EnergyInspectable", crusher_entity)
+        self.assertNotIn("registerEnergy(event, ModBlocks.JAW_CRUSHER_ENTITY", (JAVA / "fluid/ModFluidCapabilities.java").read_text(encoding="utf-8"))
         crushing = (JAVA / "material/CrushingCatalog.java").read_text(encoding="utf-8")
         for metal in ("copper", "iron", "gold", "tin", "zinc", "lead", "nickel", "silver"):
             self.assertIn(f'"{metal}"', crushing)

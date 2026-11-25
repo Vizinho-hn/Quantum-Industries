@@ -1,19 +1,9 @@
 {
-  "variants": {
-    "facing=north": {
-      "model": "quantumindustries:block/jaw_crusher"
-    },
-    "facing=east": {
-      "model": "quantumindustries:block/jaw_crusher",
-      "y": 90
-    },
-    "facing=south": {
-      "model": "quantumindustries:block/jaw_crusher",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "quantumindustries:block/jaw_crusher",
-      "y": 270
+  "multipart": [
+    {
+      "apply": {
+        "model": "quantumindustries:block/jaw_crusher"
+      }
     }
-  }
+  ]
 }

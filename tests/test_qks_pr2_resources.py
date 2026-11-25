@@ -50,17 +50,26 @@ class QksPr2Resources(unittest.TestCase):
                 document = load(ASSETS / f'geckolib/models/block/{name}.geo.json')
                 self.assertEqual(document['format_version'], '1.12.0')
                 geo = geometry(name)
-                png = (ASSETS / f'textures/block/{name}.png').read_bytes()
+                texture = 'water_wheel_d' if name in WHEELS else name
+                png = (ASSETS / f'textures/block/{texture}.png').read_bytes()
                 dimensions = struct.unpack('>II', png[16:24])
                 self.assertEqual(dimensions, (geo['description']['texture_width'], geo['description']['texture_height']))
                 bones = {b['name']: b for b in geo['bones']}
-                self.assertEqual(set(bones), {'rotor'} if name in AXIS[:2] else {'base', 'rotor'})
+                self.assertEqual(set(bones), {'rotor'} if name in AXIS[:2] or name in WHEELS else {'base', 'rotor'})
                 self.assertEqual(bones['rotor']['pivot'], [0, 8, 0])
-                self.assertTrue(any(c['origin'] == [-2, 6, -8] and c['size'] == [4, 4, 16]
-                                    for c in bones['rotor']['cubes']))
+                cubes = bones['rotor']['cubes']
+                if name in WHEELS:
+                    width = 4 if name == 'medium_water_wheel' else 6
+                    sockets = [c for c in cubes if c.get('name') == 'Encaixe rente ao cubo']
+                    self.assertEqual(len(sockets), 2)
+                    self.assertTrue(all(c['origin'][:2] == [-width/2, 8-width/2]
+                                        and c['size'][:2] == [width, width] for c in sockets))
+                    self.assertAlmostEqual(sockets[0]['origin'][2], -sockets[1]['origin'][2]-sockets[1]['size'][2])
+                else:
+                    self.assertTrue(any(c['origin'] == [-2, 6, -8] and c['size'] == [4, 4, 16] for c in cubes))
                 for bone in bones.values():
                     for cube in bone['cubes']:
-                        self.assertTrue(all(s >= .5 for s in cube['size']))
+                        self.assertTrue(all(s >= (.04 if name in WHEELS else .5) for s in cube['size']))
                         validate_uv(cube, *dimensions)
 
     def test_uv_checker_rejects_out_of_bounds_and_zero_area_faces(self):
@@ -73,17 +82,12 @@ class QksPr2Resources(unittest.TestCase):
         for name, count in (('small_cogwheel', 8), ('large_cogwheel', 16)):
             cubes = geometry(name)['bones'][0]['cubes']
             self.assertEqual(sum(c.get('name', '').startswith('Tooth ') for c in cubes), count)
-        for name, radius, paddles in (('medium_water_wheel', 24, 12), ('large_water_wheel', 40, 16)):
+        for name, radius, paddles in (('medium_water_wheel', 21.5, 12), ('large_water_wheel', 37.5, 12)):
             rotor = next(b for b in geometry(name)['bones'] if b['name'] == 'rotor')
-            self.assertEqual(sum(c.get('name', '').startswith('Bucket floor ') for c in rotor['cubes']), paddles)
+            self.assertEqual(sum(c.get('name') == 'Fundo da caçamba' for c in rotor['cubes']), paddles)
             points = [p for c in rotor['cubes'] for p in corners(c)]
-            self.assertAlmostEqual(max(p[0] for p in points)-min(p[0] for p in points), radius*2, places=3)
-            self.assertAlmostEqual(max(p[1] for p in points)-min(p[1] for p in points), radius*2, places=3)
-            self.assertLessEqual(max(max(abs(p[0]), abs(p[1]-8)) for p in points), radius+.001)
-            base = next(b for b in geometry(name)['bones'] if b['name'] == 'base')
-            for c in base['cubes']:
-                for x, y, z in corners(c):
-                    self.assertTrue(-8 <= x <= 8 and 0 <= y <= 16 and -8 <= z <= 8)
+            self.assertAlmostEqual(max(math.hypot(x, y-8) for x, y, z in points), radius, places=3)
+            self.assertTrue(all(-8 < z < 8 for x, y, z in points))
 
     def test_resource_chains_recipes_and_self_drops(self):
         for name in IDS:
@@ -100,7 +104,8 @@ class QksPr2Resources(unittest.TestCase):
             self.assertEqual(set(states), {'axis='+a for a in 'xyz'} if name in AXIS else {'facing='+a for a in ('north','east','south','west')})
             block = load(ASSETS / f'models/block/{name}.json')
             self.assertEqual(block['elements'], [])  # Native renderer owns base AND rotor.
-            self.assertEqual(block['textures']['particle'], f'quantumindustries:block/{name}')
+            texture = 'water_wheel_d' if name in WHEELS else name
+            self.assertEqual(block['textures']['particle'], f'quantumindustries:block/{texture}')
             loot = load(DATA / f'loot_table/blocks/{name}.json')['pools'][0]
             self.assertEqual(loot['entries'][0]['name'], 'quantumindustries:'+name)
             self.assertIn({'condition': 'minecraft:survives_explosion'}, loot['conditions'])

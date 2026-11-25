@@ -59,6 +59,11 @@ public final class QksGeoModelLoader {
                     compileCube(cube.getAsJsonObject(), width, height, vertices);
                 }
             }
+            if (bone.has("mesh_faces")) {
+                for (JsonElement face : bone.getAsJsonArray("mesh_faces")) {
+                    compileMeshFace(face.getAsJsonArray(), vertices);
+                }
+            }
             float[] packed = new float[vertices.size()];
             for (int i = 0; i < packed.length; i++) packed[i] = vertices.get(i);
             bones.add(new QksCompiledModel.CompiledBone(bone.get("name").getAsString(),
@@ -119,6 +124,32 @@ public final class QksGeoModelLoader {
                 output.add(u); output.add(v);
                 output.add(normal.x); output.add(normal.y); output.add(normal.z);
             }
+        }
+    }
+
+    /** Native face data uses block-space positions and normalized UVs. */
+    private static void compileMeshFace(JsonArray face, List<Float> output) {
+        int count = face.size();
+        if (count != 3 && count != 4) throw new IllegalArgumentException("Expected triangle or quad");
+        float[][] vertex = new float[count][5];
+        for (int i = 0; i < count; i++) {
+            JsonArray values = face.get(i).getAsJsonArray();
+            if (values.size() != 5) throw new IllegalArgumentException("Expected XYZUV");
+            for (int j = 0; j < 5; j++) {
+                float value = values.get(j).getAsFloat();
+                if (!Float.isFinite(value) || value < 0 || value > 1)
+                    throw new IllegalArgumentException("Mesh coordinate outside [0,1]");
+                vertex[i][j] = value;
+            }
+        }
+        float[] first = vertex[0], second = vertex[1], last = vertex[count - 1];
+        Vector3f normal = new Vector3f(second[0] - first[0], second[1] - first[1], second[2] - first[2])
+                .cross(last[0] - first[0], last[1] - first[1], last[2] - first[2]);
+        if (normal.lengthSquared() < 1.0e-14f) throw new IllegalArgumentException("Degenerate mesh face");
+        normal.normalize();
+        for (int i = 0; i < QksCompiledModel.VERTICES_PER_QUAD; i++) {
+            for (float value : vertex[Math.min(i, count - 1)]) output.add(value);
+            output.add(normal.x); output.add(normal.y); output.add(normal.z);
         }
     }
 

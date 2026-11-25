@@ -1,5 +1,6 @@
 package br.com.quantumindustries.fluid;
 
+import br.com.quantumindustries.block.JawCrusherBlock;
 import br.com.quantumindustries.block.entity.*;
 import br.com.quantumindustries.core.ModBlocks;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -27,13 +28,15 @@ public final class ModFluidCapabilities {
         registerEnergy(event, ModBlocks.ELECTROMECHANICAL_PRESS_ENTITY.get(), ElectromechanicalPressBlockEntity::energyPort);
         registerEnergy(event, ModBlocks.WIRE_DRAWING_BENCH_ENTITY.get(), WireDrawingBenchBlockEntity::energyPort);
         registerEnergy(event, ModBlocks.ELECTRIC_ALLOY_SMELTER_ENTITY.get(), ElectricAlloySmelterBlockEntity::energyPort);
-        registerEnergy(event, ModBlocks.JAW_CRUSHER_ENTITY.get(), JawCrusherBlockEntity::energyPort);
         registerEnergy(event, ModBlocks.BELLOWS_EJECTOR_ENTITY.get(), BellowsEjectorBlockEntity::energyPort);
         registerEnergy(event, ModBlocks.PERISTALTIC_PUMP_ENTITY.get(), PeristalticPumpBlockEntity::energyPort);
         registerEnergy(event, ModBlocks.ELECTRIC_SAWMILL_ENTITY.get(), ElectricSawmillBlockEntity::energyPort);
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlocks.GRAVITATIONAL_SORTER_ENTITY.get(),
                 (be, side) -> be.itemPort());
-        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlocks.JAW_CRUSHER_ENTITY.get(), (be, side) -> be.itemPort());
+        event.registerBlock(Capabilities.Item.BLOCK, (level, pos, state, be, side) -> {
+            var crusher = JawCrusherBlock.machineAt(level, pos, state);
+            return crusher == null ? null : crusher.itemPort(state, side);
+        }, ModBlocks.JAW_CRUSHER.get());
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlocks.MANUAL_GRAIN_MILL_ENTITY.get(), (be, side) -> be.itemPort());
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlocks.WIRE_DRAWING_BENCH_ENTITY.get(), (be, side) -> be.itemPort());
         event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlocks.ELECTROMECHANICAL_PRESS_ENTITY.get(), (be, side) -> be.itemPort());

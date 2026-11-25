@@ -4,6 +4,8 @@
 
 **Scope:** server-authoritative dynamics for shafts, sawmills, dynamos, cogwheels, flywheel, pulleys/belts and 1×1/3×3/5×5 water wheels. Existing geometry uses the native renderer; the globally declared GeckoLib dependency is outside this delivery. PR 3 runtime acceptance is verified by `bash tools/verify-qks.sh`; the client preview verifies the normal goggles HUD, Shift diagnostics/topology and optional Codex pagination.
 
+**Mechanical port geometry:** follow the cross-era [Mechanical Connection Standard](MECHANICAL_CONNECTION_STANDARD.md): centered face ports and horizontal shafts at `y=8`, with a nominal `4×4` connector and at least `6×6` rotational clearance. QKS topology is face/axis based and does not validate visual coaxial alignment; verify the model and functional ports together. Low-profile machines must adapt internally to the standard external shaft height.
+
 ## 1. Implemented PR 1 components
 
 Paths below are relative to `src/`; line references identify declarations or entry points inspected for this update.

@@ -45,6 +45,8 @@ As eras agrupam pesquisas e não são bloqueios globais de progressão; não alt
 
 **Conexões e máquinas funcionais:** para cabos, tubos, fluidos, pacotes pneumáticos, redes de eixos, portas de máquinas e estados de funcionamento, consultar também o **[Atlas de Engenharia](ENGINEERING_REFERENCE_ATLAS.md)**. A aparência deve concordar com a topologia e as permissões reais, não apenas com uma imagem de referência.
 
+Para qualquer modelo com transmissão mecânica, aplicar também o **[Padrão de Conexão Mecânica](MECHANICAL_CONNECTION_STANDARD.md)**, inclusive em novas eras. A orientação e a altura do conector externo são contratos do modelo; adapte o mecanismo internamente.
+
 
 
 - Inspecionar o caminho de renderização real antes de escolher ferramenta: **modelo JSON vanilla** quando basta geometria estática; **GeckoLib** quando a implementação necessita de bones/animação. Não converter indiscriminadamente.

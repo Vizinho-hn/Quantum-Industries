@@ -81,7 +81,6 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                 target -> target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricSawmillBlockEntity
@@ -94,7 +93,6 @@ public final class LoadRelayBlockEntity extends BlockEntity implements EnergyIns
                     && (target instanceof ElectromechanicalPressBlockEntity
                         || target instanceof WireDrawingBenchBlockEntity
                         || target instanceof ElectricAlloySmelterBlockEntity
-                        || target instanceof JawCrusherBlockEntity
                         || target instanceof BellowsEjectorBlockEntity
                         || target instanceof PeristalticPumpBlockEntity
                         || target instanceof ElectricSawmillBlockEntity

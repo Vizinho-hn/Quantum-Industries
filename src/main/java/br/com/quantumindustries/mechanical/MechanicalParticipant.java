@@ -11,6 +11,8 @@ public interface MechanicalParticipant {
     Direction.Axis axle();
 
     default boolean connectsMechanical(Direction face) { return face.getAxis() == axle(); }
+    /** Width of the centered physical axle socket, in model units; Era I standard is 4×4. */
+    default int mechanicalPortSize(Direction face) { return 4; }
     default int sourceCapacity() { return 0; }
     default int requestedLoad() { return 0; }
     default int sourceDirection() { return 1; }

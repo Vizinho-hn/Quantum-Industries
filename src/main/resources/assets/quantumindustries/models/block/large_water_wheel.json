@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "quantumindustries:block/large_water_wheel"
+    "particle": "quantumindustries:block/water_wheel_d"
   },
   "elements": []
 }

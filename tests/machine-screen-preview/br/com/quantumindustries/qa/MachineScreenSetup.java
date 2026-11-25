@@ -99,7 +99,7 @@ public final class MachineScreenSetup {
             if(ticks==66){
                 check(player.containerMenu.clickMenuButton(player,0),"third manual stroke");
                 var crusher=(JawCrusherBlockEntity)level.getBlockEntity(CRUSHER);
-                check(crusher.output().getCount()==2 && crusher.energy()==0,"manual GUI preserves the three-stroke recipe");
+                check(crusher.output().getCount()==2,"manual GUI preserves the three-stroke recipe");
                 var right=(LeadAcidAccumulatorBlockEntity)level.getBlockEntity(BATTERY.east(2));
                 level.setBlock(BATTERY,Blocks.AIR.defaultBlockState(),3);
                 level.setBlock(BATTERY,ModBlocks.ELECTROMECHANICAL_PRESS.get().defaultBlockState(),3);

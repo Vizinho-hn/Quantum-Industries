@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "workshop": "quantumindustries:block/mechanical_workshop",
-    "particle": "quantumindustries:block/mechanical_workshop"
+    "shaft": "quantumindustries:block/mechanical_shaft_a",
+    "particle": "quantumindustries:block/mechanical_shaft_a"
   },
   "display": {
     "gui": {
@@ -107,57 +107,57 @@
       "faces": {
         "north": {
           "uv": [
-            4.0,
-            4.0,
+            10.0,
             8.0,
-            5.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
-            4.0,
-            4.0,
+            10.0,
             8.0,
-            5.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
-            4.0,
-            4.0,
+            10.0,
             8.0,
-            5.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
-            4.0,
-            4.0,
+            10.0,
             8.0,
-            5.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     },
@@ -176,57 +176,57 @@
       "faces": {
         "north": {
           "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
+            1.0,
+            1.0,
+            9.0,
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
+            1.0,
+            1.0,
+            9.0,
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
+            1.0,
+            1.0,
+            9.0,
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
-            0.0,
-            0.0,
-            3.0,
-            2.0
+            1.0,
+            1.0,
+            9.0,
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
+            1.0,
+            1.0,
             9.0,
-            10.0,
-            11.0,
-            13.0
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
+            1.0,
+            1.0,
             9.0,
-            10.0,
-            11.0,
-            13.0
+            4.0
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     },
@@ -234,68 +234,68 @@
       "name": "Pedestal Bearing Block",
       "from": [
         5.2,
-        3.3,
+        2.95,
         5.8
       ],
       "to": [
         10.8,
-        4.7,
+        3.55,
         10.2
       ],
       "faces": {
         "north": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.5
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.5
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.5
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.5
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     },
@@ -303,68 +303,68 @@
       "name": "Pedestal Saddle West",
       "from": [
         4.75,
-        4.1,
+        3.35,
         6.1
       ],
       "to": [
         5.55,
-        5.2,
+        3.75,
         9.9
       ],
       "faces": {
         "north": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     },
@@ -372,68 +372,68 @@
       "name": "Pedestal Saddle East",
       "from": [
         10.45,
-        4.1,
+        3.35,
         6.1
       ],
       "to": [
         11.25,
-        5.2,
+        3.75,
         9.9
       ],
       "faces": {
         "north": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "south": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "east": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "west": {
           "uv": [
+            10.0,
             8.0,
-            0.0,
-            12.0,
-            2.0
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "up": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         },
         "down": {
           "uv": [
-            0.0,
-            14.0,
-            6.0,
-            16.0
+            10.0,
+            8.0,
+            14.5,
+            12.5
           ],
-          "texture": "#workshop"
+          "texture": "#shaft"
         }
       }
     }
