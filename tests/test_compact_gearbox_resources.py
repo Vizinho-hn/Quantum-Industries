@@ -19,6 +19,9 @@ class CompactGearboxResources(unittest.TestCase):
             with self.subTest(excluded=excluded):
                 model = states["axis=" + excluded]["model"].split(":")[1]
                 frame = read_json(ASSETS / "models" / (model + ".json"))
+                for axis in range(3):
+                    self.assertEqual(min(e["from"][axis] for e in frame["elements"]), 0)
+                    self.assertEqual(max(e["to"][axis] for e in frame["elements"]), 16)
                 self.assertFalse(any(e["name"].startswith(("Steel", "Bevel", "Bronze gear"))
                                      for e in frame["elements"]))
                 path = ASSETS / f"geckolib/models/block/compact_gearbox_{excluded}.geo.json"
