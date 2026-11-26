@@ -1,0 +1,743 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "name": "gas_pipe",
+  "resolution": {
+    "width": 32,
+    "height": 32
+  },
+  "elements": [
+    {
+      "name": "Sealed copper chamber",
+      "uuid": "f34d1f44-ff1b-486e-98d6-4c5f7525c0bb",
+      "type": "cube",
+      "from": [
+        4,
+        4,
+        4
+      ],
+      "to": [
+        12,
+        12,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Lower pressure clamp",
+      "uuid": "a8bd5bde-368f-4ed9-9d59-67389bbc42e0",
+      "type": "cube",
+      "from": [
+        3.8,
+        4.6,
+        3.8
+      ],
+      "to": [
+        12.2,
+        5.6,
+        12.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Upper pressure clamp",
+      "uuid": "bd623742-bd7f-4529-8a2e-3b295b25d1f5",
+      "type": "cube",
+      "from": [
+        3.8,
+        10.4,
+        3.8
+      ],
+      "to": [
+        12.2,
+        11.4,
+        12.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Sight indicator",
+      "uuid": "d3d4060b-5321-4ae3-bc00-82b22abfc24e",
+      "type": "cube",
+      "from": [
+        6.8,
+        6,
+        3.65
+      ],
+      "to": [
+        9.2,
+        10,
+        4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            16,
+            32,
+            32
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Copper pipe",
+      "uuid": "2477e30f-1129-4387-83ae-eb5aaffdc852",
+      "type": "cube",
+      "from": [
+        5,
+        5,
+        0
+      ],
+      "to": [
+        11,
+        11,
+        4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Brass flange",
+      "uuid": "72db95dc-cb14-4ca5-8c08-294da6ed53d9",
+      "type": "cube",
+      "from": [
+        4.5,
+        4.5,
+        0.35
+      ],
+      "to": [
+        11.5,
+        11.5,
+        1.3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Seal",
+      "uuid": "79d17a9a-9911-4d03-b9e0-2ad7e645d26d",
+      "type": "cube",
+      "from": [
+        4.7,
+        4.7,
+        1.3
+      ],
+      "to": [
+        11.3,
+        11.3,
+        1.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Copper pipe",
+      "uuid": "fa5acf9a-cdab-4fbb-b816-8ae7b72f32f6",
+      "type": "cube",
+      "from": [
+        5,
+        5,
+        12
+      ],
+      "to": [
+        11,
+        11,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Brass flange",
+      "uuid": "29960117-00d1-402d-be7f-94074e6c85ef",
+      "type": "cube",
+      "from": [
+        4.5,
+        4.5,
+        14.7
+      ],
+      "to": [
+        11.5,
+        11.5,
+        15.65
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            16,
+            0,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "Seal",
+      "uuid": "6bcac981-9e42-4321-a85c-c1af040ca505",
+      "type": "cube",
+      "from": [
+        4.7,
+        4.7,
+        14.1
+      ],
+      "to": [
+        11.3,
+        11.3,
+        14.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            16,
+            32
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "outliner": [
+    "f34d1f44-ff1b-486e-98d6-4c5f7525c0bb",
+    "a8bd5bde-368f-4ed9-9d59-67389bbc42e0",
+    "bd623742-bd7f-4529-8a2e-3b295b25d1f5",
+    "d3d4060b-5321-4ae3-bc00-82b22abfc24e",
+    "2477e30f-1129-4387-83ae-eb5aaffdc852",
+    "72db95dc-cb14-4ca5-8c08-294da6ed53d9",
+    "79d17a9a-9911-4d03-b9e0-2ad7e645d26d",
+    "fa5acf9a-cdab-4fbb-b816-8ae7b72f32f6",
+    "29960117-00d1-402d-be7f-94074e6c85ef",
+    "6bcac981-9e42-4321-a85c-c1af040ca505"
+  ],
+  "textures": [
+    {
+      "name": "gas_pipe.png",
+      "uuid": "e25ca53f-c164-4b79-8899-132c5e4506ce",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABJklEQVR4nGP001H8z0ABEJDloEQ7AwuIKPdQIktz5457YDoz3Iks/dNX7oM4AAQOXXzIQAm4ePU6WfqYGAYYMCFz7PTlwZhcoK+tCcZkO2AgAAsyZyDSARPDAAOmUQcwkABokUuYBlUuIARokUtYYIzjz/+SZJilJDMK/9iV5yTpt9KRRHWAJZqBpAKYgaQCxgGvji99ZaXIADFWJcocwMDAwODs5kqW5r27doPpwoJksvT3T5iLSAMXz18gyxCEY46SpY+JYYABEzJH39AAjMkFzm7WYEy2Awa8JLw4AOmAiWGAAdOoAxhIALTIJUxDqj1wkQa5hAXGePP6NUmGiYiKovAvXbtBkn49LQ1UB4igGUgqgBlIKmBUUFSjqD0gpqtKiXYGAFMTR8JK4hx6AAAAAElFTkSuQmCC"
+    }
+  ]
+}

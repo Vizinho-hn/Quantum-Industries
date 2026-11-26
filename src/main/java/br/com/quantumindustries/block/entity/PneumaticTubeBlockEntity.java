@@ -31,6 +31,8 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
     public PneumaticTubeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.PNEUMATIC_TUBE_ENTITY.get(), pos, state);
     }
+    private boolean blocked;
+    public boolean destinationBlocked() { return blocked; }
     public ItemStack packet() { return packet; }
     public float fraction(float partialTick) { return Math.min(1f, (progress + partialTick) / HOP_TICKS); }
     public Direction inlet() { return inlet; }
@@ -59,6 +61,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         packet = incoming.copy();
         incoming.setCount(0);
         inlet = from;
+        blocked = false;
         progress = 0;
         enteredAt=((ServerLevel)level).getGameTime();
         changed();
@@ -76,6 +79,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         if (!ItemRouting.hasAcceptingRoute(server, worldPosition, inlet, packet)
                 && ItemRouting.returnToSource(server, worldPosition, inlet, packet)) {
             if (packet.isEmpty()) { packet = ItemStack.EMPTY; progress = 0; }
+            blocked = false;
             changed();
             return;
         }
@@ -90,9 +94,14 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
                     packet = ItemStack.EMPTY;
                     progress = 0;
                 }
+                blocked = false;
                 changed();
                 return;
             }
+        }
+        if (!blocked) {
+            blocked = true;
+            changed();
         }
     }
 
@@ -127,6 +136,7 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
         connections.load(in);
         packet = in.read("packet", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         inlet = Direction.from3DDataValue(in.getIntOr("inlet", 0));
+        blocked = in.getBooleanOr("blocked", false);
         progress = Math.clamp(in.getIntOr("progress", 0), 0, HOP_TICKS);
         enteredAt = in.getLongOr("entered_at", 0L);
     }
@@ -137,6 +147,10 @@ public final class PneumaticTubeBlockEntity extends BlockEntity implements Confi
             packet = ItemStack.EMPTY;
         }
     }
-    @Override public CompoundTag getUpdateTag(HolderLookup.Provider lookups) { return saveCustomOnly(lookups); }
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider lookups) {
+        var tag = saveCustomOnly(lookups);
+        tag.putBoolean("blocked", blocked);
+        return tag;
+    }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
 }

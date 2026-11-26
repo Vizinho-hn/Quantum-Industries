@@ -66,6 +66,12 @@ public final class SteamBoilerBlockEntity extends BlockEntity implements FluidIn
         changed();return true;
     }
     public int steam(){return steam;}
+    public int outletPressureKpa() {
+        if (steam == 0) return 0;
+        // The boiler's outlet maintains a minimum pressure head while steam is present.
+        int reservoirPressure = br.com.quantumindustries.gas.IndustrialGas.STEAM.pressureKpa(steam, STEAM_CAPACITY);
+        return Math.min(GasTransporterBlockEntity.MAX_KPA, reservoirPressure + 40);
+    }
     public int takeSteam(int amount,Direction side){
         if(!(level instanceof ServerLevel)||side!=outlet()||amount<=0||steam<amount
                 ||!ConversionAuthorization.permitted(level,operator,Kind.BOILER))return 0;

@@ -11,6 +11,7 @@ import br.com.quantumindustries.core.ModBlocks;
 import br.com.quantumindustries.energy.ConversionPower;
 import br.com.quantumindustries.energy.GeneratorModel;
 import br.com.quantumindustries.energy.TransferBudget;
+import br.com.quantumindustries.gas.IndustrialGas;
 import br.com.quantumindustries.mechanical.KineticNetworkManager;
 import br.com.quantumindustries.mechanical.RotationalBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -120,8 +121,36 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         if(n>0){budget.recordExtract(server.getGameTime(),n);setChanged();}
         return n;
     }
+    private static final int STEAM_RESERVE = 100;
+    private int steamReserve, inletPressureKpa;
+    private long lastSteamIntake = Long.MIN_VALUE;
+
+    public int inletPressureKpa() { return inletPressureKpa; }
+
+    private void recordSteamIntake(ServerLevel server, int pressureKpa) {
+        inletPressureKpa = pressureKpa;
+        lastSteamIntake = server.getGameTime();
+    }
+
+    public int receiveGas(IndustrialGas gas, int amount, Direction side, int inletPressure) {
+        if (!(level instanceof ServerLevel server) || kind() != Kind.STEAM_ENGINE
+                || gas != IndustrialGas.STEAM || amount <= 0 || inletPressure < 2
+                || side != IndustrialConversionBlock.facing(getBlockState()).getOpposite()
+                || !enabled || !authorized()) return 0;
+        int accepted = Math.min(amount, STEAM_RESERVE - steamReserve);
+        steamReserve += accepted;
+        if (accepted > 0) {
+            recordSteamIntake(server, inletPressure);
+            setChanged();
+        }
+        return accepted;
+    }
+
+    public int steamReserve() { return steamReserve; }
+
     public void tick() {
         if (!(level instanceof ServerLevel server)) return;
+        if (inletPressureKpa > 0 && server.getGameTime() > lastSteamIntake + 10) inletPressureKpa = 0;
         if (paidTick==server.getGameTime()) activePaidTick=paidTick;
         var snap=KineticNetworkManager.snapshot(server,worldPosition);
         applyKineticSnapshot(snap);
@@ -136,9 +165,18 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
             } else if (kind()==Kind.STEAM_ENGINE) {
                 Direction inlet=IndustrialConversionBlock.facing(getBlockState()).getOpposite();
                 BlockPos source=worldPosition.relative(inlet);
-                if (server.hasChunkAt(source) && server.getBlockEntity(source) instanceof SteamBoilerBlockEntity boiler
-                        && boiler.takeSteam(STEAM_COST,inlet.getOpposite())==STEAM_COST) {
-                    paidTick=server.getGameTime()+1;setChanged();
+                if (steamReserve >= STEAM_COST) {
+                    steamReserve -= STEAM_COST;
+                    paidTick = server.getGameTime() + 1;
+                    setChanged();
+                } else if (server.hasChunkAt(source) && server.getBlockEntity(source) instanceof SteamBoilerBlockEntity boiler
+                        && boiler.steam() >= STEAM_COST) {
+                    int pressure = boiler.outletPressureKpa();
+                    if (boiler.takeSteam(STEAM_COST, inlet.getOpposite()) == STEAM_COST) {
+                        recordSteamIntake(server, pressure);
+                        paidTick = server.getGameTime() + 1;
+                        setChanged();
+                    }
                 }
             }
         }
@@ -176,6 +214,7 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     }
     @Override public Component statusTitle(){return inspectTitle();}
     @Override public Component statusDetail(){
+        if(kind()==Kind.STEAM_ENGINE) return Component.translatable("message.quantumindustries.steam_engine.reserve", steamReserve, STEAM_RESERVE, Math.round(rpm()));
         if(generator())return Component.translatable("message.quantumindustries.alternator.status",energy(),capacity(),Math.round(rpm()),lastGenerated,field>0?field:excitation,GeneratorModel.FIELD_START,rotorHeat,
                 Component.translatable("message.quantumindustries.alternator."+(thermalTrip?"overheat":!enabled?"disabled":field==0&&excitation<GeneratorModel.FIELD_START?"excitation":"ready")));
         return Component.translatable("message.quantumindustries.rotary_conversion.status",energy(),capacity(),Math.round(rpm()),lastGenerated);
@@ -183,11 +222,11 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
     @Override public State statusState(){return rotating()&&isSpinning()?State.WORKING:enabled?State.BLOCKED:State.IDLE;}
     @Override public float statusProgress(){return capacity()>0?(float)energy()/capacity():0;}
     @Override protected void saveAdditional(ValueOutput out){
-        super.saveAdditional(out);out.putInt("stored_fe",energy());out.putString("operator",operator);out.putBoolean("enabled",enabled);out.putInt("last_generated",lastGenerated);
+        super.saveAdditional(out);out.putInt("steam_reserve",steamReserve);out.putInt("stored_fe",energy());out.putString("operator",operator);out.putBoolean("enabled",enabled);out.putInt("last_generated",lastGenerated);
         out.putInt("excitation",excitation);out.putInt("field",field);out.putInt("generation_remainder",generationRemainder);out.putInt("rotor_heat",rotorHeat);out.putBoolean("thermal_trip",thermalTrip);
     }
     @Override protected void loadAdditional(ValueInput in){
-        super.loadAdditional(in);battery.set(Math.clamp(in.getIntOr("stored_fe",0),0,BUFFER));operator=in.getStringOr("operator","");
+        super.loadAdditional(in);steamReserve=Math.clamp(in.getIntOr("steam_reserve",0),0,STEAM_RESERVE);inletPressureKpa=in.getIntOr("inlet_pressure",0);battery.set(Math.clamp(in.getIntOr("stored_fe",0),0,BUFFER));operator=in.getStringOr("operator","");
         enabled=in.getBooleanOr("enabled",true);lastGenerated=Math.clamp(in.getIntOr("last_generated",0),0,GENERATOR_MAX);paidTick=activePaidTick=Long.MIN_VALUE;
         excitation=Math.clamp(in.getIntOr("excitation",0),0,GeneratorModel.FIELD_START);
         field=Math.clamp(in.getIntOr("field",0),0,GeneratorModel.MAX_FIELD);
@@ -195,4 +234,10 @@ public final class RotaryConversionBlockEntity extends RotationalBlockEntity imp
         rotorHeat=Math.clamp(in.getIntOr("rotor_heat",0),0,GeneratorModel.MAX_HEAT);
         thermalTrip=in.getBooleanOr("thermal_trip",false);
     }
+    @Override public net.minecraft.nbt.CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider lookups) {
+        var tag = super.getUpdateTag(lookups);
+        if (kind() == Kind.STEAM_ENGINE) tag.putInt("inlet_pressure", inletPressureKpa);
+        return tag;
+    }
+
 }

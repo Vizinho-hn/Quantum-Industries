@@ -88,6 +88,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.ELECTRICAL_NETWORK_ANALYZER.get());
                     output.accept(ModItems.ELECTROMAGNETIC_GENERATOR.get());
                     output.accept(ModItems.ELECTRIC_MOTOR.get());
+                    output.accept(ModItems.GAS_TRANSPORTER.get());
                     output.accept(ModItems.STEAM_BOILER.get());
                     output.accept(ModItems.STEAM_ENGINE.get());
                     output.accept(ModItems.THERMOELECTRIC_GENERATOR.get());
