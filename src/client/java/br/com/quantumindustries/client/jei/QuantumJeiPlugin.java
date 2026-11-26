@@ -1,6 +1,8 @@
 package br.com.quantumindustries.client.jei;
 
 import br.com.quantumindustries.client.MechanicalRecipeCache;
+import br.com.quantumindustries.client.QuantumGuidebookScreen;
+import br.com.quantumindustries.client.codex.CodexJeiBridge;
 import br.com.quantumindustries.block.entity.WireDrawingBenchBlockEntity;
 import br.com.quantumindustries.material.AlloyCatalog;
 import br.com.quantumindustries.material.CrushingCatalog;
@@ -12,16 +14,21 @@ import java.util.List;
 import java.util.function.Supplier;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -45,6 +52,29 @@ public final class QuantumJeiPlugin implements IModPlugin {
     private static IRecipeType<Process> type(String name) { return IRecipeType.create(id(name), Process.class); }
 
     @Override public Identifier getPluginUid() { return id("jei"); }
+
+    @Override public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        // Hide JEI overlays (ingredient list, bookmarks, and corner buttons) specifically on Quantum Codex.
+        registration.addGuiScreenHandler(QuantumGuidebookScreen.class, screen -> null);
+        registration.addGuiContainerHandler(QuantumGuidebookScreen.class, new IGuiContainerHandler<>() {
+            @Override
+            public List<Rect2i> getGuiExtraAreas(QuantumGuidebookScreen screen) {
+                return List.of(new Rect2i(0, 0, screen.width, screen.height));
+            }
+        });
+    }
+
+    @Override public void onRuntimeAvailable(IJeiRuntime runtime) {
+        CodexJeiBridge.install(stack -> {
+            var focus = runtime.getJeiHelpers().getFocusFactory().createFocus(RecipeIngredientRole.OUTPUT, VanillaTypes.ITEM_STACK, stack);
+            runtime.getRecipesGui().show(focus);
+            return true;
+        });
+    }
+
+    @Override public void onRuntimeUnavailable() {
+        CodexJeiBridge.clear();
+    }
 
     @Override public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new ThermoelectricCategory(registration.getJeiHelpers().getGuiHelper()));
