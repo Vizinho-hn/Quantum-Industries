@@ -1,0 +1,14 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('tests/codex-preview')
+        def w = findProperty('codexWidth') ?: '1920'
+        def h = findProperty('codexHeight') ?: '1080'
+        def tag = findProperty('codexTag') ?: "${w}x${h}"
+        neoForge.runs.client {
+            gameDirectory = file('build/codex-preview')
+            systemProperty 'quantumindustries.codexPreview', 'true'
+            systemProperty 'quantumindustries.codexTag', tag
+            programArguments.addAll '--quickPlaySingleplayer', 'CodexQA', '--width', w.toString(), '--height', h.toString()
+        }
+    }
+}
