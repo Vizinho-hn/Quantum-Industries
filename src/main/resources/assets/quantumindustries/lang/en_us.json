@@ -1215,9 +1215,9 @@
   "message.quantumindustries.thermoelectric_generator.generating": "Seebeck effect",
   "guidebook.quantumindustries.compact_gearbox.title": "Compact Gearbox",
   "guidebook.quantumindustries.compact_gearbox.subtitle": "Right-angle mechanical transmission",
-  "guidebook.quantumindustries.compact_gearbox.paragraph_0": "Four mechanical ports connect two perpendicular axes. The gearbox shares network capacity, reverses the sign between axes and introduces small losses. It generates no energy.",
-  "guidebook.quantumindustries.compact_gearbox.paragraph_1": "The speed ratio has magnitude 1:1. The excluded axis transmits no motion; use Inspection Goggles to verify the network.",
-  "guidebook.quantumindustries.compact_gearbox.operation": "Orient the gearbox with the Configuration Wrench. Connect shafts to active ports and power the network with a mechanical source.",
+  "guidebook.quantumindustries.compact_gearbox.paragraph_0": "Bevel gears transfer rotation through 90°. Two perpendicular axes are active. The ratio is 1:1 and the rotation sign is reversed between axes.",
+  "guidebook.quantumindustries.compact_gearbox.paragraph_1": "Efficiency is 98% per port, about 96% across two ports. Capacity and load are shared. Inspection Goggles show both signed speeds and network status.",
+  "guidebook.quantumindustries.compact_gearbox.operation": "Click a face when placing to exclude its axis, or use the Configuration Wrench. Exclude Z for X to Y, or Y for X to Z. If stalled, verify connections and check whether load exceeds capacity.",
   "guidebook.quantumindustries.mechanical_conveyor.title": "Mechanical Conveyor",
   "guidebook.quantumindustries.mechanical_conveyor.subtitle": "Rotation-driven item transport",
   "guidebook.quantumindustries.mechanical_conveyor.paragraph_0": "Each segment carries one item. Speed and direction depend on rotation; a blocked output retains the cargo.",
@@ -1587,5 +1587,7 @@
   "gui.quantumindustries.instrumental.material.electrum": "Electrum",
   "gui.quantumindustries.instrumental.material.constantan": "Constantan",
   "message.quantumindustries.instrumental.sample": "Keep an ingot of this material in your inventory.",
-  "message.quantumindustries.instrumental.inventory_paper": "One paper is required in your inventory."
+  "message.quantumindustries.instrumental.inventory_paper": "One paper is required in your inventory.",
+  "gui.quantumindustries.gearbox.axle": "Axis %s · %s RPM · %s",
+  "gui.quantumindustries.gearbox.transmission": "Ratio 1:1 · nominal loss ~%s%%"
 }

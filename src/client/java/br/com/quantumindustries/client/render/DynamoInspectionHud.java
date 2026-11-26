@@ -303,10 +303,26 @@ public final class DynamoInspectionHud {
         List<Component> lines = new ArrayList<>();
         lines.add(Component.translatable("gui.quantumindustries.mechanical.title"));
         lines.add(Component.translatable("gui.quantumindustries.mechanical.state_reason", state, reason));
-        lines.add(Component.translatable("gui.quantumindustries.mechanical.rpm", decimal(snap.rpm())));
         lines.add(Component.translatable("gui.quantumindustries.mechanical.capacity_load", snap.capacity(), snap.load()));
-        lines.add(Component.translatable("gui.quantumindustries.mechanical.axle_spin",
-                Component.translatable("gui.quantumindustries.mechanical.axis." + snap.axle().getName()), spin));
+        if (minecraft.level != null && minecraft.level.getBlockEntity(snap.target())
+                instanceof br.com.quantumindustries.block.entity.CompactGearboxBlockEntity gearbox) {
+            String axisKey = "gui.quantumindustries.mechanical.axis.";
+            Component reverseSpin = Component.translatable(direction < 0
+                    ? "gui.quantumindustries.mechanical.spin.cw" : "gui.quantumindustries.mechanical.spin.ccw");
+            Component stopped = Component.translatable("gui.quantumindustries.mechanical.state.stalled");
+            lines.add(Component.translatable("gui.quantumindustries.gearbox.axle",
+                    Component.translatable(axisKey + snap.axle().getName()),
+                    decimal(snap.rpm()), moving ? spin : stopped));
+            lines.add(Component.translatable("gui.quantumindustries.gearbox.axle",
+                    Component.translatable(axisKey + gearbox.secondaryAxle().getName()),
+                    decimal(moving ? -snap.rpm() : 0), moving ? reverseSpin : stopped));
+            int loss = (int) Math.round((1 - gearbox.PORT_EFFICIENCY * gearbox.PORT_EFFICIENCY) * 100);
+            lines.add(Component.translatable("gui.quantumindustries.gearbox.transmission", loss));
+        } else {
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.rpm", decimal(snap.rpm())));
+            lines.add(Component.translatable("gui.quantumindustries.mechanical.axle_spin",
+                    Component.translatable("gui.quantumindustries.mechanical.axis." + snap.axle().getName()), spin));
+        }
         lines.add(Component.translatable("gui.quantumindustries.mechanical.nodes", snap.nodeCount()));
         if (shift) {
             lines.add(Component.translatable("gui.quantumindustries.mechanical.angular_velocity", decimal(snap.angularVelocity())));

@@ -2,6 +2,7 @@ package br.com.quantumindustries.client.kinetic;
 
 import br.com.quantumindustries.block.MechanicalShaftBlock;
 import br.com.quantumindustries.block.entity.ManualDynamoBlockEntity;
+import br.com.quantumindustries.block.entity.CompactGearboxBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalSawmillBlockEntity;
 import br.com.quantumindustries.block.entity.MechanicalShaftBlockEntity;
 import br.com.quantumindustries.block.entity.PrimitiveWaterWheelBlockEntity;
@@ -56,6 +57,9 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
     @SubscribeEvent
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         ClientKineticTracker.init();
+        event.registerBlockEntityRenderer(ModBlocks.COMPACT_GEARBOX_ENTITY.get(),
+                context -> new QksBlockEntityRenderer<>("compact_gearbox",
+                        Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/compact_gearbox.png"), Direction.Axis.X));
         event.registerBlockEntityRenderer(ModBlocks.ELECTRIC_SAWMILL_ENTITY.get(), context -> new QksBlockEntityRenderer<>("electric_sawmill", Identifier.fromNamespaceAndPath(MOD_ID,"textures/block/electric_sawmill.png"), Direction.Axis.X));
         event.registerBlockEntityRenderer(ModBlocks.SMALL_COGWHEEL_ENTITY.get(),
                 context -> new QksBlockEntityRenderer<>("small_cogwheel", Identifier.fromNamespaceAndPath(MOD_ID, "textures/block/small_cogwheel.png"), Direction.Axis.Z));
@@ -132,6 +136,10 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
         if (entity instanceof br.com.quantumindustries.block.entity.CogwheelBlockEntity gear
                 && ((entity.getBlockPos().getX() + entity.getBlockPos().getY() + entity.getBlockPos().getZ()) & 1) != 0)
             state.angleDegrees += (float) Math.toDegrees(Math.PI / gear.teeth());
+        if (entity instanceof CompactGearboxBlockEntity gearbox) {
+            state.modelPath = modelPath + "_" + gearbox.excludedAxis().getName();
+            state.facing = Direction.NORTH; // Geometry already uses world axes.
+        }
         state.beltEnd = null;
         if (entity instanceof br.com.quantumindustries.block.entity.MechanicalPulleyBlockEntity pulley
                 && pulley.partnerPos() != null && entity.getBlockPos().compareTo(pulley.partnerPos()) < 0
@@ -242,6 +250,22 @@ public final class QksBlockEntityRenderer<T extends BlockEntity> implements Bloc
             float innerEdge = negative ? 2.55f / 16 : 13.45f / 16;
             work.translate(0, 0, (1 - lengthScale) * (innerEdge - bone.pivotZ()));
             work.scale(width, width, lengthScale);
+        }
+        if (name.startsWith("gearbox_axle_")) {
+            Direction.Axis worldAxis = switch (name) {
+                case "gearbox_axle_x" -> Direction.Axis.X;
+                case "gearbox_axle_y" -> Direction.Axis.Y;
+                case "gearbox_axle_z" -> Direction.Axis.Z;
+                default -> throw new IllegalArgumentException("Unknown gearbox axle " + name);
+            };
+            Axis axis = switch (worldAxis) {
+                case X -> Axis.XP;
+                case Y -> Axis.YP;
+                case Z -> Axis.ZP;
+            };
+            // The two port ratios are +1 and -1 around the single synchronized QKS phase.
+            work.mulPose(axis.rotationDegrees(worldAxis == state.axle
+                    ? state.angleDegrees : -state.angleDegrees));
         }
         work.translate(-bone.pivotX(), -bone.pivotY(), -bone.pivotZ());
         if (!name.equals(BASE) || state.baseVisible) {

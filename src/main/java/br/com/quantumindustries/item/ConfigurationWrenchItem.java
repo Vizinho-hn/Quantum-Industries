@@ -58,6 +58,8 @@ public final class ConfigurationWrenchItem extends Item {
 
         if (level instanceof ServerLevel server && player instanceof ServerPlayer operator) {
             server.setBlock(pos, rotated, Block.UPDATE_ALL);
+            if (server.getBlockEntity(pos) instanceof br.com.quantumindustries.block.entity.CompactGearboxBlockEntity)
+                br.com.quantumindustries.mechanical.MechanicalNetwork.invalidate(server);
             operator.sendOverlayMessage(Component.translatable("gui.quantumindustries.wrench.rotated",
                     rotationLabel(rotated)));
         }

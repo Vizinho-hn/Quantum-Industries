@@ -20,6 +20,10 @@ public final class CompactGearboxBlockEntity extends RotationalBlockEntity {
     @Override public Direction.Axis axle() {
         return excludedAxis() == Direction.Axis.Z ? Direction.Axis.X : Direction.Axis.Z;
     }
+    public Direction.Axis secondaryAxle() {
+        return excludedAxis() == Direction.Axis.Y ? Direction.Axis.X : Direction.Axis.Y;
+    }
+
     @Override public boolean connectsMechanical(Direction face) { return face.getAxis() != excludedAxis(); }
     @Override public double kineticPortRatio(Direction face) {
         return face.getAxis() == axle() ? 1.0 : -1.0;

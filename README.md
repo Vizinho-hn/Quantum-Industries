@@ -442,7 +442,7 @@ O `industrial_circuit_switch` utiliza a rede de cabos existente, sem buffer de F
 
 ### Caixa de Transmissão Compacta (Era I)
 
-`compact_gearbox` conecta dois eixos perpendiculares (quatro faces) em relação de módulo 1:1. O eixo indicado na colocação/chave é o eixo excluído; os outros dois são ligados por engrenagens cônicas internas. O QKS mantém um único rotor, com inversão de sinal entre eixos, inércia própria e eficiência de porta de 98% (aproximadamente 96% em uma passagem entre duas portas). Não fornece UM nem FE. Requer Transmissão Mecânica e Chapas Metálicas. Modelo de carcaça fechada com encaixes visíveis; validação in-game pendente.
+`compact_gearbox` conecta dois eixos perpendiculares (quatro faces) em relação de módulo 1:1. O eixo indicado na colocação/chave é o eixo excluído; os outros dois são ligados por engrenagens cônicas internas. O QKS mantém um único rotor, com inversão de sinal entre eixos, inércia própria e eficiência de porta de 98% (aproximadamente 96% em uma passagem entre duas portas). Não fornece UM nem FE. Requer Transmissão Mecânica e Chapas Metálicas. A carcaça aberta de madeira e ferro expõe os dois conjuntos de bronze e aço. As engrenagens e eixos usam a fase sincronizada do QKS e os óculos mostram RPM por eixo e perda nominal.
 
 ### Esteira Mecânica (Era I)
 

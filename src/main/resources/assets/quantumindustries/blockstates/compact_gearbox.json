@@ -1,16 +1,13 @@
 {
   "variants": {
+    "axis=z": {
+      "model": "quantumindustries:block/compact_gearbox_upright"
+    },
     "axis=y": {
       "model": "quantumindustries:block/compact_gearbox"
     },
     "axis=x": {
-      "model": "quantumindustries:block/compact_gearbox",
-      "x": 90,
-      "y": 90
-    },
-    "axis=z": {
-      "model": "quantumindustries:block/compact_gearbox",
-      "x": 90
+      "model": "quantumindustries:block/compact_gearbox_side"
     }
   }
 }

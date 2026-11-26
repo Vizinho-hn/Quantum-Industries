@@ -1177,9 +1177,9 @@
   "gui.quantumindustries.mainspring_drum.status": "Mola [%s] | Tensão: %s%% | Ep=%s J",
   "guidebook.quantumindustries.compact_gearbox.title": "Caixa de Transmissão Compacta",
   "guidebook.quantumindustries.compact_gearbox.subtitle": "Transmissão entre eixos perpendiculares",
-  "guidebook.quantumindustries.compact_gearbox.paragraph_0": "Quatro portas mecânicas ligam dois eixos perpendiculares. A caixa compartilha a capacidade da rede, inverte o sinal entre eixos e tem pequenas perdas. Não gera energia.",
-  "guidebook.quantumindustries.compact_gearbox.paragraph_1": "A relação de velocidades tem módulo 1:1. O eixo excluído não transmite movimento; use os Óculos de Inspeção para verificar a rede.",
-  "guidebook.quantumindustries.compact_gearbox.operation": "Oriente a caixa com a Chave de Configuração. Conecte eixos nas portas ativas e alimente a rede com uma fonte mecânica.",
+  "guidebook.quantumindustries.compact_gearbox.paragraph_0": "Engrenagens cônicas transferem a rotação a 90°. Dois eixos perpendiculares são ativos. A relação é 1:1 e o sinal se inverte entre os eixos.",
+  "guidebook.quantumindustries.compact_gearbox.paragraph_1": "A eficiência é de 98% por porta, cerca de 96% numa passagem. Capacidade e carga são compartilhadas. Os óculos mostram os dois sentidos de rotação e o estado da rede.",
+  "guidebook.quantumindustries.compact_gearbox.operation": "Clique numa face ao colocar para excluir seu eixo ou use a Chave de Configuração. Exclua Z para ligar X a Y, ou Y para ligar X a Z. Se parar, confira os encaixes e se a carga supera a capacidade.",
   "guidebook.quantumindustries.mechanical_conveyor.title": "Esteira Mecânica",
   "guidebook.quantumindustries.mechanical_conveyor.subtitle": "Transporte de itens por rotação",
   "guidebook.quantumindustries.mechanical_conveyor.paragraph_0": "Cada segmento transporta uma unidade de item. A velocidade e o sentido dependem da rotação; uma saída bloqueada retém a carga.",
@@ -1587,5 +1587,7 @@
   "gui.quantumindustries.instrumental.material.electrum": "Electrum",
   "gui.quantumindustries.instrumental.material.constantan": "Constantan",
   "message.quantumindustries.instrumental.sample": "Tenha um lingote desse material no inventário.",
-  "message.quantumindustries.instrumental.inventory_paper": "É necessário um papel no inventário."
+  "message.quantumindustries.instrumental.inventory_paper": "É necessário um papel no inventário.",
+  "gui.quantumindustries.gearbox.axle": "Eixo %s · %s RPM · %s",
+  "gui.quantumindustries.gearbox.transmission": "Relação 1:1 · perda nominal ~%s%%"
 }

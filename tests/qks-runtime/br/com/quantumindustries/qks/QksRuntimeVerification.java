@@ -61,6 +61,7 @@ public final class QksRuntimeVerification {
     private static final List<BlockPos> GEARS = new ArrayList<>(), BELTS = new ArrayList<>();
     private static final BlockPos REVERSE = pos(0, 32), BARE = pos(0, 48), FLY = pos(0, 64);
     private static final BlockPos COAST = pos(0, 80), DYNAMO_WHEEL = pos(0, 96), DYNAMO = DYNAMO_WHEEL.east(2);
+    private static final BlockPos VERTICAL_GEARBOX = pos(80, 128);
     private static final BlockPos GEARBOX = pos(96, 128), CONVEYOR = pos(112, 128);
     private static double stoppedBeltFraction;
     private static final BlockPos MOTOR=pos(160,80), CONVERSION_GENERATOR=MOTOR.east(2),
@@ -373,6 +374,15 @@ public final class QksRuntimeVerification {
         axial(GEARBOX.east(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get());
         put(GEARBOX.north(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
         put(GEARBOX.above(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState().setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        wheel(VERTICAL_GEARBOX.west(), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST);
+        feed(VERTICAL_GEARBOX.west(), Direction.EAST, -1);
+        var gearboxState = ModBlocks.COMPACT_GEARBOX.get().defaultBlockState();
+        put(VERTICAL_GEARBOX, gearboxState.setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        put(VERTICAL_GEARBOX.above(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState()
+                .setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        put(VERTICAL_GEARBOX.above(2), gearboxState.setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+        put(VERTICAL_GEARBOX.above(2).north(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState()
+                .setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
         wheel(CONVEYOR.west(), ModBlocks.PRIMITIVE_WATER_WHEEL.get(), Direction.EAST);
         feed(CONVEYOR.west(), Direction.EAST, 1);
         for (var p : List.of(CONVEYOR, CONVEYOR.north())) {
@@ -724,6 +734,26 @@ public final class QksRuntimeVerification {
         var reverse = back.stream().filter(l -> l.target().equals(GEARBOX)).findFirst().orElseThrow();
         near(link.ratio() * reverse.ratio(), 1, "reciprocal link ratio");
         near(link.efficiency(), reverse.efficiency(), "symmetric port loss");
+        var input = snap(VERTICAL_GEARBOX.west());
+        var vertical = snap(VERTICAL_GEARBOX.above());
+        var output = snap(VERTICAL_GEARBOX.above(2).north());
+        check(input.powered() && vertical.powered() && output.powered(), "two gearboxes transmit X to Y to Z");
+        near(input.angularVelocity(), -vertical.angularVelocity(), "vertical leg reverses motion at 1:1");
+        near(vertical.angularVelocity(), -output.angularVelocity(), "vertical input drives horizontal output at 1:1");
+        check(input.angularVelocity() * east.angularVelocity() < 0, "opposite hydraulic feeds exercise both signs");
+        check(input.capacity() == output.capacity(), "gearboxes do not create network capacity");
+        var wrench = ModItems.CONFIGURATION_WRENCH.get();
+        var previousPosition = player.position();
+        player.setPos(GEARBOX.getX() + .5, GEARBOX.getY(), GEARBOX.getZ() + .5);
+        var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(GEARBOX), Direction.UP, GEARBOX, false);
+        var use = new net.minecraft.world.item.context.UseOnContext(player, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+        check(wrench.useOn(use).consumesAction() && gearbox.excludedAxis() != Direction.Axis.Y,
+                "configuration wrench changes the excluded axis");
+        check(gearbox.connectsMechanical(Direction.UP), "wrench enables the new vertical ports");
+        put(GEARBOX, level.getBlockState(GEARBOX).setValue(BlockStateProperties.AXIS, Direction.Axis.Y));
+        player.setPos(previousPosition.x, previousPosition.y, previousPosition.z);
+
+
     }
 
     private static void verifyFlows() {
@@ -858,6 +888,9 @@ public final class QksRuntimeVerification {
         }
         savedReadAngle = rotor(SPLIT).angleRadians();
         // Re-establish deterministic channels only after persisted values were checked, before any ticks.
+        check(level.getBlockState(VERTICAL_GEARBOX).getValue(BlockStateProperties.AXIS) == Direction.Axis.Z
+                && level.getBlockState(VERTICAL_GEARBOX.above(2)).getValue(BlockStateProperties.AXIS) == Direction.Axis.X,
+                "configured gearbox axes survive a full restart");
         for (var p : List.of(SPLIT, DYNAMO_WHEEL, pos(96, 48).west(), pos(96, 64).west())) feed(p, Direction.EAST, 1);
         refreshWater(); MechanicalNetwork.invalidate(level);
     }
