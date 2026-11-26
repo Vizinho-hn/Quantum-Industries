@@ -157,3 +157,5 @@ Não faça commits, push, merge, force-push nem mudanças destrutivas sem autori
 - A gearbox usa AXIS como eixo excluído das conexões. Os três modelos visuais mantêm a caixa na vertical e adaptam apenas os mecanismos aos dois eixos permitidos; a textura dedicada é compact_gearbox.png.
 
 - Transmissões com dois eixos podem usar uma única fase sincronizada do QKS. Aplique o sinal de cada porta ao grupo giratório em seu eixo de mundo. Separe o modelo estático da geometria móvel para evitar duplicação ou cintilação.
+
+- Em transporte industrial, preserve os IDs de blocos e os dados de mundos existentes. Compartilhe a configuração por face, mas mantenha cada meio restrito aos próprios recursos e portas. Para vapor, confira a conservação somando os reservatórios, o que está nos dutos e os débitos dos motores em um teste com ramificação.
