@@ -37,6 +37,13 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
     private long lastFlowTime=-1;
     private final ConnectionModes connections = new ConnectionModes();
     public FluidPipeBlockEntity(BlockPos pos,BlockState state){super(ModBlocks.FLUID_PIPE_ENTITY.get(),pos,state);}
+    private Direction flowDirection;
+    public Direction flowDirection() { return lastFlow > 0 ? flowDirection : null; }
+    public Component fluidContents() {
+        var resource = tank.getResource(0);
+        return resource.isEmpty() ? Component.translatable("gui.quantumindustries.gas.empty")
+                : Component.translatable(resource.getFluid().getFluidType().getDescriptionId());
+    }
     public FluidStacksResourceHandler tank(){return tank;}
     @Override public void onLoad() {
         super.onLoad();
@@ -68,9 +75,10 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
     @Override public Component fluidDetail(){return Component.translatable("message.quantumindustries.fluid.line",lastFlow,pressureTicks);}
     public void tick(){
         if(!(level instanceof ServerLevel server))return;
-        if(pressureTicks>0)pressureTicks--;
+        if(pressureTicks>0 && --pressureTicks==0)changed();
         pullFromNeighbor(server);
-        if(storedFluid()<=0){lastFlow=0;return;}
+        if(storedFluid()<=0 && server.getGameTime()-lastFlowTime>2 && lastFlow!=0){lastFlow=0;changed();}
+        if(storedFluid()<=0)return;
         for(Direction dir: new Direction[]{Direction.DOWN,Direction.NORTH,Direction.SOUTH,Direction.EAST,Direction.WEST,Direction.UP}){
             if (!connectionMode(dir).allowsOutput()) continue;
             if(dir==Direction.UP&&pressureTicks<=0)continue;
@@ -82,7 +90,7 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
             var target=FluidTransfer.handler(server,next,dir.getOpposite());
             int moved=FluidTransfer.move(tank,target,MAX_RATE);
             if(moved<=0)continue;
-            lastFlow=moved;lastFlowTime=server.getGameTime();
+            lastFlow=moved;lastFlowTime=server.getGameTime();flowDirection=dir;
             if(neighbor instanceof FluidPipeBlockEntity pipe && pressureTicks>0)pipe.pressurize(20);
             if(getBlockState().is(ModBlocks.GLASS_PIPE.get())&&server.getGameTime()%6==0)
                 server.sendParticles(tank.getResource(0).is(Fluids.LAVA)?ParticleTypes.LAVA:ParticleTypes.SPLASH,
@@ -102,6 +110,7 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
             int moved = source==null?FluidTransfer.drawRenewableWater(server,sourcePos,tank,MAX_RATE):FluidTransfer.move(source, tank, MAX_RATE);
             if (moved <= 0) continue;
             lastFlow = moved;
+            flowDirection = side.getOpposite();
             lastFlowTime = server.getGameTime();
             changed();
             return;
@@ -117,10 +126,13 @@ public final class FluidPipeBlockEntity extends BlockEntity implements FluidInsp
         connections.load(in);
         pressureTicks=Math.clamp(in.getIntOr("pressure_ticks",0),0,20);
         lastFlow=Math.clamp(in.getIntOr("visual_flow",0),0,MAX_RATE);
+        int face=in.getIntOr("flow_direction",-1);
+        flowDirection=face<0?null:Direction.from3DDataValue(face);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider regs){
         CompoundTag tag=saveCustomOnly(regs);
-        tag.putInt("visual_flow",lastFlow);tag.putInt("visual_pressure",pressureTicks);
+        tag.putInt("visual_flow",lastFlow);
+        if (flowDirection!=null) tag.putInt("flow_direction",flowDirection.get3DDataValue());
         return tag;
     }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket(){return ClientboundBlockEntityDataPacket.create(this);}

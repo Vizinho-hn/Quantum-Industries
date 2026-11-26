@@ -16,6 +16,7 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> ELECTROMAGNETIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTROMAGNETIC_GENERATOR);
     public static final DeferredItem<BlockItem> ELECTRIC_MOTOR = ITEMS.registerSimpleBlockItem(ModBlocks.ELECTRIC_MOTOR);
+    public static final DeferredItem<BlockItem> GAS_TRANSPORTER = ITEMS.registerSimpleBlockItem(ModBlocks.GAS_TRANSPORTER);
     public static final DeferredItem<BlockItem> STEAM_BOILER = ITEMS.registerSimpleBlockItem(ModBlocks.STEAM_BOILER);
     public static final DeferredItem<BlockItem> STEAM_ENGINE = ITEMS.registerSimpleBlockItem(ModBlocks.STEAM_ENGINE);
     public static final DeferredItem<BlockItem> THERMOELECTRIC_GENERATOR = ITEMS.registerSimpleBlockItem(ModBlocks.THERMOELECTRIC_GENERATOR);

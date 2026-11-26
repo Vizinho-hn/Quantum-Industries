@@ -3,6 +3,8 @@ package br.com.quantumindustries.qks;
 import br.com.quantumindustries.ModItems;
 import br.com.quantumindustries.block.entity.*;
 import br.com.quantumindustries.core.ModBlocks;
+import br.com.quantumindustries.gas.IndustrialGas;
+import br.com.quantumindustries.logistics.ConnectionMode;
 import br.com.quantumindustries.inspection.*;
 import br.com.quantumindustries.mechanical.*;
 import br.com.quantumindustries.research.WorldResearchData;
@@ -432,6 +434,7 @@ public final class QksRuntimeVerification {
         }
         check(boiler.takeSteam(10,Direction.NORTH)==0,"empty steam cannot be extracted");
         buildBoilerAutomation();
+        buildSteamTransport();
         wheel(THERMAL,ModBlocks.THERMOELECTRIC_GENERATOR.get(),Direction.NORTH);
         put(THERMAL.west(),Blocks.MAGMA_BLOCK.defaultBlockState());
         put(THERMAL.east(),Blocks.PACKED_ICE.defaultBlockState());
@@ -543,6 +546,129 @@ public final class QksRuntimeVerification {
             check(inlet.insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(net.minecraft.world.level.material.Fluids.LAVA),50,tx)==0,"water port rejects lava");
         }
     }
+    private static final BlockPos STEAM_MAIN = AUTO_BOILER.north(), GAS_JUNCTION = STEAM_MAIN.above();
+    private static final BlockPos GAS_ENGINE_NORTH = GAS_JUNCTION.north(), GAS_ENGINE_EAST = GAS_JUNCTION.east();
+    private static final BlockPos GAS_SOLO_BOILER = AUTO_BOILER.south(8);
+    private static final BlockPos GAS_SOLO_PIPE = GAS_SOLO_BOILER.north();
+    private static final BlockPos GAS_DRIVER = GAS_ENGINE_EAST.south(2);
+    private static final BlockPos GAS_ALTERNATOR = GAS_DRIVER.east().south();
+    private static final BlockPos GAS_BATTERY = GAS_ALTERNATOR.south(2);
+    private static final BlockPos GAS_PUMP = AUTO_BOILER.east(3);
+    private static int paidNorth, paidEast, paidBeforeRefill;
+
+    private static GasTransporterBlockEntity gasPipe(BlockPos pos) {
+        return (GasTransporterBlockEntity) level.getBlockEntity(pos);
+    }
+
+    private static void buildSteamTransport() {
+        put(STEAM_MAIN, ModBlocks.GAS_TRANSPORTER.get().defaultBlockState());
+        put(GAS_JUNCTION, ModBlocks.GAS_TRANSPORTER.get().defaultBlockState());
+        wheel(GAS_ENGINE_NORTH, ModBlocks.STEAM_ENGINE.get(), Direction.NORTH);
+        wheel(GAS_ENGINE_EAST, ModBlocks.STEAM_ENGINE.get(), Direction.EAST);
+        bindConversion(GAS_ENGINE_NORTH);
+        bindConversion(GAS_ENGINE_EAST);
+        put(GAS_ENGINE_EAST.south(), ModBlocks.MECHANICAL_SHAFT_BLOCK.get().defaultBlockState()
+                .setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        put(GAS_DRIVER, ModBlocks.SMALL_COGWHEEL.get().defaultBlockState()
+                .setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        put(GAS_DRIVER.east(), ModBlocks.LARGE_COGWHEEL.get().defaultBlockState()
+                .setValue(BlockStateProperties.AXIS, Direction.Axis.Z));
+        wheel(GAS_ALTERNATOR, ModBlocks.ELECTROMAGNETIC_GENERATOR.get(), Direction.WEST);
+        bindConversion(GAS_ALTERNATOR);
+        put(GAS_ALTERNATOR.south(), ModBlocks.INSULATED_CONDUIT.get().defaultBlockState());
+        put(GAS_BATTERY, ModBlocks.LEAD_ACID_ACCUMULATOR.get().defaultBlockState());
+
+        put(AUTO_BOILER.east(2), ModBlocks.GLASS_PIPE.get().defaultBlockState());
+        var feedPipe = (FluidPipeBlockEntity) level.getBlockEntity(AUTO_BOILER.east(2));
+        feedPipe.connectionModes().set(Direction.WEST, ConnectionMode.PUSH);
+        feedPipe.connectionModes().set(Direction.EAST, ConnectionMode.PULL);
+        feedPipe.connectionChanged();
+        wheel(GAS_PUMP, ModBlocks.PERISTALTIC_PUMP.get(), Direction.WEST);
+        BlockPos intake = GAS_PUMP.east();
+        for (BlockPos water : List.of(intake, intake.north(), intake.south())) {
+            put(water.below(), Blocks.STONE.defaultBlockState());
+            put(water, Blocks.WATER.defaultBlockState());
+        }
+        var north = conversion(GAS_ENGINE_NORTH);
+        check(north.receiveGas(null, 10, Direction.SOUTH, 20) == 0, "invalid gas rejected");
+        check(north.receiveGas(IndustrialGas.STEAM, 10, Direction.SOUTH, 0) == 0, "no pressure rejected");
+        check(north.receiveGas(IndustrialGas.STEAM, 10, Direction.WEST, 20) == 0, "wrong steam face rejected");
+
+        wheel(GAS_SOLO_BOILER, ModBlocks.STEAM_BOILER.get(), Direction.NORTH);
+        var boiler = (SteamBoilerBlockEntity) level.getBlockEntity(GAS_SOLO_BOILER);
+        player.setPos(GAS_SOLO_BOILER.getX()+.5, GAS_SOLO_BOILER.getY(), GAS_SOLO_BOILER.getZ()+.5);
+        check(boiler.bind(player), "second gas boiler authorized");
+        var fuel = new ItemStack(Items.COAL, 2);
+        check(br.com.quantumindustries.logistics.ItemRouting.insert(level, GAS_SOLO_BOILER, fuel, Direction.WEST),
+                "coal reaches second boiler");
+        try (var tx = net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
+            check(boiler.tank().insert(net.neoforged.neoforge.transfer.fluid.FluidResource.of(
+                    net.minecraft.world.level.material.Fluids.WATER), 4000, tx) == 4000, "second boiler receives water");
+            tx.commit();
+        }
+        put(GAS_SOLO_PIPE, ModBlocks.GAS_TRANSPORTER.get().defaultBlockState());
+        // Each medium has an actual incompatible neighboring block adjacent to the sealed segment.
+        put(GAS_SOLO_PIPE.west(), ModBlocks.PNEUMATIC_TUBE.get().defaultBlockState());
+        put(GAS_SOLO_PIPE.east(), ModBlocks.GLASS_PIPE.get().defaultBlockState());
+        put(GAS_SOLO_PIPE.north(), ModBlocks.INSULATED_CONDUIT.get().defaultBlockState());
+        var state = level.getBlockState(GAS_SOLO_PIPE);
+        check(!state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.WEST)
+                && !state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.EAST)
+                && !state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.NORTH),
+                "item, liquid and energy do not connect to sealed gas segment");
+        check(br.com.quantumindustries.fluid.FluidTransfer.handler(level,GAS_SOLO_PIPE,Direction.EAST) == null,
+                "gas exposes no liquid capability");
+    }
+
+    private static void verifySteamTransport() {
+        var main = gasPipe(STEAM_MAIN);
+        var junction = gasPipe(GAS_JUNCTION);
+        var north = conversion(GAS_ENGINE_NORTH);
+        var east = conversion(GAS_ENGINE_EAST);
+        var boiler = (SteamBoilerBlockEntity) level.getBlockEntity(AUTO_BOILER);
+        if (north.sourceCapacity() > 0) paidNorth++;
+        if (east.sourceCapacity() > 0) paidEast++;
+        int accountedSteam = 10 * (paidNorth + paidEast) + main.amount() + junction.amount()
+                + north.steamReserve() + east.steamReserve() + boiler.steam();
+        int availableWater = 250 + Math.max(0, ticks - 70) * 50;
+        check(accountedSteam <= Math.min(ticks * 10, availableWater),
+                "one boiler cannot duplicate water or exceed production: " + accountedSteam);
+        check(main.pressureKpa() <= GasTransporterBlockEntity.MAX_KPA
+                && junction.pressureKpa() <= GasTransporterBlockEntity.MAX_KPA, "gas pressure is bounded");
+        if (ticks == 20) {
+            check(paidNorth > 0 && paidEast > 0, "both engines receive branched vapor: " + paidNorth + "/" + paidEast);
+            junction.connectionModes().set(Direction.NORTH, ConnectionMode.NONE);
+            junction.connectionChanged();
+            player.setPos(GAS_ENGINE_NORTH.getX()+.5, GAS_ENGINE_NORTH.getY(), GAS_ENGINE_NORTH.getZ()+.5);
+            north.toggle(player);
+        }
+        if (ticks == 70) {
+            check(north.sourceCapacity() == 0 && !north.isEnabled(), "disabled engine adds no capacity");
+            check(paidEast > 5, "remaining motor continues after the other is closed");
+            check(boiler.storedFluid() == 0 && east.sourceCapacity() == 0, "water starvation stops the branch");
+            paidBeforeRefill = paidEast;
+        }
+        if (ticks >= 70 && ticks < 220) {
+            var pump = (PeristalticPumpBlockEntity) level.getBlockEntity(GAS_PUMP);
+            pump.receiveEnergy(2);
+        }
+        if (ticks == 100) {
+            check(conversion(GAS_ALTERNATOR).receiveEnergy(24) == 24, "gas alternator receives startup excitation after refill");
+        }
+        if (ticks == 190) {
+            var battery = (LeadAcidAccumulatorBlockEntity) level.getBlockEntity(GAS_BATTERY);
+            check(paidEast > paidBeforeRefill && boiler.storedFluid() > 0, "pump refills boiler and restarts steam branch");
+            check(battery.energy() > 0, "steam branch charges battery through alternator and cable: RPM "
+                    + conversion(GAS_ALTERNATOR).rpm() + ", field " + conversion(GAS_ALTERNATOR).field() + ", FE " + battery.energy());
+        }
+        if (ticks == 350) {
+            var closed = gasPipe(GAS_SOLO_PIPE);
+            check(closed.gas() == IndustrialGas.STEAM
+                    && closed.pressureKpa() >= 390 && closed.flow() == 0,
+                    "closed gas segment equilibrates near its pressure limit: " + closed.pressureKpa());
+        }
+    }
+
     private static void verifyConversion() {
         var motor=conversion(MOTOR);var generator=conversion(CONVERSION_GENERATOR);
         var thermal=(ThermoelectricGeneratorBlockEntity)level.getBlockEntity(THERMAL);
@@ -672,6 +798,7 @@ public final class QksRuntimeVerification {
             }
             verifyConveyorConservation();
             verifyConversion();
+            verifySteamTransport();
             verifyMultiConversion();
             var dynamo = dynamo(DYNAMO);
             if (ticks == CHARGE_DEADLINE && removalTick == 0) {
@@ -869,6 +996,8 @@ public final class QksRuntimeVerification {
             SAVED.setProperty(key(p) + ".angle", Double.toString(r.angleRadians()));
             SAVED.setProperty(key(p) + ".omega", Double.toString(r.angularVelocity()));
         }
+        SAVED.setProperty("gas.amount", Integer.toString(gasPipe(GAS_SOLO_PIPE).amount()));
+        SAVED.setProperty("gas.pressure", Integer.toString(gasPipe(GAS_SOLO_PIPE).pressureKpa()));
         SAVED.setProperty("fe", Integer.toString(dynamo(DYNAMO).energy()));
         check(dynamo(DYNAMO).energy() > 0, "save has real generated FE"); dynamo(DYNAMO).setChanged();
         try (var out = Files.newBufferedWriter(ROOT.resolve("restart-ready.txt"))) { SAVED.store(out, "QKS write phase evidence"); }
@@ -881,6 +1010,14 @@ public final class QksRuntimeVerification {
             near(rotor(p).angularVelocity(), Double.parseDouble(SAVED.getProperty(key(p) + ".omega")), "restart qks_omega " + p);
         }
         near(dynamo(DYNAMO).energy(), Integer.parseInt(SAVED.getProperty("fe")), "restart dynamo buffer");
+        level.getChunkAt(GAS_SOLO_PIPE);
+        level.getChunkAt(GAS_JUNCTION);
+        var gas = gasPipe(GAS_SOLO_PIPE);
+        check(gas.gas() == IndustrialGas.STEAM && gas.gas().temperatureC == 100, "restart preserves steam identity and temperature");
+        near(gas.amount(), Integer.parseInt(SAVED.getProperty("gas.amount")), "restart gas reserve");
+        near(gas.pressureKpa(), Integer.parseInt(SAVED.getProperty("gas.pressure")), "restart gas pressure");
+        check(gasPipe(GAS_JUNCTION).connectionMode(Direction.NORTH) == ConnectionMode.NONE,
+                "restart preserves disabled gas face");
         for (int i = 0; i < 2; i++) {
             var a = pos(96, i == 0 ? 48 : 64); var b = a.south(4);
             check(pulley(a).validPartner(pulley(b)) && pulley(a).crossed() == (i == 1)

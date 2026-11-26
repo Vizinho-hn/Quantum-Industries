@@ -5,6 +5,10 @@ import br.com.quantumindustries.block.entity.CopperCableBlockEntity;
 import br.com.quantumindustries.block.entity.ElectricAlloySmelterBlockEntity;
 import br.com.quantumindustries.block.entity.ElectricFurnaceBlockEntity;
 import br.com.quantumindustries.block.entity.EnergyInspectable;
+import br.com.quantumindustries.block.entity.FluidPipeBlockEntity;
+import br.com.quantumindustries.block.entity.GasTransporterBlockEntity;
+import br.com.quantumindustries.block.entity.RotaryConversionBlockEntity;
+import br.com.quantumindustries.block.entity.SteamBoilerBlockEntity;
 import br.com.quantumindustries.block.entity.MachineStatusInspectable;
 import br.com.quantumindustries.block.entity.PneumaticTubeBlockEntity;
 import br.com.quantumindustries.block.entity.ThermoelectricGeneratorBlockEntity;
@@ -23,6 +27,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.phys.BlockHitResult;
@@ -79,13 +84,19 @@ public final class DynamoInspectionHud {
                 if (shift && snap != null && snap.kind() == InspectionSnapshot.Kind.MECHANICAL) drawMechanical(g, minecraft, snap, bottom + PANEL_GAP, g.guiHeight() - PANEL_TOP, true);
                 return;
             }
-            if (blockEntity instanceof FluidInspectable fluid) {
+            if (blockEntity instanceof GasTransporterBlockEntity pipe) {
+                top = drawGas(g, minecraft, pipe) + PANEL_GAP;
+            } else if (blockEntity instanceof RotaryConversionBlockEntity engine && !engine.isMotor()) {
+                top = drawTransport(g, minecraft, List.of(engine.statusTitle(), engine.statusDetail(),
+                        Component.translatable("gui.quantumindustries.gas.inlet_pressure", engine.inletPressureKpa()),
+                        Component.translatable("gui.quantumindustries.gas." + (!engine.isEnabled() ? "disabled"
+                                : engine.isSpinning() ? "active" : "idle")))) + PANEL_GAP;
+            } else if (blockEntity instanceof FluidInspectable fluid) {
                 top = drawFluid(g, minecraft, fluid, snap, shift) + PANEL_GAP;
             } else if (blockEntity instanceof EnergyInspectable target) {
                 top = drawEnergy(g, minecraft, target, snap, shift) + PANEL_GAP;
             } else if (blockEntity instanceof PneumaticTubeBlockEntity tube) {
-                drawPneumatic(g, minecraft, tube, snap, shift);
-                top = 54 + PANEL_GAP;
+                top = drawPneumatic(g, minecraft, tube, snap, shift) + PANEL_GAP;
             }
             if (blockEntity instanceof ConfigurableConduit conduit) {
                 int connectionTop = blockEntity instanceof CopperCableBlockEntity ? top : Math.max(84, top);
@@ -385,42 +396,81 @@ public final class DynamoInspectionHud {
                                 ? "gui.quantumindustries.mechanical.overlay.on"
                                 : "gui.quantumindustries.mechanical.overlay.hint"))
                 : null;
-        int width = 168;
-        if (netLine != null) width = Math.max(width, minecraft.font.width(netLine) + 16);
-        int bottom = netLine == null ? 75 : 87;
-        g.fill(7, 7, 7 + width, bottom, 0xFFB37B55);
-        g.fill(8, 8, 6 + width, bottom - 1, 0xE8201C19);
-        g.text(minecraft.font, fluid.fluidTitle(), 14, 13, 0xFFF4DCB9, false);
-        g.text(minecraft.font, Component.translatable("gui.quantumindustries.fluid.amount", amount, capacity),
-                14, 27, 0xFFF4EEE6, false);
-        g.text(minecraft.font, fluid.fluidDetail(), 14, 42, 0xFFAEC6AD, false);
-        g.fill(14, 60, 166, 66, 0xFF45382F);
-        if (amount > 0) g.fill(14, 60, 14 + 152 * amount / capacity, 66, 0xFF6AA6D9);
-        if (netLine != null) {
-            g.text(minecraft.font, netLine, 14, 71, 0xFFB4A99A, false);
+        List<Component> lines = new ArrayList<>();
+        lines.add(fluid.fluidTitle());
+        lines.add(Component.translatable("gui.quantumindustries.fluid.amount", amount, capacity));
+        if (fluid instanceof FluidPipeBlockEntity pipe) {
+            lines.add(Component.translatable("gui.quantumindustries.transport.fluid_contents", pipe.fluidContents()));
+            if (pipe.flowDirection() != null) lines.add(directionLine(pipe.flowDirection()));
         }
-        return bottom;
+        lines.add(fluid.fluidDetail());
+        if (fluid instanceof SteamBoilerBlockEntity boiler) {
+            lines.add(Component.translatable("gui.quantumindustries.gas.outlet_pressure", boiler.outletPressureKpa()));
+        }
+        if (netLine != null) lines.add(netLine);
+        return drawTransport(g, minecraft, lines);
     }
 
-    private static void drawPneumatic(GuiGraphicsExtractor g, Minecraft minecraft,
+    private static int drawPneumatic(GuiGraphicsExtractor g, Minecraft minecraft,
             PneumaticTubeBlockEntity tube, InspectionSnapshot snap, boolean shift) {
-        Component title = Component.translatable("block.quantumindustries.pneumatic_tube");
-        Component packetLine = tube.packet().isEmpty()
-                ? Component.translatable("gui.quantumindustries.pneumatic.empty")
-                : Component.translatable("gui.quantumindustries.pneumatic.packet",
-                        tube.packet().getCount(), tube.packet().getHoverName());
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.translatable("block.quantumindustries.pneumatic_tube"));
+        boolean empty = tube.packet().isEmpty();
+        if (empty) {
+            lines.add(Component.translatable("gui.quantumindustries.pneumatic.empty"));
+        } else {
+            lines.add(Component.translatable("gui.quantumindustries.pneumatic.packet",
+                    tube.packet().getCount(), tube.packet().getHoverName()));
+            lines.add(Component.translatable("gui.quantumindustries.transport.inlet", faceName(tube.inlet())));
+            if (tube.destinationBlocked()) {
+                lines.add(Component.translatable("gui.quantumindustries.transport.item_blocked"));
+            }
+        }
         int nodes = snap != null && snap.kind() == InspectionSnapshot.Kind.PNEUMATIC ? snap.nodeCount() : 1;
-        Component netLine = Component.translatable("gui.quantumindustries.inspection.network_trend",
-                tube.packet().isEmpty() ? "=" : "→", nodes,
-                Component.translatable(shift
-                        ? "gui.quantumindustries.mechanical.overlay.on"
-                        : "gui.quantumindustries.mechanical.overlay.hint"));
-        int width = Math.max(168, Math.max(minecraft.font.width(packetLine), minecraft.font.width(netLine)) + 16);
-        g.fill(7, 7, 7 + width, 54, 0xFFB37B55);
-        g.fill(8, 8, 6 + width, 53, 0xE8201C19);
-        g.text(minecraft.font, title, 14, 13, 0xFFF4DCB9, false);
-        g.text(minecraft.font, packetLine, 14, 26, tube.packet().isEmpty() ? 0xFFAEC6AD : 0xFFF4EEE6, false);
-        g.text(minecraft.font, netLine, 14, 39, 0xFFB4A99A, false);
+        lines.add(Component.translatable("gui.quantumindustries.inspection.network_trend", empty ? "=" : "→", nodes,
+                Component.translatable(shift ? "gui.quantumindustries.mechanical.overlay.on"
+                        : "gui.quantumindustries.mechanical.overlay.hint")));
+        return drawTransport(g, minecraft, lines);
+    }
+
+    private static int drawGas(GuiGraphicsExtractor g, Minecraft minecraft, GasTransporterBlockEntity pipe) {
+        final String gas = "gui.quantumindustries.gas.";
+        List<Component> lines = new ArrayList<>();
+        lines.add(Component.translatable("block.quantumindustries.gas_pipe"));
+        lines.add(Component.translatable(gas + "amount",
+                Component.translatable(gas + (pipe.gas() == null ? "empty" : "steam")),
+                pipe.amount(), GasTransporterBlockEntity.CAPACITY));
+        lines.add(Component.translatable(gas + "pressure", pipe.pressureKpa(), GasTransporterBlockEntity.MAX_KPA));
+        if (pipe.gas() != null) {
+            lines.add(Component.translatable(gas + "temperature", pipe.gas().temperatureC));
+        }
+        lines.add(Component.translatable(gas + "flow", pipe.flow(),
+                pipe.flowDirection() == null ? Component.literal("–") : faceName(pipe.flowDirection())));
+        lines.add(Component.translatable(gas + (pipe.flow() > 0 ? "active"
+                : pipe.pressureKpa() >= GasTransporterBlockEntity.MAX_KPA - 3 ? "blocked" : "idle")));
+        return drawTransport(g, minecraft, lines);
+    }
+
+    private static Component faceName(Direction direction) {
+        return Component.translatable("gui.quantumindustries.connection.face." + direction.getName());
+    }
+
+    private static Component directionLine(Direction direction) {
+        return Component.translatable("gui.quantumindustries.transport.direction", faceName(direction));
+    }
+
+    private static int drawTransport(GuiGraphicsExtractor g, Minecraft minecraft, List<Component> lines) {
+        int width = panelWidth(minecraft, lines, 168);
+        float scale = Math.min(1f, (g.guiWidth() - 14f) / width);
+        int height = lines.size() * TELEMETRY_LINE_HEIGHT + 12;
+        g.pose().pushMatrix();
+        g.pose().translate(7, PANEL_TOP);
+        g.pose().scale(scale, scale);
+        g.fill(0, 0, width, height, 0xFFB37B55);
+        g.fill(1, 1, width - 1, height - 1, 0xE8201C19);
+        drawTelemetryLines(g, minecraft, lines, 7, 6, 0xFFF4DCB9);
+        g.pose().popMatrix();
+        return PANEL_TOP + Math.round(height * scale);
     }
 
     private static void drawCompactStatus(GuiGraphicsExtractor g, Minecraft minecraft, MachineStatusInspectable machine) {

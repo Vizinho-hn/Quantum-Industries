@@ -141,7 +141,13 @@ public final class ResearchCatalog {
                 List.of(new Cost(Items.IRON_INGOT, 2, "lingotes de ferro"),
                         new Cost(Items.REDSTONE, 1, "redstone"), new Cost(Items.PAPER, 1, "papel")),
                 List.of(new ResearchEvidence.Assay(Material.IRON, Method.HEATING),
-                        new ResearchEvidence.Assay(Material.COPPER, Method.INSPECTION)))
+                        new ResearchEvidence.Assay(Material.COPPER, Method.INSPECTION))),
+        new Study("industrial_gas_transport", "research.quantumindustries.industrial_gas_transport.name",
+                "research.quantumindustries.industrial_gas_transport.description",
+                "research.quantumindustries.industrial_gas_transport.reward", Items.COPPER_INGOT, 2,
+                List.of("fluid_hydrostatics", "heat_transfer"),
+                List.of(new Cost(Items.COPPER_INGOT, 2, "lingotes de cobre"), new Cost(Items.PAPER, 1, "papel")),
+                List.of(new ResearchEvidence.Assay(Material.COPPER, Method.MECHANICAL)))
     );
 
     public record Branch(String title, List<String> studies, String knowledge, String application) {}
@@ -161,7 +167,7 @@ public final class ResearchCatalog {
     public enum EraTwoTrack {
         THERMAL(new Branch("gui.quantumindustries.text.era2_thermal_sciences",
                 List.of("thermal_annealing", "heat_transfer", "fluid_hydrostatics", "peristaltic_mechanics",
-                        "chemical_leaching"),
+                        "chemical_leaching", "industrial_gas_transport"),
                 "gui.quantumindustries.text.era2_thermal_knowledge",
                 "gui.quantumindustries.text.era2_thermal_application")),
         SHARED(new Branch("gui.quantumindustries.text.era2_integration",

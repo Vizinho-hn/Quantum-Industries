@@ -29,6 +29,12 @@ public class ModBlocks {
             BLOCKS.registerBlock("electromagnetic_generator", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.GENERATOR), props -> props.strength(3.0F).noOcclusion());
     public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> ELECTRIC_MOTOR =
             BLOCKS.registerBlock("electric_motor", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.MOTOR), props -> props.strength(3.0F).noOcclusion());
+    public static final DeferredBlock<br.com.quantumindustries.block.GasTransporterBlock> GAS_TRANSPORTER =
+            BLOCKS.registerBlock("gas_pipe", br.com.quantumindustries.block.GasTransporterBlock::new,
+                    properties -> properties.strength(1.6F).noOcclusion());
+    public static final net.neoforged.neoforge.registries.DeferredHolder<BlockEntityType<?>, BlockEntityType<br.com.quantumindustries.block.entity.GasTransporterBlockEntity>> GAS_TRANSPORTER_ENTITY =
+            BLOCK_ENTITIES.register("gas_pipe", () -> new BlockEntityType<>(
+                    br.com.quantumindustries.block.entity.GasTransporterBlockEntity::new, Set.of(GAS_TRANSPORTER.get()), false));
     public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_BOILER =
             BLOCKS.registerBlock("steam_boiler", props -> new br.com.quantumindustries.block.IndustrialConversionBlock(props, br.com.quantumindustries.block.IndustrialConversionBlock.Kind.BOILER), props -> props.strength(3.0F).noOcclusion());
     public static final DeferredBlock<br.com.quantumindustries.block.IndustrialConversionBlock> STEAM_ENGINE =
