@@ -72,6 +72,46 @@ Instruções para agentes de programação (incluindo Codex). Este arquivo compl
 - Pipeline: **inspeção → diagnóstico visual → proposta → protótipo único no Blockbench/MCP → integração → QA in-game → aprovação**. Reaproveite o harness e o `minecraft-live` descritos abaixo. Não confunda screenshot do Blockbench com validação no Minecraft; registre antes/depois quando possível e declare o que realmente foi testado.
 - **Sem padronização em lote sem aprovação do piloto.** Preserve IDs, receitas, progressão, registros, animações e contratos de teste. Para cada mudança visual, relate arquivos alterados, decisões de design, verificações executadas e pendências.
 
+## Fluxo reutilizável de modelagem e refinamento — Blockbench e Blender
+
+Estas orientações consolidam os guias visuais e as correções disponíveis nas conversas do projeto. Uma proposta ainda em avaliação não constitui um novo padrão aprovado. Consulte o histórico acessível quando existir; não afirme lembrar conversas indisponíveis.
+
+### 1. Interpretar a referência e definir o aceite
+- Antes de modelar, anote três grupos: **obrigatório** (pedido explícito e características que identificam a referência aprovada), **adaptável** (perspectiva, iluminação, fundo e detalhes decorativos) e **contrato funcional** (portas, movimento, colisão e regras existentes). Não transforme decoração em funcionalidade por conta própria.
+- Compare silhueta, proporção entre caixa e peças, aberturas, espessura dos reforços, projeção dos eixos e visibilidade do mecanismo. Repetir apenas os mesmos materiais não reproduz a composição aprovada. Se o usuário repetir a referência após uma entrega, identifique as diferenças concretas e corrija-as antes de propor outra interpretação.
+- Uma referência conceitual pode ter perspectiva ou encaixes impossíveis. Explique a incompatibilidade e a adaptação mínima; peça esclarecimento quando a solução mudar uma característica obrigatória ou o comportamento. Não use essa ressalva para simplificar arbitrariamente a aparência pedida.
+
+### 2. Confirmar medidas e contratos antes do detalhe
+- Localize fonte editável, exports, atlas, variantes, renderer e animações reais. Registre dimensões em unidades do projeto (Minecraft: 16 unidades por bloco), limites permitidos, centros das portas, orientações, peças fixas/móveis, hierarquia, pivôs e eixos locais/de mundo.
+- Faça primeiro um volume simples com os principais encaixes. Confira vistas frontal, lateral e superior; verifique o pivô com uma rotação de teste. Diferencie eixo de conexão, eixo excluído e orientação visual; não presuma que um campo chamado AXIS representa o eixo de rotação.
+- Confirme que peças móveis cabem no percurso inteiro. Se houver saliências além do bloco, confira seleção, colisão, blocos vizinhos e conexões antes de aceitá-las. Não altere física, IDs, receitas ou progressão para acomodar uma mudança apenas visual.
+
+### 3. Construir um piloto fiel ao estilo
+- Siga a era confirmada e as paletas dos guias existentes. Prefira pixel art nítida, rampas controladas e detalhes com propósito. Reduza ruído gratuito e texturas fragmentadas; preserve volume, contraste entre materiais e complexidade útil.
+- Priorize a silhueta e os elementos obrigatórios, depois mecanismos, materiais e acabamento. Não acrescente luzes, peças, materiais ou ornamentos sem justificativa no pedido ou no padrão aprovado.
+- Confira se o próprio modelo mantém aberturas, partes vazadas e mecanismos legíveis. Tampas, mancais, cintas ou outras peças não devem ocultar justamente o detalhe aprovado. Corrija a geometria quando necessário, em vez de depender de um único ângulo favorável.
+
+### 4. Validar nos editores e preservar fontes
+- **Blockbench:** abra/reabra o .bbmodel, confirme formato de exportação e textura vinculada/embutida, grupos/bones, pivôs, UVs e escala. Inspecione todas as faces, cubos com dimensão nula, faces sobrepostas, peças flutuantes e limites do atlas. Execute check_model quando disponível e registre o resultado; corrija os problemas antes da aprovação técnica exigida pelo guia.
+- **Blender, quando aplicável:** confirme unidades, orientação dos eixos, origem dos objetos, parentesco e escala de importação/exportação. Inspecione normais, faces duplicadas, UVs e materiais. Aplique transformações apenas quando compatíveis com o rig e o exportador; não destrua pivôs ou animações já funcionais. Teste um export pequeno e sua reimportação antes de detalhar ou converter todo o asset.
+- Mantenha .bbmodel e/ou .blend editáveis, texturas e exports coerentes com a versão integrada. Materiais procedurais, modificadores e iluminação do Blender só podem ser usados no produto final se o formato/renderer os suportar ou se forem convertidos corretamente. Verifique o resultado exportado, não apenas o viewport.
+
+### 5. Refinar por etapas verificáveis
+- Trabalhe em um piloto por vez: **volumes/encaixes → mecanismo → materiais → animação → integração**. Confira ou mostre cada marco antes de expandir. Preserve o que já foi aprovado; uma correção localizada não autoriza redesenhar o conjunto ou aplicar o estilo a outros modelos.
+- Ao receber uma correção, liste as diferenças observadas, mude a menor parte necessária e compare antes/depois em escala e ângulo equivalentes. Quando a causa de um erro se repete, diagnostique formato, orientação ou exportação antes de repetir builds, reinícios e ajustes de câmera.
+- Prefira trabalho em segundo plano quando possível. Abra o aplicativo ou o jogo quando solicitado, usando um cenário isolado; preserve saves e trabalho aberto do usuário. Não faça merge ou publicação como consequência automática de uma aprovação visual local.
+
+### 6. Conferir movimento e integração em contexto
+- Teste início, execução, parada, retomada e limites do movimento: sentido, velocidade, hierarquia, colisões entre peças, encaixes e continuidade do loop. Partes que dependem de atividade precisam acompanhar o estado real; confirme a semântica de parada/inércia do sistema existente.
+- No Minecraft, confira bloco colocado, item na mão/inventário, orientações aplicáveis e conexão com equipamentos vizinhos. Compare com um bloco vanilla para julgar escala; confirme seleção/colisão e encaixes durante o movimento, não apenas em repouso.
+- Use captura próxima em três quartos, vistas auxiliares e uma vista na distância normal de jogo. Garanta luz suficiente e contraste; remova sobreposições da captura sem esconder defeitos. Use a mesma pose/estado na comparação antes/depois. Se houver animação, registre sequência ou vídeo além da imagem parada.
+- Reutilize o renderer e os harnesses existentes. Escolha build, testes de recursos e runtime proporcionais ao que mudou; ampliar validação quando alterações afetarem renderização compartilhada, conexões ou comportamento. Não confunda compilar com validar aparência ou funcionamento.
+
+### 7. Entregar evidências e manter a memória confiável
+- Informe arquivos/fonte editável, mudanças observáveis, verificações executadas, evidências e pendências. Diferencie claramente: arquivo gerado, aberto no editor, exportado, compilado e observado dentro do jogo. Uma imagem conceitual ou render do Blender não comprova integração no Minecraft.
+- Se Blockbench, Blender, MCP ou um teste não estiver disponível, declare a limitação e o que foi verificado por alternativa; não registre check_model sem executá-lo nem apresente pendência como aprovação. Não afirme fidelidade exata com base apenas na intenção.
+- Após aprovação ou correção confirmada, registre aqui somente o aprendizado geral reutilizável, sem transformar dimensões, paletas ou soluções de um único modelo em regra universal. Preserve os guias e as instruções úteis já existentes.
+
 ## Verificação proporcional ao risco
 - Verificações da CI: `python3 -m unittest discover -s tests -p 'test_*.py' -v`, `bash ./gradlew --no-daemon verifyLegacyResearch`, `bash tools/verify-mechanical.sh` e `bash ./gradlew --no-daemon build` (requer JDK 25).
 - Integração de bancada em servidor isolado: `./tools/verify-assay.sh`.
@@ -113,3 +153,7 @@ Responda de forma objetiva:
 Não faça commits, push, merge, force-push nem mudanças destrutivas sem autorização explícita na tarefa. Sempre revise o diff antes de propor integração.
 
 - Ao integrar mudanças em `ModBlocks`/`ModItems`, preserve os registros industriais e suas entidades, incluindo o interruptor no conjunto de blocos válidos de `COPPER_CABLE_ENTITY`, bem como os registros de conversão industrial, esteira, caixa de engrenagens e chave de circuito, com a chave declarada antes do tipo de Block Entity dos cabos que a inclui em seus blocos válidos. A suíte de contratos verifica essas declarações para prevenir regressões de merge.
+
+- A gearbox usa AXIS como eixo excluído das conexões. Os três modelos visuais mantêm a caixa na vertical e adaptam apenas os mecanismos aos dois eixos permitidos; a textura dedicada é compact_gearbox.png.
+
+- Transmissões com dois eixos podem usar uma única fase sincronizada do QKS. Aplique o sinal de cada porta ao grupo giratório em seu eixo de mundo. Separe o modelo estático da geometria móvel para evitar duplicação ou cintilação.

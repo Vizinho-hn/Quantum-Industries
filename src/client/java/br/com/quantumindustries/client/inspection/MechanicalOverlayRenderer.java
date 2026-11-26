@@ -101,6 +101,8 @@ public final class MechanicalOverlayRenderer {
                 }
                 int direction = Math.abs(omega) > MOTION_EPSILON ? (omega < 0 ? -1 : 1) : fallback;
                 drawAxisArrow(consumer, matrix, node, participant.axle(), direction, r, g, b, alpha);
+                if (participant instanceof br.com.quantumindustries.block.entity.CompactGearboxBlockEntity gearbox)
+                    drawAxisArrow(consumer, matrix, node, gearbox.secondaryAxle(), -direction, r, g, b, alpha);
             }
             if (snap.kind() != InspectionSnapshot.Kind.MECHANICAL
                     && level.getBlockEntity(node) instanceof ConfigurableConduit conduit) {

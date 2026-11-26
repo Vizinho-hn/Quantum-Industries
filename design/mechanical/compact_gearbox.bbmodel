@@ -4,1212 +4,325 @@
     "model_format": "java_block",
     "box_uv": false
   },
-  "name": "compact_gearbox",
+  "name": "compact_gearbox_reference",
   "resolution": {
     "width": 128,
     "height": 128
   },
-  "elements": [
+  "outliner": [
     {
-      "name": "oak central housing",
-      "from": [
-        3,
-        3,
-        3
-      ],
-      "to": [
-        13,
-        13,
-        13
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            24,
-            16
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000001",
-      "box_uv": false,
-      "autouv": 0,
+      "name": "Static_Frame",
+      "uuid": "3ea1c4c3-bdf4-5087-9a32-3fcbe16e53c4",
       "origin": [
         8,
         8,
         8
+      ],
+      "children": [
+        "2766b6a5-b8e4-57f5-b455-86d6882ddfd0",
+        "096c92f0-0745-5593-bfa8-d4045d5e1c27",
+        "caf32829-54b6-57b0-a23d-2ca2efa20584",
+        "f671215b-6312-5a71-93ed-5d8b8990cf9d",
+        "40e90e1e-14c0-5276-8c3a-80757a43d755",
+        "b0a62668-722a-5e36-a899-97c84eedf1bf",
+        "0fa71ce9-b34b-5fee-923e-bb5000812e6a",
+        "612905ca-596e-55da-9f98-5ce5a7032b8b",
+        "fb7524c7-92ae-5271-a3e1-d30aa002da19",
+        "21f10756-8c6f-56f5-bdbc-ecc26a2a966c",
+        "606ec26f-5480-5777-8f6f-f03588240e37",
+        "55c316d1-e83f-53dd-9a14-8f2e464d9fc8",
+        "2f24120b-e19f-5db8-8d3b-71a3c3dc2b94",
+        "f072b906-3616-5614-ae06-a8cbccce55a1",
+        "0a062551-16f8-5a2f-940c-6eacb0a4deff",
+        "af8a8c26-4c67-5011-a796-52abfcdaaef9",
+        "3c79f799-e064-5ebd-9303-8c30259240c2",
+        "279e727f-6a9f-5764-9430-20e163a87cd4",
+        "ff5e6592-6f1c-56ed-a221-d6a2b1608e20",
+        "25d0a3f0-8588-5880-aef4-6308e4cb9043",
+        "9454116b-a884-5baa-88e0-113c93e18dc0",
+        "570a7155-c300-5f1f-b575-b76fc65728b4",
+        "dcdc450a-fd76-5856-a888-78cb0c811680",
+        "01c05336-cf47-5710-8d6f-b0e73fa58d18",
+        "7016d6e3-d61d-5270-8815-bafddef85a46",
+        "f807ee88-0a58-5e39-b3b7-c9aacd810e85",
+        "0e6633d9-331e-5cbc-976f-ce697bbe93b0",
+        "e3ec3877-9b96-56e9-a78b-eed434bb5419",
+        "4e78d0bb-8f91-52d4-bff3-6f3fda4090f1",
+        "ffbc23a0-1348-5f53-be63-8e249fdcba5e",
+        "e6760f19-51af-560e-9711-cb1c8f942b85",
+        "4abe8929-a1cb-55cf-a62c-9e8767e426d6",
+        "4cb5b572-679c-53f0-af2f-f81ebc0276ee",
+        "acdc9f5e-96fe-5f08-a483-112d2c742a9b",
+        "337ecfa9-55c3-5fd3-b1e7-672f6f2ea791",
+        "30d9faed-a82b-516e-97ba-bdef6981cda9",
+        "e6cc9c31-0607-5dac-a310-d2b07ec6e22c",
+        "c98689f9-5590-58b2-8389-fdbc60bdc37b",
+        "e5aeabe0-7d8f-55a9-b2a8-4637cb7756fb",
+        "19545b95-de9c-5466-be48-ab7449c27783",
+        "473638c8-6815-5a67-b49a-4b954a9f9a32",
+        "6dfc0c5f-fa92-5360-94bf-4b8b3f771add",
+        "32b5f9d7-f5fb-5f0d-8172-25a0aae087ca",
+        "25c98141-1b29-5d92-b809-617cde7a8366",
+        "20d84d63-064b-5fe4-911a-3a2de3046195",
+        "8ef00c3a-021c-572a-8fd0-5b5e2752fc3f",
+        "b2412524-aee4-54f5-b50f-6ea090f6de1c",
+        "faa0866b-b68d-5415-ba46-807ac4511a1d",
+        "05806c5d-b820-5392-bc78-d673f9bb8794",
+        "a08baa9a-9f6d-5549-a9f0-0c6b132e6a39",
+        "03464ab3-48a2-5ebc-b33e-de54870e67e0",
+        "2b6f0a86-c93c-5b3c-b6b6-e565c32d7cbe",
+        "1bd2e64a-3f2f-59da-bd01-90410f310c20",
+        "b4d48ce0-d508-5bca-ae89-7a5dd8204f89",
+        "b9f966ee-e48b-5629-b4d9-0b8253042952"
       ]
     },
     {
-      "name": "bottom iron plate",
-      "from": [
-        2,
-        2,
-        2
-      ],
-      "to": [
-        14,
-        3,
-        14
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000002",
-      "box_uv": false,
-      "autouv": 0,
+      "name": "Horizontal_Assembly",
+      "uuid": "183c7833-a3f9-58fb-8ad0-0308bd86bc75",
       "origin": [
         8,
         8,
         8
+      ],
+      "children": [
+        "e75e1679-213a-50a5-937b-f24dd8ed6710",
+        "21e695a2-40c6-59cc-98e7-c5cd65b877d4",
+        "170a8230-6a3b-5e1f-a754-11f9083d2b3a",
+        "6530b0e7-94f9-528b-b068-3898663d1d84",
+        "8940a1b9-258b-5d99-9665-0a4901ab3b4c",
+        "93ef7b29-861c-518e-9a4c-17081109cf35",
+        "daf44c0f-56b9-5e22-af9e-4fafb036456a",
+        "e1f1603b-3a5b-5e23-b52d-bcf2daa88f14",
+        "0bcad23f-0022-574b-a6b1-c0b275b5c6d5",
+        "98550f13-b371-55a4-b1a7-ea230e4c5da0",
+        "0d456870-af78-561c-901d-2435c13d9414",
+        "82853afd-cf45-5c2c-b69e-d74799813417",
+        "ace52649-b846-5d07-9257-907a3972b70a",
+        "b35f8214-f43c-556f-b381-3220482faeca",
+        "3da84b13-0be0-5301-9243-4f1cad65ead5",
+        "ec88be5d-19db-5d8b-aff1-7a279e086cfa",
+        "bcc915e8-f33b-526b-aa35-c21953af907e",
+        "f9946ce6-68d9-5e65-a3ad-d18ab2e029dc",
+        "f46b5fd1-d17e-566e-9f46-c1d0730ca6c6",
+        "2b30c26c-65c1-5fd6-9d7a-62c30467099b",
+        "4869eddd-e842-567b-9c03-7715b8670caa",
+        "32db14f6-5666-5150-9ba7-872dc79c54f9",
+        "dbc4735c-6ef4-5a32-8335-d303c3c13467",
+        "c6b9e571-fd76-5f7c-b0cd-c25e2da046df",
+        "4cf9160e-61ff-5644-b86d-6468b90fdf5e",
+        "adb1c67f-aab5-51eb-95b4-22185562e704",
+        "0b6b4564-ebfb-595a-88d6-08f3801538f5",
+        "f50ced83-bdf4-5128-8ec1-d739e5afb8e3",
+        "8361510f-c07c-5aac-9001-4acacdf6faeb",
+        "55bed24a-e913-5dbb-bbf1-c1a4a5db84bc",
+        "a210fd29-0635-5484-8ebe-97bebd088eec",
+        "5d6c7c17-05c0-5cc1-9225-2f1bb9f13af5",
+        "5a376557-f16c-5ae9-9f22-aaad535874fd",
+        "98d0bb4e-cfb3-5ea5-b2fc-875362295bfe",
+        "df0b9527-7792-52e4-88f2-02439e333ece",
+        "e2187252-7d31-5cd3-ac39-39cce94c55ff",
+        "1de54d81-5b6f-5dc9-b292-63d85be2e764",
+        "9bc90fbf-d5c8-5de2-8ac6-99d1761e7103",
+        "8264f14d-b291-5711-b5e5-67e4d2c186e7",
+        "7ff88099-1a1e-5328-8681-48d383fbcf18",
+        "1aeb2349-0c84-590c-801a-b2d1e306d35f"
       ]
     },
     {
-      "name": "top iron plate",
-      "from": [
-        2,
-        13,
-        2
-      ],
-      "to": [
-        14,
-        14,
-        14
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000003",
-      "box_uv": false,
-      "autouv": 0,
+      "name": "Vertical_Assembly",
+      "uuid": "806654bf-2e13-5753-94d3-7f11c7063d53",
       "origin": [
         8,
         8,
         8
-      ]
-    },
-    {
-      "name": "reinforced corner",
-      "from": [
-        2,
-        3,
-        2
       ],
-      "to": [
-        3.5,
-        13,
-        3.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000004",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "reinforced corner",
-      "from": [
-        2,
-        3,
-        12.5
-      ],
-      "to": [
-        3.5,
-        13,
-        14
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000005",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "reinforced corner",
-      "from": [
-        12.5,
-        3,
-        2
-      ],
-      "to": [
-        14,
-        13,
-        3.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000006",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "reinforced corner",
-      "from": [
-        12.5,
-        3,
-        12.5
-      ],
-      "to": [
-        14,
-        13,
-        14
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            32,
-            32,
-            64,
-            40
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000007",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "north collar",
-      "from": [
-        4.5,
-        4.5,
-        1
-      ],
-      "to": [
-        11.5,
-        11.5,
-        3
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000008",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "south collar",
-      "from": [
-        4.5,
-        4.5,
-        13
-      ],
-      "to": [
-        11.5,
-        11.5,
-        15
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000009",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "west collar",
-      "from": [
-        1,
-        4.5,
-        4.5
-      ],
-      "to": [
-        3,
-        11.5,
-        11.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000010",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "east collar",
-      "from": [
-        13,
-        4.5,
-        4.5
-      ],
-      "to": [
-        15,
-        11.5,
-        11.5
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            64,
-            0,
-            96,
-            16
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000011",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "north socket",
-      "from": [
-        6,
-        6,
-        0
-      ],
-      "to": [
-        10,
-        10,
-        1
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000012",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "south socket",
-      "from": [
-        6,
-        6,
-        15
-      ],
-      "to": [
-        10,
-        10,
-        16
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000013",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "west socket",
-      "from": [
-        0,
-        6,
-        6
-      ],
-      "to": [
-        1,
-        10,
-        10
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000014",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
-      ]
-    },
-    {
-      "name": "east socket",
-      "from": [
-        15,
-        6,
-        6
-      ],
-      "to": [
-        16,
-        10,
-        10
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "up": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        },
-        "down": {
-          "uv": [
-            0,
-            112,
-            48,
-            128
-          ],
-          "texture": 0
-        }
-      },
-      "type": "cube",
-      "uuid": "eab00000-0000-4000-8000-000000000015",
-      "box_uv": false,
-      "autouv": 0,
-      "origin": [
-        8,
-        8,
-        8
+      "children": [
+        "a1f04156-6f1c-5d70-93e1-37be5554767d",
+        "80e2d6e0-0729-54c4-ac0c-742978a29037",
+        "9393e803-914a-579d-b941-b372fc88751c",
+        "2955f869-7208-5dc5-930f-fd364bf4b5b1",
+        "dda3d926-282f-5341-9d51-b1d3a043d3ff",
+        "62a1eb85-2865-5115-accb-de11f3c894a2",
+        "2b21a527-113d-5605-93aa-67c4351947f1",
+        "1ecfe70f-49f9-57b6-ad44-32955903e641",
+        "e0c69b63-8869-52f8-8ad2-b149baaca65f",
+        "7666ca47-5a8c-5dfd-a5a1-ddebaafac66e",
+        "63cbd748-9faf-5927-91b5-0d24f7c823a9",
+        "cb1583fe-3781-53d1-b11e-94caad7ab0c3",
+        "dedef3e1-ed47-50b0-bfa0-9e099ac97b2f",
+        "8ed26318-4ae5-5c0d-aabd-759a54f52545",
+        "164af92c-6bb9-5aad-a11a-93d1fadf8dd2",
+        "26a4fc74-2287-5a4e-89b3-bbc878c69ee7",
+        "36192fda-ee95-5ed0-9f52-ddfaaf4ba4eb",
+        "20e29652-7ef8-5db3-ace8-efd397dbe2e8",
+        "26cbacff-504e-5a06-975a-0f3330c5a80b",
+        "472f71bf-259e-5e69-a0ee-5555825c9651",
+        "af5b96ad-1199-54a6-bb91-06496e9054d1",
+        "e298fe41-6ad8-51b0-b7db-f243b2dce2da",
+        "74724094-4f76-5ee3-89f8-a5f1e042028d",
+        "cc0a9dd1-6539-5a55-9efd-f581a78eace5",
+        "7f632e59-37fb-577f-baec-679711e546c8",
+        "308fde61-9ce4-5325-af84-9d21a1c79aee",
+        "b9896ebf-b0eb-5ca6-bc85-396016c216fe",
+        "26c86bc3-54e0-555a-a99c-3a0bd752dde2",
+        "ceaa9ef2-254c-58f1-af8c-267a3da004bc",
+        "a41ee170-ea59-529a-b03b-78e7864e40a4",
+        "7d8635d9-ed7e-5239-85ad-e6a61cb7f3ae",
+        "7434b4df-2856-570e-8d51-87d498f6c2a9",
+        "d50bbafb-d16d-5e37-8e12-a2dd661ae3c7",
+        "0efba46b-d74c-5fee-bd54-b48fcb389ced",
+        "6055480a-c896-5ccd-b6fe-448a2eb1e3e5",
+        "15e03817-82cf-56e2-9393-97f162682203",
+        "4346c21f-659a-5f3a-8cbf-e5b4a8e2b2aa",
+        "602dd741-e76b-5527-b1d6-154710a2032d",
+        "c3c58ccc-1d58-5e50-ab33-ab12b6ddd281",
+        "ecd36cce-f95d-5cdc-8be6-60954c35f965"
       ]
     }
-  ],
-  "outliner": [
-    "eab00000-0000-4000-8000-000000000001",
-    "eab00000-0000-4000-8000-000000000002",
-    "eab00000-0000-4000-8000-000000000003",
-    "eab00000-0000-4000-8000-000000000004",
-    "eab00000-0000-4000-8000-000000000005",
-    "eab00000-0000-4000-8000-000000000006",
-    "eab00000-0000-4000-8000-000000000007",
-    "eab00000-0000-4000-8000-000000000008",
-    "eab00000-0000-4000-8000-000000000009",
-    "eab00000-0000-4000-8000-000000000010",
-    "eab00000-0000-4000-8000-000000000011",
-    "eab00000-0000-4000-8000-000000000012",
-    "eab00000-0000-4000-8000-000000000013",
-    "eab00000-0000-4000-8000-000000000014",
-    "eab00000-0000-4000-8000-000000000015"
   ],
   "textures": [
     {
-      "name": "mechanical_workshop.png",
-      "folder": "block",
-      "namespace": "quantumindustries",
-      "id": "0",
-      "width": 128,
-      "height": 128,
-      "uv_width": 128,
-      "uv_height": 128,
-      "particle": true,
-      "source": "data:image/png;base64,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"
+      "name": "compact_gearbox.png",
+      "uuid": "7ac8a685-d57a-43f4-a70c-4f625a98a122",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAADF0lEQVR4nO3cXUuTYRyA8Xs1SFiGL6Gz1Uao1EEnBUXiWeFn6KgvUF+jT9FXicITMYXewIOkRjVQZ6DRy4EdFSqKouwht2f/2XX9Dhxjznt4X2737mePhccz1/+kQI3SjcjhU/Xscuj4s/ON0PGLNycroQ+gsZrS3anpkLFfzs/tXE7fmQwZf27xw87ltcpwyPjLKxupuHelPNKXml+3jnxTc+NHzg9jcOfr+PhEevH8WYpy5fLFNL/wPmz80cH+tPS52fVxi3sTnNdEl4cvtP6G1d2LyMnfFjn52yImf9uZkFHVMwwAbn8NkNdTfPZLy+4aQD0UwNrmz5Z3Ghvqz+vx7I6/ttp6/LFLuY7/ZeVby9trlXyj3fx1dDF+0ND5vo6NVcya7OMcvM9J7n9IqfsTnKWW8wRn6eQEn4p9AMXZfxuY32t8FtcAkXwXAFfM/y9cvcxnADgDgMtcBHbrWIBinGgf4F9k/vyS7wIiuQ8A1/ZLgMcCTjePBdCPBUQc7MnisYC+3jkc7EbR/819ADgDgMvcB8h7n+C4zwOoe9wHgMtcBHbrvAD10EZQJz8TeJJjAX4mcKvlr8x9gJzVQJ8J9F0AXNh5Aa/r6+nW+GjYGuDtm1dptDyWoswufkpXKwNh49fXv6fB0rlUePLgdlunh7e7U7jwu5YiVemnhzeGpvav3Ls/0/EBJjJuf/roYYr0LkUrhI7uGgDOAOAOLQLr9Y9xj0QhfAaAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzALhCdWSgrX8QodPNZwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzALi/MqevzuzbFEkAAAAASUVORK5CYII="
     }
+  ],
+  "elements": [
+    {"name": "timber_corner", "uuid": "2766b6a5-b8e4-57f5-b455-86d6882ddfd0", "type": "cube", "from": [1.1476, 2.027, 1.1381], "to": [3.5781, 13.9189, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_corner", "uuid": "096c92f0-0745-5593-bfa8-d4045d5e1c27", "type": "cube", "from": [1.1476, 2.027, 13.4561], "to": [3.5781, 13.9189, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_corner", "uuid": "caf32829-54b6-57b0-a23d-2ca2efa20584", "type": "cube", "from": [13.5696, 2.027, 1.1381], "to": [16.0, 13.9189, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_corner", "uuid": "f671215b-6312-5a71-93ed-5d8b8990cf9d", "type": "cube", "from": [13.5696, 2.027, 13.4561], "to": [16.0, 13.9189, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_crossbeam", "uuid": "40e90e1e-14c0-5276-8c3a-80757a43d755", "type": "cube", "from": [1.1476, 2.027, 1.1381], "to": [16.0, 4.0486, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_crossbeam", "uuid": "b0a62668-722a-5e36-a899-97c84eedf1bf", "type": "cube", "from": [1.1476, 2.027, 13.4561], "to": [16.0, 4.0486, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_sidebeam", "uuid": "0fa71ce9-b34b-5fee-923e-bb5000812e6a", "type": "cube", "from": [1.1476, 2.027, 3.5481], "to": [3.5781, 4.0486, 13.4561], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_sidebeam", "uuid": "612905ca-596e-55da-9f98-5ce5a7032b8b", "type": "cube", "from": [13.5696, 2.027, 3.5481], "to": [16.0, 4.0486, 13.4561], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_crossbeam", "uuid": "fb7524c7-92ae-5271-a3e1-d30aa002da19", "type": "cube", "from": [1.1476, 11.8973, 1.1381], "to": [16.0, 13.9189, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_crossbeam", "uuid": "21f10756-8c6f-56f5-bdbc-ecc26a2a966c", "type": "cube", "from": [1.1476, 11.8973, 13.4561], "to": [16.0, 13.9189, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_sidebeam", "uuid": "606ec26f-5480-5777-8f6f-f03588240e37", "type": "cube", "from": [1.1476, 11.8973, 3.5481], "to": [3.5781, 13.9189, 13.4561], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "timber_sidebeam", "uuid": "55c316d1-e83f-53dd-9a14-8f2e464d9fc8", "type": "cube", "from": [13.5696, 11.8973, 3.5481], "to": [16.0, 13.9189, 13.4561], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "lid_plank", "uuid": "2f24120b-e19f-5db8-8d3b-71a3c3dc2b94", "type": "cube", "from": [1.1476, 13.9189, 1.1381], "to": [16.0, 14.7514, 4.0167], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "lid_plank", "uuid": "f072b906-3616-5614-ae06-a8cbccce55a1", "type": "cube", "from": [1.1476, 13.9189, 4.0837], "to": [16.0, 14.7514, 6.9623], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "lid_plank", "uuid": "0a062551-16f8-5a2f-940c-6eacb0a4deff", "type": "cube", "from": [1.1476, 13.9189, 7.0293], "to": [16.0, 14.7514, 9.9079], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "lid_plank", "uuid": "af8a8c26-4c67-5011-a796-52abfcdaaef9", "type": "cube", "from": [1.1476, 13.9189, 9.9749], "to": [16.0, 14.7514, 12.8536], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "lid_plank", "uuid": "3c79f799-e064-5ebd-9303-8c30259240c2", "type": "cube", "from": [1.1476, 13.9189, 12.9205], "to": [16.0, 14.7514, 15.7992], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "front_forged_band", "uuid": "279e727f-6a9f-5764-9430-20e163a87cd4", "type": "cube", "from": [1.5527, 1.9081, 0.5356], "to": [3.9831, 14.0378, 1.205], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "lid_forged_band", "uuid": "ff5e6592-6f1c-56ed-a221-d6a2b1608e20", "type": "cube", "from": [1.5527, 14.7514, 0.6025], "to": [3.9831, 15.4054, 16.0], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "front_square_rivet", "uuid": "25d0a3f0-8588-5880-aef4-6308e4cb9043", "type": "cube", "from": [2.1603, 2.7405, 0.0], "to": [3.3755, 3.8108, 0.6025], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "front_square_rivet", "uuid": "9454116b-a884-5baa-88e0-113c93e18dc0", "type": "cube", "from": [2.1603, 12.2541, 0.0], "to": [3.3755, 13.3243, 0.6025], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "lid_square_rivet", "uuid": "570a7155-c300-5f1f-b575-b76fc65728b4", "type": "cube", "from": [2.1603, 15.4054, 1.9414], "to": [3.3755, 16.0, 3.1464], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "lid_square_rivet", "uuid": "dcdc450a-fd76-5856-a888-78cb0c811680", "type": "cube", "from": [2.1603, 15.4054, 13.1883], "to": [3.3755, 16.0, 14.3933], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "front_forged_band", "uuid": "01c05336-cf47-5710-8d6f-b0e73fa58d18", "type": "cube", "from": [13.1645, 1.9081, 0.5356], "to": [15.595, 14.0378, 1.205], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "lid_forged_band", "uuid": "7016d6e3-d61d-5270-8815-bafddef85a46", "type": "cube", "from": [13.1645, 14.7514, 0.6025], "to": [15.595, 15.4054, 16.0], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "front_square_rivet", "uuid": "f807ee88-0a58-5e39-b3b7-c9aacd810e85", "type": "cube", "from": [13.7721, 2.7405, 0.0], "to": [14.9874, 3.8108, 0.6025], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "front_square_rivet", "uuid": "0e6633d9-331e-5cbc-976f-ce697bbe93b0", "type": "cube", "from": [13.7721, 12.2541, 0.0], "to": [14.9874, 13.3243, 0.6025], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "lid_square_rivet", "uuid": "e3ec3877-9b96-56e9-a78b-eed434bb5419", "type": "cube", "from": [13.7721, 15.4054, 1.9414], "to": [14.9874, 16.0, 3.1464], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "lid_square_rivet", "uuid": "4e78d0bb-8f91-52d4-bff3-6f3fda4090f1", "type": "cube", "from": [13.7721, 15.4054, 13.1883], "to": [14.9874, 16.0, 14.3933], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "side_forged_band", "uuid": "ffbc23a0-1348-5f53-be63-8e249fdcba5e", "type": "cube", "from": [0.54, 1.9081, 1.5397], "to": [1.2152, 14.0378, 3.9498], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "side_square_rivet", "uuid": "e6760f19-51af-560e-9711-cb1c8f942b85", "type": "cube", "from": [0.0, 2.7405, 2.1423], "to": [0.6076, 3.8108, 3.3473], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "side_square_rivet", "uuid": "4abe8929-a1cb-55cf-a62c-9e8767e426d6", "type": "cube", "from": [0.0, 12.2541, 2.1423], "to": [0.6076, 13.3243, 3.3473], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "side_forged_band", "uuid": "4cb5b572-679c-53f0-af2f-f81ebc0276ee", "type": "cube", "from": [0.54, 1.9081, 13.0544], "to": [1.2152, 14.0378, 15.4644], "faces": {"north": {"uv": [32, 0, 64, 32], "texture": 0}, "south": {"uv": [32, 0, 64, 32], "texture": 0}, "east": {"uv": [32, 0, 64, 32], "texture": 0}, "west": {"uv": [32, 0, 64, 32], "texture": 0}, "up": {"uv": [32, 0, 64, 32], "texture": 0}, "down": {"uv": [32, 0, 64, 32], "texture": 0}}},
+    {"name": "side_square_rivet", "uuid": "acdc9f5e-96fe-5f08-a483-112d2c742a9b", "type": "cube", "from": [0.0, 2.7405, 13.6569], "to": [0.6076, 3.8108, 14.8619], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "side_square_rivet", "uuid": "337ecfa9-55c3-5fd3-b1e7-672f6f2ea791", "type": "cube", "from": [0.0, 12.2541, 13.6569], "to": [0.6076, 13.3243, 14.8619], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Timber foot", "uuid": "30d9faed-a82b-516e-97ba-bdef6981cda9", "type": "cube", "from": [1.1476, 0.0, 1.1381], "to": [3.524, 2.027, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "Timber foot", "uuid": "e6cc9c31-0607-5dac-a310-d2b07ec6e22c", "type": "cube", "from": [1.1476, 0.0, 13.4561], "to": [3.524, 2.027, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "Timber foot", "uuid": "c98689f9-5590-58b2-8389-fdbc60bdc37b", "type": "cube", "from": [13.6236, 0.0, 1.1381], "to": [16.0, 2.027, 3.5481], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "Timber foot", "uuid": "e5aeabe0-7d8f-55a9-b2a8-4637cb7756fb", "type": "cube", "from": [13.6236, 0.0, 13.4561], "to": [16.0, 2.027, 15.8661], "faces": {"north": {"uv": [0, 0, 32, 32], "texture": 0}, "south": {"uv": [0, 0, 32, 32], "texture": 0}, "east": {"uv": [0, 0, 32, 32], "texture": 0}, "west": {"uv": [0, 0, 32, 32], "texture": 0}, "up": {"uv": [0, 0, 32, 32], "texture": 0}, "down": {"uv": [0, 0, 32, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "19545b95-de9c-5466-be48-ab7449c27783", "type": "cube", "from": [0.15, 4.9, 4.9], "to": [1.05, 5.7, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "473638c8-6815-5a67-b49a-4b954a9f9a32", "type": "cube", "from": [0.15, 10.3, 4.9], "to": [1.05, 11.1, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "6dfc0c5f-fa92-5360-94bf-4b8b3f771add", "type": "cube", "from": [0.15, 5.7, 4.9], "to": [1.05, 10.3, 5.7], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "32b5f9d7-f5fb-5f0d-8172-25a0aae087ca", "type": "cube", "from": [0.15, 5.7, 10.3], "to": [1.05, 10.3, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "25c98141-1b29-5d92-b809-617cde7a8366", "type": "cube", "from": [14.9, 4.9, 4.9], "to": [15.85, 5.7, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "20d84d63-064b-5fe4-911a-3a2de3046195", "type": "cube", "from": [14.9, 10.3, 4.9], "to": [15.85, 11.1, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "8ef00c3a-021c-572a-8fd0-5b5e2752fc3f", "type": "cube", "from": [14.9, 5.7, 4.9], "to": [15.85, 10.3, 5.7], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "b2412524-aee4-54f5-b50f-6ea090f6de1c", "type": "cube", "from": [14.9, 5.7, 10.3], "to": [15.85, 10.3, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "faa0866b-b68d-5415-ba46-807ac4511a1d", "type": "cube", "from": [4.9, 0.15, 4.9], "to": [5.7, 1.05, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "05806c5d-b820-5392-bc78-d673f9bb8794", "type": "cube", "from": [10.3, 0.15, 4.9], "to": [11.1, 1.05, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "a08baa9a-9f6d-5549-a9f0-0c6b132e6a39", "type": "cube", "from": [5.7, 0.15, 4.9], "to": [10.3, 1.05, 5.7], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "03464ab3-48a2-5ebc-b33e-de54870e67e0", "type": "cube", "from": [5.7, 0.15, 10.3], "to": [10.3, 1.05, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "2b6f0a86-c93c-5b3c-b6b6-e565c32d7cbe", "type": "cube", "from": [4.9, 14.95, 4.9], "to": [5.7, 15.85, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "1bd2e64a-3f2f-59da-bd01-90410f310c20", "type": "cube", "from": [10.3, 14.95, 4.9], "to": [11.1, 15.85, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "b4d48ce0-d508-5bca-ae89-7a5dd8204f89", "type": "cube", "from": [5.7, 14.95, 4.9], "to": [10.3, 15.85, 5.7], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze bearing", "uuid": "b9f966ee-e48b-5629-b4d9-0b8253042952", "type": "cube", "from": [5.7, 14.95, 10.3], "to": [10.3, 15.85, 11.1], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "e75e1679-213a-50a5-937b-f24dd8ed6710", "type": "cube", "from": [-0.0, 6, 6], "to": [0.8, 10, 10], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "21e695a2-40c6-59cc-98e7-c5cd65b877d4", "type": "cube", "from": [0.8, 6.45, 6.45], "to": [4.1, 9.55, 9.55], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "170a8230-6a3b-5e1f-a754-11f9083d2b3a", "type": "cube", "from": [11.9, 6.45, 6.45], "to": [15.2, 9.55, 9.55], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "6530b0e7-94f9-528b-b068-3898663d1d84", "type": "cube", "from": [15.2, 6, 6], "to": [16, 10, 10], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel stem", "uuid": "8940a1b9-258b-5d99-9665-0a4901ab3b4c", "type": "cube", "from": [4.1, 6.75, 6.75], "to": [6.0, 9.25, 9.25], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel stem", "uuid": "93ef7b29-861c-518e-9a4c-17081109cf35", "type": "cube", "from": [9.95, 6.75, 6.75], "to": [11.9, 9.25, 9.25], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "daf44c0f-56b9-5e22-af9e-4fafb036456a", "type": "cube", "from": [10.51, 5.65, 6.9757], "to": [11.5, 6.12, 9.0243], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "e1f1603b-3a5b-5e23-b52d-bcf2daa88f14", "type": "cube", "from": [10.51, 6.12, 6.3218], "to": [11.5, 6.59, 9.6782], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "0bcad23f-0022-574b-a6b1-c0b275b5c6d5", "type": "cube", "from": [10.51, 6.59, 5.9648], "to": [11.5, 7.06, 7.0993], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "98550f13-b371-55a4-b1a7-ea230e4c5da0", "type": "cube", "from": [10.51, 6.59, 8.9007], "to": [11.5, 7.06, 10.0352], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "0d456870-af78-561c-901d-2435c13d9414", "type": "cube", "from": [10.51, 7.06, 5.7582], "to": [11.5, 7.53, 6.6981], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "82853afd-cf45-5c2c-b69e-d74799813417", "type": "cube", "from": [10.51, 7.06, 9.3019], "to": [11.5, 7.53, 10.2418], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "ace52649-b846-5d07-9257-907a3972b70a", "type": "cube", "from": [10.51, 7.53, 5.6618], "to": [11.5, 8.0, 6.5383], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "b35f8214-f43c-556f-b381-3220482faeca", "type": "cube", "from": [10.51, 7.53, 9.4617], "to": [11.5, 8.0, 10.3382], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "3da84b13-0be0-5301-9243-4f1cad65ead5", "type": "cube", "from": [10.51, 8.0, 5.6618], "to": [11.5, 8.47, 6.5383], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "ec88be5d-19db-5d8b-aff1-7a279e086cfa", "type": "cube", "from": [10.51, 8.0, 9.4617], "to": [11.5, 8.47, 10.3382], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "bcc915e8-f33b-526b-aa35-c21953af907e", "type": "cube", "from": [10.51, 8.47, 5.7582], "to": [11.5, 8.94, 6.6981], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "f9946ce6-68d9-5e65-a3ad-d18ab2e029dc", "type": "cube", "from": [10.51, 8.47, 9.3019], "to": [11.5, 8.94, 10.2418], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "f46b5fd1-d17e-566e-9f46-c1d0730ca6c6", "type": "cube", "from": [10.51, 8.94, 5.9648], "to": [11.5, 9.41, 7.0993], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "2b30c26c-65c1-5fd6-9d7a-62c30467099b", "type": "cube", "from": [10.51, 8.94, 8.9007], "to": [11.5, 9.41, 10.0352], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "4869eddd-e842-567b-9c03-7715b8670caa", "type": "cube", "from": [10.51, 9.41, 6.3218], "to": [11.5, 9.88, 9.6782], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "32db14f6-5666-5150-9ba7-872dc79c54f9", "type": "cube", "from": [10.51, 9.88, 6.9757], "to": [11.5, 10.35, 9.0243], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze spoke", "uuid": "dbc4735c-6ef4-5a32-8335-d303c3c13467", "type": "cube", "from": [10.4, 7.55, 6.3195], "to": [11.45, 8.45, 9.6805], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze spoke", "uuid": "c6b9e571-fd76-5f7c-b0cd-c25e2da046df", "type": "cube", "from": [10.435, 6.3195, 7.55], "to": [11.415, 9.6805, 8.45], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze hub", "uuid": "4cf9160e-61ff-5644-b86d-6468b90fdf5e", "type": "cube", "from": [10.16, 6.6, 6.6], "to": [11.69, 9.4, 9.4], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "adb1c67f-aab5-51eb-95b4-22185562e704", "type": "cube", "from": [10.244, 9.93, 7.58], "to": [11.606, 10.77, 8.42], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "0b6b4564-ebfb-595a-88d6-08f3801538f5", "type": "cube", "from": [10.235, 9.7511, 8.4793], "to": [11.615, 10.5911, 9.3193], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "f50ced83-bdf4-5128-8ec1-d739e5afb8e3", "type": "cube", "from": [10.226, 9.2417, 9.2417], "to": [11.624, 10.0817, 10.0817], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "8361510f-c07c-5aac-9001-4acacdf6faeb", "type": "cube", "from": [10.217, 8.4793, 9.7511], "to": [11.633, 9.3193, 10.5911], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "55bed24a-e913-5dbb-bbf1-c1a4a5db84bc", "type": "cube", "from": [10.208, 7.58, 9.93], "to": [11.642, 8.42, 10.77], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "a210fd29-0635-5484-8ebe-97bebd088eec", "type": "cube", "from": [10.199, 6.6807, 9.7511], "to": [11.651, 7.5207, 10.5911], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "5d6c7c17-05c0-5cc1-9225-2f1bb9f13af5", "type": "cube", "from": [10.19, 5.9183, 9.2417], "to": [11.66, 6.7583, 10.0817], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "5a376557-f16c-5ae9-9f22-aaad535874fd", "type": "cube", "from": [10.325, 5.4089, 8.4793], "to": [11.525, 6.2489, 9.3193], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "98d0bb4e-cfb3-5ea5-b2fc-875362295bfe", "type": "cube", "from": [10.316, 5.23, 7.58], "to": [11.534, 6.07, 8.42], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "df0b9527-7792-52e4-88f2-02439e333ece", "type": "cube", "from": [10.307, 5.4089, 6.6807], "to": [11.543, 6.2489, 7.5207], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "e2187252-7d31-5cd3-ac39-39cce94c55ff", "type": "cube", "from": [10.298, 5.9183, 5.9183], "to": [11.552, 6.7583, 6.7583], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "1de54d81-5b6f-5dc9-b292-63d85be2e764", "type": "cube", "from": [10.289, 6.6807, 5.4089], "to": [11.561, 7.5207, 6.2489], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "9bc90fbf-d5c8-5de2-8ac6-99d1761e7103", "type": "cube", "from": [10.28, 7.58, 5.23], "to": [11.57, 8.42, 6.07], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "8264f14d-b291-5711-b5e5-67e4d2c186e7", "type": "cube", "from": [10.271, 8.4793, 5.4089], "to": [11.579, 9.3193, 6.2489], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "7ff88099-1a1e-5328-8681-48d383fbcf18", "type": "cube", "from": [10.262, 9.2417, 5.9183], "to": [11.588, 10.0817, 6.7583], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "1aeb2349-0c84-590c-801a-b2d1e306d35f", "type": "cube", "from": [10.253, 9.7511, 6.6807], "to": [11.597, 10.5911, 7.5207], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "a1f04156-6f1c-5d70-93e1-37be5554767d", "type": "cube", "from": [6, 0, 6], "to": [10, 0.8, 10], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "80e2d6e0-0729-54c4-ac0c-742978a29037", "type": "cube", "from": [6.45, 0.8, 6.45], "to": [9.55, 4.1, 9.55], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "9393e803-914a-579d-b941-b372fc88751c", "type": "cube", "from": [6.45, 11.9, 6.45], "to": [9.55, 15.2, 9.55], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel shaft", "uuid": "2955f869-7208-5dc5-930f-fd364bf4b5b1", "type": "cube", "from": [6, 15.2, 6], "to": [10, 16.0, 10], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Steel stem", "uuid": "dda3d926-282f-5341-9d51-b1d3a043d3ff", "type": "cube", "from": [6.75, 4.1, 6.75], "to": [9.25, 11.9, 9.25], "faces": {"north": {"uv": [0, 32, 32, 64], "texture": 0}, "south": {"uv": [0, 32, 32, 64], "texture": 0}, "east": {"uv": [0, 32, 32, 64], "texture": 0}, "west": {"uv": [0, 32, 32, 64], "texture": 0}, "up": {"uv": [0, 32, 32, 64], "texture": 0}, "down": {"uv": [0, 32, 32, 64], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "62a1eb85-2865-5115-accb-de11f3c894a2", "type": "cube", "from": [5.1, 3.99, 6.7359], "to": [5.68, 4.78, 9.2641], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "2b21a527-113d-5605-93aa-67c4351947f1", "type": "cube", "from": [5.68, 3.99, 5.929], "to": [6.26, 4.78, 10.071], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "1ecfe70f-49f9-57b6-ad44-32955903e641", "type": "cube", "from": [6.26, 3.99, 5.4885], "to": [6.84, 4.78, 6.8885], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "e0c69b63-8869-52f8-8ad2-b149baaca65f", "type": "cube", "from": [6.26, 3.99, 9.1115], "to": [6.84, 4.78, 10.5115], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "7666ca47-5a8c-5dfd-a5a1-ddebaafac66e", "type": "cube", "from": [6.84, 3.99, 5.2336], "to": [7.42, 4.78, 6.3934], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "63cbd748-9faf-5927-91b5-0d24f7c823a9", "type": "cube", "from": [6.84, 3.99, 9.6066], "to": [7.42, 4.78, 10.7664], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "cb1583fe-3781-53d1-b11e-94caad7ab0c3", "type": "cube", "from": [7.42, 3.99, 5.1145], "to": [8.0, 4.78, 6.1962], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "dedef3e1-ed47-50b0-bfa0-9e099ac97b2f", "type": "cube", "from": [7.42, 3.99, 9.8038], "to": [8.0, 4.78, 10.8855], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "8ed26318-4ae5-5c0d-aabd-759a54f52545", "type": "cube", "from": [8.0, 3.99, 5.1145], "to": [8.58, 4.78, 6.1962], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "164af92c-6bb9-5aad-a11a-93d1fadf8dd2", "type": "cube", "from": [8.0, 3.99, 9.8038], "to": [8.58, 4.78, 10.8855], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "26a4fc74-2287-5a4e-89b3-bbc878c69ee7", "type": "cube", "from": [8.58, 3.99, 5.2336], "to": [9.16, 4.78, 6.3934], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "36192fda-ee95-5ed0-9f52-ddfaaf4ba4eb", "type": "cube", "from": [8.58, 3.99, 9.6066], "to": [9.16, 4.78, 10.7664], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "20e29652-7ef8-5db3-ace8-efd397dbe2e8", "type": "cube", "from": [9.16, 3.99, 5.4885], "to": [9.74, 4.78, 6.8885], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "26cbacff-504e-5a06-975a-0f3330c5a80b", "type": "cube", "from": [9.16, 3.99, 9.1115], "to": [9.74, 4.78, 10.5115], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "472f71bf-259e-5e69-a0ee-5555825c9651", "type": "cube", "from": [9.74, 3.99, 5.929], "to": [10.32, 4.78, 10.071], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze gear rim", "uuid": "af5b96ad-1199-54a6-bb91-06496e9054d1", "type": "cube", "from": [10.32, 3.99, 6.7359], "to": [10.9, 4.78, 9.2641], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze spoke", "uuid": "e298fe41-6ad8-51b0-b7db-f243b2dce2da", "type": "cube", "from": [7.55, 3.915, 5.973], "to": [8.45, 4.695, 10.027], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze spoke", "uuid": "74724094-4f76-5ee3-89f8-a5f1e042028d", "type": "cube", "from": [5.973, 3.88, 7.55], "to": [10.027, 4.73, 8.45], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bronze hub", "uuid": "cc0a9dd1-6539-5a55-9efd-f581a78eace5", "type": "cube", "from": [6.6, 3.64, 6.6], "to": [9.4, 4.97, 9.4], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "7f632e59-37fb-577f-baec-679711e546c8", "type": "cube", "from": [10.4243, 3.733, 8.1458], "to": [11.2643, 4.877, 8.9858], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "308fde61-9ce4-5325-af84-9d21a1c79aee", "type": "cube", "from": [9.9913, 3.724, 9.1912], "to": [10.8313, 4.886, 10.0312], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "b9896ebf-b0eb-5ca6-bc85-396016c216fe", "type": "cube", "from": [9.1912, 3.715, 9.9913], "to": [10.0312, 4.895, 10.8313], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "26c86bc3-54e0-555a-a99c-3a0bd752dde2", "type": "cube", "from": [8.1458, 3.706, 10.4243], "to": [8.9858, 4.904, 11.2643], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "ceaa9ef2-254c-58f1-af8c-267a3da004bc", "type": "cube", "from": [7.0142, 3.697, 10.4243], "to": [7.8542, 4.913, 11.2643], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "a41ee170-ea59-529a-b03b-78e7864e40a4", "type": "cube", "from": [5.9688, 3.688, 9.9913], "to": [6.8088, 4.922, 10.8313], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "7d8635d9-ed7e-5239-85ad-e6a61cb7f3ae", "type": "cube", "from": [5.1687, 3.679, 9.1912], "to": [6.0087, 4.931, 10.0312], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "7434b4df-2856-570e-8d51-87d498f6c2a9", "type": "cube", "from": [4.7357, 3.67, 8.1458], "to": [5.5757, 4.94, 8.9858], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "d50bbafb-d16d-5e37-8e12-a2dd661ae3c7", "type": "cube", "from": [4.7357, 3.805, 7.0142], "to": [5.5757, 4.805, 7.8542], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "0efba46b-d74c-5fee-bd54-b48fcb389ced", "type": "cube", "from": [5.1687, 3.796, 5.9688], "to": [6.0087, 4.814, 6.8088], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "6055480a-c896-5ccd-b6fe-448a2eb1e3e5", "type": "cube", "from": [5.9688, 3.787, 5.1687], "to": [6.8088, 4.823, 6.0087], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "15e03817-82cf-56e2-9393-97f162682203", "type": "cube", "from": [7.0142, 3.778, 4.7357], "to": [7.8542, 4.832, 5.5757], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "4346c21f-659a-5f3a-8cbf-e5b4a8e2b2aa", "type": "cube", "from": [8.1458, 3.769, 4.7357], "to": [8.9858, 4.841, 5.5757], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "602dd741-e76b-5527-b1d6-154710a2032d", "type": "cube", "from": [9.1912, 3.76, 5.1687], "to": [10.0312, 4.85, 6.0087], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "c3c58ccc-1d58-5e50-ab33-ab12b6ddd281", "type": "cube", "from": [9.9913, 3.751, 5.9688], "to": [10.8313, 4.859, 6.8088], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}},
+    {"name": "Bevel tooth", "uuid": "ecd36cce-f95d-5cdc-8be6-60954c35f965", "type": "cube", "from": [10.4243, 3.742, 7.0142], "to": [11.2643, 4.868, 7.8542], "faces": {"north": {"uv": [64, 0, 96, 32], "texture": 0}, "south": {"uv": [64, 0, 96, 32], "texture": 0}, "east": {"uv": [64, 0, 96, 32], "texture": 0}, "west": {"uv": [64, 0, 96, 32], "texture": 0}, "up": {"uv": [64, 0, 96, 32], "texture": 0}, "down": {"uv": [64, 0, 96, 32], "texture": 0}}}
   ]
 }
